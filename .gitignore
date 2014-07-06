@@ -1,0 +1,59 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must ends with two \r.
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+*.class
+*.cache
+bin/AndroidManifest.xml
+gen/android/support/v7/appcompat/R.java
+gen/com/lazooz/lbm/BuildConfig.java
+gen/com/lazooz/lbm/R.java
+bin/R.txt
+bin/classes.dex
+bin/dexedLibs/android-support-v4-1594875d5a59cd8a2f414a9a03c22bcf.jar
+bin/dexedLibs/android-support-v7-appcompat-e9b5abefa81f337b4a1c2f995accb081.jar
+bin/dexedLibs/apache-mime4j-9214ae4fe481ab2ec3d4e90dc243adfd.jar
+bin/dexedLibs/appcompat_v7_3-b9c732d4c90f53728596f2e0c103357b.jar
+bin/dexedLibs/httpclient-4.2.5-c649da8c79f12389c1fecc9ff25620b0.jar
+bin/dexedLibs/httpcore-4.2.4-509f34c681c3549a1db2134c82ff9ac7.jar
+bin/dexedLibs/httpmime-4.2.5-b06c8c5ab873dfb400ddaa633a5eb013.jar
+bin/lbm.apk
+bin/res/crunch/drawable-hdpi/ic_launcher.png
+bin/res/crunch/drawable-mdpi/ic_launcher.png
+bin/res/crunch/drawable-xhdpi/ic_launcher.png
+bin/res/crunch/drawable-xxhdpi/ic_launcher.png
+bin/resources.ap_
+*.apk

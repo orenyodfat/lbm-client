@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">lbm</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash">SplashActivity</string>
+	<string name="reg_input_num_title">Registration</string>
+	<string name="reg_input_num_body">Please enter your cell phone number</string>
+	<string name="gps_activate_gps_title">Activate GPS</string>
+    <string name="gps_activate_gps_body">GPS is disable, do you want to activate the GPS?</string>
+    <string name="gps_activate_gps_setting">Settings</string>
+	
+</resources>
