@@ -11,4 +11,6 @@
     <string name="gps_activate_gps_body">GPS is disable, do you want to activate the GPS?</string>
     <string name="gps_activate_gps_setting">Settings</string>
 	
+	<string name="activation_code_template_eng">LaZooz app registration token: </string>
+    
 </resources>

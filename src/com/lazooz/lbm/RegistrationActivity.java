@@ -1,12 +1,22 @@
 package com.lazooz.lbm;
 
 
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +25,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegistrationActivity extends ActionBarActivity {
 	
 	
 	private Button mRegBtn;
+	//public String mRequestId;
+	//public String mUserId;
+	//public String mUserSecret;
 
 
 
@@ -58,6 +72,7 @@ public class RegistrationActivity extends ActionBarActivity {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
 	                	String regNum = t.getText().toString();
+	                	registerToServerAsync(regNum);
 	                	dialog.cancel();
 	                }
 	        	
@@ -69,8 +84,23 @@ public class RegistrationActivity extends ActionBarActivity {
 				
 			}
 		});
+		
+		
+		
+		String actcode = getIntent().getStringExtra("ACTIVATION_CODE");
+		if ((actcode != null)&&(!actcode.equals(""))){
+			performActivation(actcode);
+			return;
+		}
+		
+		
+		
 	}
-
+	
+	protected void performActivation(String activationCode) {
+		String requestId = MySharedPreferences.getInstance().getRegRequestId(RegistrationActivity.this);
+		registerValidationToServerAsync(requestId, activationCode);			
+	}
 
 
 	@Override
@@ -86,4 +116,133 @@ public class RegistrationActivity extends ActionBarActivity {
 	}
 
 
+	
+	private void registerToServerAsync(String cellnum){
+		RegisterToServer registerToServer = new RegisterToServer();
+		registerToServer.execute(cellnum);
+	}
+	
+	
+	private void registerValidationToServerAsync(String requestId, String token){
+		RegisterValidationToServer registerValidationToServer = new RegisterValidationToServer();
+		registerValidationToServer.execute(requestId, token);
+	}
+	
+	public static String checkActivationFromSMS(Context context, String smsBody){
+		String actCodeTemplateEng = context.getString(R.string.activation_code_template_eng);
+		String activationCode = "";
+		if(smsBody.contains(actCodeTemplateEng)){
+			int start = smsBody.indexOf(actCodeTemplateEng);
+			activationCode = smsBody.substring(start+actCodeTemplateEng.length()+1, start+actCodeTemplateEng.length()+9);
+		}
+		return activationCode;		
+	}
+
+	
+	
+	private class RegisterToServer extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+			String cellnum = params[0];
+          	
+          	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				bServerCom.registerToServer(cellnum);
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						String requestId = jsonReturnObj.getString("registration_request_id");
+						MySharedPreferences.getInstance().saveRegRequestId(RegistrationActivity.this, requestId);
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+				if (result.equals("success")){
+				}
+		}
+			
+			
+	}
+		
+	private class RegisterValidationToServer extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+			String requestId = params[0];
+			String token = params[1];
+          	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				bServerCom.registerValidationToServer(requestId, token);
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						String userId = jsonReturnObj.getString("user_id");
+						String userSecret = jsonReturnObj.getString("user_secret");
+						MySharedPreferences.getInstance().saveActivationData(RegistrationActivity.this, userId, userSecret);
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+				if (result.equals("success")){
+					startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+					finish();
+
+				}
+		}
+			
+			
+	}
+	
+	
 }

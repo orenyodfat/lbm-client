@@ -2,6 +2,7 @@ package com.lazooz.lbm;
 
 import java.util.Date;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.lazooz.lbm.utils.Utils;
 
 
@@ -22,16 +23,20 @@ import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
 
+	private static GPSTracker instance = null;
+
 	private final Context mContext;
 
 	// flag for GPS status
-	boolean isGPSEnabled = false;
+	private boolean isGPSEnabled = false;
 
 	// flag for network status
-	boolean isNetworkEnabled = false;
+	private boolean isNetworkEnabled = false;
 
 	// flag for GPS status
-	boolean canGetLocation = false;
+	private boolean canGetLocation = false;
+	
+	
 
 	Location location; // location
 	double latitude; // latitude
@@ -49,12 +54,30 @@ public class GPSTracker extends Service implements LocationListener {
 	private float accuracy;
 
 	private long theTime;
+	
+	public static GPSTracker getInstance(Context context) {
+	      if(instance == null) {
+	         instance  = new GPSTracker(context);
+	      }
+	      return instance;
+	   }
+	
+	public static void removeInstance() {
+	      instance = null;
+	   }
+	
 
 	public GPSTracker(Context context) {
 		this.mContext = context;
 		getLocation();
 	}
 
+	
+	public LatLng getLocationLL(){
+		Location l = getLocation();
+		return new LatLng(l.getLatitude(), l.getLongitude());
+	}
+	
 	public Location getLocation() {
 		try {
 			locationManager = (LocationManager) mContext
@@ -177,14 +200,6 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	
 	/**
-	 * Function to check GPS/wifi enabled
-	 * @return boolean
-	 * */
-	public boolean canGetLocation() {
-		return this.canGetLocation;
-	}
-	
-	/**
 	 * Function to show settings alert dialog
 	 * On pressing Settings button will lauch Settings Options
 	 * */
@@ -235,6 +250,19 @@ public class GPSTracker extends Service implements LocationListener {
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
+	}
+
+	public boolean isGPSEnabled() {
+		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		return isGPSEnabled;
+	}
+
+	public boolean isNetworkEnabled() {
+		return isNetworkEnabled;
+	}
+
+	public boolean canGetLocation() {
+		return canGetLocation;
 	}
 
 }

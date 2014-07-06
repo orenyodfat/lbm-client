@@ -61,3 +61,11 @@ bin/dexedLibs/apache-mime4j-422fb493e26337d0697f35805072369d.jar
 bin/dexedLibs/httpclient-4.2.5-1ea8febb805b96c366da5cb78a15ad3d.jar
 bin/dexedLibs/httpcore-4.2.4-299c5b42a0c1131390586542e04435fe.jar
 bin/dexedLibs/httpmime-4.2.5-893618d53d43f2080ad7c47a9d41609b.jar
+bin/dexedLibs/android-support-v4-4eb27ba0380552f119e9520325f31a87.jar
+bin/dexedLibs/android-support-v7-appcompat-11a4b91779d25deef1e447383fa4ad16.jar
+bin/dexedLibs/android-support-v7-appcompat-f401f23e20b2521b3957c8f5a1a0b86f.jar
+bin/dexedLibs/google-play-services-a03417106c0a3100cc8acf5f1b33f3d2.jar
+bin/dexedLibs/google-play-services_lib-92ff8f7b62b62509e75439a04797f626.jar
+gen/com/google/android/gms/R.java
+gen/com/lazooz/lbm/Manifest.java
+project - Copy.properties

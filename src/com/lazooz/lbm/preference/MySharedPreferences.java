@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 
 public class MySharedPreferences {
 	private static MySharedPreferences instance = null;
-	private String mProductId;
-	private String mToken;
+
 
 	protected MySharedPreferences() {
 	      
@@ -41,38 +40,44 @@ public class MySharedPreferences {
 	
 	
 	
-	public void saveActivationData(Context context)
-	{
-		
-		SharedPreferences spData = context.getSharedPreferences("AppData",Context.MODE_MULTI_PROCESS);
+
+	
+	
+	public String getUserId(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("userId", "");
+	}
+
+
+
+	public String getUserSecret(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("userSecret", "");
+	}
+
+
+
+
+	public void saveRegRequestId(Context context, String requestId) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("requestId", requestId).commit();
+	}
+
+	public String getRegRequestId(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("requestId", "");
+	}
+
+	public void saveActivationData(Context context, String userId, String userSecret) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
 	    SharedPreferences.Editor editor = spData.edit();
 	    
-	    editor.putString("productId", mProductId);
-	    editor.putString("token", mToken);
+	    editor.putString("userId", userId);
+	    editor.putString("userSecret", userSecret);
 	    	    
 	    editor.commit();
 		
 	}
-	
-	
-	public String getProductId() {
-		return mProductId;
-	}
-
-	public void setProductId(String productId) {
-		this.mProductId = productId;
-	}
-
-	public String getToken() {
-		return mToken;
-	}
-
-
-
-	public void setToken(String token) {
-		this.mToken = token;
-	}
-
 
 	
 }

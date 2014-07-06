@@ -43,7 +43,7 @@ public class SplashActivity extends ActionBarActivity {
 			finish();
 		}
 		else{
-			startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
+			startActivity(new Intent(SplashActivity.this, IntroActivity.class));
 			finish();			
 		}
 		

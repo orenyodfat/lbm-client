@@ -3,7 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lazooz.lbm.MainActivity"
+    tools:context="com.lazooz.lbm.CongratulationsGPSActivity"
     tools:ignore="MergeRootFrame" >
 
     <TextView
@@ -11,9 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="main"
+        android:text="Congratulations on activating the GPS"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/congratulation_gps_next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="20dp"
+        android:text="Next" />
 
 </FrameLayout>
 

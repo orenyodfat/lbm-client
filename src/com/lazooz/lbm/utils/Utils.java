@@ -1,10 +1,12 @@
 package com.lazooz.lbm.utils;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -89,5 +91,17 @@ public class Utils {
 	    return cid;
 	}
 	
-	
+	public static void messageToUser(Context context, String title, String message){
+		try {
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			builder.setTitle(title);
+			builder.setMessage(message);
+			builder.setPositiveButton(context.getString(android.R.string.ok), null);
+			builder.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

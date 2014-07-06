@@ -36,6 +36,29 @@ public class ServerCom {
 	} 
 	
 
+	public void registerToServer(String cellphone)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_register";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("cellphone", cellphone + ""));
+		
+		this.postRequestToServer(-1, -1, url, params);
+		
+	}
+	
+	
+
+	public void registerValidationToServer(String requestId, String token) {
+		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("registration_request_id", requestId + ""));
+		params.add(new BasicNameValuePair("registration_request_token", token + ""));
+		
+		this.postRequestToServer(-1, -1, url, params);
+		
+	}
 	
 	
 	public void doSetLocation(String productId, String token, String latitude, String longitude,
@@ -192,6 +215,8 @@ public class ServerCom {
   	  
   	  
   	}
+
+
 	
 	
 
