@@ -57,3 +57,7 @@ bin/res/crunch/drawable-xhdpi/ic_launcher.png
 bin/res/crunch/drawable-xxhdpi/ic_launcher.png
 bin/resources.ap_
 *.apk
+bin/dexedLibs/apache-mime4j-422fb493e26337d0697f35805072369d.jar
+bin/dexedLibs/httpclient-4.2.5-1ea8febb805b96c366da5cb78a15ad3d.jar
+bin/dexedLibs/httpcore-4.2.4-299c5b42a0c1131390586542e04435fe.jar
+bin/dexedLibs/httpmime-4.2.5-893618d53d43f2080ad7c47a9d41609b.jar

@@ -65,15 +65,26 @@ public class Utils {
 	
 	
 	public static int getCellId(Context context){
-		TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-	    GsmCellLocation cellLocation = (GsmCellLocation)telephonyManager.getCellLocation();
-	       
-	    String networkOperator = telephonyManager.getNetworkOperator();
-	    String mcc = networkOperator.substring(0, 3);
-	    String mnc = networkOperator.substring(3);
-	       
-	    int cid = cellLocation.getCid();
-	    int lac = cellLocation.getLac();
+	    int cid = 0, lac = 0;
+
+	    try {
+			TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+			GsmCellLocation cellLocation = (GsmCellLocation)telephonyManager.getCellLocation();
+			
+			String networkOperator = telephonyManager.getNetworkOperator();
+			if (!networkOperator.equals("")){
+				String mcc = networkOperator.substring(0, 3);
+				String mnc = networkOperator.substring(3);
+			}
+			   
+			if (cellLocation != null){
+				cid = cellLocation.getCid();
+				lac = cellLocation.getLac();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    return cid;
 	}
