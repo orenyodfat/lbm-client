@@ -69,3 +69,14 @@ bin/dexedLibs/google-play-services_lib-92ff8f7b62b62509e75439a04797f626.jar
 gen/com/google/android/gms/R.java
 gen/com/lazooz/lbm/Manifest.java
 project - Copy.properties
+bin/dexedLibs/android-support-v7-appcompat-7e697d4e5beb5090251d049354f61f6a.jar
+bin/dexedLibs/appcompat_v7-600232030e51e39aed4bb8e262443a45.jar
+bin/res/crunch/drawable-hdpi/drawer_shadow.9.png
+bin/res/crunch/drawable-mdpi/ic_drawer.png
+bin/res/crunch/drawable-hdpi/ic_drawer.png
+bin/res/crunch/drawable-mdpi/drawer_shadow.9.png
+bin/res/crunch/drawable-xhdpi/drawer_shadow.9.png
+bin/res/crunch/drawable-xhdpi/ic_drawer.png
+bin/res/crunch/drawable-xxhdpi/drawer_shadow.9.png
+bin/res/crunch/drawable-xxhdpi/ic_drawer.png
+bin/res/crunch/drawable/settings_menu_icon.png

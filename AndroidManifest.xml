@@ -78,11 +78,26 @@
             android:name="com.lazooz.lbm.CongratulationsGPSActivity"
             android:label="@string/app_name" >
         </activity>
-                <activity
+        <activity
             android:name="com.lazooz.lbm.MapShowLocationActivity"
             android:label="@string/app_name" >
         </activity>
-        
+        <activity
+            android:name="com.lazooz.lbm.MissionDrive100Activity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsRegActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsDrive100Activity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.MissionGetFriendsActivity"
+            android:label="@string/app_name" >
+        </activity>
         
         
         <activity

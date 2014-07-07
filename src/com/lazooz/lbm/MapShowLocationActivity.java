@@ -54,6 +54,7 @@ public class MapShowLocationActivity extends ActionBarActivity {
 			MarkerOptions mo = new MarkerOptions();
 			LatLng ll = GPSTracker.getInstance(getApplicationContext()).getLocationLL();
 		    Marker yourLoc = map.addMarker(new MarkerOptions().position(ll).title("Your Location"));
+		    map.getUiSettings().setZoomControlsEnabled(false);
 		    map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 11));
 		    map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 		 }

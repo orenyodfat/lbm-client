@@ -1,5 +1,8 @@
 package com.lazooz.lbm;
 
+
+
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,12 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends MyActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		//super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState, R.layout.activity_main);
+		//setContentView(R.layout.activity_main);
 
 	}
 

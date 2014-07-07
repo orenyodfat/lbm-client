@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ public class RegistrationActivity extends ActionBarActivity {
 	//public String mRequestId;
 	//public String mUserId;
 	//public String mUserSecret;
+	private Button mConfBtn;
+	private ProgressBar mProgBar;
 
 
 
@@ -84,6 +87,45 @@ public class RegistrationActivity extends ActionBarActivity {
 				
 			}
 		});
+		
+		
+		
+		mProgBar = (ProgressBar)findViewById(R.id.reg_progbar);
+		mProgBar.setVisibility(View.GONE);
+		
+		
+		mConfBtn = (Button)findViewById(R.id.reg_confirm_btn);
+		mConfBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
+				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
+				inText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+	        	//Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+	        	builder.setTitle(getString(R.string.reg_input_conf_title));
+	        	builder.setMessage(getString(R.string.reg_input_conf_body));
+	        	builder.setView(addView);
+	        	builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int whichButton) {
+	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
+	                	String confCode = t.getText().toString();
+	                	//performActivation(confCode);
+	                	startNextScreen();
+	                	dialog.cancel();
+	                }
+	        	
+	            });
+	        	
+	        	builder.setNegativeButton(getString(android.R.string.cancel), null);
+	        	builder.show().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);			
+				
+				
+			}
+		});
+		
 		
 		
 		
@@ -183,11 +225,17 @@ public class RegistrationActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-				if (result.equals("success")){
-				}
+			mProgBar.setVisibility(View.GONE);
+			if (result.equals("success")){
+				Toast.makeText(RegistrationActivity.this, "Thanks you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
+			}
 		}
 			
-			
+		
+		@Override
+		protected void onPreExecute() {
+			mProgBar.setVisibility(View.VISIBLE);
+		}
 	}
 		
 	private class RegisterValidationToServer extends AsyncTask<String, Void, String> {
@@ -234,15 +282,25 @@ public class RegistrationActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-				if (result.equals("success")){
-					startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-					finish();
-
-				}
+			mProgBar.setVisibility(View.GONE);	
+			if (result.equals("success")){
+				Toast.makeText(RegistrationActivity.this, "Confirmation Succeeded", Toast.LENGTH_LONG).show();
+				startNextScreen();
+			}
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			mProgBar.setVisibility(View.VISIBLE);
 		}
 			
 			
 	}
 	
+	
+	private void startNextScreen(){
+		startActivity(new Intent(RegistrationActivity.this, CongratulationsRegActivity.class));
+		finish();		
+	}
 	
 }
