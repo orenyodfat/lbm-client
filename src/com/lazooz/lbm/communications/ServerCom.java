@@ -41,12 +41,22 @@ public class ServerCom {
 		String url = StaticParms.BASE_SERVER_URL + "api_register";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("cellphone", cellphone + ""));
+		params.add(new BasicNameValuePair("cellphone", cellphone ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
 	}
 	
+	public void setLocation(String data)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("location_list", data ));
+		
+		this.postRequestToServer(-1, -1, url, params);
+		
+	}
 	
 
 	public void registerValidationToServer(String requestId, String token) {

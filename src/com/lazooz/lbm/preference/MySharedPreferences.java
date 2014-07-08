@@ -1,7 +1,16 @@
 package com.lazooz.lbm.preference;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.lazooz.lbm.businessClasses.LocationData;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class MySharedPreferences {
 	private static MySharedPreferences instance = null;
@@ -78,6 +87,48 @@ public class MySharedPreferences {
 	    editor.commit();
 		
 	}
+	
+	
+	public void saveLocationData(Context context, LocationData ld){
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		int writeCursor = spData.getInt("WriteCursor", 0);
+		writeCursor++;
+		
+		Editor editor = spData.edit();
+		
+		editor.putString("LocationDataList_" + writeCursor, ld.toJSON().toString());
+		editor.putInt("WriteCursor", writeCursor);
+		editor.commit();
+	}
 
+	
+	public JSONArray getLocationDataList(Context context){
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		int writeCursor = spData.getInt("WriteCursor", 1);
+		int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
+		JSONArray jsArray = new JSONArray();
+		try {
+			for (int i=commitedReadCursor; i<=writeCursor; i++){
+				String locationDataString = spData.getString("LocationDataList_" + i, "");
+				JSONObject obj = new JSONObject(locationDataString);
+				jsArray.put(obj);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		spData.edit().putInt("ReadCursor", writeCursor).commit();
+		
+		return jsArray;
+	}
+	
+	public void commitReadCursor(Context context){ // commit the read cursor
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		int readCursor = spData.getInt("ReadCursor", 1);
+		spData.edit().putInt("CommitedReadCursor", readCursor).commit();
+	}
+	
+	
+	
 	
 }

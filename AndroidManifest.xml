@@ -57,6 +57,10 @@
         <meta-data
 			android:name="com.google.android.maps.v2.API_KEY"
         	android:value="AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls" />
+        
+         <meta-data
+			android:name="com.google.android.gms.version"
+			android:value="@integer/google_play_services_version" />
          
         <activity
             android:name="com.lazooz.lbm.MainActivity"
@@ -96,6 +100,14 @@
         </activity>
         <activity
             android:name="com.lazooz.lbm.MissionGetFriendsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsGetFriendsActivity"
+            android:label="@string/app_name" >
+        </activity>
+         <activity
+            android:name="com.lazooz.lbm.InfoActivity"
             android:label="@string/app_name" >
         </activity>
         

@@ -75,13 +75,14 @@ public class Utils {
 			
 			String networkOperator = telephonyManager.getNetworkOperator();
 			if (!networkOperator.equals("")){
-				String mcc = networkOperator.substring(0, 3);
-				String mnc = networkOperator.substring(3);
+				String mcc = networkOperator.substring(0, 3); //mobile country code
+				String mnc = networkOperator.substring(3); //mobile network code 
 			}
 			   
 			if (cellLocation != null){
-				cid = cellLocation.getCid();
-				lac = cellLocation.getLac();
+				cid = cellLocation.getCid();//gsm cell id
+				lac = cellLocation.getLac();// gsm location area code
+				
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -102,6 +103,14 @@ public class Utils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static String booleanToYesNo(boolean value){
+		return (value) ? "yes" : "no";
+	}
+	
+	public static boolean yesNoToBoolean(String value){
+		return value.equalsIgnoreCase("yes");		
 	}
 
 }
