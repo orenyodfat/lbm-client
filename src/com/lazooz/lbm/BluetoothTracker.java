@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.lazooz.lbm.WifiTracker.wifiListener;
+import com.lazooz.lbm.businessClasses.BluetoothData;
+import com.lazooz.lbm.businessClasses.WifiData;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -21,8 +25,22 @@ public class BluetoothTracker {
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 	private BluetoothReceiver mBluetoothReceiver;
 	private ArrayList<BluetoothDevice> btDeviceList = new ArrayList<BluetoothDevice>();
+    private Context mContext;
     
+	public interface bluetoothListener {
+		void onFinishScan(ArrayList<BluetoothData> devices);
+	}
+	
+	private bluetoothListener mBluetoothListener;
+	
+	public void setBluetoothListener(bluetoothListener lsnr){
+		mBluetoothListener = lsnr;
+	}
+	
+	
 	public BluetoothTracker(Context context) {
+		mContext = context;
+		
 		//mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
        // mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
@@ -35,11 +53,11 @@ public class BluetoothTracker {
         mBluetoothReceiver = new BluetoothReceiver();
         
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothDevice.ACTION_UUID);
+       // filter.addAction(BluetoothDevice.ACTION_UUID);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         
-        context.registerReceiver(mBluetoothReceiver, filter);
+        mContext.registerReceiver(mBluetoothReceiver, filter);
     }
 
 	
@@ -82,17 +100,46 @@ public class BluetoothTracker {
         	
         	else if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
         		Log.e("blue", "Discovery Finished");
-  
-   	             Iterator<BluetoothDevice> itr = btDeviceList.iterator();
-   	             while (itr.hasNext()) {
-   	               // Get Services for paired devices
-   	               BluetoothDevice device = itr.next();
-   	               Log.e("blue", "Getting Services for " + device.getName() + ", " + device.getAddress());
-   	               //if(!device.fetchUuidsWithSdp()) {
-   	            	//Log.e("blue", "SDP Failed for " + device.getName());
-   	               //}
-   	             }
+        		mContext.unregisterReceiver(mBluetoothReceiver);
+        		ArrayList<BluetoothData> devices = new ArrayList<BluetoothData>(); 
+        		
+        		for(BluetoothDevice device : btDeviceList){
+        			BluetoothData bd = new BluetoothData();
+        			bd.setAddress(device.getAddress());
+        			bd.setName(device.getName());
+        			devices.add(bd);
+        		}
+        		
+        		if (mBluetoothListener != null)
+        			mBluetoothListener.onFinishScan(devices);
+        		
         	}
         }
     }
+	
+	
+	public static boolean setBluetooth(boolean enable) {
+	    BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+	    boolean isEnabled = bluetoothAdapter.isEnabled();
+	    if (enable && !isEnabled) {
+	        return bluetoothAdapter.enable(); 
+	    }
+	    else if(!enable && isEnabled) {
+	        return bluetoothAdapter.disable();
+	    }
+	    // No need to change bluetooth state
+	    return true;
+	}
+	
+	public void setBluetoothEnabled(){
+		mBtAdapter.enable();
+	}
+	
+	public boolean isBluetoothEnabled(){
+		return mBtAdapter.isEnabled();
+	}
+	
+	
+	
+	
 }

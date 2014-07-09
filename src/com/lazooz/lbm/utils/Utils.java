@@ -6,10 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.lazooz.lbm.businessClasses.TelephonyData;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
@@ -66,22 +69,25 @@ public class Utils {
 	
 	
 	
-	public static int getCellId(Context context){
-	    int cid = 0, lac = 0;
+	public static TelephonyData getTelephonyData(Context context){
 
-	    try {
+		TelephonyData td = new TelephonyData();
+	    
+		try {
 			TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			GsmCellLocation cellLocation = (GsmCellLocation)telephonyManager.getCellLocation();
 			
+			
+			
 			String networkOperator = telephonyManager.getNetworkOperator();
 			if (!networkOperator.equals("")){
-				String mcc = networkOperator.substring(0, 3); //mobile country code
-				String mnc = networkOperator.substring(3); //mobile network code 
+				td.setMMC(networkOperator.substring(0, 3)); //mobile country code
+				td.setMNC(networkOperator.substring(3)); //mobile network code 
 			}
 			   
 			if (cellLocation != null){
-				cid = cellLocation.getCid();//gsm cell id
-				lac = cellLocation.getLac();// gsm location area code
+				td.setCID(cellLocation.getCid());//gsm cell id
+				td.setLAC(cellLocation.getLac());// gsm location area code
 				
 			}
 		} catch (Exception e) {
@@ -89,7 +95,7 @@ public class Utils {
 			e.printStackTrace();
 		}
 	    
-	    return cid;
+	    return td;
 	}
 	
 	public static void messageToUser(Context context, String title, String message){
@@ -111,6 +117,16 @@ public class Utils {
 	
 	public static boolean yesNoToBoolean(String value){
 		return value.equalsIgnoreCase("yes");		
+	}
+	
+	
+	
+	public static void wait(int milisec){
+		try {
+			Thread.sleep(milisec);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

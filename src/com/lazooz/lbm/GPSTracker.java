@@ -37,6 +37,18 @@ public class GPSTracker extends Service implements LocationListener {
 	private boolean canGetLocation = false;
 	
 	
+	protected LocationListener mOnLocationListener;
+ 	
+ 	
+	public LocationListener getOnLocationListener() {
+		return mOnLocationListener;
+	}
+
+	public void setOnLocationListener(LocationListener l) {
+		this.mOnLocationListener = l;
+	}
+	
+	
 
 	Location location; // location
 	double latitude; // latitude
@@ -96,14 +108,10 @@ public class GPSTracker extends Service implements LocationListener {
 			} else {
 				this.canGetLocation = true;
 				if (isNetworkEnabled) {
-					locationManager.requestLocationUpdates(
-							LocationManager.NETWORK_PROVIDER,
-							MIN_TIME_BW_UPDATES,
-							MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+					locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 					Log.d("Network", "Network");
 					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+						location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 						if (location != null) {
 							latitude = location.getLatitude();
 							longitude = location.getLongitude();
@@ -113,14 +121,10 @@ public class GPSTracker extends Service implements LocationListener {
 				// if GPS Enabled get lat/long using GPS Services
 				if (isGPSEnabled) {
 					if (location == null) {
-						locationManager.requestLocationUpdates(
-								LocationManager.GPS_PROVIDER,
-								MIN_TIME_BW_UPDATES,
-								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+						locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 						Log.d("GPS Enabled", "GPS Enabled");
 						if (locationManager != null) {
-							location = locationManager
-									.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+							location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 							if (location != null) {
 								latitude = location.getLatitude();
 								longitude = location.getLongitude();
@@ -233,18 +237,26 @@ public class GPSTracker extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		if (mOnLocationListener != null)
+			mOnLocationListener.onLocationChanged(location);
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
+		if (mOnLocationListener != null)
+			mOnLocationListener.onProviderDisabled(provider);
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		if (mOnLocationListener != null)
+			mOnLocationListener.onProviderEnabled(provider);
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		if (mOnLocationListener != null)
+			mOnLocationListener.onStatusChanged(provider, status, extras);
 	}
 
 	@Override

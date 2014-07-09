@@ -52,13 +52,9 @@ public class RegistrationActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				
-				ApManager.configApState(RegistrationActivity.this);
+				//ApManager.configApState(RegistrationActivity.this);
 				
-				Utils.getCellId(RegistrationActivity.this);
-				WifiTracker wt = new WifiTracker(RegistrationActivity.this);
-				wt.scan();
-				BluetoothTracker bt = new BluetoothTracker(RegistrationActivity.this);
-				bt.scan();
+
 				
 				
 				

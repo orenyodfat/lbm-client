@@ -11,6 +11,7 @@ import com.lazooz.lbm.businessClasses.LocationData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 public class MySharedPreferences {
 	private static MySharedPreferences instance = null;
@@ -108,6 +109,7 @@ public class MySharedPreferences {
 		int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
 		JSONArray jsArray = new JSONArray();
 		try {
+			Log.e("MSP", "read from: " + commitedReadCursor + " to: " + writeCursor);
 			for (int i=commitedReadCursor; i<=writeCursor; i++){
 				String locationDataString = spData.getString("LocationDataList_" + i, "");
 				JSONObject obj = new JSONObject(locationDataString);
@@ -125,7 +127,22 @@ public class MySharedPreferences {
 	public void commitReadCursor(Context context){ // commit the read cursor
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
 		int readCursor = spData.getInt("ReadCursor", 1);
-		spData.edit().putInt("CommitedReadCursor", readCursor).commit();
+		Editor editor = spData.edit();
+		
+		int prevCommitedReadCursor = spData.getInt("CommitedReadCursor", 1);
+		
+		editor.putInt("CommitedReadCursor", readCursor+1).commit();
+		
+		int currentCommitedReadCursor = spData.getInt("CommitedReadCursor", 1);
+		currentCommitedReadCursor--;
+		
+		for (int i= prevCommitedReadCursor; i<= currentCommitedReadCursor; i++){
+			editor.remove("LocationDataList_" + i );
+		}
+		
+		editor.commit();
+		
+		Log.e("MSP", "delete from: " + prevCommitedReadCursor + " to: " + currentCommitedReadCursor);
 	}
 	
 	

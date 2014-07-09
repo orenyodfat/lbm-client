@@ -10,7 +10,7 @@ import com.lazooz.lbm.utils.Utils;
 public class LocationData {
 
 	private double mLatitude; 
-	private double mLlongitude;
+	private double mLongitude;
 	private long mTimestamp;
 	private double mAccuracy;
 	
@@ -21,9 +21,17 @@ public class LocationData {
 	
 	private boolean mHasWifiData;
 	private ArrayList<WifiData> mWifiDataList;
-
+	private boolean mHasLocationData;
 	private boolean mHasBluetoothData;
 	private ArrayList<BluetoothData> mBluetoothDataList;
+	
+	public LocationData() {
+		mWifiDataList = new ArrayList<WifiData>();
+		mBluetoothDataList = new ArrayList<BluetoothData>();
+		mHasWifiData = false;
+		mHasBluetoothData = false;
+		mHasLocationData = false;
+	}
 	
 	public LocationData(JSONObject jsonObj) {
 		try {
@@ -32,7 +40,7 @@ public class LocationData {
 			mBluetoothDataList = null;
 			
 			mLatitude = jsonObj.getDouble("lat");
-			mLlongitude = jsonObj.getDouble("long");
+			mLongitude = jsonObj.getDouble("long");
 			mTimestamp = jsonObj.getLong("location_time");
 			mAccuracy = jsonObj.getDouble("location_accuracy");		
 			mMCC = jsonObj.getString("mcc");
@@ -40,6 +48,7 @@ public class LocationData {
 			mCID = jsonObj.getInt("cid");
 			mLAC = jsonObj.getInt("lac");
 			mHasWifiData = Utils.yesNoToBoolean(jsonObj.getString("is_wifi"));
+			mHasLocationData = Utils.yesNoToBoolean(jsonObj.getString("is_location"));
 			mHasBluetoothData = Utils.yesNoToBoolean(jsonObj.getString("is_bt"));
 
 			if((mHasWifiData) && (jsonObj.has("wifi_obj_list"))){
@@ -78,7 +87,7 @@ public class LocationData {
  		JSONArray jsArray;
 		try {
 			retObj.put("lat", mLatitude);
-			retObj.put("long", mLlongitude);
+			retObj.put("long", mLongitude);
 			retObj.put("location_time", mTimestamp);
 			retObj.put("location_accuracy", mAccuracy);
 			retObj.put("mcc", mMCC);
@@ -87,6 +96,7 @@ public class LocationData {
 			retObj.put("lac", mLAC);
 			retObj.put("is_wifi", Utils.booleanToYesNo(mHasWifiData));
 			retObj.put("is_bt", Utils.booleanToYesNo(mHasBluetoothData));
+			retObj.put("is_location", Utils.booleanToYesNo(mHasLocationData));
 			
 
  			if (mHasWifiData && (mWifiDataList != null)){
@@ -129,11 +139,11 @@ public class LocationData {
 	}
 
 	public double getLlongitude() {
-		return mLlongitude;
+		return mLongitude;
 	}
 
-	public void setLlongitude(double llongitude) {
-		mLlongitude = llongitude;
+	public void setLongitude(double longitude) {
+		mLongitude = longitude;
 	}
 
 	public double getAccuracy() {
@@ -210,6 +220,29 @@ public class LocationData {
 
 	public void setBluetoothDataList(ArrayList<BluetoothData> bluetoothDataList) {
 		mBluetoothDataList = bluetoothDataList;
+	}
+
+	public long getTimestamp() {
+		return mTimestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		mTimestamp = timestamp;
+	}
+
+	public void setTelephonyData(TelephonyData td) {
+		mMCC = td.getMMC();
+		mMNC = td.getMNC();
+		mCID = td.getCID();
+		mLAC = td.getLAC();
+	}
+
+	public boolean hasLocationData() {
+		return mHasLocationData;
+	}
+
+	public void setHasLocationData(boolean hasLocationData) {
+		mHasLocationData = hasLocationData;
 	}
 
 }

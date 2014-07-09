@@ -5,13 +5,16 @@ import org.json.JSONObject;
 
 public class BluetoothData {
 
-	private String mUUID;
 	private String mAddress;
+	private String mName;
 
+	public BluetoothData() {
+		
+	}
 	public BluetoothData(JSONObject jsonObj) {
 		try {
-			mUUID = jsonObj.getString("bt_uuid");
 			mAddress = jsonObj.getString("bt_address");
+			mName = jsonObj.getString("bt_name");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -22,8 +25,8 @@ public class BluetoothData {
 	public JSONObject toJSON(){
 		JSONObject retObj = new JSONObject();
 		try {
-			retObj.put("bt_uuid", mUUID);
 			retObj.put("bt_address", mAddress);
+			retObj.put("bt_name", mName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -31,14 +34,7 @@ public class BluetoothData {
 	}
 
 
-	public String getUUID() {
-		return mUUID;
-	}
-
-
-	public void setUUID(String uUID) {
-		mUUID = uUID;
-	}
+	
 
 
 	public String getAddress() {
@@ -48,5 +44,11 @@ public class BluetoothData {
 
 	public void setAddress(String address) {
 		mAddress = address;
+	}
+	public String getName() {
+		return mName;
+	}
+	public void setName(String name) {
+		mName = name;
 	}
 }

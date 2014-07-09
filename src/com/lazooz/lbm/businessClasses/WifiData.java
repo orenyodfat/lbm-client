@@ -5,15 +5,21 @@ import org.json.JSONObject;
 
 public class WifiData {
 
-	private String mName;
-	private double mStrength;
+	private String mBSSID;
 	private String mSSID;
+	private String mCapabilities;
+	private int mFrequency;
 
+	public WifiData() {
+		
+	}
+	
 	public WifiData(JSONObject jsonObj) {
 		try {
-			mName = jsonObj.getString("wifi_name");
-			mStrength = jsonObj.getDouble("wifi_strength");
+			mBSSID = jsonObj.getString("wifi_bssid");
 			mSSID = jsonObj.getString("wifi_ssid");
+			mCapabilities = jsonObj.getString("wifi_capabilities");
+			mFrequency = jsonObj.getInt("wifi_frequency");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -24,9 +30,10 @@ public class WifiData {
 	public JSONObject toJSON(){
 		JSONObject retObj = new JSONObject();
 		try {
-			retObj.put("wifi_name", mName);
-			retObj.put("wifi_strength", mStrength);
+			retObj.put("wifi_bssid", mBSSID);
 			retObj.put("wifi_ssid", mSSID);
+			retObj.put("wifi_capabilities", mCapabilities);
+			retObj.put("wifi_frequency", mFrequency);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -34,24 +41,9 @@ public class WifiData {
 	}
 
 
-	public String getName() {
-		return mName;
-	}
+	
 
 
-	public void setName(String name) {
-		mName = name;
-	}
-
-
-	public double getStrength() {
-		return mStrength;
-	}
-
-
-	public void setStrength(double strength) {
-		mStrength = strength;
-	}
 
 
 	public String getSSID() {
@@ -61,5 +53,29 @@ public class WifiData {
 
 	public void setSSID(String sSID) {
 		mSSID = sSID;
+	}
+
+	public String getBSSID() {
+		return mBSSID;
+	}
+
+	public void setBSSID(String bSSID) {
+		mBSSID = bSSID;
+	}
+
+	public String getCapabilities() {
+		return mCapabilities;
+	}
+
+	public void setCapabilities(String capabilities) {
+		mCapabilities = capabilities;
+	}
+
+	public int getFrequency() {
+		return mFrequency;
+	}
+
+	public void setFrequency(int frequency) {
+		mFrequency = frequency;
 	}
 }

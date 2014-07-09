@@ -47,12 +47,15 @@ public class ServerCom {
 		
 	}
 	
-	public void setLocation(String data)
+	public void setLocation(String UserId, String UserSecret, String data)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("location_list", data ));
+		
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
