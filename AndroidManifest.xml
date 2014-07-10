@@ -110,7 +110,11 @@
             android:name="com.lazooz.lbm.InfoActivity"
             android:label="@string/app_name" >
         </activity>
-        
+         <activity
+            android:name="com.lazooz.lbm.ContactListActivity"
+            android:label="@string/app_name" >
+        </activity>
+         
         
         <activity
             android:name="com.lazooz.lbm.SplashActivity"

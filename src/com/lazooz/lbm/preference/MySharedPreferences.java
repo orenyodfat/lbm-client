@@ -1,11 +1,13 @@
 package com.lazooz.lbm.preference;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.LocationData;
 
 import android.content.Context;
@@ -144,8 +146,54 @@ public class MySharedPreferences {
 		
 		Log.e("MSP", "delete from: " + prevCommitedReadCursor + " to: " + currentCommitedReadCursor);
 	}
+
+	public void addRecommendUser(Context context, Contact contactBean) {
+			SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);		
+			Editor editor = spData.edit();
+			editor.putString(contactBean.getKey(), contactBean.toJSON().toString());
+			editor.commit();
+			
+	}
 	
+	public void removeRecommendUser(Context context, Contact contactBean) {
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		spData.edit().remove(contactBean.getKey()).commit();
+	}
 	
+	public void clearRecommendUsers(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		spData.edit().clear().commit();
+	}
+
+	public boolean areThere3RecommendUser(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		Map<String,?> keys = spData.getAll();
+		return (keys.size() >= 3);
+	}
 	
+	public JSONArray getRecommendUserList(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		
+		JSONArray jsArray = new JSONArray();
+		JSONObject retObj = new JSONObject() ;
+		
+		Map<String,?> keys = spData.getAll();
+		
+		try {
+			for(Map.Entry<String,?> entry : keys.entrySet()){
+				jsArray.put(new JSONObject(entry.getValue().toString()));            
+			 }
+
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+
+		
+		
+		
+		return jsArray;
+	}
 	
 }

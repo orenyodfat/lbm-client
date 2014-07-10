@@ -119,7 +119,10 @@ public class Utils {
 		return value.equalsIgnoreCase("yes");		
 	}
 	
-	
+	public static String getCurrentLocale(Context context){
+		TelephonyManager    telMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    return telMgr.getNetworkCountryIso().toUpperCase();
+	}
 	
 	public static void wait(int milisec){
 		try {

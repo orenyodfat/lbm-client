@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.content.Intent;
 import android.content.res.Configuration;
 
 public class MyActionBarActivity extends ActionBarActivity {
@@ -99,7 +100,11 @@ public class MyActionBarActivity extends ActionBarActivity {
     private void selectItem(int position) {
 
     	String s = (String)mDrawerList.getItemAtPosition(position);
-    	if (s.equals("1111")){
+    	if (s.equals(getString(R.string.drawer_entry_info))){
+    	}
+    	else if (s.equals(getString(R.string.drawer_entry_getfriends))){
+    		Intent i = new Intent(this, ContactListActivity.class);
+    		startActivityForResult(i, 1);
     	}
 
         //setTitle(mDrawerTitles[position]);

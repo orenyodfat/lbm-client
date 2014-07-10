@@ -23,5 +23,13 @@
         android:layout_margin="20dp"
         android:text="Next" />
 
+    <Button
+        android:id="@+id/intro_gpson_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="20dp"
+        android:text="Turn On GPS" />
+
 </FrameLayout>
 

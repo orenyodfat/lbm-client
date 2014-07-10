@@ -66,13 +66,29 @@ public class ServerCom {
 		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("registration_request_id", requestId + ""));
-		params.add(new BasicNameValuePair("registration_request_token", token + ""));
+		params.add(new BasicNameValuePair("registration_request_id", requestId ));
+		params.add(new BasicNameValuePair("registration_request_token", token ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
 	}
 	
+	
+	public void setFriendRecommend(String UserId, String UserSecret, String data) {
+		String url = StaticParms.BASE_SERVER_URL + "api_set_friend_recommend";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+		params.add(new BasicNameValuePair("friend_recommend_request_list", data ));
+		
+		this.postRequestToServer(-1, -1, url, params);
+		
+	}
+
+	
+		
+		
 	
 	public void doSetLocation(String productId, String token, String latitude, String longitude,
 			String locationTime, String locationAccuracy)
