@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.lazooz.lbm.preference.MySharedPreferences;
 
 public class MapShowLocationActivity extends ActionBarActivity {
 
@@ -37,6 +38,7 @@ public class MapShowLocationActivity extends ActionBarActivity {
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				MySharedPreferences.getInstance().setStage(MapShowLocationActivity.this, MySharedPreferences.STAGE_REG_INIT);
 				startActivity(new Intent(MapShowLocationActivity.this, RegistrationActivity.class));
 				finish();			
 			}
@@ -69,6 +71,8 @@ public class MapShowLocationActivity extends ActionBarActivity {
 		    
 		    
 		 }
+		
+		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAP);
 	}
 	
 

@@ -12,6 +12,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
@@ -130,6 +132,10 @@ public class Utils {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void beep(){
+		  final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+		  tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
 
 }

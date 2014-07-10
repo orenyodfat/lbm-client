@@ -1,5 +1,7 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.preference.MySharedPreferences;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,7 @@ public class CongratulationsRegActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_congratulations_reg);
-
+		MySharedPreferences.getInstance().setStage(CongratulationsRegActivity.this, MySharedPreferences.STAGE_REG_CONGRATS);
 		
 		nextBtn = (Button)findViewById(R.id.congratulation_reg_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {

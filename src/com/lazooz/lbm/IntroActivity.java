@@ -1,5 +1,6 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
@@ -20,19 +21,19 @@ public class IntroActivity extends ActionBarActivity {
 
 	private Button nextBtn;
 	private Button gpsActivateBtn;
-
+	private GPSTracker gps;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
-
+		
+		gps = GPSTracker.getInstance(IntroActivity.this);
 		
 		nextBtn = (Button)findViewById(R.id.intro_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
-				GPSTracker gps = GPSTracker.getInstance(getApplicationContext());
 				if(gps.isGPSEnabled()){
 					Intent intent = new Intent(IntroActivity.this, MapShowLocationActivity.class);
 					intent.putExtra("MISSION_GPS_ON", true);
@@ -40,7 +41,8 @@ public class IntroActivity extends ActionBarActivity {
 				}
 
 				else
-					Utils.messageToUser(IntroActivity.this, "GPS", "Please turn on the GPS");
+					gps.showSettingsAlert();
+					//Utils.messageToUser(IntroActivity.this, "GPS", "Please turn on the GPS");
 			}
 		});
 		
@@ -54,13 +56,10 @@ public class IntroActivity extends ActionBarActivity {
 			}
 		});
 
-		if(GPSTracker.getInstance(this).isGPSEnabled())
-			gpsActivateBtn.setVisibility(View.GONE);
-		else
-			gpsActivateBtn.setVisibility(View.VISIBLE);
+		gpsActivateBtn.setVisibility(View.GONE);
 		
 		
-		
+		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
 	}
 	
 

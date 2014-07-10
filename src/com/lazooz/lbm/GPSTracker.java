@@ -211,13 +211,13 @@ public class GPSTracker extends Service implements LocationListener {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
    	 
         // Setting Dialog Title
-        alertDialog.setTitle(getString(R.string.gps_activate_gps_title));
+        alertDialog.setTitle(mContext.getString(R.string.gps_activate_gps_title));
  
         // Setting Dialog Message
-        alertDialog.setMessage(getString(R.string.gps_activate_gps_body));
+        alertDialog.setMessage(mContext.getString(R.string.gps_activate_gps_body));
  
         // On pressing Settings button
-        alertDialog.setPositiveButton(getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(mContext.getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
             	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             	mContext.startActivity(intent);
@@ -225,7 +225,7 @@ public class GPSTracker extends Service implements LocationListener {
         });
  
         // on pressing cancel button
-        alertDialog.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             dialog.cancel();
             }

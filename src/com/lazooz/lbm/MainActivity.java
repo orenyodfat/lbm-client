@@ -3,23 +3,34 @@ package com.lazooz.lbm;
 
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.Utils;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends MyActionBarActivity {
-
+	
+	private Timer ShortPeriodTimer;
+	private TextView mDistanceTV;
+	private TextView mZoozBalTV;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
@@ -29,6 +40,36 @@ public class MainActivity extends MyActionBarActivity {
 		
 		startService(new Intent(this, LbmService.class));
 		
+		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
+		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
+		
+		
+		 final Handler guiHandler = new Handler();
+		 final Runnable guiRunnable = new Runnable() {
+		      public void run() {
+		         UpdateGUI();
+		      }
+		   };
+		
+		
+		ShortPeriodTimer = new Timer();
+		TimerTask twoSecondsTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					guiHandler.post(guiRunnable);				
+				}
+			};
+		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
+
+		
+		
+	}
+
+	protected void UpdateGUI() {
+		ServerData sd = MySharedPreferences.getInstance().getServerData(this);
+		mDistanceTV.setText(sd.getDistance());
+		mZoozBalTV.setText(sd.getZoozBalance());
+	
 	}
 
 	@Override

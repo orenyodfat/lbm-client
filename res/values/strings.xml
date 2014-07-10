@@ -10,8 +10,8 @@
 	<string name="reg_input_conf_title">Registration</string>
 	<string name="reg_input_conf_body">Please enter confirmation code</string>
 	<string name="gps_activate_gps_title">Activate GPS</string>
-    <string name="gps_activate_gps_body">GPS is disable, do you want to activate the GPS?</string>
-    <string name="gps_activate_gps_setting">Settings</string>
+    <string name="gps_activate_gps_body">Please turn on the GPS so proof of location could be established</string>
+    <string name="gps_activate_gps_setting">Open GPS Settings</string>
 	
 	<string name="activation_code_template_eng">LaZooz app registration token: </string>
 

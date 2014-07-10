@@ -90,9 +90,7 @@ public class LbmService extends Service implements LocationListener{
 		sendDataToServerAsync();
 	}
 	
-	
-	
-	
+		
 	private void sendDataToServerAsync(){
 		
 		LocationDataToServer locationDataToServer = new LocationDataToServer();
@@ -132,6 +130,16 @@ public class LbmService extends Service implements LocationListener{
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
+						String zoozBalance = jsonReturnObj.getString("zooz");
+						String distance = jsonReturnObj.getString("distance");
+						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
+						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
+
+						MySharedPreferences.getInstance().saveDataFromServer(LbmService.this, zoozBalance, distance, isDistanceAchievement);
+						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
+							serverMessage = "success_distance_achieved";
+						}
+							
 						
 					}
 				}
@@ -148,8 +156,8 @@ public class LbmService extends Service implements LocationListener{
 		@Override
 		protected void onPostExecute(String result) {
 			
-			if (result.equals("success")){
-				MySharedPreferences.getInstance().commitReadCursor(LbmService.this);
+			if (result.equals("success_distance_achieved")){
+				//start congrats activity
 			}
 		}
 			

@@ -108,8 +108,8 @@ public class RegistrationActivity extends ActionBarActivity {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
 	                	String confCode = t.getText().toString();
-	                	//performActivation(confCode);
-	                	startNextScreen();
+	                	performActivation(confCode);
+	                	//startNextScreen();
 	                	dialog.cancel();
 	                }
 	        	
@@ -223,6 +223,7 @@ public class RegistrationActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
+				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
 				Toast.makeText(RegistrationActivity.this, "Thanks you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
 			}
 		}
@@ -230,6 +231,7 @@ public class RegistrationActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
+			MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT);
 			mProgBar.setVisibility(View.VISIBLE);
 		}
 	}
@@ -280,13 +282,18 @@ public class RegistrationActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			mProgBar.setVisibility(View.GONE);	
 			if (result.equals("success")){
+				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
 				Toast.makeText(RegistrationActivity.this, "Confirmation Succeeded", Toast.LENGTH_LONG).show();
 				startNextScreen();
+			}
+			else{
+				Toast.makeText(RegistrationActivity.this, "Confirmation failed, please check the code", Toast.LENGTH_LONG).show();
 			}
 		}
 		
 		@Override
 		protected void onPreExecute() {
+			MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT);
 			mProgBar.setVisibility(View.VISIBLE);
 		}
 			
