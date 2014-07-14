@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -44,7 +45,14 @@ public class MapShowLocationActivity extends ActionBarActivity {
 			}
 		});
 		
-		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+		map = mapFragment.getMap();
+		
+		map.setMyLocationEnabled(true);
+        
+		
+		
+		//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		
 		
 		

@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,10 @@ public class MainActivity extends MyActionBarActivity {
 		startService(new Intent(this, LbmService.class));
 		
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
+		mDistanceTV.setText("0.0");
 		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
+		mZoozBalTV.setText("0.0");
+		
 		
 		
 		 final Handler guiHandler = new Handler();
@@ -125,7 +129,8 @@ public class MainActivity extends MyActionBarActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+			if (mProgBar != null)
+				mProgBar.setVisibility(View.GONE);
 		    if (requestCode == 1) {
 		        if(resultCode == RESULT_OK){
 		        	String fromActivity = data.getStringExtra("ACTIVITY");

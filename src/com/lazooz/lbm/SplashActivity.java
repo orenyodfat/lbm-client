@@ -1,6 +1,7 @@
 package com.lazooz.lbm;
 
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -92,9 +93,14 @@ public class SplashActivity extends ActionBarActivity {
 	}
 	
 	protected void StartTheActivity() {
-		startActivity(new Intent(SplashActivity.this, getNextActivity()));
+		if(Utils.haveNetworkConnection(this))
+			startActivity(new Intent(SplashActivity.this, getNextActivity()));
+		else
+			Utils.messageToUser(this, "No internet Connection", "Please connect your device to the internet and restart the application");
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

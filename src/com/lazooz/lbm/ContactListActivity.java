@@ -41,6 +41,8 @@ public class ContactListActivity extends Activity implements
 		listView.setOnItemClickListener(this);
 
 		String currentLocale = Utils.getCurrentLocale(this);
+		List<String> contactsWithApp = MySharedPreferences.getInstance().getContactsWithInstalledApp(this);
+		
 		Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, null);
 		while (phones.moveToNext()) {
 
@@ -49,9 +51,12 @@ public class ContactListActivity extends Activity implements
 			String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
 			Contact objContact = new Contact(currentLocale);
-			objContact.setName(name);
 			objContact.setPhoneNo(phoneNumber);
-			list.add(objContact);
+			if(objContact.isValidPhoneNum()){
+				objContact.setName(name);
+				objContact.setHasApp(contactsWithApp.contains(objContact.getPhoneNoInternational()));
+				list.add(objContact);
+			}
 
 		}
 		phones.close();

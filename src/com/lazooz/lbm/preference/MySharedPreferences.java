@@ -1,5 +1,7 @@
 package com.lazooz.lbm.preference;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -283,8 +285,8 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		ServerData sd = new ServerData();
 		
-		sd.setZoozBalance(spData.getString("ZoozBalance", ""));
-		sd.setDistance(spData.getString("Distance", ""));
+		sd.setZoozBalance(spData.getString("ZoozBalance", "0.0"));
+		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		
 		return sd;
@@ -300,5 +302,35 @@ public class MySharedPreferences {
 		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
 		editor.commit();
 	}
+
+	public void saveContactsWithInstalledApp(Context context, JSONArray contacts) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("ContactsWithInstalledApp", contacts.toString()).commit();
+	}
+
+	public List<String> getContactsWithInstalledApp(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		String s = spData.getString("ContactsWithInstalledApp", "");
+		JSONArray contactsArray = null;
+		try {
+			contactsArray = new JSONArray(s);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		List<String> list = new ArrayList<String>();
+		if (contactsArray != null){
+			for (int i=0; i<contactsArray.length(); i++) {
+			    try {
+					list.add( contactsArray.getString(i) );
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return list;
+	}
+
 	
 }

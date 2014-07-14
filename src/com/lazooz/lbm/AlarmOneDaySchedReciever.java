@@ -1,5 +1,8 @@
 package com.lazooz.lbm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,8 +111,11 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
-							
-						
+						if (jsonReturnObj.has("contacts_that_are_users")){
+							JSONArray contacts = jsonReturnObj.getJSONArray("contacts_that_are_users");
+							Log.e("TAG", contacts.toString());
+							MySharedPreferences.getInstance().saveContactsWithInstalledApp(mContext, contacts);
+						}
 					}
 				}
 			} 

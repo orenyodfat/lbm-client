@@ -3,6 +3,8 @@ package com.lazooz.lbm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lazooz.lbm.preference.MySharedPreferences;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,7 +25,9 @@ public class SMSReceiver extends BroadcastReceiver {
 		
 		mContext = context;
 		
-
+		int stage = MySharedPreferences.getInstance().getStage(context);
+		if(stage >= MySharedPreferences.STAGE_REG_CONF_SENT_OK)
+			return;
 
 		Bundle bundle = intent.getExtras();
 

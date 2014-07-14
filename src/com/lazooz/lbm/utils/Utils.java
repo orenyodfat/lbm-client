@@ -20,6 +20,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
@@ -173,6 +175,17 @@ public class Utils {
 //		if (myNum.equals(""))
 //			myNum = tMgr.getSubscriberId();
 		return myNum;
+	}
+	public static boolean haveNetworkConnection(Context context) {
+
+	    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() &&
+                networkInfo.isConnected();
+        return connected;
+        
+   
 	}
 
 	

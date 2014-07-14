@@ -16,6 +16,7 @@ public class Contact {
 	private String mPhoneNoInternational;
 	private boolean mSelected;
 	private String mCountryCode;
+	private boolean mHasApp;
 	
 	public String getKey(){
 		return mName + mPhoneNo;
@@ -25,7 +26,7 @@ public class Contact {
 		mCountryCode = countryCode;
 	}
 	
-	public Contact(JSONObject jsonObj, String countryCode){
+	public Contact(JSONObject jsonObj, String countryCode,int i){
 		try {
 			mCountryCode = countryCode;
 			mName = jsonObj.getString("name");
@@ -42,7 +43,7 @@ public class Contact {
 		
 		try {
 		
-			
+			/*
 			PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
 			try {
 				PhoneNumber num = pu.parse(mPhoneNo, mCountryCode);
@@ -52,10 +53,11 @@ public class Contact {
 				e.printStackTrace();
 			}
 			
+			*/
 			
 			retObj.put("name", mName);
 			retObj.put("cellphone", mPhoneNo);
-			retObj.put("cellphone_int", mPhoneNoInternational);
+			retObj.put("cellphone_int", getPhoneNoInternational());
 			retObj.put("selected", mSelected);
 			
 			
@@ -85,6 +87,42 @@ public class Contact {
 	public void setSelected(boolean selected) {
 		this.mSelected = selected;
 	}
+
+	public String getPhoneNoInternational() {
+		PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
+		try {
+			PhoneNumber num = pu.parse(mPhoneNo, mCountryCode);
+			mPhoneNoInternational = pu.format(num, PhoneNumberFormat.E164);
+		} catch (NumberParseException e) {
+			Log.e("CONTACT", "fail to convert number: " + mPhoneNo);
+		}
+		
+		return mPhoneNoInternational;
+	}
+
+	public void setPhoneNoInternational(String phoneNoInternational) {
+		mPhoneNoInternational = phoneNoInternational;
+	}
+
+	public void setHasApp(boolean hasApp) {
+		mHasApp = hasApp;
+		
+	}
 	
+	public boolean hasApp(){
+		return mHasApp;
+	}
+
 	
+	public boolean isValidPhoneNum(){
+		PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
+		boolean res = false;
+		try {
+			PhoneNumber num = pu.parse(mPhoneNo, mCountryCode);
+			res = pu.isValidNumber(num);
+		} catch (NumberParseException e) {
+		}
+		return res;
+		
+	}
 }

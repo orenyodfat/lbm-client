@@ -60,6 +60,8 @@ public class IntroActivity extends ActionBarActivity {
 		gpsActivateBtn.setVisibility(View.GONE);
 		
 		
+		
+		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
 		
 		

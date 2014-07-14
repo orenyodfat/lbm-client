@@ -4,6 +4,7 @@ package com.lazooz.lbm;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.content.Intent;
 import android.content.res.Configuration;
 
@@ -25,6 +27,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 	//private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private String[] mDrawerTitles;
+	protected ProgressBar mProgBar;
 
 	 
 	protected void onCreate(Bundle savedInstanceState, int layoutID) {
@@ -51,6 +54,9 @@ public class MyActionBarActivity extends ActionBarActivity {
 		//mTitle = mDrawerTitle = getTitle();
         mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        
+        
+        mProgBar = (ProgressBar)findViewById(R.id.progbar);
         
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         
@@ -103,8 +109,19 @@ public class MyActionBarActivity extends ActionBarActivity {
     	if (s.equals(getString(R.string.drawer_entry_info))){
     	}
     	else if (s.equals(getString(R.string.drawer_entry_getfriends))){
-    		Intent i = new Intent(this, ContactListActivity.class);
-    		startActivityForResult(i, 1);
+    		mProgBar.setVisibility(View.VISIBLE);
+    		final Handler handler = new Handler();
+    		handler.postDelayed(new Runnable() {
+    		  @Override
+    		  public void run() {
+   	    		Intent i = new Intent(MyActionBarActivity.this, ContactListActivity.class);
+   	    		startActivityForResult(i, 1);
+    		  }
+    		}, 500);
+    		
+    		
+    		
+    		
     	}
 
         //setTitle(mDrawerTitles[position]);

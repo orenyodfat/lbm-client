@@ -104,11 +104,12 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 		if (holder.selectedCB != null){
 			holder.selectedCB.setChecked(objBean.isSelected());
 			holder.selectedCB.setTag(position);
+			holder.selectedCB.setEnabled(!objBean.hasApp());
 		}
 		
 		
 		if(holder.hasAppIV != null){
-			if (contactHasApp(objBean))
+			if (objBean.hasApp())
 				holder.hasAppIV.setVisibility(View.VISIBLE);
 			else
 				holder.hasAppIV.setVisibility(View.INVISIBLE);
@@ -118,9 +119,6 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 		return view;
 	}
 
-	private boolean contactHasApp(Contact contact) {
-		return false;
-	}
 
 	public class ViewHolder {
 		public TextView nameTV, phoneNoTV;
