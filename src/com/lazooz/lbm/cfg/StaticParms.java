@@ -4,7 +4,7 @@ public final class StaticParms {
 	
 	
 	
-	public static final String BASE_SERVER_URL = "http://lazooz.b-buzzy.com/";
+	public static final String BASE_SERVER_URL = "http://lazooz.b-buzzy.com:8080/";
 	
 
 	

@@ -1,5 +1,7 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.preference.MySharedPreferences;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 import android.os.Build;
 
 public class CongratulationsGetFriendsActivity extends ActionBarActivity {
@@ -21,14 +24,15 @@ public class CongratulationsGetFriendsActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_congratulations_getfriends);
-
+		
+		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_GET_FRIENDS_CONGRATS);
 		
 		nextBtn = (Button)findViewById(R.id.congratulation_getfriends_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(CongratulationsGetFriendsActivity.this, MissionDrive100Activity.class));
-				finish();			
+				Toast.makeText(CongratulationsGetFriendsActivity.this, "the button was pressed", Toast.LENGTH_LONG).show();
+				MySharedPreferences.getInstance().setStage(CongratulationsGetFriendsActivity.this, MySharedPreferences.STAGE_MAIN);
 			}
 		});
 		

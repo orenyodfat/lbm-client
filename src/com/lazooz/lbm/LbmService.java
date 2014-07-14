@@ -2,7 +2,10 @@ package com.lazooz.lbm;
 
 
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,13 +21,19 @@ import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 public class LbmService extends Service implements LocationListener{
 
@@ -71,14 +80,76 @@ public class LbmService extends Service implements LocationListener{
 					checkEveryLongPeriod();				
 				}
 			};
-		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
+		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 1*60*1000);
 		
 		
+		initShakeDetector();
 		
 		
+		AccelerometerTracker at = new AccelerometerTracker(this);
+		at.setListener(new AccelerometerTracker.AccelerometerListener() {
+			
+			@Override
+			public void onShake(float force) {
+				Log.e("SHAKE", Utils.getNowTimeInGMT());
+				
+			}
+			
+			@Override
+			public void onAccelerationChanged(float x, float y, float z) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
+		//startOnDayScheduler();
 		
 		return Service.START_STICKY;
+	}
+	
+		
+	private void startOnDayScheduler() {
+		Calendar cal = Calendar.getInstance();
+		Intent intent = new Intent(this, AlarmOneDaySchedReciever.class);
+		PendingIntent pintent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		
+		Random r = new Random();
+		int delay = r.nextInt(1000);
+		
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 24*60*60*1000, pintent);
+
+		
+	}
+	
+	
+	
+	
+	private SensorManager mSensorManager;
+	private Sensor mAccelerometer;
+	private ShakeDetector mShakeDetector;
+	    
+	private void initShakeDetector() {
+		  // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+ 
+            @Override
+            public void onShake(int count) {
+                /*
+                 * The following method, "handleShakeEvent(count):" is a stub //
+                 * method you would use to setup whatever you want done once the
+                 * device has been shook.
+                 */
+                
+                	Utils.beep();
+            }
+        });
+		
 	}
 
 	protected void checkEveryShortPeriod() {
@@ -115,8 +186,8 @@ public class LbmService extends Service implements LocationListener{
 				MySharedPreferences msp = MySharedPreferences.getInstance();
 				
 				JSONArray dataList = msp.getLocationDataList(LbmService.this);
-				
-				bServerCom.setLocation(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), dataList.toString());
+				byte[] dataCompressed = Utils.compress(dataList.toString());
+				bServerCom.setLocationZip(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), dataCompressed);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -135,6 +206,7 @@ public class LbmService extends Service implements LocationListener{
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
+						
 						MySharedPreferences.getInstance().saveDataFromServer(LbmService.this, zoozBalance, distance, isDistanceAchievement);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
@@ -157,7 +229,8 @@ public class LbmService extends Service implements LocationListener{
 		protected void onPostExecute(String result) {
 			
 			if (result.equals("success_distance_achieved")){
-				//start congrats activity
+				startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
+
 			}
 		}
 			
@@ -167,6 +240,8 @@ public class LbmService extends Service implements LocationListener{
 			
 		}
 	}
+	
+	
 	
 
 	private void readWifi(){
@@ -226,6 +301,9 @@ public class LbmService extends Service implements LocationListener{
 		
 		
 	}
+	
+	
+
 	
 	private void readTelephonyData(){
 		TelephonyData td = Utils.getTelephonyData(this);

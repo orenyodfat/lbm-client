@@ -3,6 +3,8 @@ package com.lazooz.lbm;
 
 
 
+import java.util.Calendar;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,6 +17,9 @@ import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,9 +67,34 @@ public class MainActivity extends MyActionBarActivity {
 		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
 
 		
+		boolean selectContacts = getIntent().getBooleanExtra("SELECT_CONTACTS", false);
+		if(selectContacts){
+			MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN_NO_GET_FRIENDS);
+    		Intent i = new Intent(this, ContactListActivity.class);
+    		startActivityForResult(i, 1);			
+		}
 		
+		startOnDayScheduler();
 	}
 
+	
+	private void startOnDayScheduler() {
+		Calendar cal = Calendar.getInstance();
+		Intent intent = new Intent(this, AlarmOneDaySchedReciever.class);
+		PendingIntent pintent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		
+		Random r = new Random();
+		int delay = r.nextInt(1000);
+		
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 60*1000, pintent);
+
+		
+	}
+	
+	
 	protected void UpdateGUI() {
 		ServerData sd = MySharedPreferences.getInstance().getServerData(this);
 		mDistanceTV.setText(sd.getDistance());
@@ -167,6 +197,7 @@ public class MainActivity extends MyActionBarActivity {
 			
 			if (result.equals("success")){
 				Toast.makeText(MainActivity.this, "Friend List Sent", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(MainActivity.this, CongratulationsGetFriendsActivity.class));
 			}
 		}
 			

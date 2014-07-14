@@ -290,6 +290,8 @@ public class MySharedPreferences {
 		return sd;
 	}
 	
+	
+	
 	public void saveDataFromServer(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();

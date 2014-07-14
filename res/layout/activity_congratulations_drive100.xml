@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="You have successfully identify your self as a device owner"
+        android:text="Congrats on drive 100K, next mission - add 3 users"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="20dp"
-        android:text="Next" />
+        android:text="select 3 friends" />
 
 </FrameLayout>
 

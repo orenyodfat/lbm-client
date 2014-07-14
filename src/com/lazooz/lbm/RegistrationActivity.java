@@ -6,6 +6,10 @@ package com.lazooz.lbm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
@@ -18,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +42,8 @@ public class RegistrationActivity extends ActionBarActivity {
 	//public String mUserSecret;
 	private Button mConfBtn;
 	private ProgressBar mProgBar;
+	private String mPhoneNoInternational;
+	private String mPhoneNoE164;
 
 
 
@@ -62,6 +69,9 @@ public class RegistrationActivity extends ActionBarActivity {
 				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				inText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+				String phone = Utils.getMyPhoneNum(RegistrationActivity.this);
+				inText.setText(phone);
+				
 	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
 	        	//Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
 	        	builder.setTitle(getString(R.string.reg_input_num_title));
@@ -71,7 +81,7 @@ public class RegistrationActivity extends ActionBarActivity {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
 	                	String regNum = t.getText().toString();
-	                	registerToServerAsync(regNum);
+	                	handleInputNum(regNum);
 	                	dialog.cancel();
 	                }
 	        	
@@ -132,6 +142,46 @@ public class RegistrationActivity extends ActionBarActivity {
 		}
 		
 		
+		
+	}
+	
+	
+	private void handleInputNum(final String inputNum){
+		String currentLocale = Utils.getCurrentLocale(this);
+		PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
+		//String phoneNoInternational  = num;
+		try {
+			PhoneNumber num1 = pu.parse(inputNum, currentLocale);
+			mPhoneNoInternational = pu.format(num1, PhoneNumberFormat.INTERNATIONAL);
+			mPhoneNoE164 = pu.format(num1, PhoneNumberFormat.E164);
+		} catch (NumberParseException e) {
+			Log.e("CONTACT", "fail to convert number: " + inputNum);
+			e.printStackTrace();
+		}
+
+		new AlertDialog.Builder(RegistrationActivity.this)
+			.setTitle("Phone number verification")
+			.setMessage("Register with: " + mPhoneNoInternational +" ?")
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					registerToServerAsync(mPhoneNoE164);
+				}	
+			})
+			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();				
+			}
+			})
+			.show();
+		
+		
+		
+    	//registerToServerAsync(regNum);
+    	
+    	
+    	
 		
 	}
 	
@@ -283,7 +333,6 @@ public class RegistrationActivity extends ActionBarActivity {
 			mProgBar.setVisibility(View.GONE);	
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
-				Toast.makeText(RegistrationActivity.this, "Confirmation Succeeded", Toast.LENGTH_LONG).show();
 				startNextScreen();
 			}
 			else{

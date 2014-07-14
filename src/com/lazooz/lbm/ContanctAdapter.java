@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ContanctAdapter extends ArrayAdapter<Contact> {
@@ -68,14 +69,15 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 
 		objBean = items.get(position);
 
-		holder.tvname = (TextView) view.findViewById(R.id.contact_name_tv);
-		holder.tvPhoneNo = (TextView) view.findViewById(R.id.contact_phone_tv);
-		holder.checkbox = (CheckBox) view.findViewById(R.id.contact_selected_cb);
+		holder.nameTV = (TextView) view.findViewById(R.id.contact_name_tv);
+		holder.phoneNoTV = (TextView) view.findViewById(R.id.contact_phone_tv);
+		holder.selectedCB = (CheckBox) view.findViewById(R.id.contact_selected_cb);
+		holder.hasAppIV = (ImageView) view.findViewById(R.id.contact_hasapp_iv);
 
 		
 		
 
-		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		holder.selectedCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         	  CheckBox cb = (CheckBox)buttonView;
@@ -90,26 +92,40 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 		
 		
 
-		if (holder.tvname != null && null != objBean.getName()
+		if (holder.nameTV != null && null != objBean.getName()
 				&& objBean.getName().trim().length() > 0) {
-			holder.tvname.setText(Html.fromHtml(objBean.getName()));
+			holder.nameTV.setText(Html.fromHtml(objBean.getName()));
 		}
-		if (holder.tvPhoneNo != null && null != objBean.getPhoneNo()
+		if (holder.phoneNoTV != null && null != objBean.getPhoneNo()
 				&& objBean.getPhoneNo().trim().length() > 0) {
-			holder.tvPhoneNo.setText(Html.fromHtml(objBean.getPhoneNo()));
+			holder.phoneNoTV.setText(Html.fromHtml(objBean.getPhoneNo()));
 		}
 		
-		if (holder.checkbox != null){
-			holder.checkbox.setChecked(objBean.isSelected());
-			holder.checkbox.setTag(position);
+		if (holder.selectedCB != null){
+			holder.selectedCB.setChecked(objBean.isSelected());
+			holder.selectedCB.setTag(position);
+		}
+		
+		
+		if(holder.hasAppIV != null){
+			if (contactHasApp(objBean))
+				holder.hasAppIV.setVisibility(View.VISIBLE);
+			else
+				holder.hasAppIV.setVisibility(View.INVISIBLE);
+				
 		}
 		
 		return view;
 	}
 
+	private boolean contactHasApp(Contact contact) {
+		return false;
+	}
+
 	public class ViewHolder {
-		public TextView tvname, tvPhoneNo;
-		public CheckBox checkbox;
+		public TextView nameTV, phoneNoTV;
+		public CheckBox selectedCB;
+		public ImageView hasAppIV;
 	}
 
 }

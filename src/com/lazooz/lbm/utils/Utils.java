@@ -1,10 +1,16 @@
 package com.lazooz.lbm.utils;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.zip.GZIPOutputStream;
 
 import com.lazooz.lbm.businessClasses.TelephonyData;
 
@@ -137,5 +143,38 @@ public class Utils {
 		  final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 		  tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
+	public static String md5ThePHPWay(byte[] s) throws NoSuchAlgorithmException {
+	    String result = "";    
+		MessageDigest md = MessageDigest.getInstance("MD5"); //or "SHA-1"
+	        md.update(s);
+	        BigInteger hash = new BigInteger(1, md.digest());
+	        result = hash.toString(16);
+	        while(result.length() < 32) { //40 for SHA-1
+	            result = "0" + result;
+	        }
+	        
+	        return result;
+	}
+	
+	public static byte[] compress(String string) throws IOException {
+	    ByteArrayOutputStream os = new ByteArrayOutputStream(string.length());
+	    GZIPOutputStream gos = new GZIPOutputStream(os);
+	    gos.write(string.getBytes("UTF-8"));
+	    gos.close();
+	    byte[] compressed = os.toByteArray();
+	    os.close();
+	    return compressed;
+	}
+	
+	
+	public static String getMyPhoneNum(Context context){
+		TelephonyManager tMgr =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+		String myNum = tMgr.getLine1Number();
+//		if (myNum.equals(""))
+//			myNum = tMgr.getSubscriberId();
+		return myNum;
+	}
 
+	
+	
 }

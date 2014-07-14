@@ -3,6 +3,8 @@ package com.lazooz.lbm.businessClasses;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -44,10 +46,12 @@ public class Contact {
 			PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
 			try {
 				PhoneNumber num = pu.parse(mPhoneNo, mCountryCode);
-				mPhoneNoInternational = pu.format(num, PhoneNumberFormat.INTERNATIONAL);
+				mPhoneNoInternational = pu.format(num, PhoneNumberFormat.E164);
 			} catch (NumberParseException e) {
+				Log.e("CONTACT", "fail to convert number: " + mPhoneNo);
 				e.printStackTrace();
 			}
+			
 			
 			retObj.put("name", mName);
 			retObj.put("cellphone", mPhoneNo);

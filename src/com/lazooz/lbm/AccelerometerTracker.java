@@ -1,11 +1,15 @@
 package com.lazooz.lbm;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.widget.Toast;
+import android.util.Log;
+
 
 public class AccelerometerTracker implements SensorEventListener {
 
@@ -18,6 +22,11 @@ public class AccelerometerTracker implements SensorEventListener {
 	
 	private static float threshold  = 15.0f; 
 	private static int interval     = 200;
+
+	private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
+	private long mShakeTimestamp;
+	private long mNowTimestamp;
+	private int mShakeCount;
 	
 	private SensorManager mSensorManager;
 	private Sensor mSensorAccelerometer;
@@ -36,20 +45,38 @@ public class AccelerometerTracker implements SensorEventListener {
     private float force = 0;
 	
     private Context mContext;
-	
+    private Timer ShortPeriodTimer;
+    
 	public AccelerometerTracker(Context context) {
 		mContext = context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mSensorAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensorAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
-
-        
-
+/*
+        ShortPeriodTimer = new Timer();
+		TimerTask twoSecondsTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					checkEveryShortPeriod();				
+				}
+			};
+		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 1000);
+		ShortPeriodTimer.cancel();
+*/
         
 	}
 
 
 	
+
+
+
+	protected void checkEveryShortPeriod() {
+		
+	}
+
+
+
 
 
 
@@ -71,7 +98,7 @@ public class AccelerometerTracker implements SensorEventListener {
             lastX = x;
             lastY = y;
             lastZ = z;
-            Toast.makeText(mContext,"No Motion detected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext,"No Motion detected", Toast.LENGTH_SHORT).show();
              
         } 
         else {
@@ -88,15 +115,16 @@ public class AccelerometerTracker implements SensorEventListener {
                     //(now-lastShake)+"  >= "+interval, 1000).show();
                      
                     if (now - lastShake >= interval) { 
-                         
+                        
+                    	checkSomeShakeInASec();
+                    	
                         // trigger shake event
-                    	if (mListener != null)
-                    		mListener.onShake(force);
+                    	//if (mListener != null)
+                    		//mListener.onShake(force);
                     }
                     else
                     {
-                        Toast.makeText(mContext,"No Motion detected", 
-                            Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext,"No Motion detected", Toast.LENGTH_SHORT).show();
                          
                     }
                     lastShake = now;
@@ -108,7 +136,7 @@ public class AccelerometerTracker implements SensorEventListener {
             }
             else
             {
-                Toast.makeText(mContext,"No Motion detected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,"No Motion detected", Toast.LENGTH_SHORT).show();
                  
             }
         }
@@ -121,6 +149,42 @@ public class AccelerometerTracker implements SensorEventListener {
         
         
 		
+
+
+	private void checkSomeShakeInASec() {
+		mNowTimestamp = System.currentTimeMillis();
+		
+		if(mShakeTimestamp == 0){
+			Log.e("SHAKE", "mShakeTimestamp == 0");
+			mShakeTimestamp = mNowTimestamp;
+			mShakeCount++;
+		}
+		else{
+			if (mNowTimestamp - mShakeTimestamp < 1500){
+				Log.e("SHAKE", "mNowTimestamp-mShakeTimestamp < 1500");
+				mShakeCount++;
+				Log.e("SHAKE", "mShakeCount "+ mShakeCount);
+				if (mShakeCount > 3){
+					Log.e("SHAKE", "real shake");
+					if (mListener != null)
+                		mListener.onShake(force);
+					mShakeTimestamp = 0;
+					mShakeCount = 0;
+				}
+			}
+			else{
+				Log.e("SHAKE", "now-mShakeTimestamp > 1000");
+				Log.e("SHAKE", "now-mShakeTimestamp-"+(now-mShakeTimestamp) +"");
+				mShakeTimestamp = 0;
+				mShakeCount = 0;
+			}
+		}
+		
+	}
+
+
+
+
 
 
 	@Override

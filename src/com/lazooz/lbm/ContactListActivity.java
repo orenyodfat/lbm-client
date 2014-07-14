@@ -35,7 +35,7 @@ public class ContactListActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.activity_contact_list);
 
 		listView = (ListView) findViewById(R.id.list);
 		listView.setOnItemClickListener(this);
@@ -59,7 +59,7 @@ public class ContactListActivity extends Activity implements
 		MySharedPreferences.getInstance().clearRecommendUsers(this);
 
 		
-		ContanctAdapter objAdapter = new ContanctAdapter(this, R.layout.alluser_row, list);
+		ContanctAdapter objAdapter = new ContanctAdapter(this, R.layout.contact_row, list);
 		objAdapter.setOnCheckedListener(this);
 		
 		listView.setAdapter(objAdapter);

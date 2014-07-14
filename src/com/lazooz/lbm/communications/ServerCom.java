@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpResponse;
@@ -12,6 +13,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -47,7 +52,7 @@ public class ServerCom {
 		
 	}
 	
-	public void setLocation(String UserId, String UserSecret, String data)
+	public void setLocation1(String UserId, String UserSecret, String data)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
 
@@ -62,6 +67,89 @@ public class ServerCom {
 	}
 	
 
+	
+	public void setLocationZip(String UserId, String UserSecret, byte[] data)throws Exception
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
+		String TAG = "run";
+    	try { 
+	          HttpClient client = new DefaultHttpClient();
+	          
+	          HttpPost request = new HttpPost();
+	          request.setURI(new URI(url));
+	        
+	          String md5 = "";
+			try {
+				md5 = Utils.md5ThePHPWay(data);
+			} catch (NoSuchAlgorithmException e) {}
+	          
+	          MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+	          
+	          multipartEntity.addPart("user_id", new StringBody(UserId));
+	          multipartEntity.addPart("user_secret", new StringBody(UserSecret));
+	          multipartEntity.addPart("md5", new StringBody(md5));
+	          multipartEntity.addPart("location_data", new ByteArrayBody(data, "application/zip", "data.zip"));
+	          request.setEntity(multipartEntity);
+	 
+	          HttpResponse response = client.execute(request);
+	    	          
+	    	  this.responseProcess(response);
+    	          
+    	    }catch(URISyntaxException e){
+    	          Log.e(TAG,"myHttpGetHttpGet URISyntaxException");
+
+    	      }catch(IOException e){
+    	          Log.e(TAG,"myHttpGetHttpGet IOException : " + e.getMessage());
+    	      }catch(IllegalStateException e){
+    	          Log.e(TAG,"myHttpGetHttpGet IllegalStateException");
+    	      }catch (JSONException e) {
+				e.printStackTrace();
+    	      
+			}
+		
+	}
+	
+	public void setContactsZip(String UserId, String UserSecret, byte[] data)throws Exception
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_set_contacts";
+		String TAG = "run";
+    	try { 
+	          HttpClient client = new DefaultHttpClient();
+	          
+	          HttpPost request = new HttpPost();
+	          request.setURI(new URI(url));
+	        
+	          String md5 = "";
+			try {
+				md5 = Utils.md5ThePHPWay(data);
+			} catch (NoSuchAlgorithmException e) {}
+	          
+	          MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+	          
+	          multipartEntity.addPart("user_id", new StringBody(UserId));
+	          multipartEntity.addPart("user_secret", new StringBody(UserSecret));
+	          multipartEntity.addPart("md5", new StringBody(md5));
+	          multipartEntity.addPart("contacts_data", new ByteArrayBody(data, "application/zip", "data.zip"));
+	          request.setEntity(multipartEntity);
+	 
+	          HttpResponse response = client.execute(request);
+	    	          
+	    	  this.responseProcess(response);
+    	          
+    	    }catch(URISyntaxException e){
+    	          Log.e(TAG,"myHttpGetHttpGet URISyntaxException");
+
+    	      }catch(IOException e){
+    	          Log.e(TAG,"myHttpGetHttpGet IOException : " + e.getMessage());
+    	      }catch(IllegalStateException e){
+    	          Log.e(TAG,"myHttpGetHttpGet IllegalStateException");
+    	      }catch (JSONException e) {
+				e.printStackTrace();
+    	      
+			}
+		
+	}
+	
 	public void registerValidationToServer(String requestId, String token) {
 		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
 
