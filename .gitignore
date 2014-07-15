@@ -81,3 +81,9 @@ bin/res/crunch/drawable-xxhdpi/drawer_shadow.9.png
 bin/res/crunch/drawable-xxhdpi/ic_drawer.png
 bin/res/crunch/drawable/settings_menu_icon.png
 bin/dexedLibs/libphonenumber-6.2-203cfa33839d8f4f30dbf4921b6e21a6.jar
+bin/dexedLibs/achartengine-1.1.0-b0e1dec6ec74cf8e038561812b3d5e45.jar
+bin/dexedLibs/android-support-v7-appcompat-680ac3d563cd5f97b27b64f01ba50064.jar
+bin/dexedLibs/appcompat_v7_4-4f3aad306c741c59d178cfd52bd7e348.jar
+bin/res/crunch/drawable-hdpi/ic_action_search.png
+bin/res/crunch/drawable-mdpi/ic_action_search.png
+bin/res/crunch/drawable-xhdpi/ic_action_search.png

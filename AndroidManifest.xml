@@ -56,7 +56,11 @@
         
         <meta-data
 			android:name="com.google.android.maps.v2.API_KEY"
-        	android:value="AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls" />
+        	android:value="AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw" />
+        
+<!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->        
+<!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
+        
         
          <meta-data
 			android:name="com.google.android.gms.version"
@@ -113,6 +117,16 @@
          <activity
             android:name="com.lazooz.lbm.ContactListActivity"
             android:label="@string/app_name" >
+            <!-- Add intent-filter for search intent action and specify searchable configuration
+                 via meta-data tag. This allows this activity to receive search intents via the
+                 system hooks. In this sample this is only used on older OS versions (pre-Honeycomb)
+                 via the activity search dialog. See the Search API guide for more information:
+                 http://developer.android.com/guide/topics/search/search-dialog.html -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable_contacts" />
         </activity>
          
         

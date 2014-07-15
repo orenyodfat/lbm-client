@@ -36,4 +36,7 @@
 	<string name="drawer_open1"></string>
     <string name="drawer_close1"></string>
 	
+    
+     <string name="menu_search">Search</string>
+    <string name="search_hint">Find contacts</string>
 </resources>

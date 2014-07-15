@@ -1,12 +1,18 @@
 package com.lazooz.lbm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lazooz.lbm.businessClasses.Contact;
+import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.Utils;
 
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +20,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ContanctAdapter extends ArrayAdapter<Contact> {
+
+public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable {
 
 	private Activity activity;
-	private List<Contact> items;
+	//private List<Contact> items;
+	
+	private ArrayList<Contact> mOriginalList;
+	private ArrayList<Contact> mContactList;
+	  
+	
 	private int row;
 	private Contact objBean;
 
 	private OnCheckedListener mOnCheckedListener;
+	private Object mContext;
 
 	public interface OnCheckedListener {
         public void onChecked(boolean isChecked, Contact objBean);
@@ -40,12 +55,21 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 	}
 	
 	
+	
+	
 	public ContanctAdapter(Activity act, int row, List<Contact> items) {
 		super(act, row, items);
 
+		mContactList = new ArrayList<Contact>();
+		mContactList.addAll(items);
+		mOriginalList = new ArrayList<Contact>();
+		mOriginalList.addAll(items);
+		
+		
 		this.activity = act;
 		this.row = row;
-		this.items = items;
+		//this.items = items;
+		//CreateList(null);
 
 	}
 
@@ -64,10 +88,10 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		if ((items == null) || ((position + 1) > items.size()))
+		if ((mContactList == null) || ((position + 1) > mContactList.size()))
 			return view;
 
-		objBean = items.get(position);
+		objBean = mContactList.get(position);
 
 		holder.nameTV = (TextView) view.findViewById(R.id.contact_name_tv);
 		holder.phoneNoTV = (TextView) view.findViewById(R.id.contact_phone_tv);
@@ -82,7 +106,7 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         	  CheckBox cb = (CheckBox)buttonView;
         	  int pos = (Integer)cb.getTag();
-        	  Contact contact = items.get(position);
+        	  Contact contact = mContactList.get(position);
         	  contact.setSelected(buttonView.isChecked());
          	 if (mOnCheckedListener != null)
          		 mOnCheckedListener.onChecked(buttonView.isChecked(), contact);
@@ -120,6 +144,58 @@ public class ContanctAdapter extends ArrayAdapter<Contact> {
 	}
 
 
+	@Override
+	public Filter getFilter() {
+		// TODO Auto-generated method stub
+		return new Filter() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				//ArrayList<Contact> contats = (ArrayList<Contact>)results.values;
+				mContactList = (ArrayList<Contact>)results.values;
+
+				notifyDataSetChanged();
+				clear();
+				
+				for(Contact contact : mContactList)
+					add(contact);
+				
+				notifyDataSetInvalidated();
+				
+			}
+			
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				//constraint = constraint.toString().toLowerCase();
+				FilterResults result = new FilterResults();
+				if(constraint != null && constraint.toString().length() > 0)
+				{
+					constraint = constraint.toString().toLowerCase();
+					List<Contact> filteredItems = new ArrayList<Contact>();
+				 
+					for(Contact contact : mOriginalList){
+				    	if(contact.getName().toLowerCase().contains(constraint))
+				    		filteredItems.add(contact);						
+					}
+					
+				    result.count = filteredItems.size();
+				    result.values = filteredItems;
+				}
+				else{
+				     synchronized(this)
+				     {
+				    	 result.values = mOriginalList;
+				    	 result.count = mOriginalList.size();
+				     }
+				}
+			    return result;
+			}
+		};
+	}
+	
+	
+	
 	public class ViewHolder {
 		public TextView nameTV, phoneNoTV;
 		public CheckBox selectedCB;

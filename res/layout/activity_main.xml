@@ -62,12 +62,34 @@
                   android:textAppearance="?android:attr/textAppearanceMedium" />
               
         </LinearLayout>
+       <LinearLayout
+           android:id="@+id/report_chart_1"
+           android:layout_width="fill_parent"
+           android:layout_height="100dp"
+           android:orientation="vertical" >
+       </LinearLayout>
+       
+       <LinearLayout
+           android:id="@+id/report_chart_2"
+           android:layout_width="fill_parent"
+           android:layout_height="100dp"
+           android:orientation="vertical" >
+       </LinearLayout>
 
+       <ProgressBar
+           android:id="@+id/main_critical_mass_pb"
+           style="?android:attr/progressBarStyleHorizontal"
+           android:layout_width="fill_parent"
+           android:max="100"
+           android:progress="50"
+           android:layout_margin="20dp"
+           android:layout_height="wrap_content" />
+       
        <ProgressBar
            android:id="@+id/progbar"
            style="?android:attr/progressBarStyleLarge"
-           android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
            android:layout_gravity="center"
            android:visibility="gone" />
         
