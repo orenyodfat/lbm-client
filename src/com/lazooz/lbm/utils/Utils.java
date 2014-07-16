@@ -31,17 +31,7 @@ public class Utils {
 
 
 
-    public static int getVersionCode(Context context){
-    	PackageManager manager = context.getPackageManager();
-    	PackageInfo info = null;
-		try {
-			info = manager.getPackageInfo(context.getPackageName(), 0);
-	    	return info.versionCode;
-		} catch (Exception e) {
-			e.printStackTrace();
-	    	return -1;
-		}
-    }
+   
 	
 	
 	public static String getNowTimeInGMT(){
@@ -220,5 +210,32 @@ public class Utils {
     public static boolean hasICS() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
-	
+
+    
+    public static int getVersionCode(Context context){
+    	PackageManager manager = context.getPackageManager();
+    	PackageInfo info = null;
+		try {
+			info = manager.getPackageInfo(context.getPackageName(), 0);
+	    	return info.versionCode;
+		} catch (Exception e) {
+			e.printStackTrace();
+	    	return -1;
+		}
+    }
+   
+    public static String getVersionName(Context context){
+    	PackageManager manager = context.getPackageManager();
+    	PackageInfo info = null;
+		try {
+			info = manager.getPackageInfo(context.getPackageName(), 0);
+	    	return info.versionName;
+		} catch (Exception e) {
+			e.printStackTrace();
+	    	return "";
+		}
+    }
+
+    
+    
 }

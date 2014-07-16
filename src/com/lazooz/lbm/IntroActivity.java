@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 import android.provider.Settings;
 
@@ -23,10 +25,24 @@ public class IntroActivity extends ActionBarActivity {
 	private Button nextBtn;
 	private Button gpsActivateBtn;
 	private GPSTracker gps;
+	private TextView mInfoTV;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
+		
+		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
+		String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
+		try{
+			theText = theText.replace("%v%", Utils.getVersionName(this));
+		}
+		catch(Exception e){
+		}
+		
+		mInfoTV.setText(theText);
+		
+
+		
 		
 		gps = GPSTracker.getInstance(IntroActivity.this);
 		

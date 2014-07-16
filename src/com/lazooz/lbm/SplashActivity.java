@@ -1,5 +1,10 @@
 package com.lazooz.lbm;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
@@ -8,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,11 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 import android.os.Build;
 
 public class SplashActivity extends ActionBarActivity {
 	
 	protected int _splashTime = 3000;
+	private boolean mFinishAnimation;
+	private boolean mFinishTimer;
+	private boolean mFinishRetrieveData;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +38,24 @@ public class SplashActivity extends ActionBarActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
 
+		getScreenTextAsync();
+		
 	
 		    new Handler().postDelayed(new Runnable() {
 		        public void run() {
-		            StartTheActivity();
+		        	mFinishTimer = true;
+		        	if (mFinishRetrieveData)
+		        		StartTheActivity();
 		        	
 		        }
 		    }, _splashTime);
 		
+		
+	}
+
+	private void getScreenTextAsync() {
+		GetScreenInfoText getScreenInfoText = new GetScreenInfoText();
+		getScreenInfoText.execute();
 		
 	}
 
@@ -121,5 +141,70 @@ public class SplashActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	
+	
+	private class GetScreenInfoText extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(SplashActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				
+				bServerCom.getScreenInfoText();
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+
+						
+						MySharedPreferences.getInstance().saveScreenInfoText(SplashActivity.this, jsonReturnObj);
+
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			mFinishRetrieveData = true;
+			if (result.equals("success")){
+				
+			}
+			
+			if (mFinishTimer)
+				StartTheActivity();
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+	
+	
 
 }

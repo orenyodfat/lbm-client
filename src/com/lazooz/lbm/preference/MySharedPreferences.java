@@ -332,5 +332,25 @@ public class MySharedPreferences {
 		return list;
 	}
 
+	public void saveScreenInfoText(Context context, JSONObject jsonObj) {
+		SharedPreferences spData = context.getSharedPreferences("ScreenInfo",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("ScreenInfoText", jsonObj.toString()).commit();		
+	}
+
+	public String getIntroScreenText(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ScreenInfo",Context.MODE_MULTI_PROCESS);
+		String res = "";
+		String s = spData.getString("ScreenInfoText", "");
+		JSONObject obj;
+		try {
+			obj = new JSONObject(s);
+			res = obj.getString("intro_screen_text");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
 	
 }

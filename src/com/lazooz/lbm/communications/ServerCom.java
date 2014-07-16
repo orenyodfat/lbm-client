@@ -175,7 +175,12 @@ public class ServerCom {
 	}
 
 	
+	public void getScreenInfoText() {
+		String url = StaticParms.BASE_SERVER_URL + "api_get_screen_texts";
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		this.postRequestToServer(-1, -1, url, params);
 		
+	}
 		
 	
 	public void doSetLocation(String productId, String token, String latitude, String longitude,
@@ -332,6 +337,9 @@ public class ServerCom {
   	  
   	  
   	}
+
+
+
 
 
 	
