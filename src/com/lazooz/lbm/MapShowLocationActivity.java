@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,9 +21,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.haarman.supertooltips.ToolTip;
+import com.haarman.supertooltips.ToolTipRelativeLayout;
+import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
-public class MapShowLocationActivity extends ActionBarActivity {
+public class MapShowLocationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener{
 
 	private Button nextBtn;
 	private GoogleMap map;
@@ -29,6 +34,9 @@ public class MapShowLocationActivity extends ActionBarActivity {
 	private GPSTracker mGPSTracker;
 	private TextView mMapAccuracyTV;
 	private Marker mLastMarker;
+	private Button mToolTipButton;
+	private ToolTipView mToolTipView;
+	private ToolTipRelativeLayout mToolTipFrameLayout;
 	
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
@@ -43,6 +51,11 @@ public class MapShowLocationActivity extends ActionBarActivity {
 		mWasInMission = getIntent().getBooleanExtra("MISSION_GPS_ON", false);
 		
 		mMapAccuracyTV = (TextView)findViewById(R.id.map_accuracy_tv);
+		
+		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
+		
+		mToolTipButton = (Button)findViewById(R.id.tooltip_btn);
+		mToolTipButton.setOnClickListener(this);
 		
 		
 		nextBtn = (Button)findViewById(R.id.map_show_loc_next_btn);
@@ -113,7 +126,36 @@ public class MapShowLocationActivity extends ActionBarActivity {
 		 }
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAP);
+		
+		
+		
+		 new Handler().postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	                addPurpleToolTipView();
+	            }
+	        }, 1000);
+		
+		
 	}
+	
+    private void addPurpleToolTipView() {
+/*    	
+    	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
+                        .withContentView(LayoutInflater.from(this).inflate(R.layout.custom_tooltip, null))
+                        .withColor(getResources().getColor(R.color.holo_purple)), mToolTipButton);
+    	mToolTipView.setOnToolTipViewClickedListener(this);
+*/    	
+    	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
+                         .withText("Identifing your location. Please note.....")
+                         .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
+    	mToolTipView.setOnToolTipViewClickedListener(this);
+    }
+	
+    
+   
+    
+    
 	
 	private void setMapLocation(Location location){
 		if (location != null){
@@ -134,6 +176,17 @@ public class MapShowLocationActivity extends ActionBarActivity {
             
             mMapAccuracyTV.setText(location.getAccuracy()+"");
 		}
+		
+	}
+
+	 @Override
+	    public void onToolTipViewClicked(ToolTipView toolTipView) {
+	            mToolTipView = null;
+	    }
+
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
 		
 	}
 

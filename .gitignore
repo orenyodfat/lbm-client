@@ -87,3 +87,7 @@ bin/dexedLibs/appcompat_v7_4-4f3aad306c741c59d178cfd52bd7e348.jar
 bin/res/crunch/drawable-hdpi/ic_action_search.png
 bin/res/crunch/drawable-mdpi/ic_action_search.png
 bin/res/crunch/drawable-xhdpi/ic_action_search.png
+bin/dexedLibs/nineoldandroids-2.4.0-37dd71ac5286187e27142654bc957cf6.jar
+bin/dexedLibs/supertooltipslib-7f086566a94a5f22438e6b107d9d684a.jar
+bin/res/crunch/drawable/info_tooltip.png
+gen/com/haarman/supertooltips/R.java
