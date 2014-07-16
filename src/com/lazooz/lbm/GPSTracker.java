@@ -87,6 +87,8 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	public LatLng getLocationLL(){
 		Location l = getLocation();
+		if (l == null)
+			return null;
 		return new LatLng(l.getLatitude(), l.getLongitude());
 	}
 	
