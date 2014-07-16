@@ -352,5 +352,21 @@ public class MySharedPreferences {
 		return res;
 	}
 	
+	public String getSecondScreenText(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ScreenInfo",Context.MODE_MULTI_PROCESS);
+		String res = "";
+		String s = spData.getString("ScreenInfoText", "");
+		JSONObject obj;
+		try {
+			obj = new JSONObject(s);
+			res = obj.getString("second_step_screen_text");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	
 	
 }

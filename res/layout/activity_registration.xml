@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -14,36 +14,78 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Congrats and Registration"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="10dp"
-        android:gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/reg_reg_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register Now" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="20dp" >
 
-        <Button
-            android:id="@+id/reg_confirm_btn"
+            <TextView
+                android:id="@+id/reg_text_tooltip_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_qmark"
+                android:text="You can now start recieving Zooz for your contribution."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Zooz are secured tokens that are stored in a digital wallet."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Please enter your mobile phone number to create a wallet. we will send you a confirmation code by a text message."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter Confirmation Code" />
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/reg_reg_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register Now" />
+
+            <Button
+                android:id="@+id/reg_confirm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Confirmation Code" />
+        </LinearLayout>
 
     </LinearLayout>
+    
+    <com.haarman.supertooltips.ToolTipRelativeLayout
+	    android:id="@+id/tooltipframelayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
 
-</FrameLayout>
+	</com.haarman.supertooltips.ToolTipRelativeLayout>
+	
+
+
+</RelativeLayout>
 

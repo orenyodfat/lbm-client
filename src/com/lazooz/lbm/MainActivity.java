@@ -96,7 +96,7 @@ public class MainActivity extends MyActionBarActivity {
     		startActivityForResult(i, 1);			
 		}
 		
-		startOnDayScheduler();
+		//startOnDayScheduler();
 		
 		
 		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
@@ -295,7 +295,8 @@ public class MainActivity extends MyActionBarActivity {
 
 		mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 	
-
+		getUserKeyDataAsync();
+		
 	}
 	
 	
@@ -361,5 +362,73 @@ public class MainActivity extends MyActionBarActivity {
 			
 		}
 	}
+
+	
+	private void getUserKeyDataAsync(){
+		GetUserKeyData getUserKeyData = new GetUserKeyData();
+		getUserKeyData.execute();
+	}
+	
+	private class GetUserKeyData extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(MainActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.getUserKeyData(msp.getUserId(MainActivity.this), msp.getUserSecret(MainActivity.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						String zoozBalance = jsonReturnObj.getString("zooz_balance");
+						String distance = jsonReturnObj.getString("zooz_distance_balance");
+						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
+						
+						MySharedPreferences.getInstance().saveDataFromServer(MainActivity.this, zoozBalance, distance, isDistanceAchievement);
+						
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				UpdateGUI();
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+
+	
 	
 }

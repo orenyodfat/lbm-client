@@ -102,7 +102,7 @@ public class LbmService extends Service implements LocationListener{
 			}
 		});
 		
-		//startOnDayScheduler();
+		startOnDayScheduler();
 		
 		return Service.START_STICKY;
 	}

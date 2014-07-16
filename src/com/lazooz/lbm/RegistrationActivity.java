@@ -6,10 +6,15 @@ package com.lazooz.lbm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.haarman.supertooltips.ToolTip;
+import com.haarman.supertooltips.ToolTipRelativeLayout;
+import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
@@ -20,6 +25,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RegistrationActivity extends ActionBarActivity {
+public class RegistrationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener {
 	
 	
 	private Button mRegBtn;
@@ -44,7 +50,9 @@ public class RegistrationActivity extends ActionBarActivity {
 	private ProgressBar mProgBar;
 	private String mPhoneNoInternational;
 	private String mPhoneNoE164;
-
+	private TextView mToolTipButton;
+	private ToolTipView mToolTipView;
+	private ToolTipRelativeLayout mToolTipFrameLayout;
 
 
 	@Override
@@ -53,6 +61,13 @@ public class RegistrationActivity extends ActionBarActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_registration);
 
+		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
+		
+		mToolTipButton = (TextView)findViewById(R.id.reg_text_tooltip_tv);
+		mToolTipButton.setOnClickListener(this);
+		
+		
+		
 		mRegBtn = (Button)findViewById(R.id.reg_reg_btn);
 		mRegBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -354,5 +369,43 @@ public class RegistrationActivity extends ActionBarActivity {
 		startActivity(new Intent(RegistrationActivity.this, CongratulationsRegActivity.class));
 		finish();		
 	}
+	
+	
+	  private void addPurpleToolTipView() {
+		  /*    	
+		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
+		                          .withContentView(LayoutInflater.from(this).inflate(R.layout.custom_tooltip, null))
+		                          .withColor(getResources().getColor(R.color.holo_purple)), mToolTipButton);
+		      	mToolTipView.setOnToolTipViewClickedListener(this);
+		  */    	
+		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
+		                           .withText("Right now your are mining potention Zooz which will be converted to real Zooz one the network is established and the authentication of")
+		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
+		      	mToolTipView.setOnToolTipViewClickedListener(this);
+	  }
+		  	
+		      
+		     
+		      
+		      
+		  	
+		
+
+	  @Override
+	  public void onToolTipViewClicked(ToolTipView toolTipView) {
+		  mToolTipView = null;
+	  }
+
+	  @Override
+	  public void onClick(View view) {
+		  
+		  if (mToolTipView == null) {
+			  addPurpleToolTipView();
+	      }else {
+				mToolTipView.remove();
+				mToolTipView = null;
+	        }
+	  }
+	
 	
 }

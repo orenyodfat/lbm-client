@@ -61,12 +61,23 @@ public class ServerCom {
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("location_list", data ));
 		
-		
 		this.postRequestToServer(-1, -1, url, params);
-		
 	}
 	
+	public void getUserKeyData(String UserId, String UserSecret)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_key_data";
 
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+	}
+
+	
+	
+	
 	
 	public void setLocationZip(String UserId, String UserSecret, byte[] data)throws Exception
 	{
