@@ -3,7 +3,6 @@ package com.lazooz.lbm;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
@@ -22,10 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.os.Build;
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends ActionBarActivity implements AnimationListener{
 	
 	protected int _splashTime = 3000;
 	private boolean mFinishAnimation;
@@ -41,17 +45,29 @@ public class SplashActivity extends ActionBarActivity {
 		getScreenTextAsync();
 		
 	
-		    new Handler().postDelayed(new Runnable() {
-		        public void run() {
-		        	mFinishTimer = true;
-		        	if (mFinishRetrieveData)
-		        		StartTheActivity();
-		        	
-		        }
-		    }, _splashTime);
 		
 		
 	}
+	
+	@Override
+	protected void onResume() {
+
+		super.onResume();
+		
+		StartAnimations();
+		
+	    new Handler().postDelayed(new Runnable() {
+	        public void run() {
+	        	mFinishTimer = true;
+	        	if (mFinishRetrieveData)
+	        		StartTheActivity();
+	        	
+	        }
+	    }, _splashTime);
+	
+	    
+	}
+	
 
 	private void getScreenTextAsync() {
 		GetScreenInfoText getScreenInfoText = new GetScreenInfoText();
@@ -91,17 +107,8 @@ public class SplashActivity extends ActionBarActivity {
 			return CongratulationsRegActivity.class;
 		
 		case MySharedPreferences.STAGE_REG_CONGRATS:
-			return MissionDrive100Activity.class;
-		case MySharedPreferences.STAGE_DRIVE100:
 			return MainActivity.class;
-		case MySharedPreferences.STAGE_MAIN_NO_DRIVE100:
-			return MainActivity.class;
-		case MySharedPreferences.STAGE_DRIVE100_CONGRATS:
-			return MainActivity.class;
-		case MySharedPreferences.STAGE_MAIN_NO_GET_FRIENDS:
-			return MainActivity.class;
-		case MySharedPreferences.STAGE_GET_FRIENDS_CONGRATS:
-			return MainActivity.class;
+			
 		case MySharedPreferences.STAGE_MAIN:
 			return MainActivity.class;
 			
@@ -113,8 +120,12 @@ public class SplashActivity extends ActionBarActivity {
 	}
 	
 	protected void StartTheActivity() {
-		if(Utils.haveNetworkConnection(this))
-			startActivity(new Intent(SplashActivity.this, getNextActivity()));
+		if(Utils.haveNetworkConnection(this)){
+			Intent intent = new Intent(SplashActivity.this, getNextActivity());
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+		}
 		else
 			Utils.messageToUser(this, "No internet Connection", "Please connect your device to the internet and restart the application");
 	}
@@ -203,6 +214,45 @@ public class SplashActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			
 		}
+	}
+
+	 private void StartAnimations() { 
+	        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+	        anim.reset();
+	        LinearLayout l=(LinearLayout) findViewById(R.id.lin_lay);
+	        l.clearAnimation();
+	        
+	        l.startAnimation(anim);
+	        
+	        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+	        //anim.reset();
+	        anim.setInterpolator(new AccelerateInterpolator(2.0f));
+	        anim.setAnimationListener(this);
+	        
+	        //ImageView iv = (ImageView) findViewById(R.id.logo);
+	        LinearLayout llLogo = (LinearLayout) findViewById(R.id.logoll);
+	        
+	        //iv.clearAnimation();
+	        llLogo.startAnimation(anim);
+	        //mProgBar.setVisibility(View.INVISIBLE);
+	    }
+
+	@Override
+	public void onAnimationEnd(Animation arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAnimationStart(Animation arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

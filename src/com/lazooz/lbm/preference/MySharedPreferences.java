@@ -12,7 +12,6 @@ import com.lazooz.lbm.CongratulationsRegActivity;
 import com.lazooz.lbm.IntroActivity;
 import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.MapShowLocationActivity;
-import com.lazooz.lbm.MissionDrive100Activity;
 import com.lazooz.lbm.RegistrationActivity;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.LocationData;
@@ -34,12 +33,7 @@ public class MySharedPreferences {
 	public final static int STAGE_REG_CONF_SENT = 6;
 	public final static int STAGE_REG_CONF_SENT_OK = 7;
 	public final static int STAGE_REG_CONGRATS = 8;
-	public final static int STAGE_DRIVE100 = 9;
-	public final static int STAGE_MAIN_NO_DRIVE100 = 10;
-	public final static int STAGE_DRIVE100_CONGRATS = 11;
-	public final static int STAGE_MAIN_NO_GET_FRIENDS = 12;
-	public final static int STAGE_GET_FRIENDS_CONGRATS = 13;
-	public final static int STAGE_MAIN = 14;
+	public final static int STAGE_MAIN = 9;
 	
 	private static MySharedPreferences instance = null;
 
@@ -80,16 +74,6 @@ public class MySharedPreferences {
 		case STAGE_REG_CONF_SENT_OK:
 			return CongratulationsRegActivity.class;
 		case STAGE_REG_CONGRATS:
-			return MissionDrive100Activity.class;
-		case STAGE_DRIVE100:
-			return MainActivity.class;
-		case STAGE_MAIN_NO_DRIVE100:
-			return MainActivity.class;
-		case STAGE_DRIVE100_CONGRATS:
-			return MainActivity.class;
-		case STAGE_MAIN_NO_GET_FRIENDS:
-			return MainActivity.class;
-		case STAGE_GET_FRIENDS_CONGRATS:
 			return MainActivity.class;
 		case STAGE_MAIN:
 			return MainActivity.class;

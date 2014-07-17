@@ -14,10 +14,13 @@ import java.util.zip.GZIPOutputStream;
 
 import com.lazooz.lbm.businessClasses.TelephonyData;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
@@ -237,5 +240,17 @@ public class Utils {
     }
 
     
-    
+	public static void freezOrientation(Activity activity){
+		if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+			//activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+		else 
+			//activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+	}
+	public static void unFreezOrientation(Activity activity){
+		activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+	}
+	
+	
 }

@@ -48,7 +48,9 @@ public class SMSReceiver extends BroadcastReceiver {
 		if (!actdode.equals("")){
 			//Toast.makeText(context, context.getString(R.string.registration_recieve_registration_sms), Toast.LENGTH_LONG).show();
 			Intent myIntent = new Intent(context.getApplicationContext(), RegistrationActivity.class);
-			myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			
 			myIntent.putExtra("ACTIVATION_CODE", actdode);
 			context.startActivity(myIntent);
 		}
