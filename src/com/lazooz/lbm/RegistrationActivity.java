@@ -3,11 +3,10 @@ package com.lazooz.lbm;
 
 
 
+import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -20,12 +19,13 @@ import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
+import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,8 +34,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +46,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	
 	
 	private Button mRegBtn;
-	//public String mRequestId;
-	//public String mUserId;
-	//public String mUserSecret;
+
 	private Button mConfBtn;
 	private ProgressBar mProgBar;
 	private String mPhoneNoInternational;
@@ -53,7 +54,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	private TextView mToolTipButton;
 	private ToolTipView mToolTipView;
 	private ToolTipRelativeLayout mToolTipFrameLayout;
-
+	protected TextView mCntryCodeTV;
+	private Spinner mCountrySpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,24 +73,53 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		mRegBtn = (Button)findViewById(R.id.reg_reg_btn);
 		mRegBtn.setOnClickListener(new View.OnClickListener() {
 			
+			
+
 			@Override
 			public void onClick(View v) {
 				
-				//ApManager.configApState(RegistrationActivity.this);
-				
-
-				
-				
-				
-				
 				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
+
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				inText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 				String phone = Utils.getMyPhoneNum(RegistrationActivity.this);
 				inText.setText(phone);
+
+				mCountrySpinner = (Spinner)addView.findViewById(R.id.country_spnr);
+				mCountrySpinner.setOnItemSelectedListener(new CountryOnItemSelectedListener());
+				
+				
+				mCntryCodeTV = (TextView)addView.findViewById(R.id.cntry_code_tv);
+				
+				PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
+				
+				
+				try {
+					String countryCode = getResources().getConfiguration().locale.getCountry();
+					if (countryCode.equals("")){
+						TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+						countryCode = tm.getSimCountryIso();			
+					}
+					if (!countryCode.equals("")){
+						countryCode = countryCode.toUpperCase();
+						String[] countyList = getResources().getStringArray(R.array.country_list_entry_values);
+						if (Arrays.asList(countyList).contains(countryCode)){
+							mCountrySpinner.setSelection(Arrays.asList(countyList).indexOf(countryCode));   
+							 String countryCodeNum = pu.getCountryCodeForRegion(countryCode) + "";
+							 mCntryCodeTV.setText("(+" + countryCodeNum+")");
+						}
+					}
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+				}
+				
+				
+				
+				
+				
+		
 				
 	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
-	        	//Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
 	        	builder.setTitle(getString(R.string.reg_input_num_title));
 	        	builder.setMessage(getString(R.string.reg_input_num_body));
 	        	builder.setView(addView);
@@ -125,7 +156,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				inText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
 	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
-	        	//Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+
 	        	builder.setTitle(getString(R.string.reg_input_conf_title));
 	        	builder.setMessage(getString(R.string.reg_input_conf_body));
 	        	builder.setView(addView);
@@ -134,7 +165,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
 	                	String confCode = t.getText().toString();
 	                	performActivation(confCode);
-	                	//startNextScreen();
+
 	                	dialog.cancel();
 	                }
 	        	
@@ -160,13 +191,29 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		
 	}
 	
+	private class CountryOnItemSelectedListener implements OnItemSelectedListener {
+		 
+	    public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+	         
+			String[] countyList = getResources().getStringArray(R.array.country_list_entry_values);
+			String countryCode = countyList[pos];
+			PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
+			String countryCodeNum = pu.getCountryCodeForRegion(countryCode) + "";
+			mCntryCodeTV.setText("(+" + countryCodeNum+")");
+	    }
+	 
+	    @Override
+		public void onNothingSelected(AdapterView<?> arg0) {}
+	}
 	
 	private void handleInputNum(final String inputNum){
-		String currentLocale = Utils.getCurrentLocale(this);
 		PhoneNumberUtil pu = PhoneNumberUtil.getInstance();
-		//String phoneNoInternational  = num;
+		
 		try {
-			PhoneNumber num1 = pu.parse(inputNum, currentLocale);
+			String[] countyList = getResources().getStringArray(R.array.country_list_entry_values);
+			String countryCode = countyList[mCountrySpinner.getSelectedItemPosition()];
+			
+			PhoneNumber num1 = pu.parse(inputNum, countryCode);
 			mPhoneNoInternational = pu.format(num1, PhoneNumberFormat.INTERNATIONAL);
 			mPhoneNoE164 = pu.format(num1, PhoneNumberFormat.E164);
 		} catch (NumberParseException e) {
@@ -241,6 +288,10 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		return activationCode;		
 	}
 
+	
+
+	
+	
 	
 	
 	private class RegisterToServer extends AsyncTask<String, Void, String> {
@@ -406,6 +457,9 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				mToolTipView = null;
 	        }
 	  }
+
+
+	
 	
 	
 }
