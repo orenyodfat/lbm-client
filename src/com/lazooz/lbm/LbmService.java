@@ -83,24 +83,9 @@ public class LbmService extends Service implements LocationListener{
 		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 1*60*1000);
 		
 		
-		initShakeDetector();
 		
 		
-		AccelerometerTracker at = new AccelerometerTracker(this);
-		at.setListener(new AccelerometerTracker.AccelerometerListener() {
-			
-			@Override
-			public void onShake(float force) {
-				Log.e("SHAKE", Utils.getNowTimeInGMT());
-				
-			}
-			
-			@Override
-			public void onAccelerationChanged(float x, float y, float z) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
 		
 		startOnDayScheduler();
 		
@@ -126,31 +111,9 @@ public class LbmService extends Service implements LocationListener{
 	
 	
 	
-	
-	private SensorManager mSensorManager;
-	private Sensor mAccelerometer;
-	private ShakeDetector mShakeDetector;
+
 	    
-	private void initShakeDetector() {
-		  // ShakeDetector initialization
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
- 
-            @Override
-            public void onShake(int count) {
-                /*
-                 * The following method, "handleShakeEvent(count):" is a stub //
-                 * method you would use to setup whatever you want done once the
-                 * device has been shook.
-                 */
-                
-                	Utils.beep();
-            }
-        });
-		
-	}
+	
 
 	protected void checkEveryShortPeriod() {
 		readSensors();

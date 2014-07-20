@@ -42,7 +42,16 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
 
-		getScreenTextAsync();
+		
+		Intent intent = new Intent(SplashActivity.this, ShakeSecondActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		finish();
+		
+		
+		
+		
+		//getScreenTextAsync();
 		
 	
 		

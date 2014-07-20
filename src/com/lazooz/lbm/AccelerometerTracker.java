@@ -164,7 +164,7 @@ public class AccelerometerTracker implements SensorEventListener {
 				Log.e("SHAKE", "mNowTimestamp-mShakeTimestamp < 1500");
 				mShakeCount++;
 				Log.e("SHAKE", "mShakeCount "+ mShakeCount);
-				if (mShakeCount > 3){
+				if (mShakeCount > 5){
 					Log.e("SHAKE", "real shake");
 					if (mListener != null)
                 		mListener.onShake(force);

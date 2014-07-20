@@ -29,9 +29,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -46,6 +49,7 @@ public class ContactListActivity extends Activity implements
     private boolean mSearchQueryChanged;
 	private ContanctAdapter mAdapter;
 	private List<String> mContactsWithApp;
+	private LinearLayout mOperationButtonLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,38 @@ public class ContactListActivity extends Activity implements
 		listView.setAdapter(mAdapter);
 		listView.setTextFilterEnabled(true);
 		
-		
+	    mOperationButtonLayout = (LinearLayout)findViewById(R.id.operation_layout);
+	    mOperationButtonLayout.setVisibility(View.INVISIBLE);
+
 
 	}
+	
+	
+	 private void showOperationButtonLayout(){
+			if (mOperationButtonLayout.getVisibility() == View.VISIBLE)
+				return;
+			TranslateAnimation animate = new TranslateAnimation(0,0,mOperationButtonLayout.getHeight(),0);
+			animate.setDuration(500);
+			animate.setFillAfter(true);
+			animate.setInterpolator(new AccelerateInterpolator(1.0f));
+			mOperationButtonLayout.startAnimation(animate);
+			mOperationButtonLayout.setVisibility(View.VISIBLE);
+		}
+		
+		
+		private void hideOperationButtonLayout(){
+			if (mOperationButtonLayout.getVisibility() == View.GONE)
+				return;
+				TranslateAnimation animate = new TranslateAnimation(0,0,0,mOperationButtonLayout.getHeight());
+				animate.setDuration(500);
+				animate.setInterpolator(new AccelerateInterpolator(1.0f));
+				animate.setFillAfter(true);
+				mOperationButtonLayout.startAnimation(animate);
+				mOperationButtonLayout.setVisibility(View.GONE);
+		}
+		
+	
+	
 
 	private void sortList(){
 		if ((mContactList != null) && (mContactList.size()!=0)) {

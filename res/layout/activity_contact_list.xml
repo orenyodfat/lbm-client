@@ -10,4 +10,21 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000" />
 
+    <LinearLayout
+        android:id="@+id/operation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:minHeight="50dp" >
+
+        <Button
+            android:id="@+id/floating_button_del"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:text="Send Invitation"/>
+    </LinearLayout>
+
 </RelativeLayout>
