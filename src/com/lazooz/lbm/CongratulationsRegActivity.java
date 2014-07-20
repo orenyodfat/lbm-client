@@ -39,12 +39,15 @@ public class CongratulationsRegActivity extends ActionBarActivity {
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(CongratulationsRegActivity.this, MissionDrive100Activity.class));
+				startActivity(new Intent(CongratulationsRegActivity.this, MainActivity.class));
 				finish();			
 			}
 		});
 		
-		Utils.messageToUser(this, "Confirmation succeed", "Congratulation, you've got yourself a new digital wallet!");
+		//boolean isNewUser = getIntent().getBooleanExtra("NEW_USER", false);
+		
+		
+		//Utils.messageToUser(this, "Confirmation succeed", "Congratulation, you've got yourself a new digital wallet!");
 		
 	}
 	

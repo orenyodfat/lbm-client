@@ -1,30 +1,57 @@
 package com.lazooz.lbm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.lazooz.lbm.businessClasses.Contact;
+import com.lazooz.lbm.businessClasses.ContactFriendList;
+import com.lazooz.lbm.businessClasses.StatsData;
+import com.lazooz.lbm.businessClasses.StatsDataList;
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.ChartUtil;
+import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 
 public class MainAddFriendsActivity extends ActionBarActivity {
 
 
 	private LinearLayout mLayoutChart2;
 	private GraphicalView mChartView2;
+	private Button mAddFriendsBtn;
+	private ListView mAddFriendsListView;
+	public ContactFriendList mContactFriendsList;
+	private HashMap<String, Contact> mContactList;
+	public StatsDataList mStatsDataList;
+	private FriendsAdapter mAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +59,32 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main_add_friends);
 
 		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
+		mAddFriendsBtn = (Button)findViewById(R.id.add_friends_btn);
+		mAddFriendsBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(MainAddFriendsActivity.this, ContactListActivity.class);
+   	    		startActivityForResult(i, 1);				
+			}
+		});
 		
-		buildChart2();
+		mAddFriendsListView = (ListView)findViewById(R.id.add_friends_listview);
+		
+		
+		getUserContactDataAsync();
+			
+		CreateList(null);
+		
+		
+		
+		//buildChart2();
 		
 	}
 	
+
+
+
 
 	private void buildChart2(){
 		 
@@ -104,5 +152,257 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	}
 	
 
+	private void buildChartZooz(){
+		 
+		String[] chartTitles;
+		String mainTitle = "Number of miners";
+		String xTitle, yTitle;
+ 		chartTitles = new String[] { "This Year"};
+ 		xTitle = "Months";
+ 		yTitle = "Number of customers";
+	 		
+		
+	    List<double[]> values = new ArrayList<double[]>();
 
+
+	    values.add(mStatsDataList.getZoozDoubleArray());
+	    values.add(mStatsDataList.getZoozDoubleArray());
+	    
+	    int[] colors = new int[] { Color.BLUE };
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildBarRenderer(colors);
+	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
+	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValZooz() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
+
+	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
+	    //renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
+	    
+	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
+	    //renderer.getSeriesRendererAt(1).setDisplayChartValuesDistance(15);
+
+	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
+	    //renderer.getSeriesRendererAt(1).setChartValuesTextSize(20);
+
+	    
+	    renderer.setXLabels(0);
+	    
+	    int i = 1;
+	    for(StatsData point : mStatsDataList.getList()){
+	    		renderer.addXTextLabel(i++, point.getTime());
+	    }
+	    
+	   /* renderer.addXTextLabel(1, "Sun");
+	    renderer.addXTextLabel(2, "Mon");
+	    renderer.addXTextLabel(3, "Tue");
+	    renderer.addXTextLabel(4, "Wed");
+	    renderer.addXTextLabel(5, "Thu");
+	    renderer.addXTextLabel(6, "Fri");
+	    renderer.addXTextLabel(7, "Sat");
+	    */
+	    
+	    //renderer.setXLabels(12);
+	    renderer.setYLabels(10);
+	    renderer.setXLabelsAlign(Align.LEFT);
+	    renderer.setYLabelsAlign(Align.LEFT);
+	    renderer.setPanEnabled(true, false);
+	    // renderer.setZoomEnabled(false);
+	    renderer.setZoomRate(1.1f);
+	    renderer.setBarSpacing(0.5f);
+	    mChartView2 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,
+	        Type.STACKED);
+
+	    mLayoutChart2.removeAllViews();
+	    mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void getUserContactDataAsync(){
+		GetUserContactData getUserContactData = new GetUserContactData();
+		getUserContactData.execute();
+	}
+	
+	private class GetUserContactData extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(MainAddFriendsActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.getUserContactData(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						
+						if (jsonReturnObj.has("contacts")){
+							JSONArray contactsArray = jsonReturnObj.getJSONArray("contacts");
+							Log.e("TAG", contactsArray.toString());
+							mContactFriendsList = new ContactFriendList(contactsArray);
+						}
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				getUserStatDataAsync();
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+
+	public void getUserStatDataAsync() {
+		GetUserStatData getUserStatData = new GetUserStatData();
+		getUserStatData.execute();
+		
+	}
+
+	private class GetUserStatData extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(MainAddFriendsActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.getUserStatData(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						
+						if (jsonReturnObj.has("stats_data")){
+							JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
+							Log.e("TAG", statsArray.toString());
+							mStatsDataList = new StatsDataList(statsArray);
+						}
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				updateGUI();
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+
+	public void updateGUI() {
+		mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList, mContactList);
+		mAddFriendsListView.setAdapter(mAdapter);
+		
+		buildChartZooz();
+		
+	}
+
+	
+	private void CreateList(String constraint){
+		HashMap<String, Contact> contactList = new HashMap<String, Contact>();
+		String currentLocale = Utils.getCurrentLocale(this);
+		List<String> contactsWithApp = MySharedPreferences.getInstance().getContactsWithInstalledApp(this);
+		Cursor phones;
+		
+		if (constraint == null){
+			phones = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, null);
+		}
+		else{
+			Uri contentUri =Uri.withAppendedPath(ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(constraint));
+			phones = this.getContentResolver().query(contentUri, null, null,null, null);
+		}
+		
+		while (phones.moveToNext()) {
+
+			String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+			String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+			Contact objContact = new Contact(currentLocale);
+			objContact.setPhoneNo(phoneNumber);
+			if(objContact.isValidPhoneNum()){
+				objContact.setName(name);
+				objContact.setHasApp(contactsWithApp.contains(objContact.getPhoneNoInternational()));
+				contactList.put(objContact.getPhoneNoInternational(), objContact);
+			}
+
+		}
+		phones.close();
+		mContactList = contactList;
+		MySharedPreferences.getInstance().clearRecommendUsers(this);
+		
+		
+	}
+	
 }

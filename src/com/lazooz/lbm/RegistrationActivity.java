@@ -57,6 +57,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	protected TextView mCntryCodeTV;
 	private Spinner mCountrySpinner;
 
+	public boolean mIsNewUser;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,7 +80,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			@Override
 			public void onClick(View v) {
 				
-				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
+				final View addView = getLayoutInflater().inflate(R.layout.activation_input_country, null);
 
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				inText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
@@ -381,6 +383,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 					if (serverMessage.equals("success")){
 						String userId = jsonReturnObj.getString("user_id");
 						String userSecret = jsonReturnObj.getString("user_secret");
+						mIsNewUser = Utils.yesNoToBoolean(jsonReturnObj.getString("is_new_user"));
+
 						MySharedPreferences.getInstance().saveActivationData(RegistrationActivity.this, userId, userSecret);
 					}
 				}
@@ -417,8 +421,52 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	
 	
 	private void startNextScreen(){
-		startActivity(new Intent(RegistrationActivity.this, CongratulationsRegActivity.class));
-		finish();		
+		Utils.freezOrientation(this);
+		if(mIsNewUser){
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setTitle("Confirmation succeed");
+		    alertDialog.setMessage("Congratulation, you've got yourself a new digital wallet!");
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		    	
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(RegistrationActivity.this, CongratulationsRegActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.putExtra("NEW_USER", true);
+					startActivity(intent);
+					dialog.cancel();
+					RegistrationActivity.this.finish();					        
+		    	}
+		    });
+		    alertDialog.show();
+			
+		}
+		else {
+			
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setTitle("Confirmation succeed");
+		    alertDialog.setMessage("Welcome Back!");
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		    	
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.putExtra("NEW_USER", false);
+					startActivity(intent);
+					dialog.cancel();
+					RegistrationActivity.this.finish();					        
+		    	}
+		    });
+		    alertDialog.show();
+			
+		}
+
+		
+//		startActivity(intent);
+//		finish();		
 	}
 	
 	

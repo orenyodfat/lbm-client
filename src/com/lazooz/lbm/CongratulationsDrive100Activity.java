@@ -25,8 +25,7 @@ public class CongratulationsDrive100Activity extends ActionBarActivity {
 		setContentView(R.layout.activity_congratulations_drive100);
 
 		
-		MySharedPreferences.getInstance().setStage(CongratulationsDrive100Activity.this, MySharedPreferences.STAGE_DRIVE100_CONGRATS);
-		
+	
 		nextBtn = (Button)findViewById(R.id.congratulation_drive100_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override

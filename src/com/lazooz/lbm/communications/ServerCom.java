@@ -20,6 +20,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -118,6 +119,31 @@ public class ServerCom {
     	      
 			}
 		
+	}
+	
+	
+	public void getUserStatData(String UserId, String UserSecret){
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_stat_data";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+		
+	
+	}
+	
+	public void getUserContactData(String UserId, String UserSecret){
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_contact_data";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+		
+	
 	}
 	
 	public void setContactsZip(String UserId, String UserSecret, byte[] data)throws Exception

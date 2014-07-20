@@ -6,27 +6,42 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.lazooz.lbm.businessClasses.ServerData;
+import com.lazooz.lbm.businessClasses.StatsData;
+import com.lazooz.lbm.businessClasses.StatsDataList;
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.ChartUtil;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class MainDistanceActivity extends ActionBarActivity {
 
 	private LinearLayout mLayoutChart1;
 	private GraphicalView mChartView1;
-
+	private TextView mDistanceTV;
+	public StatsDataList mStatsDataList;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,8 +50,16 @@ public class MainDistanceActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
+		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		
-		buildChart1();
+		
+		ServerData sd = MySharedPreferences.getInstance().getServerData(this);
+		mDistanceTV.setText(sd.getDistance());
+
+		
+		
+		
+		getUserStatDataAsync();
 	}
 	
 
@@ -117,6 +140,136 @@ public class MainDistanceActivity extends ActionBarActivity {
 
 	}
 	
-	
+	private void buildChartDist(){
+		 
+		String[] chartTitles;
+		String mainTitle = "Total Distance";
+		String xTitle, yTitle;
+ 		chartTitles = new String[] { "This Year"};
+ 		xTitle = "Months";
+ 		yTitle = "Distance";
+	 		
+		
+	    List<double[]> values = new ArrayList<double[]>();
 
+
+	    values.add(mStatsDataList.getDistDoubleArray());
+	    values.add(mStatsDataList.getDistDoubleArray());
+	    
+	    int[] colors = new int[] { Color.BLUE };
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildBarRenderer(colors);
+	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
+	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValDist() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
+
+	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
+	    //renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
+	    
+	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
+	    //renderer.getSeriesRendererAt(1).setDisplayChartValuesDistance(15);
+
+	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
+	    //renderer.getSeriesRendererAt(1).setChartValuesTextSize(20);
+
+	    
+	    renderer.setXLabels(0);
+	    
+	    int i = 1;
+	    for(StatsData point : mStatsDataList.getList()){
+	    		renderer.addXTextLabel(i++, point.getTime());
+	    }
+	    
+	   /* renderer.addXTextLabel(1, "Sun");
+	    renderer.addXTextLabel(2, "Mon");
+	    renderer.addXTextLabel(3, "Tue");
+	    renderer.addXTextLabel(4, "Wed");
+	    renderer.addXTextLabel(5, "Thu");
+	    renderer.addXTextLabel(6, "Fri");
+	    renderer.addXTextLabel(7, "Sat");
+	    */
+	    
+	    //renderer.setXLabels(12);
+	    renderer.setYLabels(10);
+	    renderer.setXLabelsAlign(Align.LEFT);
+	    renderer.setYLabelsAlign(Align.LEFT);
+	    renderer.setPanEnabled(true, false);
+	    // renderer.setZoomEnabled(false);
+	    renderer.setZoomRate(1.1f);
+	    renderer.setBarSpacing(0.5f);
+	    mChartView1 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,
+	        Type.STACKED);
+
+	    mLayoutChart1.removeAllViews();
+	    mLayoutChart1.addView(mChartView1, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+
+}
+
+	
+	public void getUserStatDataAsync() {
+		GetUserStatData getUserStatData = new GetUserStatData();
+		getUserStatData.execute();
+		
+	}
+
+	private class GetUserStatData extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(MainDistanceActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.getUserStatData(msp.getUserId(MainDistanceActivity.this), msp.getUserSecret(MainDistanceActivity.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						
+						if (jsonReturnObj.has("stats_data")){
+							JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
+							Log.e("TAG", statsArray.toString());
+							mStatsDataList = new StatsDataList(statsArray);
+						}
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				buildChartDist();
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+	
+	
+	
 }

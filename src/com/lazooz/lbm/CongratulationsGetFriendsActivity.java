@@ -25,7 +25,6 @@ public class CongratulationsGetFriendsActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_congratulations_getfriends);
 		
-		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_GET_FRIENDS_CONGRATS);
 		
 		nextBtn = (Button)findViewById(R.id.congratulation_getfriends_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {

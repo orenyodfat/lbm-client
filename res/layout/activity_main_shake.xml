@@ -7,13 +7,21 @@
     tools:ignore="MergeRootFrame" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/main_shake_maintext_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="main shake"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
+    
+     <Button
+        android:id="@+id/main_shake_next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="20dp"
+        android:text="Find La'Zooz players" />
 
 </FrameLayout>
 

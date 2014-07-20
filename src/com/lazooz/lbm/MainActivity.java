@@ -3,20 +3,11 @@ package com.lazooz.lbm;
 
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,14 +16,10 @@ import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
-import com.lazooz.lbm.utils.ChartUtil;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint.Align;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,8 +27,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,15 +37,15 @@ public class MainActivity extends MyActionBarActivity {
 	private Timer ShortPeriodTimer;
 	private TextView mDistanceTV;
 	private TextView mZoozBalTV;
-	private LinearLayout mLayoutChart1;
-	private LinearLayout mLayoutChart2;
-	private GraphicalView mChartView1;
-	private GraphicalView mChartView2;
+
+	private Button mAddFriendsBtn;
+	private Button mShakeBtn;
+	private ProgressBar mCriticalMassPB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
-		super.onCreate(savedInstanceState, R.layout.activity_main);
+		super.onCreate(savedInstanceState, R.layout.activity_main_new);
 		//setContentView(R.layout.activity_main);
 
 		
@@ -68,6 +55,58 @@ public class MainActivity extends MyActionBarActivity {
 		mDistanceTV.setText("0.0");
 		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
 		mZoozBalTV.setText("0.0");
+		
+		
+		mAddFriendsBtn = (Button)findViewById(R.id.main_add_friends_btn);
+		mAddFriendsBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, MainAddFriendsActivity.class);
+				startActivity(intent);
+				
+			}
+		});
+		
+		mShakeBtn = (Button)findViewById(R.id.main_shake_btn);
+		mShakeBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, MainShakeActivity.class);
+				startActivity(intent);			
+			}
+		});
+		
+		mDistanceTV.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, MainDistanceActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		mZoozBalTV.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, MainZoozActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		
+		
+		mCriticalMassPB = (ProgressBar)findViewById(R.id.main_critical_mass_pb);
+		mCriticalMassPB.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 		
 		
@@ -88,22 +127,17 @@ public class MainActivity extends MyActionBarActivity {
 			};
 		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
 
-		
-		boolean selectContacts = getIntent().getBooleanExtra("SELECT_CONTACTS", false);
-		if(selectContacts){
-			MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN_NO_GET_FRIENDS);
-    		Intent i = new Intent(this, ContactListActivity.class);
-    		startActivityForResult(i, 1);			
-		}
-		
-		//startOnDayScheduler();
+		startOnDayScheduler();
 		
 		
-		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
-		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
 		
-		buildChart1();
-		buildChart2();
+		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
+		
+		getUserKeyDataAsync();
+		
+		
+		
+		
 	}
 
 	
@@ -118,7 +152,7 @@ public class MainActivity extends MyActionBarActivity {
 		
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 60*1000, pintent);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 24*60*60*1000, pintent);
 
 		
 	}
@@ -170,134 +204,7 @@ public class MainActivity extends MyActionBarActivity {
 	}
 
 	
-	private void buildChart1(){
-		 
-	    
-		  String[] titles = new String[] { "this week", "previus week"};
-		    List<double[]> x = new ArrayList<double[]>();
-		    for (int i = 0; i < titles.length; i++) {
-		      x.add(new double[] { 1, 2, 3, 4, 5, 6, 7});
-		    }
-		    List<double[]> values = new ArrayList<double[]>();
-		    values.add(new double[] { 50, 50, 52, 55, 56, 58, 62});
-		    values.add(new double[] { 36, 37, 38, 40, 46, 48, 48 });
-		    int[] colors = new int[] { Color.BLUE, Color.RED };
-		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
-		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
-		    int length = renderer.getSeriesRendererCount();
-		    for (int i = 0; i < length; i++) {
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValues(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValuesDistance(15);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setChartValuesTextSize(20);
-		    }
-		    ChartUtil.setChartSettings(renderer, "Total of 54,000 km mined", "Time", "Distance", 0.5, 7.5, 20, 90,
-		        Color.LTGRAY, Color.BLUE, Color.LTGRAY);
-		    //renderer.setXLabels(12);	    
-		    renderer.setXLabels(0);
-		    renderer.addXTextLabel(1, "Sun");
-		    renderer.addXTextLabel(2, "Mon");
-		    renderer.addXTextLabel(3, "Tue");
-		    renderer.addXTextLabel(4, "Wed");
-		    renderer.addXTextLabel(5, "Thu");
-		    renderer.addXTextLabel(6, "Fri");
-		    renderer.addXTextLabel(7, "Sat");
-		    
-		    
-		    
-		    renderer.setYLabels(10);
-		    renderer.setShowGrid(true);
-		    renderer.setXLabelsAlign(Align.RIGHT);
-		    renderer.setYLabelsAlign(Align.RIGHT);
-		    renderer.setZoomButtonsVisible(true);
-		   
-		    
-		    //renderer.setLegendHeight(100);
-
-		    //renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
-		    //renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-
-		    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(titles, x, values);
-		    XYSeries series = dataset.getSeriesAt(0);
-		    //series.addAnnotation("Vacation", 6, 30);
-		    mChartView1 = ChartFactory.getLineChartView(this, dataset, renderer);    
-		
-		    
-		    
-		    
-		    //mChartView =  ChartFactory.getRangeBarChartView(this, buildBarDataset(titles, values), renderer, Type.DEFAULT);
-		    
-
-		mLayoutChart1.addView(mChartView1, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 	
-
-	}
-	
-	private void buildChart2(){
-		 
-	    
-		  String[] titles = new String[] { "this week", "previus week"};
-		    List<double[]> x = new ArrayList<double[]>();
-		    for (int i = 0; i < titles.length; i++) {
-		      x.add(new double[] { 1, 2, 3, 4, 5, 6, 7});
-		    }
-		    List<double[]> values = new ArrayList<double[]>();
-		    values.add(new double[] { 50, 50, 52, 55, 56, 58, 62});
-		    values.add(new double[] { 36, 37, 38, 40, 46, 48, 48 });
-		    int[] colors = new int[] { Color.BLUE, Color.RED };
-		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
-		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
-		    int length = renderer.getSeriesRendererCount();
-		    for (int i = 0; i < length; i++) {
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValues(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValuesDistance(15);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setChartValuesTextSize(20);
-		    }
-		    ChartUtil.setChartSettings(renderer, "24,000 miners paving the web", "Time", "Miners", 0.5, 7.5, 20, 90,
-		        Color.LTGRAY, Color.BLUE, Color.LTGRAY);
-		    //renderer.setXLabels(12);	    
-		    renderer.setXLabels(0);
-		    renderer.addXTextLabel(1, "Sun");
-		    renderer.addXTextLabel(2, "Mon");
-		    renderer.addXTextLabel(3, "Tue");
-		    renderer.addXTextLabel(4, "Wed");
-		    renderer.addXTextLabel(5, "Thu");
-		    renderer.addXTextLabel(6, "Fri");
-		    renderer.addXTextLabel(7, "Sat");
-		    
-		    
-		    
-		    renderer.setYLabels(10);
-		    renderer.setShowGrid(true);
-		    renderer.setXLabelsAlign(Align.RIGHT);
-		    renderer.setYLabelsAlign(Align.RIGHT);
-		    renderer.setZoomButtonsVisible(true);
-		   
-		    
-		    //renderer.setLegendHeight(100);
-
-		    //renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
-		    //renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-
-		    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(titles, x, values);
-		    XYSeries series = dataset.getSeriesAt(0);
-		    //series.addAnnotation("Vacation", 6, 30);
-		    mChartView2 = ChartFactory.getLineChartView(this, dataset, renderer);    
-		
-		    
-		    
-		    
-		    //mChartView =  ChartFactory.getRangeBarChartView(this, buildBarDataset(titles, values), renderer, Type.DEFAULT);
-		    
-
-		mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-	
-		getUserKeyDataAsync();
-		
-	}
 	
 	
 	private void sendFriendRecommendToServerAsync(String data){
@@ -401,6 +308,8 @@ public class MainActivity extends MyActionBarActivity {
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						
 						MySharedPreferences.getInstance().saveDataFromServer(MainActivity.this, zoozBalance, distance, isDistanceAchievement);
+						
+						
 						
 					}
 				}
