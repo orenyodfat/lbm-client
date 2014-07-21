@@ -2,7 +2,9 @@ package com.lazooz.lbm;
 
 import com.lazooz.lbm.preference.MySharedPreferences;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ public class MainShakeActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_shake);
 		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mMainTextTV = (TextView)findViewById(R.id.main_shake_maintext_tv);
 		mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));
@@ -40,7 +43,16 @@ public class MainShakeActivity extends ActionBarActivity {
 		
 	}
 	
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 
 
 

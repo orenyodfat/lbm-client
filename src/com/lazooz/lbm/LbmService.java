@@ -70,7 +70,7 @@ public class LbmService extends Service implements LocationListener{
 					checkEveryShortPeriod();				
 				}
 			};
-		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 20*1000);
+		//ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 2*60*1000);
 		
 
 		LongPeriodTimer = new Timer();
@@ -80,7 +80,7 @@ public class LbmService extends Service implements LocationListener{
 					checkEveryLongPeriod();				
 				}
 			};
-		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 1*60*1000);
+		//LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 5*60*1000);
 		
 		
 		

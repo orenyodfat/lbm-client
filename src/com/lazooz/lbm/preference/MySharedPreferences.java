@@ -232,6 +232,12 @@ public class MySharedPreferences {
 		Map<String,?> keys = spData.getAll();
 		return (keys.size() >= 3);
 	}
+
+	public boolean areThereRecommendUser(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		Map<String,?> keys = spData.getAll();
+		return (keys.size() > 0);
+	}
 	
 	public JSONArray getRecommendUserList(Context context){
 		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);

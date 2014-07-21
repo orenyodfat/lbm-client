@@ -6,12 +6,18 @@
     tools:context="com.lazooz.lbm.CongratulationsDrive100Activity"
     tools:ignore="MergeRootFrame" >
 
+    <ProgressBar
+        android:id="@+id/progbar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" >
+        android:padding="20dp" >
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -68,7 +68,9 @@ public class AccelerometerTracker implements SensorEventListener {
 
 
 	
-
+	public void release(){ 
+		mSensorManager.unregisterListener(this);
+	}
 
 
 	protected void checkEveryShortPeriod() {

@@ -14,6 +14,7 @@ public class StatsDataList {
 	private List<StatsData> mList;
 	private double[] distDoubleArray;
 	private double[] zoozDoubleArray;
+	private double[] XDoubleArray;
 	private double minValZooz, maxValZooz;
 	private double minValDist, maxValDist;
 
@@ -40,14 +41,16 @@ public class StatsDataList {
 		double zooz;
 		distDoubleArray = new double[mList.size()];
 		zoozDoubleArray = new double[mList.size()];
-		int i=0;
+		XDoubleArray = new double[mList.size()];
+		int i=0; int j=0;int k=0; 
 		for(StatsData point : mList){
 			dist = Double.valueOf(point.getDistance());
 			zooz = Double.valueOf(point.getZooz());
 			distDoubleArray[i++] = dist;
-			zoozDoubleArray[i++] = zooz;
-			minValZooz = Math.min(minValZooz, dist);
-			maxValZooz = Math.max(maxValZooz, dist);
+			zoozDoubleArray[j++] = zooz;
+			XDoubleArray[k++] = j;
+			minValZooz = Math.min(minValZooz, zooz);
+			maxValZooz = Math.max(maxValZooz, zooz);
 			minValDist = Math.min(minValDist, dist);
 			maxValDist = Math.max(maxValDist, dist);
 		}
@@ -103,6 +106,10 @@ public class StatsDataList {
 
 	public List<StatsData> getList() {
 		return mList;
+	}
+
+	public double[] getXDoubleArray() {
+		return XDoubleArray;
 	}
 
 	

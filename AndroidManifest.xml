@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lazooz.lbm"
-    android:versionCode="2"
-    android:versionName="1.0" >
+    android:versionCode="1"
+    android:versionName="0.1" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -130,12 +130,21 @@
          <activity
             android:name="com.lazooz.lbm.WebViewActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+         </activity>
          <activity
             android:name="com.lazooz.lbm.ShakeSecondActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainShakeActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainShakeActivity" />
+
         </activity>
          
          <activity
@@ -184,7 +193,8 @@
          <activity
             android:name="com.lazooz.lbm.ContactListActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainAddFriendsActivity" >
             <!-- Add intent-filter for search intent action and specify searchable configuration
                  via meta-data tag. This allows this activity to receive search intents via the
                  system hooks. In this sample this is only used on older OS versions (pre-Honeycomb)
@@ -195,6 +205,9 @@
             </intent-filter>
             <meta-data android:name="android.app.searchable"
                        android:resource="@xml/searchable_contacts" />
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainAddFriendsActivity" />
         </activity>
          
         

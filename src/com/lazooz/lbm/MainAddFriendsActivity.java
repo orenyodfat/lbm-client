@@ -32,6 +32,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -49,15 +51,20 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	private Button mAddFriendsBtn;
 	private ListView mAddFriendsListView;
 	public ContactFriendList mContactFriendsList;
-	private HashMap<String, Contact> mContactList;
+	//private HashMap<String, Contact> mContactList;
 	public StatsDataList mStatsDataList;
 	private FriendsAdapter mAdapter;
+	private ProgressBar mProgBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_add_friends);
-
+		
+		mProgBar = (ProgressBar)findViewById(R.id.progbar);
+		mProgBar.setVisibility(View.INVISIBLE);
+		
+		
 		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
 		mAddFriendsBtn = (Button)findViewById(R.id.add_friends_btn);
 		mAddFriendsBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +81,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		
 		getUserContactDataAsync();
 			
-		CreateList(null);
+		//CreateList(null);
 		
 		
 		
@@ -159,59 +166,64 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		String xTitle, yTitle;
  		chartTitles = new String[] { "This Year"};
  		xTitle = "Months";
- 		yTitle = "Number of customers";
+ 		yTitle = "Number of miners";
 	 		
 		
 	    List<double[]> values = new ArrayList<double[]>();
 
 
 	    values.add(mStatsDataList.getZoozDoubleArray());
-	    values.add(mStatsDataList.getZoozDoubleArray());
+	   
 	    
 	    int[] colors = new int[] { Color.BLUE };
-	    XYMultipleSeriesRenderer renderer = ChartUtil.buildBarRenderer(colors);
+	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
+
 	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
 	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValZooz() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
-
-	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-	    //renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
 	    
+	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
 	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
-	    //renderer.getSeriesRendererAt(1).setDisplayChartValuesDistance(15);
-
 	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
-	    //renderer.getSeriesRendererAt(1).setChartValuesTextSize(20);
-
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(3);
+	    
+	    
 	    
 	    renderer.setXLabels(0);
+
+	    
+	    
+
+	    
+	    List<double[]> x = new ArrayList<double[]>();
+	    x.add(mStatsDataList.getXDoubleArray());
+	    
+	    
 	    
 	    int i = 1;
+	     
 	    for(StatsData point : mStatsDataList.getList()){
 	    		renderer.addXTextLabel(i++, point.getTime());
 	    }
 	    
-	   /* renderer.addXTextLabel(1, "Sun");
-	    renderer.addXTextLabel(2, "Mon");
-	    renderer.addXTextLabel(3, "Tue");
-	    renderer.addXTextLabel(4, "Wed");
-	    renderer.addXTextLabel(5, "Thu");
-	    renderer.addXTextLabel(6, "Fri");
-	    renderer.addXTextLabel(7, "Sat");
-	    */
 	    
-	    //renderer.setXLabels(12);
+	    
 	    renderer.setYLabels(10);
 	    renderer.setXLabelsAlign(Align.LEFT);
 	    renderer.setYLabelsAlign(Align.LEFT);
 	    renderer.setPanEnabled(true, false);
-	    // renderer.setZoomEnabled(false);
+	    
 	    renderer.setZoomRate(1.1f);
 	    renderer.setBarSpacing(0.5f);
-	    mChartView2 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,
-	        Type.STACKED);
+	    
+	    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(chartTitles, x, values);
+	    mChartView2 = ChartFactory.getLineChartView(this, dataset, renderer);    
 
+	    
 	    mLayoutChart2.removeAllViews();
 	    mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+
 
 }
 	
@@ -290,7 +302,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			
+			mProgBar.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -347,7 +359,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			
+			mProgBar.setVisibility(View.INVISIBLE);
 			if (result.equals("success")){
 				updateGUI();
 			}
@@ -356,12 +368,12 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			
+			mProgBar.setVisibility(View.VISIBLE);
 		}
 	}
 
 	public void updateGUI() {
-		mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList, mContactList);
+		mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList);//, mContactList);
 		mAddFriendsListView.setAdapter(mAdapter);
 		
 		buildChartZooz();
@@ -399,10 +411,97 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 
 		}
 		phones.close();
-		mContactList = contactList;
+		//mContactList = contactList;
 		MySharedPreferences.getInstance().clearRecommendUsers(this);
 		
 		
 	}
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			if (mProgBar != null)
+				mProgBar.setVisibility(View.GONE);
+		    if (requestCode == 1) {
+		        if(resultCode == RESULT_OK){
+		        	String fromActivity = data.getStringExtra("ACTIVITY");
+		        	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
+		            Log.e("aaa", s);
+		            sendFriendRecommendToServerAsync(s);
+		        }
+		        if (resultCode == RESULT_CANCELED) {
+		            //Write your code if there's no result
+		        }
+		    }
+	}
+
+	
+	
+	
+	
+	private void sendFriendRecommendToServerAsync(String data){
+		FriendRecommendToServer friendRecommendToServer = new FriendRecommendToServer();
+		friendRecommendToServer.execute(data);
+	}
+	
+	private class FriendRecommendToServer extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(MainAddFriendsActivity.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				JSONArray dataList = msp.getRecommendUserList(MainAddFriendsActivity.this);
+				
+				bServerCom.setFriendRecommend(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this), dataList.toString());
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				Toast.makeText(MainAddFriendsActivity.this, "Recommendation Sent", Toast.LENGTH_LONG).show();
+				getUserContactDataAsync();
+				//startActivity(new Intent(MainAddFriendsActivity.this, CongratulationsGetFriendsActivity.class));
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+	
 	
 }

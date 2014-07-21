@@ -135,7 +135,7 @@ public class ServerCom {
 	}
 	
 	public void getUserContactData(String UserId, String UserSecret){
-		String url = StaticParms.BASE_SERVER_URL + "api_get_user_contact_data";
+		String url = StaticParms.BASE_SERVER_URL + "api_get_recommendation_data";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("user_id", UserId ));

@@ -24,7 +24,7 @@ public class FriendsAdapter extends ArrayAdapter<ContactFriend>  {
 	
 	private List<ContactFriend> mContactFriendsList;
 	  
-	private HashMap<String, Contact> mContactList;
+	//private HashMap<String, Contact> mContactList;
 	
 	private int row;
 	private ContactFriend objBean;
@@ -37,11 +37,12 @@ public class FriendsAdapter extends ArrayAdapter<ContactFriend>  {
 	
 	
 	
-	public FriendsAdapter(Activity act, int row, ContactFriendList items, HashMap<String, Contact> contactList) {
+	//public FriendsAdapter(Activity act, int row, ContactFriendList items, HashMap<String, Contact> contactList) {
+	public FriendsAdapter(Activity act, int row, ContactFriendList items) {
 		super(act, row, items.getContacts());
 
 		mContactFriendsList = items.getContacts();
-		mContactList = contactList;
+		//mContactList = contactList;
 		
 		this.activity = act;
 		this.row = row;
@@ -63,25 +64,21 @@ public class FriendsAdapter extends ArrayAdapter<ContactFriend>  {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		if ((mContactFriendsList == null) || ((position + 1) > mContactFriendsList.size()))
-			return view;
+		//if ((mContactFriendsList == null) || ((position + 1) > mContactFriendsList.size()))
+			//return view;
 
 		objBean = mContactFriendsList.get(position);
 		
 		
-		Contact contact = mContactList.get(objBean.getCellPhone());
+		//Contact contact = mContactList.get(objBean.getCellPhone());
 		
 
 		holder.nameTV = (TextView) view.findViewById(R.id.friend_name_tv);
 		
 		if (objBean.isInstalled())
-			holder.nameTV.setBackgroundResource(activity.getResources().getColor(R.color.green));
+			holder.nameTV.setBackgroundResource(R.color.green);
 
-		if (contact != null){
-			holder.nameTV.setText(Html.fromHtml(contact.getName()));
-		}
-		else
-			holder.nameTV.setText(Html.fromHtml(objBean.getCellPhone()));
+		holder.nameTV.setText(Html.fromHtml(objBean.getName()));
 		
 		return view;
 	}

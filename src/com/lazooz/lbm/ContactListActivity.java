@@ -13,29 +13,28 @@ import com.lazooz.lbm.utils.Utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -50,23 +49,44 @@ public class ContactListActivity extends Activity implements
 	private ContanctAdapter mAdapter;
 	private List<String> mContactsWithApp;
 	private LinearLayout mOperationButtonLayout;
+	private ProgressBar mProgBar;
+	private Button mSendButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_list);
 
+		mProgBar = (ProgressBar)findViewById(R.id.progbar);
+		mProgBar.setVisibility(View.INVISIBLE);
+		
 		listView = (ListView) findViewById(R.id.list);
 		listView.setOnItemClickListener(this);
 
-		CreateList(null);
-		sortList();
-			
-		mAdapter = new ContanctAdapter(this, R.layout.contact_row, mContactList);
-		mAdapter.setOnCheckedListener(this);
 		
-		listView.setAdapter(mAdapter);
-		listView.setTextFilterEnabled(true);
+		mSendButton = (Button)findViewById(R.id.floating_button_send);
+		mSendButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("ACTIVITY", "ContactListActivity");
+				setResult(RESULT_OK,returnIntent);
+				finish();
+			}
+		});
+		
+		
+		loadListAsync();
+		
+		//CreateList(null);
+		//sortList();
+			
+		//mAdapter = new ContanctAdapter(this, R.layout.contact_row, mContactList);
+		//mAdapter.setOnCheckedListener(this);
+		
+		//listView.setAdapter(mAdapter);
+		//listView.setTextFilterEnabled(true);
 		
 	    mOperationButtonLayout = (LinearLayout)findViewById(R.id.operation_layout);
 	    mOperationButtonLayout.setVisibility(View.INVISIBLE);
@@ -307,17 +327,61 @@ public class ContactListActivity extends Activity implements
 		MySharedPreferences msp = MySharedPreferences.getInstance();
 		if (isChecked){
 			msp.addRecommendUser(this, contactBean);
-			if(msp.areThere3RecommendUser(this)){
+/*			if(msp.areThere3RecommendUser(this)){
 				Intent returnIntent = new Intent();
 				returnIntent.putExtra("ACTIVITY", "ContactListActivity");
 				setResult(RESULT_OK,returnIntent);
 				finish();
-			}
+			}*/
 		}
 		else
 			MySharedPreferences.getInstance().removeRecommendUser(this, contactBean);
 		
+		if (msp.areThereRecommendUser(this))
+			showOperationButtonLayout();
+		else
+			hideOperationButtonLayout();
 	}
 
+	
+	private void loadListAsync(){
+		LoadList loadList = new LoadList();
+		loadList.execute();
+	}
+	
+	private class LoadList extends AsyncTask<String, Void, String> {
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+			CreateList(null);
+			sortList();
+
+			
+			return "";
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			mAdapter = new ContanctAdapter(ContactListActivity.this, R.layout.contact_row, mContactList);
+			mAdapter.setOnCheckedListener(ContactListActivity.this);
+			
+			listView.setAdapter(mAdapter);
+			listView.setTextFilterEnabled(true);
+			
+			mProgBar.setVisibility(View.INVISIBLE);			
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			mProgBar.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	
+	
+	
 	
 }

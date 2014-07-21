@@ -8,6 +8,7 @@ import com.lazooz.lbm.utils.Utils;
 public class ContactFriend {
 
 	private String mCellPhone;
+	private String mName;
 	private boolean mIsInstalled;
 	public ContactFriend() {
 		
@@ -30,6 +31,7 @@ public class ContactFriend {
 	public ContactFriend(JSONObject jsonObj){
 		try {
 			mCellPhone = jsonObj.getString("cellphone");
+			mName = jsonObj.getString("name");
 			mIsInstalled = Utils.yesNoToBoolean(jsonObj.getString("is_installed"));
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -41,6 +43,7 @@ public class ContactFriend {
 		
 		try {
 			retObj.put("cellphone", mCellPhone);
+			retObj.put("name", mName);
 			retObj.put("is_installed", Utils.booleanToYesNo(mIsInstalled));
 			
 		} catch (JSONException e) {
@@ -49,6 +52,12 @@ public class ContactFriend {
 		return retObj;
 	
 	
+	}
+	public String getName() {
+		return mName;
+	}
+	public void setName(String name) {
+		mName = name;
 	}
 	
 	

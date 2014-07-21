@@ -156,7 +156,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 
 				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
-				inText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+				inText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
 
 	        	builder.setTitle(getString(R.string.reg_input_conf_title));
@@ -285,7 +285,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		String activationCode = "";
 		if(smsBody.contains(actCodeTemplateEng)){
 			int start = smsBody.indexOf(actCodeTemplateEng);
-			activationCode = smsBody.substring(start+actCodeTemplateEng.length()+1, start+actCodeTemplateEng.length()+9);
+			activationCode = smsBody.substring(start+actCodeTemplateEng.length()+1, start+actCodeTemplateEng.length()+10);
 		}
 		return activationCode;		
 	}

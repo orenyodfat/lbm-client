@@ -26,8 +26,10 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
@@ -40,6 +42,7 @@ public class MainDistanceActivity extends ActionBarActivity {
 	private GraphicalView mChartView1;
 	private TextView mDistanceTV;
 	public StatsDataList mStatsDataList;
+	private ProgressBar mProgBar;
 	
 	
 	@Override
@@ -47,6 +50,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_distance);
 
+		mProgBar = (ProgressBar)findViewById(R.id.progbar);
+		mProgBar.setVisibility(View.INVISIBLE);
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
@@ -79,15 +85,13 @@ public class MainDistanceActivity extends ActionBarActivity {
 	private void buildChart1(){
 		 
 	    
-		  String[] titles = new String[] { "this week", "previus week"};
+		  String[] titles = new String[] { "this week"};
 		    List<double[]> x = new ArrayList<double[]>();
-		    for (int i = 0; i < titles.length; i++) {
-		      x.add(new double[] { 1, 2, 3, 4, 5, 6, 7});
-		    }
+		    x.add(new double[] { 1, 2, 3, 4, 5, 6, 7});
+		    
 		    List<double[]> values = new ArrayList<double[]>();
 		    values.add(new double[] { 50, 50, 52, 55, 56, 58, 62});
-		    values.add(new double[] { 36, 37, 38, 40, 46, 48, 48 });
-		    int[] colors = new int[] { Color.BLUE, Color.RED };
+		    int[] colors = new int[] { Color.BLUE};
 		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
 		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
 		    int length = renderer.getSeriesRendererCount();
@@ -149,31 +153,74 @@ public class MainDistanceActivity extends ActionBarActivity {
  		xTitle = "Months";
  		yTitle = "Distance";
 	 		
-		
+ 		
+	    
+	    
 	    List<double[]> values = new ArrayList<double[]>();
 
 
 	    values.add(mStatsDataList.getDistDoubleArray());
-	    values.add(mStatsDataList.getDistDoubleArray());
 	    
 	    int[] colors = new int[] { Color.BLUE };
-	    XYMultipleSeriesRenderer renderer = ChartUtil.buildBarRenderer(colors);
+	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
+	  
+	    
+
 	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
 	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValDist() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
 
 	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-	    //renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
-	    
 	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
-	    //renderer.getSeriesRendererAt(1).setDisplayChartValuesDistance(15);
-
 	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
-	    //renderer.getSeriesRendererAt(1).setChartValuesTextSize(20);
-
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(3);
+	    
+	    
 	    
 	    renderer.setXLabels(0);
 	    
+	    /*
+	     * 
+		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
+		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
+		    int length = renderer.getSeriesRendererCount();
+		    for (int i = 0; i < length; i++) {
+		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
+		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValues(true);
+		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValuesDistance(15);
+		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
+		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setChartValuesTextSize(20);
+		    }
+		    ChartUtil.setChartSettings(renderer, "Total of 54,000 km mined", "Time", "Distance", 0.5, 7.5, 20, 90,
+		        Color.LTGRAY, Color.BLUE, Color.LTGRAY);
+		    //renderer.setXLabels(12);	    
+		    renderer.setXLabels(0);
+		    renderer.addXTextLabel(1, "Sun");
+		    renderer.addXTextLabel(2, "Mon");
+		    renderer.addXTextLabel(3, "Tue");
+		    renderer.addXTextLabel(4, "Wed");
+		    renderer.addXTextLabel(5, "Thu");
+		    renderer.addXTextLabel(6, "Fri");
+		    renderer.addXTextLabel(7, "Sat");
+	     * */
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    List<double[]> x = new ArrayList<double[]>();
+	    x.add(mStatsDataList.getXDoubleArray());
+	    
+	    
+	    
+	    
+	    
 	    int i = 1;
+	     
 	    for(StatsData point : mStatsDataList.getList()){
 	    		renderer.addXTextLabel(i++, point.getTime());
 	    }
@@ -195,8 +242,13 @@ public class MainDistanceActivity extends ActionBarActivity {
 	    // renderer.setZoomEnabled(false);
 	    renderer.setZoomRate(1.1f);
 	    renderer.setBarSpacing(0.5f);
-	    mChartView1 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,
-	        Type.STACKED);
+	    
+	    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(chartTitles, x, values);
+	    mChartView1 = ChartFactory.getLineChartView(this, dataset, renderer);    
+	
+	    
+	    
+	    //mChartView1 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,Type.STACKED);
 
 	    mLayoutChart1.removeAllViews();
 	    mLayoutChart1.addView(mChartView1, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
@@ -257,15 +309,17 @@ public class MainDistanceActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			
+			mProgBar.setVisibility(View.INVISIBLE);
 			if (result.equals("success")){
 				buildChartDist();
+				//buildChart1();
 			}
 		}
 			
 		
 		@Override
 		protected void onPreExecute() {
+			mProgBar.setVisibility(View.VISIBLE);
 			
 		}
 	}

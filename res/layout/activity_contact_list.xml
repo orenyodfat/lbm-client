@@ -4,6 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <ProgressBar
+        android:id="@+id/progbar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
@@ -19,12 +26,15 @@
         android:minHeight="50dp" >
 
         <Button
-            android:id="@+id/floating_button_del"
+            android:id="@+id/floating_button_send"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:text="Send Invitation"/>
+            android:background="@color/blue"
+            android:text="Send Invitation"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 
 </RelativeLayout>

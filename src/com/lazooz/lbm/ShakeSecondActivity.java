@@ -10,8 +10,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lazooz.lbm.utils.Utils;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -31,12 +33,15 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private ShakeDetector mShakeDetector;
+	private AccelerometerTracker mAccelerometerTracker;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shake_second);
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_shake);
@@ -103,10 +108,36 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	}
 	
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initShakeDetector();
+	}
 	
+	@Override
+	protected void onPause() {
+		if (mAccelerometerTracker != null)
+			mAccelerometerTracker.release();
+		super.onPause();
+		
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 	
 	private void initShakeDetector() {
 		  // ShakeDetector initialization
+		
+		/*
       mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
       mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
       mShakeDetector = new ShakeDetector();
@@ -114,19 +145,15 @@ public class ShakeSecondActivity extends ActionBarActivity {
 
           @Override
           public void onShake(int count) {
-              /*
-               * The following method, "handleShakeEvent(count):" is a stub //
-               * method you would use to setup whatever you want done once the
-               * device has been shook.
-               */
+              
               
               	Utils.beep();
           }
       });
-	
+	*/
       
-		AccelerometerTracker at = new AccelerometerTracker(this);
-		at.setListener(new AccelerometerTracker.AccelerometerListener() {
+		mAccelerometerTracker = new AccelerometerTracker(this);
+		mAccelerometerTracker.setListener(new AccelerometerTracker.AccelerometerListener() {
 			
 			@Override
 			public void onShake(float force) {
