@@ -105,7 +105,6 @@ public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         	  CheckBox cb = (CheckBox)buttonView;
-        	  int pos = (Integer)cb.getTag();
         	  Contact contact = mContactList.get(position);
         	  contact.setSelected(buttonView.isChecked());
          	 if (mOnCheckedListener != null)

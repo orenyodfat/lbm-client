@@ -55,6 +55,7 @@ public class IntroActivity extends ActionBarActivity {
 					Intent intent = new Intent(IntroActivity.this, MapShowLocationActivity.class);
 					intent.putExtra("MISSION_GPS_ON", true);
 					startActivity(intent);
+					finish();
 				}
 
 				else

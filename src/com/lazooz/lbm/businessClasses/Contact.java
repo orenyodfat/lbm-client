@@ -26,7 +26,7 @@ public class Contact {
 		mCountryCode = countryCode;
 	}
 	
-	public Contact(JSONObject jsonObj, String countryCode,int i){
+	public Contact(JSONObject jsonObj, String countryCode){
 		try {
 			mCountryCode = countryCode;
 			mName = jsonObj.getString("name");

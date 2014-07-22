@@ -199,13 +199,14 @@ public class ServerCom {
 	}
 	
 	
-	public void setFriendRecommend(String UserId, String UserSecret, String data) {
+	public void setFriendRecommend(String UserId, String UserSecret, String data, String theMessage) {
 		String url = StaticParms.BASE_SERVER_URL + "api_set_friend_recommend";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("user_id", UserId ));
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("friend_recommend_request_list", data ));
+		params.add(new BasicNameValuePair("message", theMessage ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		

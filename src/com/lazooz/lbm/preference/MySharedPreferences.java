@@ -3,6 +3,7 @@ package com.lazooz.lbm.preference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -238,6 +239,51 @@ public class MySharedPreferences {
 		Map<String,?> keys = spData.getAll();
 		return (keys.size() > 0);
 	}
+
+	public int getNumOfRecommendUser(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		Map<String,?> keys = spData.getAll();
+		return (keys.size());
+	}
+
+	public String getRecommendUserName(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		Map<String,?> keys = spData.getAll();
+		try {
+			if (keys.size() == 1){
+				for(Map.Entry<String,?> entry : keys.entrySet()){
+					JSONObject obj = new JSONObject(entry.getValue().toString());      
+					Contact contact = new Contact(obj, "IL");
+					return contact.getName();
+				 }
+			}
+		} catch (Exception e) {
+			return "";
+		}
+		return "";
+	}
+
+	
+	public void saveDefaultMyName(Context context, String myName){
+		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("MyName", myName).commit();		
+	}
+	
+	public void saveDefaultFriendsMessage(Context context, String msg){
+		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("Message", msg).commit();				
+	}
+
+	public String getDefaultMyName(Context context){
+		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
+		return spData.getString("MyName", "John");		
+	}
+	
+	public String getDefaultFriendsMessage(Context context){
+		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
+		return spData.getString("Message", "");
+	}
+	
 	
 	public JSONArray getRecommendUserList(Context context){
 		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);

@@ -12,11 +12,14 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
+import com.lazooz.lbm.R;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,6 +30,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
@@ -251,6 +255,39 @@ public class Utils {
 	public static void unFreezOrientation(Activity activity){
 		activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 	}
+
+	
+	
+	
+	public static void showSettingsAlert(final Context context, String theMessage){
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+   	 
+        // Setting Dialog Title
+        alertDialog.setTitle(context.getString(R.string.gps_activate_gps_title));
+ 
+        // Setting Dialog Message
+        alertDialog.setMessage(theMessage);
+ 
+        // On pressing Settings button
+        alertDialog.setPositiveButton(context.getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+            	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            	context.startActivity(intent);
+            }
+        });
+ 
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            }
+        });
+ 
+        // Showing Alert Message
+        alertDialog.show();
+	}
+
+	
 	
 	
 }

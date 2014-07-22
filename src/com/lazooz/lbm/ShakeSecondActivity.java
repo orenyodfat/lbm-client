@@ -116,9 +116,12 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	
 	@Override
 	protected void onPause() {
-		if (mAccelerometerTracker != null)
-			mAccelerometerTracker.release();
 		super.onPause();
+		if (mAccelerometerTracker != null){
+			mAccelerometerTracker.release();
+			mAccelerometerTracker.setListener(null);
+			mAccelerometerTracker = null;
+		}
 		
 		
 	}
@@ -157,7 +160,9 @@ public class ShakeSecondActivity extends ActionBarActivity {
 			
 			@Override
 			public void onShake(float force) {
-				playSound();
+				if (mAccelerometerTracker != null){
+					playSound();
+				}
 			}
 			
 			@Override

@@ -15,7 +15,10 @@
 	
 	<string name="activation_code_template_eng">LaZooz app registration token: </string>
 
+	<string name="recommendation_input_msg_title">Recommendation</string>
+	<string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
 	
+		
 	<string name="drawer_entry_me">Me</string>
 	<string name="drawer_entry_info">Info</string>
 	<string name="drawer_entry_share">Share</string>
@@ -41,7 +44,9 @@
     <string name="search_hint">Find contacts</string>
     
     
-    
+    <string name="friends_message_p1_one_select">Hi %1$s it\'s %2$s,</string>
+    <string name="friends_message_p1_multy_select">Hi it\'s %s,</string>
+    <string name="friends_message_main">Check out this cool app.</string>
     
     
     

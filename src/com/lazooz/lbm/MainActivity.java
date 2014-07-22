@@ -20,6 +20,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends MyActionBarActivity {
+public class MainActivity extends MyActionBarActivity implements LocationListener {
 	
 	private Timer ShortPeriodTimer;
 	private TextView mDistanceTV;
@@ -41,6 +44,8 @@ public class MainActivity extends MyActionBarActivity {
 	private Button mAddFriendsBtn;
 	private Button mShakeBtn;
 	private ProgressBar mCriticalMassPB;
+	private GPSTracker mGPS;
+	private LocationManager mLocationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,12 +140,33 @@ public class MainActivity extends MyActionBarActivity {
 		
 		getUserKeyDataAsync();
 		
+		handleGPS();
+		/*
+		mGPS = GPSTracker.getInstance(this);
+		mGPS.setOnLocationListener(this);
 		
+		if (!mGPS.isGPSEnabled()){
+			mGPS.showSettingsAlert();
+		}
 		
-		
+		mGPS.getLocation();*/
 	}
 
 	
+	private void handleGPS() {
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60*1000, 10, this);
+		
+		String theMessage = "hey";
+		
+		if (!isGPSEnabled)
+			Utils.showSettingsAlert(this, theMessage);
+	}
+
+
 	private void startOnDayScheduler() {
 		Calendar cal = Calendar.getInstance();
 		Intent intent = new Intent(this, AlarmOneDaySchedReciever.class);
@@ -336,6 +362,43 @@ public class MainActivity extends MyActionBarActivity {
 		protected void onPreExecute() {
 			
 		}
+	}
+
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Toast.makeText(this, "onLocationChanged", Toast.LENGTH_LONG).show();
+		
+	}
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		Toast.makeText(this, "onProviderDisabled", Toast.LENGTH_LONG).show();
+		if(provider.equals("")){
+			
+		}
+		
+	}
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		Toast.makeText(this, "onProviderEnabled", Toast.LENGTH_LONG).show();
+		if(provider.equals("")){
+			
+		}
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Toast.makeText(this, "onStatusChanged " + status, Toast.LENGTH_LONG).show();
+		if (status == 2){
+			
+		}
+		
 	}
 
 	

@@ -13,8 +13,11 @@ import com.lazooz.lbm.utils.Utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,20 +25,27 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactListActivity extends Activity implements
@@ -52,6 +62,15 @@ public class ContactListActivity extends Activity implements
 	private ProgressBar mProgBar;
 	private Button mSendButton;
 
+	private View mMessageView;
+	private EditText mMessageNameET;
+	private CheckBox mMessageNameCB;
+	private CheckBox mMessageMsgCB;
+	private int mMessageNumOfSelectedUsers;
+	private String mMessageSelectedContactName;
+	private TextView mMessageMsgP1TV;
+	private EditText mMessageMsgET;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,10 +88,9 @@ public class ContactListActivity extends Activity implements
 			
 			@Override
 			public void onClick(View arg0) {
-				Intent returnIntent = new Intent();
-				returnIntent.putExtra("ACTIVITY", "ContactListActivity");
-				setResult(RESULT_OK,returnIntent);
-				finish();
+				showMessageDlg();
+				
+				
 			}
 		});
 		
@@ -94,8 +112,99 @@ public class ContactListActivity extends Activity implements
 
 	}
 	
+	 private TextWatcher mTextNameWatcher = new TextWatcher() {
+		
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void afterTextChanged(Editable s) {
+			updateMessageP1(s.toString());
+		}
+	};
+
+	protected void updateMessageP1(String myName) {
+		String theMessageP1;
+		if (mMessageView != null){
+			if (myName.equals(""))
+				theMessageP1 = "";
+			else
+				theMessageP1 = String.format(getString(R.string.friends_message_p1_multy_select), myName);
+			mMessageMsgP1TV.setText(theMessageP1);
+			
+		}
+	}
 	
-	 private void showOperationButtonLayout(){
+	 protected void showMessageDlg() {
+		 mMessageView = getLayoutInflater().inflate(R.layout.message_input, null);
+		 mMessageMsgET = (EditText)mMessageView.findViewById(R.id.recmsg_the_message_et);
+		 mMessageMsgP1TV = (TextView)mMessageView.findViewById(R.id.recmsg_the_message_p1_tv);
+		 mMessageNameET = (EditText)mMessageView.findViewById(R.id.recmsg_name_et);
+		 mMessageNameCB = (CheckBox)mMessageView.findViewById(R.id.recmsg_default_name_cb);
+		 mMessageMsgCB = (CheckBox)mMessageView.findViewById(R.id.recmsg_default_msg_cb);
+			
+		 
+		 MySharedPreferences msp = MySharedPreferences.getInstance();
+		 mMessageNumOfSelectedUsers = msp.getNumOfRecommendUser(this);
+		 mMessageSelectedContactName = msp.getRecommendUserName(this);
+		 
+		 String defautMsg = msp.getDefaultFriendsMessage(this);
+		 if (defautMsg.equals(""))
+			 defautMsg = getString(R.string.friends_message_main);
+		 mMessageMsgET.setText(defautMsg);
+		 
+		 mMessageNameET.setText(msp.getDefaultMyName(this));
+		 updateMessageP1(mMessageNameET.getText().toString());
+		 mMessageNameET.addTextChangedListener(mTextNameWatcher);
+		 mMessageNameET.requestFocus();
+		 
+		 
+		 Builder builder = new AlertDialog.Builder(ContactListActivity.this);
+		 builder.setTitle(getString(R.string.recommendation_input_msg_title));
+		 builder.setMessage(getString(R.string.recommendation_input_msg_body));
+		 builder.setView(mMessageView);
+		 builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int whichButton) {
+            	 if(mMessageNameCB.isChecked())
+            		 MySharedPreferences.getInstance().saveDefaultMyName(ContactListActivity.this, mMessageNameET.getText().toString());
+            	 if(mMessageMsgCB.isChecked())
+            		 MySharedPreferences.getInstance().saveDefaultFriendsMessage(ContactListActivity.this, mMessageMsgET.getText().toString());
+            	 
+            	 String theMessage;
+            	 if (mMessageMsgP1TV.getText().toString().equals(""))
+            		 theMessage = mMessageMsgET.getText().toString();
+            	 else
+            		 theMessage = mMessageMsgP1TV.getText().toString() + "\n"+ mMessageMsgET.getText().toString();
+            		 
+            	 
+            	 Intent returnIntent = new Intent();
+ 				 returnIntent.putExtra("ACTIVITY", "ContactListActivity");
+ 				 returnIntent.putExtra("MESSAGE", theMessage);
+ 				 setResult(RESULT_OK,returnIntent);
+ 				 dialog.cancel();
+ 				 finish();
+             }
+     	
+         });
+     	
+     	builder.setNegativeButton(getString(android.R.string.cancel), null);
+     	builder.show().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);		
+	}
+
+
+
+
+	private void showOperationButtonLayout(){
 			if (mOperationButtonLayout.getVisibility() == View.VISIBLE)
 				return;
 			TranslateAnimation animate = new TranslateAnimation(0,0,mOperationButtonLayout.getHeight(),0);

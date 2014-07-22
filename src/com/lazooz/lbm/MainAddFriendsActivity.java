@@ -425,9 +425,10 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		    if (requestCode == 1) {
 		        if(resultCode == RESULT_OK){
 		        	String fromActivity = data.getStringExtra("ACTIVITY");
+		        	String theMessage = data.getStringExtra("MESSAGE");
 		        	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
 		            Log.e("aaa", s);
-		            sendFriendRecommendToServerAsync(s);
+		            sendFriendRecommendToServerAsync(theMessage);
 		        }
 		        if (resultCode == RESULT_CANCELED) {
 		            //Write your code if there's no result
@@ -439,9 +440,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	
 	
 	
-	private void sendFriendRecommendToServerAsync(String data){
+	private void sendFriendRecommendToServerAsync(String theMessage){
 		FriendRecommendToServer friendRecommendToServer = new FriendRecommendToServer();
-		friendRecommendToServer.execute(data);
+		friendRecommendToServer.execute(theMessage);
 	}
 	
 	private class FriendRecommendToServer extends AsyncTask<String, Void, String> {
@@ -449,6 +450,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 
 		@Override
 		protected String doInBackground(String... params) {
+			
+			String theMessage = params[0];
 			
           	ServerCom bServerCom = new ServerCom(MainAddFriendsActivity.this);
         	
@@ -459,7 +462,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				
 				JSONArray dataList = msp.getRecommendUserList(MainAddFriendsActivity.this);
 				
-				bServerCom.setFriendRecommend(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this), dataList.toString());
+				bServerCom.setFriendRecommend(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this), dataList.toString(), theMessage);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();

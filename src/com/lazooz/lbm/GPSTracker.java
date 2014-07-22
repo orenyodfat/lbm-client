@@ -71,6 +71,7 @@ public class GPSTracker extends Service implements LocationListener {
 	      if(instance == null) {
 	         instance  = new GPSTracker(context);
 	      }
+
 	      return instance;
 	   }
 	
