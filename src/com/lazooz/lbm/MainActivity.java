@@ -35,7 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends MyActionBarActivity implements LocationListener {
+public class MainActivity extends MyActionBarActivity  {
 	
 	private Timer ShortPeriodTimer;
 	private TextView mDistanceTV;
@@ -140,30 +140,30 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 		
 		getUserKeyDataAsync();
 		
-		handleGPS();
-		/*
-		mGPS = GPSTracker.getInstance(this);
-		mGPS.setOnLocationListener(this);
 		
-		if (!mGPS.isGPSEnabled()){
-			mGPS.showSettingsAlert();
-		}
 		
-		mGPS.getLocation();*/
 	}
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		checkGPS();
+	}
 	
-	private void handleGPS() {
+	
+	private void checkGPS() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60*1000, 10, this);
 		
-		String theMessage = "hey";
-		
-		if (!isGPSEnabled)
-			Utils.showSettingsAlert(this, theMessage);
+		if (!isGPSEnabled && isNetworkEnabled)
+			Utils.showSettingsAlert(this, getString(R.string.gps_message_no_gps_yes_net));
+		else if (!isGPSEnabled && !isNetworkEnabled)
+			Utils.showSettingsAlert(this, getString(R.string.gps_message_no_gps_no_net));
+		else if (isGPSEnabled && !isNetworkEnabled)
+			Utils.showSettingsAlert(this, getString(R.string.gps_message_yes_gps_no_net));
 	}
 
 
@@ -219,9 +219,10 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 		    if (requestCode == 1) {
 		        if(resultCode == RESULT_OK){
 		        	String fromActivity = data.getStringExtra("ACTIVITY");
+		        	String theMessage = data.getStringExtra("MESSAGE");
 		        	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
 		            Log.e("aaa", s);
-		            sendFriendRecommendToServerAsync(s);
+		            sendFriendRecommendToServerAsync(theMessage);
 		        }
 		        if (resultCode == RESULT_CANCELED) {
 		            //Write your code if there's no result
@@ -233,9 +234,9 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 	
 	
 	
-	private void sendFriendRecommendToServerAsync(String data){
+	private void sendFriendRecommendToServerAsync(String theMessage){
 		FriendRecommendToServer friendRecommendToServer = new FriendRecommendToServer();
-		friendRecommendToServer.execute(data);
+		friendRecommendToServer.execute(theMessage);
 	}
 	
 	private class FriendRecommendToServer extends AsyncTask<String, Void, String> {
@@ -245,7 +246,7 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 		protected String doInBackground(String... params) {
 			
           	ServerCom bServerCom = new ServerCom(MainActivity.this);
-        	
+          	String theMessage = params[0];
               
         	JSONObject jsonReturnObj=null;
 			try {
@@ -253,7 +254,7 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 				
 				JSONArray dataList = msp.getRecommendUserList(MainActivity.this);
 				
-				bServerCom.setFriendRecommend(msp.getUserId(MainActivity.this), msp.getUserSecret(MainActivity.this), dataList.toString());
+				bServerCom.setFriendRecommend(msp.getUserId(MainActivity.this), msp.getUserSecret(MainActivity.this), dataList.toString(), theMessage);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -365,41 +366,7 @@ public class MainActivity extends MyActionBarActivity implements LocationListene
 	}
 
 
-	@Override
-	public void onLocationChanged(Location location) {
-		Toast.makeText(this, "onLocationChanged", Toast.LENGTH_LONG).show();
-		
-	}
-
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		Toast.makeText(this, "onProviderDisabled", Toast.LENGTH_LONG).show();
-		if(provider.equals("")){
-			
-		}
-		
-	}
-
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		Toast.makeText(this, "onProviderEnabled", Toast.LENGTH_LONG).show();
-		if(provider.equals("")){
-			
-		}
-		
-	}
-
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Toast.makeText(this, "onStatusChanged " + status, Toast.LENGTH_LONG).show();
-		if (status == 2){
-			
-		}
-		
-	}
+	
 
 	
 	

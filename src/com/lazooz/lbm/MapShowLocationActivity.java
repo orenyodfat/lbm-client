@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -78,7 +79,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			@Override
 			public void onMyLocationChange(Location location) {
 				if (location != null){
-					setMapLocation(location);
+					//setMapLocation(location);
 				}
 				
 			}
@@ -121,7 +122,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 				}
 			});
 			
-			setMapLocation(mGPSTracker.getLocation());
+			setMapInitLocation(mGPSTracker.getLocation());
 		    
 		 }
 		
@@ -155,6 +156,34 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
     
    
     
+	private void setMapInitLocation(Location location){
+		if (location != null){
+			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+			
+		    map.getUiSettings().setZoomControlsEnabled(false);
+			
+	    	
+	    	map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+				
+				@Override
+				public void onMapLoaded() {
+					map.animateCamera(CameraUpdateFactory.zoomTo(18), 3000, null);
+					
+				}
+			});
+
+	    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 11));		
+	    	
+	    	
+
+		    
+		    
+		    
+            
+            mMapAccuracyTV.setText(location.getAccuracy()+"");
+		}
+		
+	}
     
 	
 	private void setMapLocation(Location location){

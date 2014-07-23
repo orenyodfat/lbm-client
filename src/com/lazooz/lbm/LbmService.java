@@ -30,6 +30,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -37,13 +39,18 @@ import android.util.Log;
 
 public class LbmService extends Service implements LocationListener{
 
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 30*1000; // milisec
+	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
+	
+	
 	private Timer ShortPeriodTimer;
 	private Timer LongPeriodTimer;
 	private LocationData mLocationData;
-	private GPSTracker mGPSTracker;
-	
+	//private GPSTracker mGPSTracker;
+	private LocationManager mLocationManager;
+	private boolean noGPSNotifSent = false;
+	public boolean mSendingDataToServer;
 	public LbmService() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -52,14 +59,35 @@ public class LbmService extends Service implements LocationListener{
 		return null;
 	}
 
+	private boolean isLocationEnabled(){
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return isGPSEnabled && isNetworkEnabled;
+	}
+	
+	private Location getLocation(){
+		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (location == null)
+			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		return location;
+	}
+	
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    //Toast.makeText(this, "onStartCommand", Toast.LENGTH_LONG).show();
 		
 		//Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
-		mGPSTracker = GPSTracker.getInstance(this);
-		mGPSTracker.setOnLocationListener(this);
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+
+		
+		
+		
+		//mGPSTracker = GPSTracker.getInstance(this);
+		//mGPSTracker.setOnLocationListener(this);
 
 		
 		
@@ -80,7 +108,7 @@ public class LbmService extends Service implements LocationListener{
 					checkEveryLongPeriod();				
 				}
 			};
-		//LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 5*60*1000);
+		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
 		
 		
 		
@@ -120,6 +148,12 @@ public class LbmService extends Service implements LocationListener{
 		
 	}
 
+	private void displayNotifGPSDialog(){
+		Intent intent = new Intent(this, GPSNotifDialogActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+	}
+	
 	protected void checkEveryLongPeriod() {
 		sendDataToServerAsync();
 	}
@@ -149,9 +183,14 @@ public class LbmService extends Service implements LocationListener{
 				MySharedPreferences msp = MySharedPreferences.getInstance();
 				
 				JSONArray dataList = msp.getLocationDataList(LbmService.this);
-				byte[] dataCompressed = Utils.compress(dataList.toString());
-				bServerCom.setLocationZip(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), dataCompressed);
-				jsonReturnObj = bServerCom.getReturnObject();
+				if (dataList != null){
+					byte[] dataCompressed = Utils.compress(dataList.toString());
+					bServerCom.setLocationZip(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), dataCompressed);
+					jsonReturnObj = bServerCom.getReturnObject();
+				}
+				else
+					return "";
+				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -190,6 +229,7 @@ public class LbmService extends Service implements LocationListener{
 		
 		@Override
 		protected void onPostExecute(String result) {
+			mSendingDataToServer = false;
 			
 			if (result.equals("success_distance_achieved")){
 				startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
@@ -200,6 +240,7 @@ public class LbmService extends Service implements LocationListener{
 		
 		@Override
 		protected void onPreExecute() {
+			mSendingDataToServer = true;
 			
 		}
 	}
@@ -280,12 +321,16 @@ public class LbmService extends Service implements LocationListener{
 	
 	private void readGPSData(){
 		mLocationData.setTimestamp(System.currentTimeMillis());
-		
-		if (mGPSTracker.isGPSEnabled()){
+		if (isLocationEnabled()){
 			mLocationData.setHasLocationData(true);
-			mLocationData.setLatitude(mGPSTracker.getLatitude());
-			mLocationData.setLongitude(mGPSTracker.getLongitude());
-			mLocationData.setAccuracy(mGPSTracker.getAccuracy());
+			Location location = getLocation();
+			if (location != null){
+				mLocationData.setLatitude(location.getLatitude());
+				mLocationData.setLongitude(location.getLongitude());
+				mLocationData.setAccuracy(location.getAccuracy());
+			}
+			else
+				mLocationData.setHasLocationData(false);
 		}
 		else
 			mLocationData.setHasLocationData(false);
@@ -295,25 +340,77 @@ public class LbmService extends Service implements LocationListener{
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
+		if (mSendingDataToServer)
+			return;
+
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if (location.hasSpeed()){
+			float speed = location.getSpeed();
+			if (speed > 2.7){   // 2.7m/s = 10km/h
+				if (isGPSEnabled) //if gps is on - read sensors 				
+					readSensors();
+				else if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
+					if(MySharedPreferences.getInstance().shouldDisplayGPSNotif(this))
+						displayNotifGPSDialog();
+				}
+			}
+			
+		}
 		
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
+		if (status == LocationProvider.OUT_OF_SERVICE){
+			
+		}
+		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
+			
+		}
+		else if (status == LocationProvider.AVAILABLE){
+			
+		}
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
+		if (provider.equals(LocationManager.GPS_PROVIDER)){
+			
+		}
+		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+			
+		}
 		
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
+
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if ((!isGPSEnabled)&&(!isNetworkEnabled)){
+			if (!noGPSNotifSent){
+				noGPSNotifSent = true;
+				Utils.sendNotifications(this, 
+									R.drawable.ic_launcher, 
+									"Lazooz Notification", 
+									"GPS is off", 
+									"Location could not be establish.", 
+									new Intent(this, MainActivity.class),
+									true);
+			}
+		}
+		
+		
+		if (provider.equals(LocationManager.GPS_PROVIDER)){
+			
+		}
+		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+			
+		}
 		
 	}
 	

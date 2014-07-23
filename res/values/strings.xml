@@ -49,8 +49,12 @@
     <string name="friends_message_main">Check out this cool app.</string>
     
     
+    <string name="gps_notif_open_gps_title">Lazooz GPS</string>
+    <string name="gps_notif_open_gps_body">Please turn on the GPS</string>
     
-    
+    <string name="gps_message_no_gps_yes_net">Your GPS is off, please note that you will not be able to collect zoozs</string>
+    <string name="gps_message_no_gps_no_net">Your GPS and your network location are turned off, please note that you will not be able to collect zoozs</string>
+    <string name="gps_message_yes_gps_no_net">Your network location is turn off. we recommend to turn on your network location</string>
     
     
     

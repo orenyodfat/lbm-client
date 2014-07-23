@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +25,8 @@ public class IntroActivity extends ActionBarActivity {
 
 	private Button nextBtn;
 	private Button gpsActivateBtn;
-	private GPSTracker gps;
 	private TextView mInfoTV;
+	private LocationManager mLocationManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,23 +45,25 @@ public class IntroActivity extends ActionBarActivity {
 
 		
 		
-		gps = GPSTracker.getInstance(IntroActivity.this);
 		
 		nextBtn = (Button)findViewById(R.id.intro_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-				if(gps.isGPSEnabled()){
+				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+				boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+				boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+					
+					
+				if (!isGPSEnabled && !isNetworkEnabled)
+					Utils.showSettingsAlert(IntroActivity.this, getString(R.string.gps_message_no_gps_no_net));
+				else{
 					Intent intent = new Intent(IntroActivity.this, MapShowLocationActivity.class);
 					intent.putExtra("MISSION_GPS_ON", true);
 					startActivity(intent);
 					finish();
 				}
-
-				else
-					gps.showSettingsAlert();
-					//Utils.messageToUser(IntroActivity.this, "GPS", "Please turn on the GPS");
+				
 			}
 		});
 		
@@ -86,7 +89,11 @@ public class IntroActivity extends ActionBarActivity {
 	}
 	
 
-
+	private void checkGPS() {
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+	}
 
 
 }

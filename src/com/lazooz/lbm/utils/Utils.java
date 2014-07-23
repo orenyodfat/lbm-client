@@ -17,6 +17,9 @@ import com.lazooz.lbm.businessClasses.TelephonyData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -287,7 +290,73 @@ public class Utils {
         alertDialog.show();
 	}
 
-	
+	public static void sendNotifications(Context cntxt, int icon, String tickerText, 
+			String notifTitle, String notifText, Intent notifIntent, boolean withSound){
+		final int MY_NOTIFICATION_ID = 1;
+		NotificationManager notificationManager;
+		Notification myNotification;
+		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);
+		myNotification = new Notification(icon, tickerText, System.currentTimeMillis());
+		Context context = cntxt.getApplicationContext();
+		String notificationTitle = notifTitle;
+		String notificationText = notifText;
+		PendingIntent pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		if (withSound)
+			myNotification.defaults |= Notification.DEFAULT_SOUND;
+		myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+		myNotification.setLatestEventInfo(context,notificationTitle, notificationText, pendingIntent);
+		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
+	}
+
+	public static Notification createNotificationsOngoing(Context cntxt, int icon, String tickerText, 
+		String notifTitle, String notifText, Intent notifIntent){
+
+		final int MY_NOTIFICATION_ID = 2;
+		NotificationManager notificationManager;
+		Notification myNotification;
+		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);
+		myNotification = new Notification(icon, tickerText, System.currentTimeMillis());
+		Context context = cntxt.getApplicationContext();
+		String notificationTitle = notifTitle;
+		String notificationText = notifText;
+		//Intent myIntent = new Intent();
+		PendingIntent pendingIntent = null;
+		if (notifIntent != null){
+			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		myNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+		//myNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+		myNotification.setLatestEventInfo(context,notificationTitle, notificationText, pendingIntent);
+		return myNotification;
+	}
+
+	public static void sendNotifcationsOngoing(Context cntxt, int icon, String tickerText, 
+		String notifTitle, String notifText, Intent notifIntent){
+		final int MY_NOTIFICATION_ID = 2;
+		NotificationManager notificationManager;
+		Notification myNotification;
+		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);
+		myNotification = new Notification(icon, tickerText, System.currentTimeMillis());
+		Context context = cntxt.getApplicationContext();
+		String notificationTitle = notifTitle;
+		String notificationText = notifText;
+		//Intent myIntent = new Intent();
+		PendingIntent pendingIntent = null;
+		if (notifIntent != null){
+			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		myNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+		//myNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+		myNotification.setLatestEventInfo(context,notificationTitle, notificationText, pendingIntent);
+		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
+	}
+
+	public static void CancleNotificationsOngoing(Context cntxt){
+		final int MY_NOTIFICATION_ID = 2;
+		NotificationManager notificationManager;
+		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(MY_NOTIFICATION_ID);
+	}
 	
 	
 }

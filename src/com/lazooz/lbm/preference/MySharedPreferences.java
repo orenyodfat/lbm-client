@@ -19,6 +19,7 @@ import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.ServerData;
 
 import android.content.Context;
+import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
@@ -170,12 +171,14 @@ public class MySharedPreferences {
 	
 	public JSONArray getLocationDataList(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		boolean dataExist = false;
 		int writeCursor = spData.getInt("WriteCursor", 1);
 		int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
 		JSONArray jsArray = new JSONArray();
 		try {
 			Log.e("MSP", "read from: " + commitedReadCursor + " to: " + writeCursor);
 			for (int i=commitedReadCursor; i<=writeCursor; i++){
+				dataExist = true;
 				String locationDataString = spData.getString("LocationDataList_" + i, "");
 				JSONObject obj = new JSONObject(locationDataString);
 				jsArray.put(obj);
@@ -185,8 +188,10 @@ public class MySharedPreferences {
 		}
 		
 		spData.edit().putInt("ReadCursor", writeCursor).commit();
-		
-		return jsArray;
+		if (dataExist)
+			return jsArray;
+		else
+			return null;
 	}
 	
 	public void commitReadCursor(Context context){ // commit the read cursor
@@ -421,6 +426,30 @@ public class MySharedPreferences {
 		}
 		
 		return res;
+	}
+
+	public void setDefaultGPSNotif(Context context, boolean isDontShow, long currentTimeMillis) {
+		SharedPreferences spData = context.getSharedPreferences("GPSNotif",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putBoolean("GPSNotifDontShow", isDontShow);
+		editor.putLong("GPSNotifDontShowTime", currentTimeMillis);
+		editor.commit();
+	}
+	
+	public boolean shouldDisplayGPSNotif(Context context){
+		SharedPreferences spData = context.getSharedPreferences("GPSNotif",Context.MODE_MULTI_PROCESS);
+		boolean isDontShow = spData.getBoolean("GPSNotifDontShow", false);
+		long timeStampMillis = spData.getLong("GPSNotifDontShowTime", 0);
+		
+		if (isDontShow) // user ask not to show
+			return false;
+		else {  // user did not ask not to show, show on the next day only
+			long now = System.currentTimeMillis();
+			if (now - timeStampMillis > 1000*60*60*24)
+				return true;
+			else
+				return false;
+		}
 	}
 	
 	

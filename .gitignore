@@ -95,3 +95,5 @@ bin/res/crunch/drawable-hdpi/ic_qmark.png
 bin/res/crunch/drawable-mdpi/ic_qmark.png
 bin/res/crunch/drawable-xhdpi/ic_qmark.png
 bin/res/crunch/drawable-xxhdpi/ic_qmark.png
+bin/dexedLibs/google-play-services-47e91d4a143d8999aed1102738a57047.jar
+bin/dexedLibs/google-play-services_lib-02852733f664c35f48ca515f03fe7ecc.jar
