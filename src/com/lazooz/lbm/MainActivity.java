@@ -130,7 +130,7 @@ public class MainActivity extends MyActionBarActivity  {
 					guiHandler.post(guiRunnable);				
 				}
 			};
-		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
+		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 3*1000);
 
 		startOnDayScheduler();
 		
@@ -185,12 +185,36 @@ public class MainActivity extends MyActionBarActivity  {
 	
 	
 	protected void UpdateGUI() {
-		ServerData sd = MySharedPreferences.getInstance().getServerData(this);
-		mDistanceTV.setText(sd.getDistance());
+
+		MySharedPreferences msp = MySharedPreferences.getInstance();
+		ServerData sd = msp.getServerData(this);
+		
+		float distanceFromServer = sd.getDistanceFloat();
+		float distanceLocal = msp.getLocalDistance(this);
+		float distanceTotal = distanceFromServer + distanceLocal;
+		float distanceKMf = distanceTotal / 1000;
+		float distanceMf = distanceTotal % 1000;
+
+		int distanceKMd = (int)distanceKMf;
+		int distanceMd = (int)distanceMf;
+		
+		int localDist = (int)distanceLocal;
+		
+		mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
+
+		
+		//mDistanceTV.setText(sd.getDistance());
 		mZoozBalTV.setText(sd.getZoozBalance());
 	
 	}
+	
 
+	
+
+	
+	
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

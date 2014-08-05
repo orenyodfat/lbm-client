@@ -23,11 +23,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -358,5 +361,20 @@ public class Utils {
 		notificationManager.cancel(MY_NOTIFICATION_ID);
 	}
 	
+
+	public static void playSound(Context cntxt, int rawVal){
+		MediaPlayer mpTada = null ;
+		mpTada = MediaPlayer.create(cntxt, rawVal);
+		mpTada.setVolume(1.0f, 1.0f);
+		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					mp.release();
+				}
+			});
+		mpTada.start();
+		 
+	}
 	
+
 }

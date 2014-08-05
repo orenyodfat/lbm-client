@@ -39,8 +39,8 @@ import android.util.Log;
 
 public class LbmService extends Service implements LocationListener{
 
-	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 30*1000; // milisec
-	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 10*1000; // milisec
+	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 20; // meter
 	
 	
 	private Timer ShortPeriodTimer;
@@ -90,14 +90,14 @@ public class LbmService extends Service implements LocationListener{
 		//mGPSTracker.setOnLocationListener(this);
 
 		
-		
+		/*
 		ShortPeriodTimer = new Timer();
 		TimerTask twoSecondsTimerTask = new TimerTask() {
 				@Override
 				public void run() {
 					checkEveryShortPeriod();				
 				}
-			};
+			};*/
 		//ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 2*60*1000);
 		
 
@@ -203,6 +203,8 @@ public class LbmService extends Service implements LocationListener{
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
+						Utils.playSound(LbmService.this, R.raw.server_sent);
+						MySharedPreferences.getInstance().commitReadCursor(LbmService.this);
 						String zoozBalance = jsonReturnObj.getString("zooz");
 						String distance = jsonReturnObj.getString("distance");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
@@ -232,7 +234,15 @@ public class LbmService extends Service implements LocationListener{
 			mSendingDataToServer = false;
 			
 			if (result.equals("success_distance_achieved")){
-				startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
+				Utils.sendNotifications(LbmService.this, 
+						R.drawable.ic_launcher, 
+						"Lazooz Notification", 
+						"You have achieved 100 km", 
+						"You have achieved 100 km", 
+						new Intent(LbmService.this, MainActivity.class),
+						true);
+				
+				//startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
 
 			}
 		}
@@ -336,10 +346,32 @@ public class LbmService extends Service implements LocationListener{
 			mLocationData.setHasLocationData(false);
 		
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
+		Utils.playSound(this, R.raw.save);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//******************************************************************************************************
+	//LocationListener
+	//******************************************************************************************************
+	
+	
 	@Override
 	public void onLocationChanged(Location location) {
+		//Utils.playSound(this, R.raw.gps);
 		if (mSendingDataToServer)
 			return;
 
@@ -347,8 +379,11 @@ public class LbmService extends Service implements LocationListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
 		if (location.hasSpeed()){
+		//if (true){
 			float speed = location.getSpeed();
 			if (speed > 2.7){   // 2.7m/s = 10km/h
+			//if (speed > -1){   // 2.7m/s = 10km/h				
+				Utils.playSound(this, R.raw.ten_kms);
 				if (isGPSEnabled) //if gps is on - read sensors 				
 					readSensors();
 				else if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog

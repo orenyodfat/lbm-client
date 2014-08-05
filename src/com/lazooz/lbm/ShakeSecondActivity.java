@@ -161,7 +161,8 @@ public class ShakeSecondActivity extends ActionBarActivity {
 			@Override
 			public void onShake(float force) {
 				if (mAccelerometerTracker != null){
-					playSound();
+					Utils.playSound(ShakeSecondActivity.this, R.raw.shake);
+					//playSound();
 				}
 			}
 			

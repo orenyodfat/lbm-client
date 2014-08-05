@@ -5,6 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.location.Location;
+
 import com.lazooz.lbm.utils.Utils;
 
 public class LocationData {
@@ -79,7 +81,7 @@ public class LocationData {
 		}
 	}
 
-	
+
 	public JSONObject toJSON(){
 		JSONObject retObj = new JSONObject();
 		JSONObject obj; 
@@ -138,7 +140,7 @@ public class LocationData {
 		mLatitude = latitude;
 	}
 
-	public double getLlongitude() {
+	public double getLongitude() {
 		return mLongitude;
 	}
 
@@ -245,4 +247,16 @@ public class LocationData {
 		mHasLocationData = hasLocationData;
 	}
 
+	public float distanceBetween(LocationData locationData){
+		float[] results = null;
+		try {
+			Location.distanceBetween(locationData.getLatitude(), locationData.getLongitude(), getLatitude(), getLongitude(), results);
+			return results[0];
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	
 }

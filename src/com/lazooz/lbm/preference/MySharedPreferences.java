@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.util.Log;
 
 public class MySharedPreferences {
@@ -53,6 +54,14 @@ public class MySharedPreferences {
 	public static void removeInstance() {
 	      instance = null;
 	   }
+	
+	public static Editor putDouble(final Editor edit, final String key, final double value) {
+		   return edit.putLong(key, Double.doubleToRawLongBits(value));
+	}
+
+	public static double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
+		return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
+	}
 	
 	
 	public Class<?> getNextActivity(Context context){
@@ -158,16 +167,74 @@ public class MySharedPreferences {
 	
 	public void saveLocationData(Context context, LocationData ld){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		
+		//int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
+		
 		int writeCursor = spData.getInt("WriteCursor", 0);
+		
+		float prevDistance = spData.getFloat("LocalDist", 0);
+		double prevLong = getDouble(spData, "LocalLongPrev", 0);
+		double prevLat = getDouble(spData, "LocalLatPrev", 0);
+		
+		putDouble(editor, "LocalLongPrev", ld.getLongitude());
+		putDouble(editor, "LocalLatPrev", ld.getLatitude());
+		
+		// handle local distance
+		
+		
+		if (prevLong != 0){
+			float res = 0;
+			
+			try {
+				
+				Location locationA = new Location("point A");
+				locationA.setLatitude(prevLat);
+				locationA.setLongitude(prevLong);
+
+				Location locationB = new Location("point B");
+				locationB.setLatitude(ld.getLatitude());
+				locationB.setLongitude(ld.getLongitude());
+
+				res = locationA.distanceTo(locationB);
+				
+			} catch (Exception e) {
+				res = 0;
+			}
+			
+			res = res + prevDistance;
+			editor.putFloat("LocalDist", res);			
+		}
+		
+		/*String prevLocationString = spData.getString("LocationDataList_"+ writeCursor, "");
+		if (!prevLocationString.equals("")){
+			try {
+				JSONObject obj = new JSONObject(prevLocationString);
+				LocationData prevLocation = new LocationData(obj);
+				float dist = Math.abs(ld.distanceBetween(prevLocation));
+				dist = prevDistance + dist;
+				editor.putFloat("LocalDist", dist);
+			} catch (JSONException e) {
+			}
+		}*/
+		
+		
 		writeCursor++;
 		
-		Editor editor = spData.edit();
 		
 		editor.putString("LocationDataList_" + writeCursor, ld.toJSON().toString());
 		editor.putInt("WriteCursor", writeCursor);
+		
 		editor.commit();
 	}
+	
+	
 
+
+	public float getLocalDistance(Context context){
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		return spData.getFloat("LocalDist", 0);
+	}
 	
 	public JSONArray getLocationDataList(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
@@ -209,6 +276,9 @@ public class MySharedPreferences {
 		for (int i= prevCommitedReadCursor; i<= currentCommitedReadCursor; i++){
 			editor.remove("LocationDataList_" + i );
 		}
+		
+		editor.remove("LocalDist");
+		
 		
 		editor.commit();
 		
@@ -329,7 +399,7 @@ public class MySharedPreferences {
 		sd.setZoozBalance(spData.getString("ZoozBalance", "0.0"));
 		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
-		
+		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
 		return sd;
 	}
 	
@@ -341,6 +411,7 @@ public class MySharedPreferences {
 		editor.putString("ZoozBalance", zoozBalance);
 		editor.putString("Distance", distance);
 		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
+		editor.putLong("TimeStamp", System.currentTimeMillis());
 		editor.commit();
 	}
 

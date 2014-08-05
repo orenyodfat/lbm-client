@@ -59,8 +59,28 @@ public class MainDistanceActivity extends ActionBarActivity {
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		
 		
-		ServerData sd = MySharedPreferences.getInstance().getServerData(this);
-		mDistanceTV.setText(sd.getDistance());
+		
+		MySharedPreferences msp = MySharedPreferences.getInstance();
+		ServerData sd = msp.getServerData(this);
+		
+		float distanceFromServer = sd.getDistanceFloat();
+		float distanceLocal = msp.getLocalDistance(this);
+		float distanceTotal = distanceFromServer + distanceLocal;
+		float distanceKMf = distanceTotal / 1000;
+		float distanceMf = distanceTotal % 1000;
+
+		int distanceKMd = (int)distanceKMf;
+		int distanceMd = (int)distanceMf;
+		
+		int localDist = (int)distanceLocal;
+		
+		mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
+		
+		
+		
+		
+		
+		//mDistanceTV.setText(sd.getDistance());
 
 		
 		

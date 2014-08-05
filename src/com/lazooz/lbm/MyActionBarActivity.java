@@ -106,8 +106,12 @@ public class MyActionBarActivity extends ActionBarActivity {
     private void selectItem(int position) {
 
     	String s = (String)mDrawerList.getItemAtPosition(position);
+    	
     	if (s.equals(getString(R.string.drawer_entry_info))){
+    		Intent intent = new Intent(this, InfoActivity.class);
+    		startActivity(intent);
     	}
+    	
     	else if (s.equals(getString(R.string.drawer_entry_getfriends))){
     		mProgBar.setVisibility(View.VISIBLE);
     		final Handler handler = new Handler();
