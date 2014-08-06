@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.TelephonyData;
@@ -34,13 +35,14 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
 public class LbmService extends Service implements LocationListener{
 
-	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 10*1000; // milisec
-	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 20; // meter
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 30*1000; // milisec
+	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
 	
 	
 	private Timer ShortPeriodTimer;
@@ -50,6 +52,8 @@ public class LbmService extends Service implements LocationListener{
 	private LocationManager mLocationManager;
 	private boolean noGPSNotifSent = false;
 	public boolean mSendingDataToServer;
+	private NoSpeedTimer mNoSpeedTimer;
+	
 	public LbmService() {
 	}
 
@@ -111,7 +115,7 @@ public class LbmService extends Service implements LocationListener{
 		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
 		
 		
-		
+		mNoSpeedTimer = new NoSpeedTimer(1000*60*5, 1000);
 		
 		
 		
@@ -379,10 +383,13 @@ public class LbmService extends Service implements LocationListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
 		if (location.hasSpeed()){
-		//if (true){
+
 			float speed = location.getSpeed();
-			if (speed > 2.7){   // 2.7m/s = 10km/h
-			//if (speed > -1){   // 2.7m/s = 10km/h				
+			if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h
+			
+				if (speed > 2.7)
+					mNoSpeedTimer.startNow();
+				
 				Utils.playSound(this, R.raw.ten_kms);
 				if (isGPSEnabled) //if gps is on - read sensors 				
 					readSensors();
@@ -448,6 +455,39 @@ public class LbmService extends Service implements LocationListener{
 		}
 		
 	}
+
+	
+	
+	public class NoSpeedTimer extends CountDownTimer {
+		private boolean mIsActive = false;
+		public NoSpeedTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+		public void startNow(){
+			mIsActive = true;
+			start();
+		}
+		
+		public boolean isActive(){
+			return mIsActive;
+		}
+		
+		
+       @Override
+        public void onFinish() {
+    	   mIsActive = false;
+       }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+        
+        
+       
+	}
+
+	
 	
 	
 }

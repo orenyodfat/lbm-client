@@ -356,9 +356,11 @@ public class MainActivity extends MyActionBarActivity  {
 					if (serverMessage.equals("success")){
 						String zoozBalance = jsonReturnObj.getString("zooz_balance");
 						String distance = jsonReturnObj.getString("zooz_distance_balance");
+						String serverVer = jsonReturnObj.getString("server_version");
+						
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						
-						MySharedPreferences.getInstance().saveDataFromServer(MainActivity.this, zoozBalance, distance, isDistanceAchievement);
+						MySharedPreferences.getInstance().saveDataFromServer(MainActivity.this, zoozBalance, distance, isDistanceAchievement, serverVer);
 						
 						
 						

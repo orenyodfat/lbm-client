@@ -10,7 +10,9 @@ import com.lazooz.lbm.utils.Utils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -135,8 +137,23 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 			startActivity(intent);
 			finish();
 		}
-		else
-			Utils.messageToUser(this, "No internet Connection", "Please connect your device to the internet and restart the application");
+		else {
+			
+	     	AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+	     	alertDialog.setTitle("No internet Connection");
+	     	alertDialog.setMessage("Please connect your device to the internet and restart the application");
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+		    	
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+		    		SplashActivity.this.finish();
+		    	}
+		    });
+		    
+		    alertDialog.show();
+		}
 	}
 
 	

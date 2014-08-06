@@ -403,8 +403,21 @@ public class MySharedPreferences {
 		return sd;
 	}
 	
+	public String getServerVersion(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("ServerVersion", "");
+	}
 	
-	
+	public void saveDataFromServer(Context context, String zoozBalance, String distance, boolean isDistanceAchievement, String serverVer) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putString("ZoozBalance", zoozBalance);
+		editor.putString("Distance", distance);
+		editor.putString("ServerVersion", serverVer);
+		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
+		editor.putLong("TimeStamp", System.currentTimeMillis());
+		editor.commit();
+	}
 	public void saveDataFromServer(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
@@ -414,7 +427,6 @@ public class MySharedPreferences {
 		editor.putLong("TimeStamp", System.currentTimeMillis());
 		editor.commit();
 	}
-
 	public void saveContactsWithInstalledApp(Context context, JSONArray contacts) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		spData.edit().putString("ContactsWithInstalledApp", contacts.toString()).commit();

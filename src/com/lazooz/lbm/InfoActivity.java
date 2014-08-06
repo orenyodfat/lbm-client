@@ -1,5 +1,6 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +22,7 @@ public class InfoActivity extends ActionBarActivity {
 	private Button nextBtn;
 	private TextView mBuildNameTV;
 	private TextView mBuildNumTV;
+	private TextView mServerBuildNumTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,11 @@ public class InfoActivity extends ActionBarActivity {
 
 		mBuildNameTV = (TextView)findViewById(R.id.build_name_tv);
 		mBuildNumTV = (TextView)findViewById(R.id.build_num_tv);
+		mServerBuildNumTV = (TextView)findViewById(R.id.server_build_num_tv);
 		
 		mBuildNameTV.setText(Utils.getVersionName(this));
 		mBuildNumTV.setText(Utils.getVersionCode(this)+"");
-		
+		mServerBuildNumTV.setText(MySharedPreferences.getInstance().getServerVersion(this));
 	}
 	
 
