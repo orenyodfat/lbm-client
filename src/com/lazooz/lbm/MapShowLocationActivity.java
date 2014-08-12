@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -27,20 +28,23 @@ import com.haarman.supertooltips.ToolTipRelativeLayout;
 import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
-public class MapShowLocationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener{
+public class MapShowLocationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener, LocationListener{
 
 	private Button nextBtn;
 	private GoogleMap map;
 	private boolean mWasInMission;
-	private GPSTracker mGPSTracker;
+	//private GPSTracker mGPSTracker;
 	private TextView mMapAccuracyTV;
 	private Marker mLastMarker;
 	private Button mToolTipButton;
 	private ToolTipView mToolTipView;
 	private ToolTipRelativeLayout mToolTipFrameLayout;
+	private boolean mMapWasInit;
+	private LocationManager mLocationManager;
+
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+	private static final long MIN_TIME_BW_UPDATES = 1000 * 10; // 
 	
-	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-	static final LatLng KIEL = new LatLng(53.551, 9.993);
 
 	@SuppressLint("NewApi")
 	@Override
@@ -50,6 +54,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 		
 		mWasInMission = getIntent().getBooleanExtra("MISSION_GPS_ON", false);
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		
 		mMapAccuracyTV = (TextView)findViewById(R.id.map_accuracy_tv);
 		
@@ -58,12 +65,13 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		mToolTipButton = (Button)findViewById(R.id.tooltip_btn);
 		mToolTipButton.setOnClickListener(this);
 		
+		mMapWasInit = false;
 		
 		nextBtn = (Button)findViewById(R.id.map_show_loc_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mGPSTracker.setOnLocationListener(null);
+				//mGPSTracker.setOnLocationListener(null);
 				MySharedPreferences.getInstance().setStage(MapShowLocationActivity.this, MySharedPreferences.STAGE_REG_INIT);
 				startActivity(new Intent(MapShowLocationActivity.this, RegistrationActivity.class));
 				finish();			
@@ -72,7 +80,6 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		map = mapFragment.getMap();
-		
 		map.setMyLocationEnabled(true);
         map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
 			
@@ -86,44 +93,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		});
 		
 		
-		//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		
-		
-		
 		if (map!=null){
-			MarkerOptions mo = new MarkerOptions();
-			mGPSTracker = GPSTracker.getInstance(getApplicationContext());
-			mGPSTracker.setOnLocationListener(new LocationListener() {
-				
-				@Override
-				public void onStatusChanged(String provider, int status, Bundle extras) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onProviderEnabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onProviderDisabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onLocationChanged(Location location) {
-					
-						
-				
-					
-				}
-			});
-			
-			setMapInitLocation(mGPSTracker.getLocation());
-		    
+			setMapInitLocation(getLocation());
 		 }
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAP);
@@ -167,7 +138,17 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 				
 				@Override
 				public void onMapLoaded() {
-					map.animateCamera(CameraUpdateFactory.zoomTo(18), 3000, null);
+					CameraPosition cp = map.getCameraPosition();					
+					CameraPosition cameraPosition = new CameraPosition.Builder()
+				    .target(cp.target)      // Sets the center of the map to Mountain View
+				    .zoom(18)                   // Sets the zoom
+				    .bearing(cp.bearing)                // Sets the orientation of the camera to east
+				    .tilt(50)                   // Sets the tilt of the camera to 30 degrees
+				    .build();                   // Creates a CameraPosition from the builder
+					map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 3000, null);
+					mMapWasInit = true;
+					
+					//map.animateCamera(CameraUpdateFactory.zoomTo(18), 3000, null);
 					
 				}
 			});
@@ -192,18 +173,13 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			
 			if (mLastMarker != null)
 				mLastMarker.remove();
-			//mLastMarker = map.addMarker(new MarkerOptions().position(ll).title("Your Location"));
-			float currentZoom = map.getCameraPosition().zoom;
+			//float currentZoom = map.getCameraPosition().zoom;
 
-		    if (currentZoom < 15)
-		    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));				
+	    	map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));				
 		    map.getUiSettings().setZoomControlsEnabled(false);
-		    //map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-		    //CircleOptions co = new CircleOptions();
-            //co.center(ll).radius(mGPSTracker.getAccuracy()).fillColor(Color.GRAY).strokeColor(Color.BLACK).strokeWidth(4.0f);
-            //map.addCircle(co);
             
             mMapAccuracyTV.setText(location.getAccuracy()+"");
+            mMapAccuracyTV.invalidate();
 		}
 		
 	}
@@ -219,6 +195,46 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		
 	}
 
+	@Override
+	public void onLocationChanged(Location location) {
+		if (mMapWasInit)
+			setMapLocation(location);
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle bundle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private Location getLocation(){
+		return mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+	}
+
+	
+	
+	private boolean isGPSEnabled(){
+		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+			
+	private boolean isNetworkEnabled(){
+		return mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+	}
 
 
+	
+	
 }

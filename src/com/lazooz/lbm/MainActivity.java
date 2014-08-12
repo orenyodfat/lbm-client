@@ -109,6 +109,7 @@ public class MainActivity extends MyActionBarActivity  {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+				intent.putExtra("URL", "http://lazooz.org");
 				startActivity(intent);
 			}
 		});

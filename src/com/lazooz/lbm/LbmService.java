@@ -41,7 +41,7 @@ import android.util.Log;
 
 public class LbmService extends Service implements LocationListener{
 
-	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 30*1000; // milisec
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 10*1000; // milisec
 	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
 	
 	

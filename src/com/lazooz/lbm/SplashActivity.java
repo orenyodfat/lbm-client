@@ -28,15 +28,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.os.Build;
 
-public class SplashActivity extends ActionBarActivity implements AnimationListener{
+public class SplashActivity extends ActionBarActivity {
 	
 	protected int _splashTime = 3000;
 	private boolean mFinishAnimation;
 	private boolean mFinishTimer;
 	private boolean mFinishRetrieveData;
+	private ProgressBar mProgressBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 		finish();
 		*/
 		
+		mProgressBar = (ProgressBar)findViewById(R.id.splash_progress);
 		
 		
 		getScreenTextAsync();
@@ -64,14 +67,16 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 	protected void onResume() {
 
 		super.onResume();
+		mProgressBar.setVisibility(View.VISIBLE);
 		
-		StartAnimations();
 		
 	    new Handler().postDelayed(new Runnable() {
 	        public void run() {
 	        	mFinishTimer = true;
-	        	if (mFinishRetrieveData)
+	        	if (mFinishRetrieveData){
+	        		mFinishTimer = false;
 	        		StartTheActivity();
+	        	}
 	        	
 	        }
 	    }, _splashTime);
@@ -94,10 +99,12 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 			return IntroActivity.class;
 		
 		case MySharedPreferences.STAGE_INTRO:
-			if (GPSTracker.getInstance(this).isGPSEnabled())
+			return IntroActivity.class;
+/*			if (GPSTracker.getInstance(this).isGPSEnabled())
 				return MapShowLocationActivity.class;
 			else
-				return IntroActivity.class;
+				return IntroActivity.class; */
+				
 			
 		case MySharedPreferences.STAGE_MAP:
 			return RegistrationActivity.class;
@@ -231,8 +238,11 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 				
 			}
 			
-			if (mFinishTimer)
+			if (mFinishTimer){
+				mFinishRetrieveData = false;
 				StartTheActivity();
+			}
+				
 		}
 			
 		
@@ -242,7 +252,7 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 		}
 	}
 
-	 private void StartAnimations() { 
+/*	 private void StartAnimations() { 
 	        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
 	        anim.reset();
 	        LinearLayout l=(LinearLayout) findViewById(R.id.lin_lay);
@@ -280,7 +290,7 @@ public class SplashActivity extends ActionBarActivity implements AnimationListen
 		// TODO Auto-generated method stub
 		
 	}
-	
+	*/
 	
 
 }

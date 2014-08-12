@@ -3,21 +3,33 @@ package com.lazooz.lbm;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+import com.lazooz.lbm.businessClasses.DrawerItem;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 
 public class MyActionBarActivity extends ActionBarActivity {
 
@@ -26,15 +38,25 @@ public class MyActionBarActivity extends ActionBarActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	//private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private String[] mDrawerTitles;
+	//private String[] mDrawerTitles;
 	protected ProgressBar mProgBar;
-
+	private List<DrawerItem> mDrawerItems;
 	 
 	protected void onCreate(Bundle savedInstanceState, int layoutID) {
 		super.onCreate(savedInstanceState);
 		
 		//Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+
 		
+		
+		
+		mDrawerItems = new ArrayList<DrawerItem>();
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_me),R.drawable.tool_me));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_info),R.drawable.tool_info));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_share),R.drawable.tool_share));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_website),R.drawable.tool_web));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_wallet),R.drawable.tool_wallet));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_legal),R.drawable.tool_legal));
 		
         
         
@@ -43,6 +65,7 @@ public class MyActionBarActivity extends ActionBarActivity {
         
 		createDrawerStuff();
 		
+		getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\">" + getString(R.string.app_name) + "</font>"));		
 		
 	}
 
@@ -52,7 +75,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 			return;
 		
 		//mTitle = mDrawerTitle = getTitle();
-        mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
+        //mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         
         
@@ -60,7 +83,8 @@ public class MyActionBarActivity extends ActionBarActivity {
         
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         
-		mDrawerList.setAdapter(new DrawerArrayAdapter(this, R.layout.drawer_list_item, mDrawerTitles));
+		//mDrawerList.setAdapter(new DrawerArrayAdapter(this, R.layout.drawer_list_item, mDrawerTitles));
+		mDrawerList.setAdapter(new IconicAdapter(mDrawerItems));
 		 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -71,7 +95,7 @@ public class MyActionBarActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  // host Activity 
                 mDrawerLayout,         // DrawerLayout object 
-                R.drawable.ic_drawer,  // nav drawer image to replace 'Up' caret 
+                R.drawable.ic_navigation_drawer,  // nav drawer image to replace 'Up' caret 
                 R.string.drawer_open1,  // "open drawer" description for accessibility 
                 R.string.drawer_close1  // "close drawer" description for accessibility 
                 ) {
@@ -105,13 +129,41 @@ public class MyActionBarActivity extends ActionBarActivity {
     
     private void selectItem(int position) {
 
-    	String s = (String)mDrawerList.getItemAtPosition(position);
+    	DrawerItem di = (DrawerItem)mDrawerList.getItemAtPosition(position);
     	
-    	if (s.equals(getString(R.string.drawer_entry_info))){
+    	if (di.getText().equals(getString(R.string.drawer_entry_info))){
     		Intent intent = new Intent(this, InfoActivity.class);
     		startActivity(intent);
     	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_me))){
+    		Intent intent = new Intent(this, MeActivity.class);
+    		startActivity(intent);
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_legal))){
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra("URL", "http://lazooz.org");
+			startActivity(intent);
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_share))){
+    		Intent sharingIntent = new Intent(); 
+    		sharingIntent.setAction(Intent.ACTION_SEND);
+    		sharingIntent.setType("text/plain");
+	        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Lazooz");
+	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app Lazooz.\nDownload from here:\nhttps://play.google.com/store/apps/details?id=oren.thebrainapp");
+    		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    		
+    		}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_wallet))){
+
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_website))){
+    		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://lazooz.org"));
+    		startActivity(browserIntent);
+    	}
+
     	
+    	
+    	/*
     	else if (s.equals(getString(R.string.drawer_entry_getfriends))){
     		mProgBar.setVisibility(View.VISIBLE);
     		final Handler handler = new Handler();
@@ -126,7 +178,7 @@ public class MyActionBarActivity extends ActionBarActivity {
     		
     		
     		
-    	}
+    	}*/
 
         //setTitle(mDrawerTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
@@ -215,7 +267,35 @@ public class MyActionBarActivity extends ActionBarActivity {
 
 	    
 	    
-	    
+	    class IconicAdapter extends ArrayAdapter<DrawerItem> {
+	    	private List<DrawerItem> items;
+	    	
+	    	public IconicAdapter(List<DrawerItem> objects) {
+				super(MyActionBarActivity.this, android.R.layout.simple_list_item_activated_1,
+						android.R.id.text1, objects);
+				items = objects;
+				
+			}
+			
+			
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View row=super.getView(position, convertView, parent);
+				Drawable img = null;
+				TextView tv =(TextView)row.findViewById(android.R.id.text1);
+				try{
+					if (items.get(position).getImageResource() > 0){
+						img = MyActionBarActivity.this.getResources().getDrawable(items.get(position).getImageResource());			
+						tv.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null );
+						tv.setCompoundDrawablePadding(35);
+						tv.setText(items.get(position).getText());
+					}
+				}
+				catch(Exception e){}
+				
+				return(row);
+			}
+		}	    
 	  
 	    
 }

@@ -23,7 +23,7 @@
 	<string name="drawer_entry_info">Info</string>
 	<string name="drawer_entry_share">Share</string>
 	<string name="drawer_entry_website">Web Site</string>
-	<string name="drawer_entry_getfriends">Get Friends</string>
+	<string name="drawer_entry_wallet">Wallet</string>
 	<string name="drawer_entry_legal">Legal and Privacy</string>
 		
 	
@@ -32,7 +32,7 @@
         <item>@string/drawer_entry_info</item>
         <item>@string/drawer_entry_share</item>
         <item>@string/drawer_entry_website</item>
-        <item>@string/drawer_entry_getfriends</item>
+        <item>@string/drawer_entry_wallet</item>
         <item>@string/drawer_entry_legal</item>
     </string-array>
 	

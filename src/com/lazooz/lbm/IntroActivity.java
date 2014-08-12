@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,11 @@ public class IntroActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_intro);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
+		setContentView(R.layout.activity_intro);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
 		String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
 		try{
@@ -67,7 +71,7 @@ public class IntroActivity extends ActionBarActivity {
 			}
 		});
 		
-			
+		/*	
 		gpsActivateBtn = (Button)findViewById(R.id.intro_gpson_btn);
 		gpsActivateBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -79,7 +83,7 @@ public class IntroActivity extends ActionBarActivity {
 
 		gpsActivateBtn.setVisibility(View.GONE);
 		
-		
+		*/
 		
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);

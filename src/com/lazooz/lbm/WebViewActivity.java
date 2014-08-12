@@ -2,15 +2,15 @@ package com.lazooz.lbm;
 
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
-import android.webkit.WebChromeClient;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebSettings.ZoomDensity;
+import android.support.v7.app.ActionBarActivity;
 
-public class WebViewActivity extends Activity {
+public class WebViewActivity extends ActionBarActivity {
 
 	private WebView webview;
 
@@ -19,6 +19,8 @@ public class WebViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		webview = (WebView)findViewById(R.id.webView1);
 		
@@ -34,14 +36,11 @@ public class WebViewActivity extends Activity {
 		webview.getSettings().setLoadWithOverviewMode(true);
 		webview.getSettings().setUseWideViewPort(true);
 		webview.setScrollbarFadingEnabled(false);
-		webview.getSettings().setJavaScriptEnabled(true);
 		webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY); 
 		
+		String url = getIntent().getStringExtra("URL");
 		
-		
-		String uri = "http://www.walla.com";
-				
-		webview.loadUrl(uri);
+		webview.loadUrl(url);
 		
 	}
 
@@ -71,6 +70,15 @@ public class WebViewActivity extends Activity {
 	            return false;
 	        }
 	    }
-	 
+	 @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
+		    }
+		    return super.onOptionsItemSelected(item);
+		}
 	 
 }

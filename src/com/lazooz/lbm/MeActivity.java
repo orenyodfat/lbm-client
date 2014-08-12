@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.os.Build;
 
-public class InfoActivity extends ActionBarActivity {
+public class MeActivity extends ActionBarActivity {
 
 	private Button nextBtn;
 	private TextView mBuildNameTV;
@@ -28,20 +28,11 @@ public class InfoActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_info);
+		setContentView(R.layout.activity_me);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mBuildNameTV = (TextView)findViewById(R.id.build_name_tv);
-		mBuildNumTV = (TextView)findViewById(R.id.build_num_tv);
-		mServerBuildNumTV = (TextView)findViewById(R.id.server_build_num_tv);
-		
-		mBuildNameTV.setText(Utils.getVersionName(this));
-		mBuildNumTV.setText(Utils.getVersionCode(this)+"");
-		mServerBuildNumTV.setText(MySharedPreferences.getInstance().getServerVersion(this));
 	}
 	
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
@@ -52,5 +43,7 @@ public class InfoActivity extends ActionBarActivity {
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
+
+
 
 }
