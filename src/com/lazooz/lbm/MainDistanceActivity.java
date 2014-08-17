@@ -20,6 +20,7 @@ import com.lazooz.lbm.businessClasses.StatsData;
 import com.lazooz.lbm.businessClasses.StatsDataList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.ChartUtil;
 
 import android.support.v4.app.NavUtils;
@@ -48,6 +49,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
 		setContentView(R.layout.activity_main_distance);
 
 		mProgBar = (ProgressBar)findViewById(R.id.progbar);

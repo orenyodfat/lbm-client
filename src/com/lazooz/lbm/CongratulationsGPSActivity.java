@@ -1,5 +1,7 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,9 @@ public class CongratulationsGPSActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
 		setContentView(R.layout.activity_congratulations_gps);
 
 		

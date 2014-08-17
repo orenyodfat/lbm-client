@@ -3,6 +3,7 @@ package com.lazooz.lbm;
 import java.util.Date;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 
@@ -68,6 +69,9 @@ public class GPSTracker extends Service implements LocationListener {
 	private long theTime;
 	
 	public static GPSTracker getInstance(Context context) {
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
+		
 	      if(instance == null) {
 	         instance  = new GPSTracker(context);
 	      }

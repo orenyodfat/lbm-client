@@ -8,6 +8,7 @@ import java.util.List;
 import com.lazooz.lbm.ContanctAdapter.OnCheckedListener;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 
@@ -74,6 +75,9 @@ public class ContactListActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
 		setContentView(R.layout.activity_contact_list);
 
 		mProgBar = (ProgressBar)findViewById(R.id.progbar);

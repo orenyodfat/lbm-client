@@ -187,12 +187,13 @@ public class ServerCom {
 		
 	}
 	
-	public void registerValidationToServer(String requestId, String token) {
+	public void registerValidationToServer(String requestId, String token, String publicKey) {
 		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("registration_request_id", requestId ));
 		params.add(new BasicNameValuePair("registration_request_token", token ));
+		params.add(new BasicNameValuePair("public_key", publicKey ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
@@ -221,7 +222,7 @@ public class ServerCom {
 	}
 		
 	
-	public void doSetLocation(String productId, String token, String latitude, String longitude,
+	public void doSetLocationXX(String productId, String token, String latitude, String longitude,
 			String locationTime, String locationAccuracy)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "app_info/set_location";
@@ -252,21 +253,21 @@ public class ServerCom {
 		
 	}
 	
-	public void setClientException(String product_id, String token, String exeptionData)
+	public void setClientException(String UserId, String UserSecret, String exeptionData)
 	{
-		String url = StaticParms.BASE_SERVER_URL + "app_info/setClientException";
+		String url = StaticParms.BASE_SERVER_URL + "api_set_client_exception";
 		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("product_id", product_id ));
-		params.add(new BasicNameValuePair("token", token ));
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("exeptionTime", Utils.getNowTimeInGMT()));
 		params.add(new BasicNameValuePair("exeptionData", exeptionData));
 	
-		this.postRequestToServer(-1, -1, url,params);
+		this.postRequestToServer(-1, -1, url, params);
 		
 	}
 		
-	public void doGetStatus(String product_id, String token, String isLockAllowed, String deviceName)
+	public void doGetStatusXX(String product_id, String token, String isLockAllowed, String deviceName)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "app_activation/get_status";
 

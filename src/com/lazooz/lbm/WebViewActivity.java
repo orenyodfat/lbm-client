@@ -1,6 +1,8 @@
 package com.lazooz.lbm;
 
 
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.NavUtils;
@@ -17,6 +19,7 @@ public class WebViewActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		setContentView(R.layout.activity_webview);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		

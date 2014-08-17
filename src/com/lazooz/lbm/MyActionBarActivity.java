@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import com.lazooz.lbm.businessClasses.DrawerItem;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,8 +45,8 @@ public class MyActionBarActivity extends ActionBarActivity {
 	 
 	protected void onCreate(Bundle savedInstanceState, int layoutID) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
-		//Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 
 		
 		

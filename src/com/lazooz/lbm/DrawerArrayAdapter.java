@@ -2,6 +2,8 @@ package com.lazooz.lbm;
 
 
 
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,9 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
 
 	public DrawerArrayAdapter(Context context, int resource, String[] objects) {
 		super(context, resource, objects);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
+		
 		mContext = context;
 		id = resource;
 		mObjects = objects;

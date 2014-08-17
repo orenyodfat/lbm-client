@@ -26,7 +26,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.haarman.supertooltips.ToolTip;
 import com.haarman.supertooltips.ToolTipRelativeLayout;
 import com.haarman.supertooltips.ToolTipView;
+import com.lazooz.lbm.components.MyProgBar;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 public class MapShowLocationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener, LocationListener{
 
@@ -34,13 +36,14 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private GoogleMap map;
 	private boolean mWasInMission;
 	//private GPSTracker mGPSTracker;
-	private TextView mMapAccuracyTV;
+	//private TextView mMapAccuracyTV;
 	private Marker mLastMarker;
 	private Button mToolTipButton;
 	private ToolTipView mToolTipView;
 	private ToolTipRelativeLayout mToolTipFrameLayout;
 	private boolean mMapWasInit;
 	private LocationManager mLocationManager;
+	private MyProgBar mMyProgBar;
 
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 10; // 
@@ -50,6 +53,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
 		setContentView(R.layout.activity_map_show_location);
 
 		
@@ -58,7 +64,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		
-		mMapAccuracyTV = (TextView)findViewById(R.id.map_accuracy_tv);
+		//mMapAccuracyTV = (TextView)findViewById(R.id.map_accuracy_tv);
+		mMyProgBar = (MyProgBar)findViewById(R.id.myProgBar2);
+		mMyProgBar.setMaxVal(440);
 		
 		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
 		
@@ -66,6 +74,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		mToolTipButton.setOnClickListener(this);
 		
 		mMapWasInit = false;
+		
 		
 		nextBtn = (Button)findViewById(R.id.map_show_loc_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +95,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			@Override
 			public void onMyLocationChange(Location location) {
 				if (location != null){
-					//setMapLocation(location);
+					 mMyProgBar.setPrgress((int)location.getAccuracy());
+			            mMyProgBar.invalidate();
 				}
 				
 			}
@@ -160,8 +170,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		    
 		    
 		    
-            
-            mMapAccuracyTV.setText(location.getAccuracy()+"");
+            mMyProgBar.setPrgress((int)location.getAccuracy());
+            mMyProgBar.invalidate();
+            //mMapAccuracyTV.setText(location.getAccuracy()+"");
 		}
 		
 	}
@@ -178,8 +189,10 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	    	map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));				
 		    map.getUiSettings().setZoomControlsEnabled(false);
             
-            mMapAccuracyTV.setText(location.getAccuracy()+"");
-            mMapAccuracyTV.invalidate();
+		    mMyProgBar.setPrgress((int)location.getAccuracy());
+		    mMyProgBar.invalidate();
+            //mMapAccuracyTV.setText(location.getAccuracy()+"");
+            //mMapAccuracyTV.invalidate();
 		}
 		
 	}

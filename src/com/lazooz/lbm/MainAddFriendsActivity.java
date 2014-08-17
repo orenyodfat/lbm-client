@@ -22,6 +22,7 @@ import com.lazooz.lbm.businessClasses.StatsData;
 import com.lazooz.lbm.businessClasses.StatsDataList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.ChartUtil;
 import com.lazooz.lbm.utils.Utils;
 
@@ -59,6 +60,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
 		setContentView(R.layout.activity_main_add_friends);
 		
 		mProgBar = (ProgressBar)findViewById(R.id.progbar);

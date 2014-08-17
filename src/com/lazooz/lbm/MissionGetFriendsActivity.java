@@ -1,5 +1,7 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ public class MissionGetFriendsActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		setContentView(R.layout.activity_get_friends);
 
 		

@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -31,6 +33,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,28 +45,39 @@ public class MainActivity extends MyActionBarActivity  {
 	private TextView mDistanceTV;
 	private TextView mZoozBalTV;
 
-	private Button mAddFriendsBtn;
-	private Button mShakeBtn;
+	private ImageButton mAddFriendsBtn;
+	private ImageButton mShakeBtn;
 	private ProgressBar mCriticalMassPB;
 	private GPSTracker mGPS;
 	private LocationManager mLocationManager;
+	private TextView mFriendsTV;
+	private TextView mShakeTV;
+	private ImageButton mDistanceBtn;
+	private ImageButton mZoozBalBtn;
+	private FrameLayout mCriticalMassFrame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
-		super.onCreate(savedInstanceState, R.layout.activity_main_new);
+		super.onCreate(savedInstanceState, R.layout.activity_main_new1);
 		//setContentView(R.layout.activity_main);
-
 		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+
+		OfflineActivities.getInstance(this).transmitDataToServer();
+
 		startService(new Intent(this, LbmService.class));
 		
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		mDistanceTV.setText("0.0");
 		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
 		mZoozBalTV.setText("0.0");
+		mFriendsTV = (TextView)findViewById(R.id.main_friends_tv);
+		mFriendsTV.setText("0.0");
+		mShakeTV = (TextView)findViewById(R.id.main_shake_tv);
+		mShakeTV.setText("0.0");
 		
-		
-		mAddFriendsBtn = (Button)findViewById(R.id.main_add_friends_btn);
+		mAddFriendsBtn = (ImageButton)findViewById(R.id.main_friends_btn);
 		mAddFriendsBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -73,7 +88,7 @@ public class MainActivity extends MyActionBarActivity  {
 			}
 		});
 		
-		mShakeBtn = (Button)findViewById(R.id.main_shake_btn);
+		mShakeBtn = (ImageButton)findViewById(R.id.main_shake_btn);
 		mShakeBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -83,7 +98,8 @@ public class MainActivity extends MyActionBarActivity  {
 			}
 		});
 		
-		mDistanceTV.setOnClickListener(new View.OnClickListener() {
+		mDistanceBtn = (ImageButton)findViewById(R.id.main_distance_btn);
+		mDistanceBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -92,7 +108,8 @@ public class MainActivity extends MyActionBarActivity  {
 			}
 		});
 		
-		mZoozBalTV.setOnClickListener(new View.OnClickListener() {
+		mZoozBalBtn = (ImageButton)findViewById(R.id.main_zoz_balance_btn);
+		mZoozBalBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -104,7 +121,9 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		
 		mCriticalMassPB = (ProgressBar)findViewById(R.id.main_critical_mass_pb);
-		mCriticalMassPB.setOnClickListener(new View.OnClickListener() {
+		mCriticalMassFrame = (FrameLayout)findViewById(R.id.main_critical_mass_frame);
+		
+		mCriticalMassFrame.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -205,7 +224,15 @@ public class MainActivity extends MyActionBarActivity  {
 
 		
 		//mDistanceTV.setText(sd.getDistance());
-		mZoozBalTV.setText(sd.getZoozBalance());
+		float f = Float.valueOf(sd.getZoozBalance());
+		mZoozBalTV.setText(String.format("%.2f", f));
+		
+		
+		int numInvitedContacts = msp.getNumInvitedContacts(this);
+		int numShakedUsers = msp.getNumShakedUsers(this);
+		
+		mFriendsTV.setText(numInvitedContacts+"");
+		mShakeTV.setText(numShakedUsers +"");		
 	
 	}
 	
@@ -358,11 +385,16 @@ public class MainActivity extends MyActionBarActivity  {
 						String zoozBalance = jsonReturnObj.getString("zooz_balance");
 						String distance = jsonReturnObj.getString("zooz_distance_balance");
 						String serverVer = jsonReturnObj.getString("server_version");
-						
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
+						String walletNum = jsonReturnObj.getString("wallet_num");
+						int numShakedUsers = jsonReturnObj.getInt("num_shaked_users");
+						int numInvitedContacts = jsonReturnObj.getInt("num_invited_contacts");
+						String userId = jsonReturnObj.getString("user_id");
 						
-						MySharedPreferences.getInstance().saveDataFromServer(MainActivity.this, zoozBalance, distance, isDistanceAchievement, serverVer);
 						
+						
+						MySharedPreferences.getInstance().saveDataFromServer1(MainActivity.this, zoozBalance, distance, 
+								isDistanceAchievement, serverVer, walletNum, numShakedUsers, numInvitedContacts, userId);
 						
 						
 					}

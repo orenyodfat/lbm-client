@@ -408,17 +408,45 @@ public class MySharedPreferences {
 		return spData.getString("ServerVersion", "");
 	}
 	
-	public void saveDataFromServer(Context context, String zoozBalance, String distance, boolean isDistanceAchievement, String serverVer) {
+	public void saveDataFromServer1(Context context, String zoozBalance, String distance, boolean isDistanceAchievement, String serverVer, 
+			String walletNum, int numShakedUsers, int numInvitedContacts, String userId) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
 		editor.putString("Distance", distance);
 		editor.putString("ServerVersion", serverVer);
 		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
+		
+		editor.putString("WalletNum", walletNum);
+		editor.putInt("NumShakedUsers", numShakedUsers);
+		editor.putInt("NumInvitedContacts", numInvitedContacts);
+		editor.putString("UserId", userId);
+		
 		editor.putLong("TimeStamp", System.currentTimeMillis());
 		editor.commit();
 	}
-	public void saveDataFromServer(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {
+	
+	public String getWalletNum(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("WalletNum", "");
+	}
+	
+	public String getUserIdSD(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("UserId", "");
+	}
+
+	public int getNumShakedUsers(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getInt("NumShakedUsers", 0);
+	}
+	
+	public int getNumInvitedContacts(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getInt("NumInvitedContacts", 0);
+	}
+
+	public void saveDataFromServer2(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
@@ -534,8 +562,24 @@ public class MySharedPreferences {
 				return false;
 		}
 	}
+
+	public void saveKeyPair(Context context, String privateKey, String publicKey) {
+		SharedPreferences spData = context.getSharedPreferences("KeyPair",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putString("PrivateKey", privateKey);
+		editor.putString("PublicKey", publicKey);
+		editor.commit();		
+	}
 	
+	public String getPublicKey(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("KeyPair",Context.MODE_MULTI_PROCESS);
+		return spData.getString("PublicKey", "");
+	}
 	
+	public String getPrivateKey(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("KeyPair",Context.MODE_MULTI_PROCESS);
+		return spData.getString("PrivateKey", "");
+	}
 	
 	
 }

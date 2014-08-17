@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">lbm</string>
+    <string name="app_name">Lazooz</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
@@ -13,7 +13,7 @@
     <string name="gps_activate_gps_body">Please turn on the GPS so proof of location could be established</string>
     <string name="gps_activate_gps_setting">Open GPS Settings</string>
 	
-	<string name="activation_code_template_eng">LaZooz app registration token: </string>
+	<string name="activation_code_template_eng">Lazooz app registration token: </string>
 
 	<string name="recommendation_input_msg_title">Recommendation</string>
 	<string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
@@ -56,7 +56,9 @@
     <string name="gps_message_no_gps_no_net">Your GPS and your network location are turned off, please note that you will not be able to collect zoozs</string>
     <string name="gps_message_yes_gps_no_net">Your network location is turn off. we recommend to turn on your network location</string>
     
-    
+    <string name="splash_version_check_title">New Version</string>
+    <string name="splash_version_check_les_current">There is a new version of Lazooz, please update app from Google Play.</string>
+    <string name="splash_version_check_les_min">Your current version of Lazzoz is not up to date. In order to proceed, please update app from Google Play.</string>
     
     
     

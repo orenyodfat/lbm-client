@@ -20,7 +20,9 @@
 	 
 	 
 	  <color name="lazooz_blue">#61c7cf</color>
-	
+	  <color name="lazooz_main_txt">#16868c</color>
+	  <color name="lazooz_main_title_txt">#2e4c61</color>
+	  	
 	 	 
 	 <color name="the_setting_title_back">#8086ba</color>
 	 <color name="the_setting_title_text">#FFFFFF</color>

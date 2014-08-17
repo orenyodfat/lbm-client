@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 
 import android.content.BroadcastReceiver;
@@ -21,8 +22,7 @@ public class SMSReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		Log.e("MySMSReceiver", "recieve sms");
 		
-		//Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
-		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		mContext = context;
 		
 		int stage = MySharedPreferences.getInstance().getStage(context);

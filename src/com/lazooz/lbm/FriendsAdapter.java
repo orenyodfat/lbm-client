@@ -7,6 +7,8 @@ import com.google.android.gms.internal.ac;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.ContactFriend;
 import com.lazooz.lbm.businessClasses.ContactFriendList;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -40,7 +42,9 @@ public class FriendsAdapter extends ArrayAdapter<ContactFriend>  {
 	//public FriendsAdapter(Activity act, int row, ContactFriendList items, HashMap<String, Contact> contactList) {
 	public FriendsAdapter(Activity act, int row, ContactFriendList items) {
 		super(act, row, items.getContacts());
-
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(act));
+		
 		mContactFriendsList = items.getContacts();
 		//mContactList = contactList;
 		

@@ -1,7 +1,11 @@
 package com.lazooz.lbm;
 
+
+
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -49,6 +53,8 @@ public class AccelerometerTracker implements SensorEventListener {
     
 	public AccelerometerTracker(Context context) {
 		mContext = context;
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
+		
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mSensorAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensorAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);

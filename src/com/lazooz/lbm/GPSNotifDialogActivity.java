@@ -1,6 +1,7 @@
 package com.lazooz.lbm;
 
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,6 +24,8 @@ public class GPSNotifDialogActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		

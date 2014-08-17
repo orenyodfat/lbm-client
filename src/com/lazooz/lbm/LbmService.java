@@ -20,6 +20,8 @@ import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.businessClasses.WifiData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 
 import android.app.AlarmManager;
@@ -81,7 +83,10 @@ public class LbmService extends Service implements LocationListener{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    //Toast.makeText(this, "onStartCommand", Toast.LENGTH_LONG).show();
 		
-		//Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		
+
+		
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
@@ -207,7 +212,7 @@ public class LbmService extends Service implements LocationListener{
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
-						Utils.playSound(LbmService.this, R.raw.server_sent);
+						//Utils.playSound(LbmService.this, R.raw.server_sent);
 						MySharedPreferences.getInstance().commitReadCursor(LbmService.this);
 						String zoozBalance = jsonReturnObj.getString("zooz");
 						String distance = jsonReturnObj.getString("distance");
@@ -215,7 +220,7 @@ public class LbmService extends Service implements LocationListener{
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
 						
-						MySharedPreferences.getInstance().saveDataFromServer(LbmService.this, zoozBalance, distance, isDistanceAchievement);
+						MySharedPreferences.getInstance().saveDataFromServer2(LbmService.this, zoozBalance, distance, isDistanceAchievement);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
 						}
@@ -350,7 +355,7 @@ public class LbmService extends Service implements LocationListener{
 			mLocationData.setHasLocationData(false);
 		
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
-		Utils.playSound(this, R.raw.save);
+		//Utils.playSound(this, R.raw.save);
 	}
 
 	
@@ -390,7 +395,7 @@ public class LbmService extends Service implements LocationListener{
 				if (speed > 2.7)
 					mNoSpeedTimer.startNow();
 				
-				Utils.playSound(this, R.raw.ten_kms);
+				//Utils.playSound(this, R.raw.ten_kms);
 				if (isGPSEnabled) //if gps is on - read sensors 				
 					readSensors();
 				else if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog

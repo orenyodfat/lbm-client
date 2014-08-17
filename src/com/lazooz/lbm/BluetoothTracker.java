@@ -7,6 +7,7 @@ import java.util.Set;
 import com.lazooz.lbm.WifiTracker.wifiListener;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.WifiData;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -40,7 +41,7 @@ public class BluetoothTracker {
 	
 	public BluetoothTracker(Context context) {
 		mContext = context;
-		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		//mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
        // mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 

@@ -8,6 +8,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v4.app.NavUtils;
@@ -39,6 +40,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		setContentView(R.layout.activity_shake_second);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

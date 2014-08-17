@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 
@@ -31,7 +32,7 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.e("gil", "111111111111111111111111   AlarmOneDaySchedReciever   11111111111111111111");
-		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		mContext = context;
 		reportContactsAsync();
 	}

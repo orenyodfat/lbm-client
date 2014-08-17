@@ -3,6 +3,9 @@ package com.lazooz.lbm;
 
 
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +19,7 @@ import com.haarman.supertooltips.ToolTipRelativeLayout;
 import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
@@ -28,6 +32,7 @@ import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +46,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 public class RegistrationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener {
 	
@@ -62,6 +69,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_registration);
 
@@ -364,10 +372,12 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			String token = params[1];
           	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
         	
-              
+          	genKeyPair();
+          	
+            String publicKey = MySharedPreferences.getInstance().getPublicKey(RegistrationActivity.this);  
         	JSONObject jsonReturnObj=null;
 			try {
-				bServerCom.registerValidationToServer(requestId, token);
+				bServerCom.registerValidationToServer(requestId, token, publicKey);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -418,6 +428,36 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			
 			
 	}
+	
+	
+	private void genKeyPair(){
+		KeyPairGenerator kpg;
+		try {
+			/*
+	        ECKey eck = new ECKey();
+	        Address PubKey = eck.toAddress(NetworkParameters.prodNet());
+	        String publicKey = PubKey.toString();
+	        String privateKey = eck.getPrivateKeyEncoded(NetworkParameters.prodNet()).toString();
+		      */  
+			
+			
+			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg.initialize(4096);
+			KeyPair keyPair = kpg.genKeyPair();
+			
+			String privateKey = Base64.encodeToString(keyPair.getPrivate().getEncoded(), Base64.DEFAULT);
+			String publicKey = Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.DEFAULT);
+			
+			MySharedPreferences.getInstance().saveKeyPair(this, privateKey, publicKey);
+			
+			//getExternalStorageDirectory  
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	private void startNextScreen(){

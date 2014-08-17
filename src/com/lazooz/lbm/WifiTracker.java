@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lazooz.lbm.businessClasses.WifiData;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,6 +37,8 @@ public class WifiTracker {
 
 	public WifiTracker(Context context) {
 		mContext = context;
+		
+		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		
 		mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
 
