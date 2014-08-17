@@ -211,7 +211,7 @@ public class MyActionBarActivity extends ActionBarActivity {
         	mDrawerToggle.onConfigurationChanged(newConfig);
         
     }
-	
+	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		 MenuInflater inflater = getMenuInflater();
@@ -238,10 +238,10 @@ public class MyActionBarActivity extends ActionBarActivity {
 				
 				
 			}
-		});*/
+		});
 
 		//return true;
-	}
+	}*/
 
 	
 	  @Override

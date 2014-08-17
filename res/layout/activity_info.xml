@@ -78,7 +78,6 @@
                 android:text="10"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>

@@ -52,6 +52,7 @@
                         android:layout_height="wrap_content"
                         android:text="042.30"
                         android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="30sp"
                         android:textColor="@color/lazooz_main_txt" />
 
                     <TextView
@@ -60,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="Km"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
             </FrameLayout>
@@ -116,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:text="210"
                         android:textAppearance="?android:attr/textAppearanceLarge"
+                         android:textSize="30sp"
                         android:textColor="@color/lazooz_main_txt" />
 
                     <TextView
@@ -124,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="friends"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
             </FrameLayout>
@@ -180,6 +182,7 @@
                         android:layout_height="wrap_content"
                         android:text="35"
                         android:textAppearance="?android:attr/textAppearanceLarge"
+                         android:textSize="30sp"
                         android:textColor="@color/lazooz_main_txt" />
 
                     <TextView
@@ -188,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="shakes"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
             </FrameLayout>
@@ -249,6 +252,7 @@
                             android:layout_height="wrap_content"
                             android:text="120"
                             android:textAppearance="?android:attr/textAppearanceLarge"
+                             android:textSize="30sp"
                             android:textColor="@color/lazooz_main_txt" />
 
                         <TextView
@@ -257,7 +261,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="zooz"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/lazooz_main_txt" />
                     </LinearLayout>
                 </FrameLayout>
@@ -282,6 +286,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="5dp"
                         android:text="1=$0.9"
+                         android:textSize="30sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/lazooz_main_txt" />
 
