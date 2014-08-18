@@ -9,11 +9,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 public class MyProgBar extends LinearLayout {
 
     private ProgressBar mProgBar;
-	private ProgressBar mSeekBar;
+	private SeekBar mSeekBar;
 
 	public MyProgBar(Context context) {
         this(context, null);
@@ -27,7 +28,7 @@ public class MyProgBar extends LinearLayout {
         inflater.inflate(R.layout.merge_prog_bar, this);
         
         mProgBar = (ProgressBar)findViewById(R.id.progressBar1);
-        mSeekBar = (ProgressBar)findViewById(R.id.seekBar1);
+        mSeekBar = (SeekBar)findViewById(R.id.seekBar1);
         mSeekBar.setEnabled(false);
         
         

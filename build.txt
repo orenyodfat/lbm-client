@@ -1,0 +1,18 @@
+
+keytool -genkey -v -keystore bbkey.keystore -alias bbalias -keyalg RSA -keysize 2048 -validity 10000
+[Gil Seitelbach] generate - bbkey.keystore
+
+From eclips – export unsigned application package
+
+
+"c:\Program Files (x86)\Java\jdk1.7.0_13\bin\jarsigner.exe" -verbose -sigalg MD5withRSA -digestalg SHA1 -keystore prod.key lbm.apk key1
+
+"c:\Program Files (x86)\Java\jdk1.7.0_13\bin\jarsigner.exe" -verify lbm.apk
+"c:\Program Files (x86)\Java\jdk1.7.0_13\bin\jarsigner.exe" -verify -verbose -certs lbm.apk
+
+"c:\adt-bundle-windows-x86_64-20140702\sdk\build-tools\android-4.4W\zipalign.exe" -v 4 lbm.apk lbmA.apk
+
+
+
+
+
