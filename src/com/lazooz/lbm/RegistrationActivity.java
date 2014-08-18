@@ -10,6 +10,13 @@ import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.NetworkParameters;
+/*
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.NetworkParameters;*/
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -433,13 +440,13 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	private void genKeyPair(){
 		KeyPairGenerator kpg;
 		try {
-			/*
+			
 	        ECKey eck = new ECKey();
 	        Address PubKey = eck.toAddress(NetworkParameters.prodNet());
 	        String publicKey = PubKey.toString();
 	        String privateKey = eck.getPrivateKeyEncoded(NetworkParameters.prodNet()).toString();
-		      */  
-			
+		        
+			/*
 			
 			kpg = KeyPairGenerator.getInstance("RSA");
 			kpg.initialize(4096);
@@ -447,7 +454,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			
 			String privateKey = Base64.encodeToString(keyPair.getPrivate().getEncoded(), Base64.DEFAULT);
 			String publicKey = Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.DEFAULT);
-			
+			*/
 			MySharedPreferences.getInstance().saveKeyPair(this, privateKey, publicKey);
 			
 			//getExternalStorageDirectory  
