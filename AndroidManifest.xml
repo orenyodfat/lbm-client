@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lazooz.lbm"
-    android:versionCode="4"
-    android:versionName="0.4" >
+    android:versionCode="5"
+    android:versionName="0.5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -60,7 +60,7 @@
         
         <meta-data
 			android:name="com.google.android.maps.v2.API_KEY"
-        	android:value="AIzaSyCTJtD8pMZpPdjyK-eMUKqbOLNdX14CK1M" />
+        	android:value="AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls" />
         
 <!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->        
 <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
@@ -74,45 +74,54 @@
         <activity
             android:name="com.lazooz.lbm.MainActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.RegistrationActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.IntroActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.MissionGPSOnActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.CongratulationsGPSActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.MapShowLocationActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.MissionDrive100Activity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.CongratulationsRegActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.GPSNotifDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyDialogTheme"
             
             android:label="" >
@@ -123,27 +132,32 @@
         <activity
             android:name="com.lazooz.lbm.CongratulationsDrive100Activity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.MissionGetFriendsActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.lazooz.lbm.CongratulationsGetFriendsActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
          <activity
             android:name="com.lazooz.lbm.InfoActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
 			android:parentActivityName="com.lazooz.lbm.MainActivity" >
         </activity>
          <activity
             android:name="com.lazooz.lbm.MeActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
         </activity>
@@ -151,6 +165,7 @@
          <activity
             android:name="com.lazooz.lbm.WebViewActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
 	        <meta-data
@@ -160,6 +175,7 @@
          <activity
             android:name="com.lazooz.lbm.ShakeSecondActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainShakeActivity" >
 	        <meta-data
@@ -171,6 +187,7 @@
          <activity
             android:name="com.lazooz.lbm.MainAddFriendsActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
 	        <meta-data
@@ -179,12 +196,14 @@
     	</activity>
     	
          <activity android:name="com.lazooz.lbm.CameraQRActivity"
-             	android:label="@string/app_name" >
+             android:screenOrientation="portrait"
+             android:label="@string/app_name" >
          </activity>
 
          <activity
             android:name="com.lazooz.lbm.MainDistanceActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
 	        <meta-data
@@ -194,6 +213,7 @@
          <activity
             android:name="com.lazooz.lbm.MainShakeActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
 	        <meta-data
@@ -203,6 +223,7 @@
          <activity
             android:name="com.lazooz.lbm.MainZoozActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainActivity" >
 	        <meta-data
@@ -217,6 +238,7 @@
          <activity
             android:name="com.lazooz.lbm.ContactListActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" 
             android:parentActivityName="com.lazooz.lbm.MainAddFriendsActivity" >
             <!-- Add intent-filter for search intent action and specify searchable configuration
@@ -238,6 +260,7 @@
         <activity
             android:name="com.lazooz.lbm.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
               <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:text="intro"
+        android:gravity="center"
+        android:text="Hello, I am La&apos;Zooz %v%.\r\n\r\nBy running this app and sharing it with others you are taking part in the establishment of the first Collaborative Transportation Web.\r\n\r\nAnyone contributing to this is being rewarded with ZooZ tokens.\r\nOnce the network is established, Zooz could be traded in exchange for movement"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
 
@@ -22,7 +23,7 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_intro" />
 
 </FrameLayout>

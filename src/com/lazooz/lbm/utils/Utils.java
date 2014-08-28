@@ -14,8 +14,10 @@ import java.util.zip.GZIPOutputStream;
 
 import com.lazooz.lbm.R;
 import com.lazooz.lbm.businessClasses.TelephonyData;
+import com.lazooz.lbm.preference.MySharedPreferences;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -376,5 +378,14 @@ public class Utils {
 		 
 	}
 	
-
+    public static void restartApp(Context context){
+    	MySharedPreferences.getInstance().clearAll(context);
+    	Intent mStartActivity = context.getApplicationContext().getPackageManager().getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
+    	int mPendingIntentId = 123456;
+    	PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+    	AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+    	mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+    	System.exit(0);
+    }
+    
 }

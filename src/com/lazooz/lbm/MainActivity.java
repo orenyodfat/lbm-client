@@ -220,7 +220,9 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		int localDist = (int)distanceLocal;
 		
-		mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
+		//mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
+		//mDistanceTV.setText(String.format("%dkm  %dm", distanceKMd, distanceMd));
+		mDistanceTV.setText(String.format("%.1f", distanceKMf));
 
 		
 		//mDistanceTV.setText(sd.getDistance());
@@ -414,6 +416,9 @@ public class MainActivity extends MyActionBarActivity  {
 			
 			if (result.equals("success")){
 				UpdateGUI();
+			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainActivity.this);
 			}
 		}
 			

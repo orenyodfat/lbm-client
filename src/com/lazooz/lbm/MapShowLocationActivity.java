@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,9 +45,12 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private boolean mMapWasInit;
 	private LocationManager mLocationManager;
 	private MyProgBar mMyProgBar;
+	private boolean mIsAccuraccyAccomplished;
+	private String mLastMsg = "";
 
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 1000 * 10; // 
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
+	private static final long MIN_TIME_BW_UPDATES = 1000 * 8; // 
+	
 	
 
 	@SuppressLint("NewApi")
@@ -55,6 +59,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		super.onCreate(savedInstanceState);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_map_show_location);
 
@@ -74,7 +79,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		mToolTipButton.setOnClickListener(this);
 		
 		mMapWasInit = false;
-		
+		mIsAccuraccyAccomplished = false;
 		
 		nextBtn = (Button)findViewById(R.id.map_show_loc_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +92,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			}
 		});
 		
+		nextBtn.setVisibility(View.INVISIBLE);
+		
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		map = mapFragment.getMap();
 		map.setMyLocationEnabled(true);
@@ -95,8 +102,10 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			@Override
 			public void onMyLocationChange(Location location) {
 				if (location != null){
-					 mMyProgBar.setPrgress((int)location.getAccuracy());
-			            mMyProgBar.invalidate();
+					updateAccuracy((int)location.getAccuracy());
+					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+					setMapLocation(location);
+					
 				}
 				
 			}
@@ -114,22 +123,46 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		 new Handler().postDelayed(new Runnable() {
 	            @Override
 	            public void run() {
-	                addPurpleToolTipView();
+	                addPurpleToolTipView("Identifing your location....");
 	            }
 	        }, 1000);
 		
 		
 	}
 	
-    private void addPurpleToolTipView() {
+    protected void updateAccuracy(int accuracy) {
+    	
+    	if (accuracy < 25){
+    		if (!mIsAccuraccyAccomplished)
+    			addPurpleToolTipView("Successfully located, please continue to the next screen.");
+    		mIsAccuraccyAccomplished = true;
+    		nextBtn.setVisibility(View.VISIBLE);
+    	}
+    	
+    	mMyProgBar.setPrgress(accuracy);
+        mMyProgBar.invalidate();
+        
+        if (!mIsAccuraccyAccomplished)
+        	addPurpleToolTipView("Please reach the open air to improve your location accuracy");
+		
+	}
+
+	private void addPurpleToolTipView(String msg) {
 /*    	
     	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
                         .withContentView(LayoutInflater.from(this).inflate(R.layout.custom_tooltip, null))
                         .withColor(getResources().getColor(R.color.holo_purple)), mToolTipButton);
     	mToolTipView.setOnToolTipViewClickedListener(this);
+
 */    	
+		if (mLastMsg.equals(msg))
+			return;
+		
+		mLastMsg = msg;
+		
+		mToolTipView = null;
     	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
-                         .withText("Identifing your location. Please note.....")
+                         .withText(msg)
                          .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
     	mToolTipView.setOnToolTipViewClickedListener(this);
     }
@@ -157,7 +190,6 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 				    .build();                   // Creates a CameraPosition from the builder
 					map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 3000, null);
 					mMapWasInit = true;
-					
 					//map.animateCamera(CameraUpdateFactory.zoomTo(18), 3000, null);
 					
 				}
@@ -165,14 +197,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 	    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 11));		
 	    	
-	    	
-
+		    updateAccuracy((int)location.getAccuracy());
 		    
-		    
-		    
-            mMyProgBar.setPrgress((int)location.getAccuracy());
-            mMyProgBar.invalidate();
-            //mMapAccuracyTV.setText(location.getAccuracy()+"");
 		}
 		
 	}
@@ -188,9 +214,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 	    	map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));				
 		    map.getUiSettings().setZoomControlsEnabled(false);
-            
-		    mMyProgBar.setPrgress((int)location.getAccuracy());
-		    mMyProgBar.invalidate();
+		    
+		    updateAccuracy((int)location.getAccuracy());
             //mMapAccuracyTV.setText(location.getAccuracy()+"");
             //mMapAccuracyTV.invalidate();
 		}
@@ -210,8 +235,10 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if (mMapWasInit)
-			setMapLocation(location);
+		if (mMapWasInit){
+			if (location.getProvider().equals(LocationManager.GPS_PROVIDER))
+				setMapLocation(location);
+		}
 		
 	}
 
@@ -248,6 +275,21 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	}
 
 
+	
+	@Override
+	protected void onResume() {
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		super.onResume();
+	}
+	
+	
+	@Override
+	protected void onPause() {
+		mLocationManager.removeUpdates(this);
+		super.onPause();
+	}
+	
 	
 	
 }

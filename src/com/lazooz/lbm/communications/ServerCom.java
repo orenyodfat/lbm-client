@@ -130,9 +130,28 @@ public class ServerCom {
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 				
 		this.postRequestToServer(-1, -1, url, params);
-		
-	
 	}
+	
+	public void getUserStatDataMinersDist(String UserId, String UserSecret){
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_stat_data_mined_distance";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+	}
+
+	public void getUserStatDataMiners(String UserId, String UserSecret){
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_stat_data_miners";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+	}
+
 	
 	public void getUserContactData(String UserId, String UserSecret){
 		String url = StaticParms.BASE_SERVER_URL + "api_get_recommendation_data";

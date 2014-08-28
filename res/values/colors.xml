@@ -22,7 +22,23 @@
 	  <color name="lazooz_blue">#61c7cf</color>
 	  <color name="lazooz_main_txt">#16868c</color>
 	  <color name="lazooz_main_title_txt">#2e4c61</color>
-	  	
+	  
+	  <color name="lazooz_mined_km_dark_blue">#2e4d61</color>
+	  	  	
+	  <color name="graph_labels">#6b828f</color>
+	  	  
+	  
+	  
+	 <color name="black90">#F2000000</color>
+     <color name="black80">#CC000000</color>
+     <color name="black70">#B3000000</color>
+     <color name="black60">#99000000</color>
+     <color name="black50">#80000000</color>
+     <color name="black40">#66000000</color>
+     <color name="black30">#4D000000</color>
+     <color name="black20">#33000000</color>
+     <color name="black10">#1A000000</color>
+     <color name="black0">#00000000</color>
 	 	 
 	 <color name="the_setting_title_back">#8086ba</color>
 	 <color name="the_setting_title_text">#FFFFFF</color>

@@ -28,7 +28,7 @@ public class AccelerometerTracker implements SensorEventListener {
 	private static int interval     = 200;
 
 	private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
-	private long mShakeTimestamp;
+	private static long mShakeTimestamp;
 	private long mNowTimestamp;
 	private int mShakeCount;
 	
@@ -53,6 +53,7 @@ public class AccelerometerTracker implements SensorEventListener {
     
 	public AccelerometerTracker(Context context) {
 		mContext = context;
+		mShakeTimestamp = 0;
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);

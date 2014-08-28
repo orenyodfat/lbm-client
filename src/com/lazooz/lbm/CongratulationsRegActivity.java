@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.os.Build;
@@ -28,7 +29,7 @@ public class CongratulationsRegActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_congratulations_reg);
 		MySharedPreferences.getInstance().setStage(CongratulationsRegActivity.this, MySharedPreferences.STAGE_REG_CONGRATS);

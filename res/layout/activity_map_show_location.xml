@@ -31,10 +31,12 @@
                 <Button
                     android:id="@+id/map_show_loc_next_btn"
                     style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
-                    android:text="Next" />
+                    android:background="@drawable/btn_gen"
+                    android:text="Next"
+                    android:textColor="@color/white" />
 
             </FrameLayout>
 

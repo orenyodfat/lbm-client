@@ -124,7 +124,21 @@ public class MySharedPreferences {
 	
 	
 	
-	
+	public void clearAll(Context context){
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		spData.edit().clear().commit();
+
+		spData = context.getSharedPreferences("AppData",Context.MODE_MULTI_PROCESS);
+		spData.edit().clear().commit();
+		
+		spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		spData.edit().clear().commit();
+		
+		spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		spData.edit().clear().commit();
+
+
+	}
 
 	
 	
@@ -539,6 +553,7 @@ public class MySharedPreferences {
 		return res;
 	}
 
+	
 	public void setDefaultGPSNotif(Context context, boolean isDontShow, long currentTimeMillis) {
 		SharedPreferences spData = context.getSharedPreferences("GPSNotif",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();

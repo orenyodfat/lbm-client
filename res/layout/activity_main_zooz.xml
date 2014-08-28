@@ -26,5 +26,11 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/bitcoin_address_qr"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center" />
+
 </FrameLayout>
 

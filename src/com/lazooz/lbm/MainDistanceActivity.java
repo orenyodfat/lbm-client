@@ -18,6 +18,10 @@ import org.json.JSONObject;
 import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.businessClasses.StatsData;
 import com.lazooz.lbm.businessClasses.StatsDataList;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistDay;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistMonth;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistMonthList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
@@ -40,10 +44,21 @@ import android.os.Bundle;
 public class MainDistanceActivity extends ActionBarActivity {
 
 	private LinearLayout mLayoutChart1;
+	private LinearLayout mLayoutChart2;
+	private LinearLayout mLayoutChart3;
+
 	private GraphicalView mChartView1;
+	private GraphicalView mChartView2;
+	private GraphicalView mChartView3;
+	
 	private TextView mDistanceTV;
-	public StatsDataList mStatsDataList;
+	public StatsDataMinersDistDayList mStatsDataWeekList;
+	public StatsDataMinersDistDayList mStatsDataMonthList;
+	public StatsDataMinersDistMonthList mStatsDataYearList;
 	private ProgressBar mProgBar;
+	public String mStatsDataWeekTotal;
+	public String mStatsDataMonthTotal;
+	public String mStatsDataYearTotal;
 	
 	
 	@Override
@@ -60,6 +75,8 @@ public class MainDistanceActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
+		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
+		mLayoutChart3 = (LinearLayout)findViewById(R.id.report_chart_3);
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		
 		
@@ -78,7 +95,10 @@ public class MainDistanceActivity extends ActionBarActivity {
 		
 		int localDist = (int)distanceLocal;
 		
-		mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
+		//mDistanceTV.setText(String.format("%d", distanceKMd));
+		mDistanceTV.setText(String.format("%.1f", distanceKMf));
+		//mDistanceTV.setText(String.format("%dkm  %dm", distanceKMd, distanceMd));
+		//mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
 		
 		
 		
@@ -105,7 +125,7 @@ public class MainDistanceActivity extends ActionBarActivity {
 	}
 
 	
-	
+	/*
 	private void buildChart1(){
 		 
 	    
@@ -166,119 +186,178 @@ public class MainDistanceActivity extends ActionBarActivity {
 		mLayoutChart1.addView(mChartView1, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 	
 
-	}
+	}*/
 	
-	private void buildChartDist(){
+	private void buildChartDist1(){
 		 
 		String[] chartTitles;
-		String mainTitle = "Total Distance";
+		String mainTitle = "Mined Km this week - " + mStatsDataWeekTotal + "";
 		String xTitle, yTitle;
- 		chartTitles = new String[] { "This Year"};
- 		xTitle = "Months";
- 		yTitle = "Distance";
+ 		chartTitles = new String[] { "This Week"};
+ 		xTitle = "";
+ 		yTitle = "";
 	 		
- 		
-	    
 	    
 	    List<double[]> values = new ArrayList<double[]>();
 
 
-	    values.add(mStatsDataList.getDistDoubleArray());
+	    values.add(mStatsDataWeekList.getDataDoubleArray());
 	    
-	    int[] colors = new int[] { Color.BLUE };
+	    int[] colors = new int[] { Color.WHITE };
 	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
 	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
 	  
 	    
 
 	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
-	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValDist() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
+	    		mStatsDataWeekList.getList().size() + 0.5, 0, mStatsDataWeekList.getMaxVal() + 5, Color.GRAY, Color.WHITE, Color.LTGRAY);
 
 	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
 	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
 	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
 	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
-	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(3);
-	    
-	    
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(4);
 	    
 	    renderer.setXLabels(0);
 	    
-	    /*
-	     * 
-		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
-		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
-		    int length = renderer.getSeriesRendererCount();
-		    for (int i = 0; i < length; i++) {
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValues(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValuesDistance(15);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setChartValuesTextSize(20);
-		    }
-		    ChartUtil.setChartSettings(renderer, "Total of 54,000 km mined", "Time", "Distance", 0.5, 7.5, 20, 90,
-		        Color.LTGRAY, Color.BLUE, Color.LTGRAY);
-		    //renderer.setXLabels(12);	    
-		    renderer.setXLabels(0);
-		    renderer.addXTextLabel(1, "Sun");
-		    renderer.addXTextLabel(2, "Mon");
-		    renderer.addXTextLabel(3, "Tue");
-		    renderer.addXTextLabel(4, "Wed");
-		    renderer.addXTextLabel(5, "Thu");
-		    renderer.addXTextLabel(6, "Fri");
-		    renderer.addXTextLabel(7, "Sat");
-	     * */
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
 	    List<double[]> x = new ArrayList<double[]>();
-	    x.add(mStatsDataList.getXDoubleArray());
-	    
-	    
-	    
-	    
+	    x.add(mStatsDataWeekList.getXDoubleArray());
 	    
 	    int i = 1;
 	     
-	    for(StatsData point : mStatsDataList.getList()){
-	    		renderer.addXTextLabel(i++, point.getTime());
+	    for(StatsDataMinersDistDay point : mStatsDataWeekList.getList()){
+	    		renderer.addXTextLabel(i++, point.getDayInWeek(this));
 	    }
 	    
-	   /* renderer.addXTextLabel(1, "Sun");
-	    renderer.addXTextLabel(2, "Mon");
-	    renderer.addXTextLabel(3, "Tue");
-	    renderer.addXTextLabel(4, "Wed");
-	    renderer.addXTextLabel(5, "Thu");
-	    renderer.addXTextLabel(6, "Fri");
-	    renderer.addXTextLabel(7, "Sat");
-	    */
-	    
-	    //renderer.setXLabels(12);
 	    renderer.setYLabels(10);
 	    renderer.setXLabelsAlign(Align.LEFT);
 	    renderer.setYLabelsAlign(Align.LEFT);
 	    renderer.setPanEnabled(true, false);
-	    // renderer.setZoomEnabled(false);
+	     renderer.setZoomEnabled(false);
 	    renderer.setZoomRate(1.1f);
 	    renderer.setBarSpacing(0.5f);
 	    
 	    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(chartTitles, x, values);
 	    mChartView1 = ChartFactory.getLineChartView(this, dataset, renderer);    
-	
-	    
-	    
-	    //mChartView1 =  ChartFactory.getBarChartView(this, ChartUtil.buildBarDataset(chartTitles, values), renderer,Type.STACKED);
-
+	 
 	    mLayoutChart1.removeAllViews();
 	    mLayoutChart1.addView(mChartView1, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 
 }
 
+	private void buildChartDist2(){
+		 
+		String[] chartTitles;
+		String mainTitle = "Mined Km this month - " + mStatsDataMonthTotal + "";
+		String xTitle, yTitle;
+ 		chartTitles = new String[] { "This Month"};
+ 		xTitle = "";
+ 		yTitle = "";
+	 		
+	    
+	    List<double[]> values = new ArrayList<double[]>();
+
+
+	    values.add(mStatsDataMonthList.getDataDoubleArray());
+	    
+	    int[] colors = new int[] { Color.WHITE };
+	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
+	  
+	    
+
+	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
+	    		mStatsDataMonthList.getList().size() + 0.5, 0, mStatsDataMonthList.getMaxVal() + 5, Color.GRAY, Color.WHITE, Color.LTGRAY);
+
+	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
+	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
+	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(4);
+	    
+	    renderer.setXLabels(0);
+	    
+	    List<double[]> x = new ArrayList<double[]>();
+	    x.add(mStatsDataMonthList.getXDoubleArray());
+	    
+	    int i = 1;
+	     
+	    for(StatsDataMinersDistDay point : mStatsDataMonthList.getList()){
+	    		renderer.addXTextLabel(i++, point.getDayInMonth(this));
+	    }
+	    
+	    renderer.setYLabels(10);
+	    renderer.setXLabelsAlign(Align.LEFT);
+	    renderer.setYLabelsAlign(Align.LEFT);
+	    renderer.setPanEnabled(true, false);
+	     renderer.setZoomEnabled(false);
+	    renderer.setZoomRate(1.1f);
+	    renderer.setBarSpacing(0.5f);
+	    
+	    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(chartTitles, x, values);
+	    mChartView2 = ChartFactory.getLineChartView(this, dataset, renderer);    
+	 
+	    mLayoutChart2.removeAllViews();
+	    mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+
+	}	
+
+	private void buildChartDist3(){
+		 
+		String[] chartTitles;
+		String mainTitle = "Total of Km mined - " + mStatsDataYearTotal + "";
+		String xTitle, yTitle;
+ 		chartTitles = new String[] { "Total"};
+ 		xTitle = "";
+ 		yTitle = "";
+	 		
+	    
+	    List<double[]> values = new ArrayList<double[]>();
+
+
+	    values.add(mStatsDataYearList.getDataDoubleArray());
+	    
+	    int[] colors = new int[] { Color.WHITE };
+	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
+	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
+	  
+	    
+
+	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
+	    		mStatsDataYearList.getList().size() + 0.5, 0, mStatsDataYearList.getMaxVal() + 5, Color.GRAY, Color.WHITE, Color.LTGRAY);
+
+	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
+	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
+	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(4);
+	    
+	    renderer.setXLabels(0);
+	    
+	    List<double[]> x = new ArrayList<double[]>();
+	    x.add(mStatsDataYearList.getXDoubleArray());
+	    
+	    int i = 1;
+	     
+	    for(StatsDataMinersDistMonth point : mStatsDataYearList.getList()){
+	    		renderer.addXTextLabel(i++, point.getMonth(this));
+	    }
+	    
+	    renderer.setYLabels(10);
+	    renderer.setXLabelsAlign(Align.LEFT);
+	    renderer.setYLabelsAlign(Align.LEFT);
+	    renderer.setPanEnabled(true, false);
+	     renderer.setZoomEnabled(false);
+	    renderer.setZoomRate(1.1f);
+	    renderer.setBarSpacing(0.5f);
+	    
+	    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(chartTitles, x, values);
+	    mChartView3 = ChartFactory.getLineChartView(this, dataset, renderer);    
+	 
+	    mLayoutChart3.removeAllViews();
+	    mLayoutChart3.addView(mChartView3, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+
+	}
 	
 	public void getUserStatDataAsync() {
 		GetUserStatData getUserStatData = new GetUserStatData();
@@ -299,7 +378,7 @@ public class MainDistanceActivity extends ActionBarActivity {
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
 				
-				bServerCom.getUserStatData(msp.getUserId(MainDistanceActivity.this), msp.getUserSecret(MainDistanceActivity.this));
+				bServerCom.getUserStatDataMinersDist(msp.getUserId(MainDistanceActivity.this), msp.getUserSecret(MainDistanceActivity.this));
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -313,12 +392,22 @@ public class MainDistanceActivity extends ActionBarActivity {
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
+
+						JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data_week");
+						Log.e("TAG", statsArray.toString());
+						mStatsDataWeekList = new StatsDataMinersDistDayList(statsArray);
+
+						statsArray = jsonReturnObj.getJSONArray("stats_data_month");
+						Log.e("TAG", statsArray.toString());
+						mStatsDataMonthList = new StatsDataMinersDistDayList(statsArray);
+
+						statsArray = jsonReturnObj.getJSONArray("stats_data_year");
+						Log.e("TAG", statsArray.toString());
+						mStatsDataYearList = new StatsDataMinersDistMonthList(statsArray);
 						
-						if (jsonReturnObj.has("stats_data")){
-							JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
-							Log.e("TAG", statsArray.toString());
-							mStatsDataList = new StatsDataList(statsArray);
-						}
+						mStatsDataWeekTotal = jsonReturnObj.getString("stats_data_week_total");
+						mStatsDataMonthTotal = jsonReturnObj.getString("stats_data_month_total");
+						mStatsDataYearTotal = jsonReturnObj.getString("stats_data_year_total");
 					}
 				}
 			} 
@@ -335,7 +424,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			mProgBar.setVisibility(View.INVISIBLE);
 			if (result.equals("success")){
-				buildChartDist();
+				buildChartDist1();
+				buildChartDist2();
+				buildChartDist3();
 				//buildChart1();
 			}
 		}

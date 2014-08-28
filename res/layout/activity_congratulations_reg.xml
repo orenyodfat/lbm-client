@@ -3,6 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/intro"
     tools:context="com.lazooz.lbm.CongratulationsRegActivity"
     tools:ignore="MergeRootFrame" >
 
@@ -10,19 +11,23 @@
         android:id="@+id/congrats_reg_text_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="top"
         android:layout_margin="20dp"
-        android:text="You have successfully identify your self as a device owner"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        android:gravity="center"
+        android:text="Your movement is a building block for this network, and you can earn the value for this contribution right now.\n\nFor each 1 Km traveled with La&apos;Zooz app and GPS active, you will mine and recieve 1 Zooz.\r\nAdding any friend to the network will entitle you with 20 Zooz"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/congratulation_reg_next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="20dp"
-        android:text="Got It!" />
+        android:layout_gravity="center"
+        android:background="@drawable/gen_btn"
+        android:text="Got It!"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 </FrameLayout>
 

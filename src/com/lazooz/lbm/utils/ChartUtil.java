@@ -95,7 +95,8 @@ public class ChartUtil {
 		    renderer.setPointSize(5f);
 		    renderer.setMargins(new int[] { 50, 60, 60, 30 });
 		    renderer.setFitLegend(true);
-		    
+		    renderer.setShowAxes(false);
+		    renderer.setExternalZoomEnabled(false);
 		    renderer.setBackgroundColor(0xf7f7f7);
 		    renderer.setMarginsColor(0xf7f7f7);
 		    

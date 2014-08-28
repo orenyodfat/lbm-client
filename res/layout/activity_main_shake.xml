@@ -3,6 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/intro"
     tools:context="com.lazooz.lbm.CongratulationsDrive100Activity"
     tools:ignore="MergeRootFrame" >
 
@@ -10,18 +11,23 @@
         android:id="@+id/main_shake_maintext_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="main shake"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Meeting with other users face to face helps in securing the network.\n\nBut it is also fun :)\n\nIn this step you are prompt to interact with other users by meeting with them and shaking your phones together.\nFor each shake with a new user you will mine 20 Zooz."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
     
      <Button
-        android:id="@+id/main_shake_next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="20dp"
-        android:text="Find La'Zooz players" />
+         android:id="@+id/main_shake_next_btn"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="bottom|center"
+         android:layout_marginBottom="200dp"
+         android:background="@drawable/gen_btn"
+         android:paddingLeft="10dp"
+         android:paddingRight="10dp"
+         android:text="Find La&apos;Zooz players"
+         android:textColor="@color/white" />
 
 </FrameLayout>
 

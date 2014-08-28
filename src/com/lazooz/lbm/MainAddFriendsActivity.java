@@ -20,6 +20,8 @@ import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.ContactFriendList;
 import com.lazooz.lbm.businessClasses.StatsData;
 import com.lazooz.lbm.businessClasses.StatsDataList;
+import com.lazooz.lbm.businessClasses.StatsDataMiners;
+import com.lazooz.lbm.businessClasses.StatsDataMinersList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
@@ -34,6 +36,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.database.Cursor;
@@ -50,12 +53,17 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	private LinearLayout mLayoutChart2;
 	private GraphicalView mChartView2;
 	private Button mAddFriendsBtn;
-	private ListView mAddFriendsListView;
+	//private ListView mAddFriendsListView;
 	public ContactFriendList mContactFriendsList;
 	//private HashMap<String, Contact> mContactList;
-	public StatsDataList mStatsDataList;
-	private FriendsAdapter mAdapter;
+	public StatsDataMinersList mStatsDataMinerList;
+	//private FriendsAdapter mAdapter;
 	private ProgressBar mProgBar;
+	private TextView mNumAcceptedTV;
+	private TextView mNumPendingTV;
+	public String mTotalMiners;
+	public String mNumPending;
+	public String mNumAccepted;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,10 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			}
 		});
 		
-		mAddFriendsListView = (ListView)findViewById(R.id.add_friends_listview);
+		//mAddFriendsListView = (ListView)findViewById(R.id.add_friends_listview);
+		
+		mNumAcceptedTV = (TextView)findViewById(R.id.num_accepted_tv);
+		mNumPendingTV = (TextView)findViewById(R.id.num_pending_tv);
 		
 		
 		getUserContactDataAsync();
@@ -166,31 +177,35 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	private void buildChartZooz(){
 		 
 		String[] chartTitles;
-		String mainTitle = "Number of miners";
+		String mainTitle = "Miners Paveing the Web - " + mTotalMiners + "";
 		String xTitle, yTitle;
  		chartTitles = new String[] { "This Year"};
- 		xTitle = "Months";
- 		yTitle = "Number of miners";
+ 		xTitle = "";
+ 		yTitle = "";
 	 		
 		
 	    List<double[]> values = new ArrayList<double[]>();
 
 
-	    values.add(mStatsDataList.getZoozDoubleArray());
+	    values.add(mStatsDataMinerList.getDataDoubleArray());
 	   
 	    
-	    int[] colors = new int[] { Color.BLUE };
+	    int[] colors = new int[] { Color.WHITE };
 	    PointStyle[] styles = new PointStyle[] { PointStyle.DIAMOND};
 	    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
 
+	    
+	    
+	    
 	    ChartUtil.setChartSettings(renderer, mainTitle, xTitle, yTitle, 0.5,
-	    		mStatsDataList.getList().size() + 0.5, 0, mStatsDataList.getMaxValZooz() + 5, Color.GRAY, Color.BLUE, Color.LTGRAY);
+	    		mStatsDataMinerList.getList().size() + 0.5, 0, mStatsDataMinerList.getMaxVal() + 5, 
+	    		this.getResources().getColor(R.color.graph_labels), Color.WHITE, this.getResources().getColor(R.color.graph_labels));
 	    
 	    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
 	    renderer.getSeriesRendererAt(0).setDisplayChartValuesDistance(15);
 	    renderer.getSeriesRendererAt(0).setChartValuesTextSize(20);
 	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setFillPoints(true);
-	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(3);
+	    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setLineWidth(4);
 	    
 	    
 	    
@@ -201,14 +216,14 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 
 	    
 	    List<double[]> x = new ArrayList<double[]>();
-	    x.add(mStatsDataList.getXDoubleArray());
+	    x.add(mStatsDataMinerList.getXDoubleArray());
 	    
 	    
 	    
 	    int i = 1;
 	     
-	    for(StatsData point : mStatsDataList.getList()){
-	    		renderer.addXTextLabel(i++, point.getTime());
+	    for(StatsDataMiners point : mStatsDataMinerList.getList()){
+	    		renderer.addXTextLabel(i++, point.getMonth(this));
 	    }
 	    
 	    
@@ -277,6 +292,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
+						mNumPending = jsonReturnObj.getString("num_pending");
+						mNumAccepted = jsonReturnObj.getString("num_accepted");
 						
 						if (jsonReturnObj.has("contacts")){
 							JSONArray contactsArray = jsonReturnObj.getJSONArray("contacts");
@@ -299,6 +316,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			
 			if (result.equals("success")){
+				mNumAcceptedTV.setText(mNumAccepted);
+				mNumPendingTV.setText(mNumPending);
 				getUserStatDataAsync();
 			}
 		}
@@ -329,7 +348,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
 				
-				bServerCom.getUserStatData(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this));
+				bServerCom.getUserStatDataMiners(msp.getUserId(MainAddFriendsActivity.this), msp.getUserSecret(MainAddFriendsActivity.this));
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -345,9 +364,10 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 					if (serverMessage.equals("success")){
 						
 						if (jsonReturnObj.has("stats_data")){
+							mTotalMiners = jsonReturnObj.getString("total_miners");
 							JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
 							Log.e("TAG", statsArray.toString());
-							mStatsDataList = new StatsDataList(statsArray);
+							mStatsDataMinerList = new StatsDataMinersList(statsArray);
 						}
 					}
 				}
@@ -377,8 +397,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	}
 
 	public void updateGUI() {
-		mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList);//, mContactList);
-		mAddFriendsListView.setAdapter(mAdapter);
+		//mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList);//, mContactList);
+		//mAddFriendsListView.setAdapter(mAdapter);
 		
 		buildChartZooz();
 		

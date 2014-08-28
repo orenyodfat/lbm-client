@@ -47,13 +47,28 @@ public class MeActivity extends ActionBarActivity {
 		mZoozsTV= (TextView)findViewById(R.id.me_zoozs_tv);
 		
 		
+		
+		
 		MySharedPreferences msp = MySharedPreferences.getInstance();
 		ServerData sd = msp.getServerData(this);
+
+		float distanceFromServer = sd.getDistanceFloat();
+		float distanceLocal = msp.getLocalDistance(this);
+		float distanceTotal = distanceFromServer + distanceLocal;
+		float distanceKMf = distanceTotal / 1000;
+		float distanceMf = distanceTotal % 1000;
+
+		int distanceKMd = (int)distanceKMf;
+		int distanceMd = (int)distanceMf;
+		
+		int localDist = (int)distanceLocal;
+
+		
 		
 		mIDTV.setText(msp.getUserIdSD(this));
 		mWalletNumTV.setText(msp.getWalletNum(this));
 		mNumFriendsTV.setText(msp.getNumInvitedContacts(this)+"");
-		mNumKmTV.setText(sd.getDistance()+"");
+		mNumKmTV.setText(String.format("%.1f", distanceKMf));
 		mNumShakesTV.setText(msp.getNumShakedUsers(this)+"");
 		mZoozsTV.setText(sd.getZoozBalance());
 

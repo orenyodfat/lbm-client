@@ -104,3 +104,10 @@ bin/dexedLibs/libphonenumber-5.9-7e51ba7cd9ba4b58ec8ed4465da883a4.jar
 bin/dexedLibs/sc-light-jdk15on-1.47.0.2-be441515096d96ee99406a558af6af02.jar
 bin/dexedLibs/slf4j-api-1.6.2-34c3c8990c8ae43aceaec0cb6a8a137a.jar
 bin/dexedLibs/zbar-bc56b2bb4dad51ffbd3c79202e738eda.jar
+bin/dexedLibs/core-923a1316279caee32780f26fdbd81e31.jar
+bin/res/crunch/drawable-xxhdpi/gen_btn.png
+bin/res/crunch/drawable-xxhdpi/gen_btn_press.png
+bin/res/crunch/drawable-xxhdpi/ic_qmark1.png
+bin/res/crunch/drawable-xxhdpi/invite_friends_btn.png
+bin/res/crunch/drawable-xxhdpi/mined_loc_up.png
+bin/res/crunch/drawable-xxhdpi/invite_friends_upper.png

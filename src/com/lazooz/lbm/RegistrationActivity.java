@@ -112,11 +112,16 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				
 				
 				try {
-					String countryCode = getResources().getConfiguration().locale.getCountry();
-					if (countryCode.equals("")){
-						TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+					TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+					String countryCode = "";
+					
+					if (tm != null)
 						countryCode = tm.getSimCountryIso();			
-					}
+
+					if (countryCode.equals(""))
+						countryCode = getResources().getConfiguration().locale.getCountry();
+					
+					
 					if (!countryCode.equals("")){
 						countryCode = countryCode.toUpperCase();
 						String[] countyList = getResources().getStringArray(R.array.country_list_entry_values);
@@ -359,6 +364,11 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
 				Toast.makeText(RegistrationActivity.this, "Thanks you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
 			}
+			else if (result.equals("error_cell_not_valid")){
+				Utils.messageToUser(RegistrationActivity.this, "Input Error", "The number is not valid, please enter a valid cell phone number.");
+				//Toast.makeText(RegistrationActivity.this, "Invalid phone number", Toast.LENGTH_LONG).show();				
+			}
+
 		}
 			
 		
@@ -469,6 +479,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	
 	private void startNextScreen(){
 		Utils.freezOrientation(this);
+		
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
