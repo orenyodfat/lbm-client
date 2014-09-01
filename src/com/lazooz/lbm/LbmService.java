@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.TelephonyData;
+import com.lazooz.lbm.businessClasses.TelephonyDataTracker;
+import com.lazooz.lbm.businessClasses.TelephonyDataTracker.OnTelephonyDataListener;
 import com.lazooz.lbm.businessClasses.WifiData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
@@ -41,9 +43,10 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
-public class LbmService extends Service implements LocationListener{
+public class LbmService extends Service implements LocationListener, OnTelephonyDataListener{
 
-	public static final int GPS_MIN_TIME_LOCATION_UPDATE = 10*1000; // milisec
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE_HIGHT = 10*1000; // 10 sec
+	public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
 	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
 	
 	
@@ -55,6 +58,9 @@ public class LbmService extends Service implements LocationListener{
 	private boolean noGPSNotifSent = false;
 	public boolean mSendingDataToServer;
 	private NoSpeedTimer mNoSpeedTimer;
+	private TelephonyDataTracker mTelephonyDataTracker;
+	private boolean mIsListenToGPSProvider;
+	
 	
 	public LbmService() {
 	}
@@ -86,13 +92,16 @@ public class LbmService extends Service implements LocationListener{
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
 
-		
+		mIsListenToGPSProvider = false;
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
-
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_LOW, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+		mTelephonyDataTracker = new TelephonyDataTracker(this);
 		
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (!isNetworkEnabled)
+			mTelephonyDataTracker.requestCellUpdates(this);
 		
 		
 		//mGPSTracker = GPSTracker.getInstance(this);
@@ -392,8 +401,14 @@ public class LbmService extends Service implements LocationListener{
 			float speed = location.getSpeed();
 			if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h
 			
-				if (speed > 2.7)
+				if (speed > 2.7){
+					Utils.playSound(this, R.raw.ten_kms);
 					mNoSpeedTimer.startNow();
+					if (!mIsListenToGPSProvider){
+						mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+						mIsListenToGPSProvider = true;
+					}
+				}
 				
 				//Utils.playSound(this, R.raw.ten_kms);
 				if (isGPSEnabled) //if gps is on - read sensors 				
@@ -411,13 +426,16 @@ public class LbmService extends Service implements LocationListener{
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		if (status == LocationProvider.OUT_OF_SERVICE){
-			
+			if (provider.equals(LocationManager.NETWORK_PROVIDER))
+				mTelephonyDataTracker.requestCellUpdates(this);			
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
-			
+			if (provider.equals(LocationManager.NETWORK_PROVIDER))
+				mTelephonyDataTracker.requestCellUpdates(this);						
 		}
 		else if (status == LocationProvider.AVAILABLE){
-			
+			if (provider.equals(LocationManager.NETWORK_PROVIDER))
+				mTelephonyDataTracker.removeUpdates();
 		}
 	}
 
@@ -427,7 +445,7 @@ public class LbmService extends Service implements LocationListener{
 			
 		}
 		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
-			
+			mTelephonyDataTracker.removeUpdates();
 		}
 		
 	}
@@ -456,7 +474,7 @@ public class LbmService extends Service implements LocationListener{
 			
 		}
 		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
-			
+			mTelephonyDataTracker.requestCellUpdates(this);
 		}
 		
 	}
@@ -481,7 +499,15 @@ public class LbmService extends Service implements LocationListener{
 		
        @Override
         public void onFinish() {
+    	   Utils.playSound(LbmService.this, R.raw.timer_end);
     	   mIsActive = false;
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_LOW, GPS_MIN_DISTANCE_LOCATION_UPDATE, LbmService.this);
+			mIsListenToGPSProvider = false;
+			
+			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+			if (!isNetworkEnabled)
+				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+			
        }
 
         @Override
@@ -490,6 +516,19 @@ public class LbmService extends Service implements LocationListener{
         
         
        
+	}
+
+
+
+
+	@Override
+	public void onCellChanged(int newCellID) {
+		Utils.playSound(this, R.raw.cell_change);
+		mNoSpeedTimer.startNow();
+		if (!mIsListenToGPSProvider){
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+			mIsListenToGPSProvider = true;
+		}		
 	}
 
 	

@@ -9,28 +9,66 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textView1"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Scan QR"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/zooz_scan_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Scan" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan QR"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:id="@+id/zooz_scan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Public Key:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ImageView
+                    android:id="@+id/qr_public_iv"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Private Key:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ImageView
+                    android:id="@+id/qr_private_iv"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/bitcoin_address_qr"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center" />
 
 </FrameLayout>
 

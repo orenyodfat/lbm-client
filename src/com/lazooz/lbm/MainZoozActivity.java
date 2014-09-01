@@ -1,6 +1,11 @@
 package com.lazooz.lbm;
 
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 
@@ -11,15 +16,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
-
 
 
 
 public class MainZoozActivity extends ActionBarActivity {
 
 
-	private ImageView bitcoinAddressQrView;
+	private ImageView mQRPrivateIV, mQRPublicIV;
 
 
 	@Override
@@ -39,18 +44,51 @@ public class MainZoozActivity extends ActionBarActivity {
 			}
 		});
 
-		/*
-		bitcoinAddressQrView = (ImageView) findViewById(R.id.bitcoin_address_qr);
-		final int size = (int) (256 * getResources().getDisplayMetrics().density);
-		Bitmap qrCodeBitmap = Qr.bitmap("http://walla.com", size);
-		bitcoinAddressQrView.setImageBitmap(qrCodeBitmap);
-		*/
 		
+		mQRPublicIV = (ImageView) findViewById(R.id.qr_public_iv);
+		mQRPrivateIV = (ImageView) findViewById(R.id.qr_private_iv);
+		
+		displayQR(mQRPublicIV, MySharedPreferences.getInstance().getPublicKey(this));
+		displayQR(mQRPrivateIV, MySharedPreferences.getInstance().getPrivateKey(this));
 		
 		
 	}
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void displayQR(ImageView iv, String data){
+		QRCodeWriter writer = new QRCodeWriter();
+	    try {
+	        BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, 512, 512);
+	        int width = bitMatrix.getWidth();
+	        int height = bitMatrix.getHeight();
+	        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+	        for (int x = 0; x < width; x++) {
+	            for (int y = 0; y < height; y++) {
+	                bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+	            }
+	        }
+	        iv.setImageBitmap(bmp);
+
+	    } catch (WriterException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == 1) {
