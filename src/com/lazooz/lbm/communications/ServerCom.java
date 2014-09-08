@@ -76,7 +76,17 @@ public class ServerCom {
 		this.postRequestToServer(-1, -1, url, params);
 	}
 
-	
+	public void setUsetPublicKey(String UserId, String UserSecret, String publicKey)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_set_user_pk";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+		params.add(new BasicNameValuePair("user_public_key", publicKey ));
+		
+		this.postRequestToServer(-1, -1, url, params);
+	}
 	
 	
 	

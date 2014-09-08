@@ -159,7 +159,10 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 			return;
 		
 		mLastMsg = msg;
-		
+		if (mToolTipView != null) {
+			mToolTipView.removeAllViews();
+			mToolTipView.invalidate();
+		}
 		mToolTipView = null;
     	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
                          .withText(msg)
@@ -212,7 +215,26 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 				mLastMarker.remove();
 			//float currentZoom = map.getCameraPosition().zoom;
 
-	    	map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));				
+			
+			
+			CameraPosition cp = map.getCameraPosition();					
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+		    .target(ll)      // Sets the center of the map to Mountain View
+		    .zoom(18)                   // Sets the zoom
+		    .bearing(cp.bearing)                // Sets the orientation of the camera to east
+		    .tilt(50)                   // Sets the tilt of the camera to 30 degrees
+		    .build();                   // Creates a CameraPosition from the builder
+			map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 3000, null);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	    	//map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));				
 		    map.getUiSettings().setZoomControlsEnabled(false);
 		    
 		    updateAccuracy((int)location.getAccuracy());

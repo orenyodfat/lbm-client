@@ -402,7 +402,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 			if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h
 			
 				if (speed > 2.7){
-					Utils.playSound(this, R.raw.ten_kms);
+					//Utils.playSound(this, R.raw.ten_kms);
 					mNoSpeedTimer.startNow();
 					if (!mIsListenToGPSProvider){
 						mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
@@ -499,7 +499,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		
        @Override
         public void onFinish() {
-    	   Utils.playSound(LbmService.this, R.raw.timer_end);
+    	   //Utils.playSound(LbmService.this, R.raw.timer_end);
     	   mIsActive = false;
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_LOW, GPS_MIN_DISTANCE_LOCATION_UPDATE, LbmService.this);
 			mIsListenToGPSProvider = false;
@@ -523,7 +523,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 
 	@Override
 	public void onCellChanged(int newCellID) {
-		Utils.playSound(this, R.raw.cell_change);
+		//Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);

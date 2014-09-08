@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import com.lazooz.lbm.businessClasses.DrawerItem;
+import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.net.Uri;
@@ -58,7 +59,9 @@ public class MyActionBarActivity extends ActionBarActivity {
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_website),R.drawable.tool_web));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_wallet),R.drawable.tool_wallet));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_legal),R.drawable.tool_legal));
-		
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_report_bug),0));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_intro),0));
+
         
         
 		setContentView(layoutID);
@@ -155,10 +158,20 @@ public class MyActionBarActivity extends ActionBarActivity {
     		
     		}
     	else if (di.getText().equals(getString(R.string.drawer_entry_wallet))){
-
+    		Intent intent = new Intent(this, MainZoozActivity.class);
+    		startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_website))){
     		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://lazooz.org"));
+    		startActivity(browserIntent);
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_intro))){
+    		Intent intent = new Intent(this, IntroActivity.class);
+    		intent.putExtra("FROM_MENU_MODE", true);
+    		startActivity(intent);
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_report_bug))){
+    		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.BASE_SERVER_URL + "client_report_issue"));
     		startActivity(browserIntent);
     	}
 
@@ -285,12 +298,14 @@ public class MyActionBarActivity extends ActionBarActivity {
 				Drawable img = null;
 				TextView tv =(TextView)row.findViewById(android.R.id.text1);
 				try{
-					if (items.get(position).getImageResource() > 0){
-						img = MyActionBarActivity.this.getResources().getDrawable(items.get(position).getImageResource());			
+					int imageRes = items.get(position).getImageResource();
+					if (imageRes > 0){
+						img = MyActionBarActivity.this.getResources().getDrawable(imageRes);			
 						tv.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null );
-						tv.setCompoundDrawablePadding(35);
-						tv.setText(items.get(position).getText());
+						tv.setCompoundDrawablePadding(35);						
 					}
+					tv.setText(items.get(position).getText());
+					
 				}
 				catch(Exception e){}
 				

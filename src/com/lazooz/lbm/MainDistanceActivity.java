@@ -26,6 +26,7 @@ import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.ChartUtil;
+import com.lazooz.lbm.utils.Utils;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -428,6 +429,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 				buildChartDist2();
 				buildChartDist3();
 				//buildChart1();
+			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainDistanceActivity.this);
 			}
 		}
 			

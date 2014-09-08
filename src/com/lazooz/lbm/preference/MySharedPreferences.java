@@ -411,6 +411,7 @@ public class MySharedPreferences {
 		ServerData sd = new ServerData();
 		
 		sd.setZoozBalance(spData.getString("ZoozBalance", "0.0"));
+		sd.setPotentialZoozBalance(spData.getString("PotentialZoozBalance", "0.0"));
 		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
@@ -422,11 +423,13 @@ public class MySharedPreferences {
 		return spData.getString("ServerVersion", "");
 	}
 	
-	public void saveDataFromServer1(Context context, String zoozBalance, String distance, boolean isDistanceAchievement, String serverVer, 
+	public void saveDataFromServer1(Context context, String zoozBalance, String potentialZoozBalance, String distance, boolean isDistanceAchievement, String serverVer, 
 			String walletNum, int numShakedUsers, int numInvitedContacts, String userId) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
+		editor.putString("PotentialZoozBalance", potentialZoozBalance);
+		
 		editor.putString("Distance", distance);
 		editor.putString("ServerVersion", serverVer);
 		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);

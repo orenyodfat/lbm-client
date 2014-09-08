@@ -320,6 +320,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				mNumPendingTV.setText(mNumPending);
 				getUserStatDataAsync();
 			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainAddFriendsActivity.this);
+			}
 		}
 			
 		
@@ -386,6 +389,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			mProgBar.setVisibility(View.INVISIBLE);
 			if (result.equals("success")){
 				updateGUI();
+			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainAddFriendsActivity.this);
 			}
 		}
 			
@@ -520,6 +526,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				Toast.makeText(MainAddFriendsActivity.this, "Recommendation Sent", Toast.LENGTH_LONG).show();
 				getUserContactDataAsync();
 				//startActivity(new Intent(MainAddFriendsActivity.this, CongratulationsGetFriendsActivity.class));
+			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainAddFriendsActivity.this);
 			}
 		}
 			

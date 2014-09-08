@@ -3,6 +3,7 @@ package com.lazooz.lbm.businessClasses;
 public class ServerData {
 	private String mDistance;
 	private String mZoozBalance;
+	private String mPotZoozBalance;
 	private boolean mIsDistanceAchievement;
 	private long mTimeStamp;
 	
@@ -26,10 +27,16 @@ public class ServerData {
 		return mZoozBalance;
 	}
 
+	public String getPotentialZoozBalance() {
+		return mPotZoozBalance;
+	}
+	
 	public void setZoozBalance(String zoozBalance) {
 		mZoozBalance = zoozBalance;
 	}
-
+	public void setPotentialZoozBalance(String potZoozBalance) {
+		mPotZoozBalance = potZoozBalance;
+	}
 	public boolean isDistanceAchievement() {
 		return mIsDistanceAchievement;
 	}

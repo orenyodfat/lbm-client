@@ -25,6 +25,8 @@
 	<string name="drawer_entry_website">Web Site</string>
 	<string name="drawer_entry_wallet">Wallet</string>
 	<string name="drawer_entry_legal">Legal and Privacy</string>
+	<string name="drawer_entry_report_bug">Submit issue/bug</string>
+	<string name="drawer_entry_intro">Introduction</string>
 		
 	
 	<string-array name="drawer_array">

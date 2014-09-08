@@ -342,6 +342,9 @@ public class MainActivity extends MyActionBarActivity  {
 				Toast.makeText(MainActivity.this, "Friend List Sent", Toast.LENGTH_LONG).show();
 				startActivity(new Intent(MainActivity.this, CongratulationsGetFriendsActivity.class));
 			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(MainActivity.this);
+			}
 		}
 			
 		
@@ -385,6 +388,7 @@ public class MainActivity extends MyActionBarActivity  {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
 						String zoozBalance = jsonReturnObj.getString("zooz_balance");
+						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
 						String distance = jsonReturnObj.getString("zooz_distance_balance");
 						String serverVer = jsonReturnObj.getString("server_version");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
@@ -395,7 +399,7 @@ public class MainActivity extends MyActionBarActivity  {
 						
 						
 						
-						MySharedPreferences.getInstance().saveDataFromServer1(MainActivity.this, zoozBalance, distance, 
+						MySharedPreferences.getInstance().saveDataFromServer1(MainActivity.this, zoozBalance, potentialZoozBalance, distance, 
 								isDistanceAchievement, serverVer, walletNum, numShakedUsers, numInvitedContacts, userId);
 						
 						

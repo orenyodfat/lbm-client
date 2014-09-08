@@ -29,6 +29,7 @@ public class IntroActivity extends ActionBarActivity {
 	private Button gpsActivateBtn;
 	private TextView mInfoTV;
 	private LocationManager mLocationManager;
+	private boolean mIsFromMenuMode;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +41,9 @@ public class IntroActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_intro);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+		mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
+		
+		
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
 		String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
 		try{
@@ -75,22 +79,12 @@ public class IntroActivity extends ActionBarActivity {
 			}
 		});
 		
-		/*	
-		gpsActivateBtn = (Button)findViewById(R.id.intro_gpson_btn);
-		gpsActivateBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				IntroActivity.this.startActivity(intent);				
-			}
-		});
-
-		gpsActivateBtn.setVisibility(View.GONE);
-		
-		*/
-		
-		
-		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
+		if (mIsFromMenuMode){
+			nextBtn.setVisibility(View.INVISIBLE);
+		}
+			
+		if (!mIsFromMenuMode)
+			MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
 		
 		
 		
