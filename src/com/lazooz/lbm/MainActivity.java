@@ -95,7 +95,6 @@ public class MainActivity extends MyActionBarActivity  {
 		View.OnClickListener addFriendsListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startService(new Intent(MainActivity.this, LbmService.class));
 				Intent intent = new Intent(MainActivity.this, MainAddFriendsActivity.class);
 				startActivity(intent);				
 			}
