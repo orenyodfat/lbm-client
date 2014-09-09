@@ -67,6 +67,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/main_distance_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -132,6 +133,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/main_friends_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -197,6 +199,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/main_shake_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -280,21 +283,22 @@
                         android:textColor="@color/lazooz_main_title_txt" />
 
                     <TextView
-                        android:id="@+id/TextView05"
+                        android:id="@+id/main_zooz_conversion_rate_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="5dp"
                         android:text="1=$0.9"
-                         android:textSize="30sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/lazooz_main_txt" />
+                        android:textColor="@color/lazooz_main_txt"
+                        android:textSize="30sp" />
 
                 </FrameLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/main_zoz_balance_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -23,7 +23,7 @@ import android.widget.Toast;
 import android.os.Build;
 import android.provider.Settings;
 
-public class IntroActivity extends ActionBarActivity {
+public class DesclmtrActivity extends ActionBarActivity {
 
 	private Button nextBtn;
 	private Button gpsActivateBtn;
@@ -45,14 +45,10 @@ public class IntroActivity extends ActionBarActivity {
 		
 		
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
-		String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
-		try{
-			theText = theText.replace("%v%", Utils.getVersionName(this));
-		}
-		catch(Exception e){
-		}
+		String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
+		String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
 		
-		mInfoTV.setText(theText);
+		mInfoTV.setText(theTitle + "\n"+ theText);
 		
 
 		
@@ -68,9 +64,10 @@ public class IntroActivity extends ActionBarActivity {
 					
 					
 				if (!isGPSEnabled && !isNetworkEnabled)
-					Utils.showSettingsAlert(IntroActivity.this, getString(R.string.gps_message_no_gps_no_net));
+					Utils.showSettingsAlert(DesclmtrActivity.this, getString(R.string.gps_message_no_gps_no_net));
 				else{
-					Intent intent = new Intent(IntroActivity.this, DesclmtrActivity.class);
+					Intent intent = new Intent(DesclmtrActivity.this, MapShowLocationActivity.class);
+					intent.putExtra("MISSION_GPS_ON", true);
 					startActivity(intent);
 					finish();
 				}
@@ -90,7 +87,5 @@ public class IntroActivity extends ActionBarActivity {
 	}
 	
 
-
-
-
+	
 }

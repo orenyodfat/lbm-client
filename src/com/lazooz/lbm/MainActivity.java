@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,12 @@ public class MainActivity extends MyActionBarActivity  {
 	private ImageButton mDistanceBtn;
 	private ImageButton mZoozBalBtn;
 	private FrameLayout mCriticalMassFrame;
+	private LinearLayout mDistanceLL;
+	private LinearLayout mShakeLL;
+	private LinearLayout mZoozBalLL;
+	private LinearLayout mAddFriendsLL;
+	public String mDolarConvertionRate;
+	private TextView mConvertionRateTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,56 +76,76 @@ public class MainActivity extends MyActionBarActivity  {
 		startService(new Intent(this, LbmService.class));
 		
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
+		
 		mDistanceTV.setText("0.0");
 		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
 		mZoozBalTV.setText("0.0");
 		mFriendsTV = (TextView)findViewById(R.id.main_friends_tv);
 		mFriendsTV.setText("0.0");
 		mShakeTV = (TextView)findViewById(R.id.main_shake_tv);
+		
+		
+		mConvertionRateTV = (TextView)findViewById(R.id.main_zooz_conversion_rate_tv);
+		
 		mShakeTV.setText("0.0");
 		
+		/*************************************************************************/
 		mAddFriendsBtn = (ImageButton)findViewById(R.id.main_friends_btn);
-		mAddFriendsBtn.setOnClickListener(new View.OnClickListener() {
-			
+		mAddFriendsLL = (LinearLayout)findViewById(R.id.main_friends_ll);
+		View.OnClickListener addFriendsListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				startService(new Intent(MainActivity.this, LbmService.class));
 				Intent intent = new Intent(MainActivity.this, MainAddFriendsActivity.class);
-				startActivity(intent);
-				
+				startActivity(intent);				
 			}
-		});
+		};
+		mAddFriendsBtn.setOnClickListener(addFriendsListener);
+		mAddFriendsLL.setOnClickListener(addFriendsListener);
+
+		/*************************************************************************/
 		
 		mShakeBtn = (ImageButton)findViewById(R.id.main_shake_btn);
-		mShakeBtn.setOnClickListener(new View.OnClickListener() {
-			
+		mShakeLL = (LinearLayout)findViewById(R.id.main_shake_ll);
+		View.OnClickListener shakeListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, MainShakeActivity.class);
 				startActivity(intent);			
 			}
-		});
+		};
+		mShakeBtn.setOnClickListener(shakeListener);
+		mShakeLL.setOnClickListener(shakeListener);
+		
+		/*************************************************************************/
 		
 		mDistanceBtn = (ImageButton)findViewById(R.id.main_distance_btn);
-		mDistanceBtn.setOnClickListener(new View.OnClickListener() {
-			
+		mDistanceLL = (LinearLayout)findViewById(R.id.main_distance_ll);
+		View.OnClickListener distanceListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, MainDistanceActivity.class);
 				startActivity(intent);
 			}
-		});
+		};
+		mDistanceBtn.setOnClickListener(distanceListener);
+		mDistanceLL.setOnClickListener(distanceListener);
+		
+		/*************************************************************************/
 		
 		mZoozBalBtn = (ImageButton)findViewById(R.id.main_zoz_balance_btn);
-		mZoozBalBtn.setOnClickListener(new View.OnClickListener() {
-			
+		mZoozBalLL = (LinearLayout)findViewById(R.id.main_zoz_balance_ll);
+		View.OnClickListener zoozBalListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, MainZoozActivity.class);
 				startActivity(intent);
 			}
-		});
+		};
+		mZoozBalBtn.setOnClickListener(zoozBalListener);
+		mZoozBalLL.setOnClickListener(zoozBalListener);
 		
-		
+		/*************************************************************************/
 		
 		mCriticalMassPB = (ProgressBar)findViewById(R.id.main_critical_mass_pb);
 		mCriticalMassFrame = (FrameLayout)findViewById(R.id.main_critical_mass_frame);
@@ -235,6 +262,9 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		mFriendsTV.setText(numInvitedContacts+"");
 		mShakeTV.setText(numShakedUsers +"");		
+		
+		
+		mConvertionRateTV.setText("1=$" + mDolarConvertionRate);
 	
 	}
 	
@@ -389,6 +419,7 @@ public class MainActivity extends MyActionBarActivity  {
 					if (serverMessage.equals("success")){
 						String zoozBalance = jsonReturnObj.getString("zooz_balance");
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
+						mDolarConvertionRate = jsonReturnObj.getString("zooz_to_dolar_conversion_rate");
 						String distance = jsonReturnObj.getString("zooz_distance_balance");
 						String serverVer = jsonReturnObj.getString("server_version");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));

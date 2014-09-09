@@ -365,7 +365,7 @@ public class Utils {
 	
 
 	public static void playSound(Context cntxt, int rawVal){
-		MediaPlayer mpTada = null ;
+/*		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
 		mpTada.setVolume(1.0f, 1.0f);
 		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -375,7 +375,7 @@ public class Utils {
 				}
 			});
 		mpTada.start();
-		 
+	*/	 
 	}
 	
     public static void restartApp(Context context){

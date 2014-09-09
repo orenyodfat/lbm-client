@@ -6,9 +6,12 @@ package com.lazooz.lbm;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 
 import com.lazooz.lbm.businessClasses.DrawerItem;
 import com.lazooz.lbm.cfg.StaticParms;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.net.Uri;
@@ -145,7 +148,7 @@ public class MyActionBarActivity extends ActionBarActivity {
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_legal))){
 			Intent intent = new Intent(this, WebViewActivity.class);
-			intent.putExtra("URL", "http://lazooz.org");
+			intent.putExtra("URL", "http://client.lazooz.org/legal_and_privacy");
 			startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_share))){
@@ -171,8 +174,11 @@ public class MyActionBarActivity extends ActionBarActivity {
     		startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_report_bug))){
-    		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.BASE_SERVER_URL + "client_report_issue"));
-    		startActivity(browserIntent);
+			String userId = MySharedPreferences.getInstance().getUserId(this);
+			String url = StaticParms.BASE_SERVER_URL + "client_report_issue/" + userId;
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra("URL", url);
+			startActivity(intent);
     	}
 
     	
