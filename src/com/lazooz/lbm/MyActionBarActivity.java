@@ -155,8 +155,8 @@ public class MyActionBarActivity extends ActionBarActivity {
     		Intent sharingIntent = new Intent(); 
     		sharingIntent.setAction(Intent.ACTION_SEND);
     		sharingIntent.setType("text/plain");
-	        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Lazooz");
-	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app Lazooz.\nDownload from here:\nhttps://play.google.com/apps/testing/com.lazooz.lbm/");
+	        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "La'Zooz");
+	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app La'Zooz.\nDownload from here:\nhttps://play.google.com/apps/testing/com.lazooz.lbm/");
     		startActivity(Intent.createChooser(sharingIntent, "Share via"));
     		
     		}

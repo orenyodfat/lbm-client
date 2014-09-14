@@ -2,6 +2,7 @@ package com.lazooz.lbm;
 
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.Utils;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,7 @@ public class MainShakeActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main_shake);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mMainTextTV = (TextView)findViewById(R.id.main_shake_maintext_tv);
 		mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));

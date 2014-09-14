@@ -58,6 +58,7 @@ public class MainZoozActivity extends ActionBarActivity {
 	private TextView mPrivateKeyTV;
 	private ImageView mPrivateDotsIV;
 	private ImageView mQRPrivatePixeldIV;
+	protected boolean mIsPrivateShow;
 
 
 	@Override
@@ -66,6 +67,7 @@ public class MainZoozActivity extends ActionBarActivity {
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		setContentView(R.layout.activity_main_zooz_new);
 		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		Button scanBtn = (Button)findViewById(R.id.zooz_scan_btn);
 		scanBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,14 +120,28 @@ public class MainZoozActivity extends ActionBarActivity {
 		});
 
 		mShowPrivateKeyBtn = (Button)findViewById(R.id.show_private_btn);
+		mShowPrivateKeyBtn.setText("Show");
+		mIsPrivateShow = false;
 		mShowPrivateKeyBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				mPrivateDotsIV.setVisibility(View.GONE);
-				mPrivateKeyTV.setVisibility(View.VISIBLE);
-				mQRPrivatePixeldIV.setVisibility(View.GONE);
-				mQRPrivateIV.setVisibility(View.VISIBLE);
+				if (mIsPrivateShow){
+					mIsPrivateShow = false;
+					mShowPrivateKeyBtn.setText("Show");
+					mPrivateDotsIV.setVisibility(View.VISIBLE);
+					mPrivateKeyTV.setVisibility(View.INVISIBLE);
+					mQRPrivatePixeldIV.setVisibility(View.VISIBLE);
+					mQRPrivateIV.setVisibility(View.INVISIBLE);
+				}
+				else {
+					mIsPrivateShow = true;
+					mShowPrivateKeyBtn.setText("Hide");
+					mPrivateDotsIV.setVisibility(View.INVISIBLE);
+					mPrivateKeyTV.setVisibility(View.VISIBLE);
+					mQRPrivatePixeldIV.setVisibility(View.INVISIBLE);
+					mQRPrivateIV.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 		

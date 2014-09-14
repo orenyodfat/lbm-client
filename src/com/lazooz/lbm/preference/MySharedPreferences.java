@@ -424,7 +424,7 @@ public class MySharedPreferences {
 	}
 	
 	public void saveDataFromServer1(Context context, String zoozBalance, String potentialZoozBalance, String distance, boolean isDistanceAchievement, String serverVer, 
-			String walletNum, int numShakedUsers, int numInvitedContacts, String userId) {
+			String walletNum, int numShakedUsers, int numInvitedContacts, int criticalMass, String dolarConvertionRate, String userId) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
@@ -437,7 +437,10 @@ public class MySharedPreferences {
 		editor.putString("WalletNum", walletNum);
 		editor.putInt("NumShakedUsers", numShakedUsers);
 		editor.putInt("NumInvitedContacts", numInvitedContacts);
+		editor.putInt("CriticalMass", criticalMass);
+		editor.putString("DolarConvertionRate", dolarConvertionRate);
 		editor.putString("UserId", userId);
+		
 		
 		editor.putLong("TimeStamp", System.currentTimeMillis());
 		editor.commit();
@@ -448,6 +451,11 @@ public class MySharedPreferences {
 		return spData.getString("WalletNum", "");
 	}
 	
+	public String getDolarConvertionRate(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("DolarConvertionRate", "");
+	}
+
 	public String getUserIdSD(Context context){
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		return spData.getString("UserId", "");
@@ -461,6 +469,11 @@ public class MySharedPreferences {
 	public int getNumInvitedContacts(Context context){
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		return spData.getInt("NumInvitedContacts", 0);
+	}
+
+	public int getCriticalMass(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		return spData.getInt("CriticalMass", 0);
 	}
 
 	public void saveDataFromServer2(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {

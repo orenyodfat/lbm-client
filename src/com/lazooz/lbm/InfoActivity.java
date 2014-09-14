@@ -34,7 +34,8 @@ public class InfoActivity extends ActionBarActivity {
 		
 		setContentView(R.layout.activity_info);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
+		
 		mBuildNameTV = (TextView)findViewById(R.id.build_name_tv);
 		mBuildNumTV = (TextView)findViewById(R.id.build_num_tv);
 		mServerBuildNumTV = (TextView)findViewById(R.id.server_build_num_tv);

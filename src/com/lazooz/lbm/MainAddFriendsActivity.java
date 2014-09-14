@@ -38,6 +38,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -76,6 +77,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		mProgBar = (ProgressBar)findViewById(R.id.progbar);
 		mProgBar.setVisibility(View.INVISIBLE);
 		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
 		mAddFriendsBtn = (Button)findViewById(R.id.add_friends_btn);
@@ -323,6 +325,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainAddFriendsActivity.this);
 			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainAddFriendsActivity.this, null);
+			}
 		}
 			
 		
@@ -392,6 +397,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			}
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainAddFriendsActivity.this);
+			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainAddFriendsActivity.this, null);
 			}
 		}
 			
@@ -529,6 +537,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			}
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainAddFriendsActivity.this);
+			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainAddFriendsActivity.this, null);
 			}
 		}
 			

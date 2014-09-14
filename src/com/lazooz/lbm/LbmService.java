@@ -256,7 +256,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 			if (result.equals("success_distance_achieved")){
 				Utils.sendNotifications(LbmService.this, 
 						R.drawable.ic_launcher, 
-						"Lazooz Notification", 
+						"La'Zooz Notification", 
 						"You have achieved 100 km", 
 						"You have achieved 100 km", 
 						new Intent(LbmService.this, MainActivity.class),
@@ -472,7 +472,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				noGPSNotifSent = true;
 				Utils.sendNotifications(this, 
 									R.drawable.ic_launcher, 
-									"Lazooz Notification", 
+									"La'Zooz Notification", 
 									"GPS is off", 
 									"Location could not be establish.", 
 									new Intent(this, MainActivity.class),

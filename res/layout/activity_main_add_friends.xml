@@ -36,7 +36,6 @@
                     android:id="@+id/num_accepted_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/white"
                     android:textSize="40sp" />
@@ -74,7 +73,6 @@
                     android:id="@+id/num_pending_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/white"
                     android:textSize="40sp" />

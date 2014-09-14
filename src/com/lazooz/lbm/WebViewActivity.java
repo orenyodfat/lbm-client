@@ -2,6 +2,7 @@ package com.lazooz.lbm;
 
 
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.Utils;
 
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
@@ -24,6 +25,8 @@ public class WebViewActivity extends ActionBarActivity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		webview = (WebView)findViewById(R.id.webView1);
 		

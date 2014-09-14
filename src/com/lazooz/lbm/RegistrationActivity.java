@@ -362,7 +362,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
-				Toast.makeText(RegistrationActivity.this, "Thanks you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
+				Toast.makeText(RegistrationActivity.this, "Thank you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
 			}
 			else if (result.equals("error_cell_not_valid")){
 				Utils.messageToUser(RegistrationActivity.this, "Input Error", "The number is not valid, please enter a valid cell phone number.");
@@ -483,7 +483,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setTitle("Confirmation succeed");
+		    alertDialog.setTitle("confirmation succeeded");
 		    alertDialog.setMessage("Congratulation, you've got yourself a new digital wallet!");
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 		    	
@@ -536,7 +536,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 		  */    	
 		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
-		                           .withText("Right now your are mining potention Zooz which will be converted to real Zooz one the network is established and the authentication of")
+		      					   .withText("At this stage you are mining a credit for Zooz tokens, which will be converted into real Zooz tokens soon as the network is established and the authentication of your data is completed.\nThis procedure is made to avoid an abuse of the system.")
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 	  }

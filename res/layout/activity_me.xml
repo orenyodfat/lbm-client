@@ -61,18 +61,18 @@
             android:layout_marginTop="10dp" >
 
             <TextView
-                android:id="@+id/TextView05"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zoozim"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
                 android:id="@+id/me_zoozs_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="3213132"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mined Zooz"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="km mined"
+                android:text="mined km"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
@@ -131,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Friends invited"
+                android:text="invited friends"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>

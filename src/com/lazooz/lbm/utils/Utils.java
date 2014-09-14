@@ -13,6 +13,7 @@ import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
 import com.lazooz.lbm.R;
+import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -31,6 +32,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
@@ -41,6 +43,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.widget.TextView;
 
 public class Utils {
 
@@ -387,5 +390,47 @@ public class Utils {
     	mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
     	System.exit(0);
     }
+
+    public static void setTitleColor(Activity activity, int color){
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView titleTV = (TextView)activity.findViewById(titleId); 
+		titleTV.setTextColor(color);
+
+    }
+ 
+    
+    public static void displayConnectionError(Activity activity, final DialogInterface.OnClickListener lsnr){
+    	if(haveNetworkConnection(activity)){
+	     	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+	     	alertDialog.setTitle("No Connection");
+	     	alertDialog.setMessage("Failed to connect to La'Zooz server, please try again later.");
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+		    		if (lsnr != null) 
+		    			lsnr.onClick(dialog, which);
+		    	}
+		    });
+		    
+		    alertDialog.show();
+		}
+		else {
+	     	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+	     	alertDialog.setTitle("No Internet Connection");
+	     	alertDialog.setMessage("Please connect your device to the internet and restart the application");
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+		    		if (lsnr != null)
+		    			lsnr.onClick(dialog, which);
+		    	}
+		    });
+		    
+		    alertDialog.show();
+		}
+    }
+    
     
 }

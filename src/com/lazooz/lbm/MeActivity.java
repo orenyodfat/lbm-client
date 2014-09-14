@@ -37,7 +37,7 @@ public class MeActivity extends ActionBarActivity {
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		setContentView(R.layout.activity_me);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mIDTV= (TextView)findViewById(R.id.me_id_tv);
 		mWalletNumTV= (TextView)findViewById(R.id.me_wallet_num_tv);

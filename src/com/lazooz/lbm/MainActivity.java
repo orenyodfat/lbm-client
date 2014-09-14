@@ -22,6 +22,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -60,7 +61,6 @@ public class MainActivity extends MyActionBarActivity  {
 	private LinearLayout mShakeLL;
 	private LinearLayout mZoozBalLL;
 	private LinearLayout mAddFriendsLL;
-	public String mDolarConvertionRate;
 	private TextView mConvertionRateTV;
 
 	@Override
@@ -74,6 +74,10 @@ public class MainActivity extends MyActionBarActivity  {
 		OfflineActivities.getInstance(this).transmitDataToServer();
 
 		startService(new Intent(this, LbmService.class));
+		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
+		
+		
 		
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		
@@ -147,6 +151,7 @@ public class MainActivity extends MyActionBarActivity  {
 		/*************************************************************************/
 		
 		mCriticalMassPB = (ProgressBar)findViewById(R.id.main_critical_mass_pb);
+		mCriticalMassPB.setProgress(0);
 		mCriticalMassFrame = (FrameLayout)findViewById(R.id.main_critical_mass_frame);
 		
 		mCriticalMassFrame.setOnClickListener(new View.OnClickListener() {
@@ -258,12 +263,19 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		int numInvitedContacts = msp.getNumInvitedContacts(this);
 		int numShakedUsers = msp.getNumShakedUsers(this);
+		int criticalMass = msp.getCriticalMass(this);
 		
 		mFriendsTV.setText(numInvitedContacts+"");
 		mShakeTV.setText(numShakedUsers +"");		
+		mCriticalMassPB.setProgress(criticalMass);
+		mCriticalMassPB.setMax(100);
 		
-		
-		mConvertionRateTV.setText("1=$" + mDolarConvertionRate);
+		String dolarConvertionRate = msp.getDolarConvertionRate(this);
+		if (dolarConvertionRate.equals(""))
+			mConvertionRateTV.setText("");
+		else
+			mConvertionRateTV.setText("1=$" + dolarConvertionRate);
+			
 	
 	}
 	
@@ -374,6 +386,9 @@ public class MainActivity extends MyActionBarActivity  {
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainActivity.this);
 			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainActivity.this, null);
+			}
 		}
 			
 		
@@ -418,19 +433,20 @@ public class MainActivity extends MyActionBarActivity  {
 					if (serverMessage.equals("success")){
 						String zoozBalance = jsonReturnObj.getString("zooz_balance");
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
-						mDolarConvertionRate = jsonReturnObj.getString("zooz_to_dolar_conversion_rate");
+						String dolarConvertionRate = jsonReturnObj.getString("zooz_to_dolar_conversion_rate");
 						String distance = jsonReturnObj.getString("zooz_distance_balance");
 						String serverVer = jsonReturnObj.getString("server_version");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						String walletNum = jsonReturnObj.getString("wallet_num");
 						int numShakedUsers = jsonReturnObj.getInt("num_shaked_users");
 						int numInvitedContacts = jsonReturnObj.getInt("num_invited_contacts");
+						int criticalMass = jsonReturnObj.getInt("critical_mass_tab");
 						String userId = jsonReturnObj.getString("user_id");
 						
 						
 						
 						MySharedPreferences.getInstance().saveDataFromServer1(MainActivity.this, zoozBalance, potentialZoozBalance, distance, 
-								isDistanceAchievement, serverVer, walletNum, numShakedUsers, numInvitedContacts, userId);
+								isDistanceAchievement, serverVer, walletNum, numShakedUsers, numInvitedContacts, criticalMass, dolarConvertionRate, userId);
 						
 						
 					}
@@ -454,6 +470,10 @@ public class MainActivity extends MyActionBarActivity  {
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainActivity.this);
 			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainActivity.this, null);
+			}
+
 		}
 			
 		

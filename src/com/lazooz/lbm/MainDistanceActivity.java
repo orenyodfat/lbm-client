@@ -37,6 +37,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.AsyncTask;
@@ -74,6 +75,8 @@ public class MainDistanceActivity extends ActionBarActivity {
 		mProgBar.setVisibility(View.INVISIBLE);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mLayoutChart1 = (LinearLayout)findViewById(R.id.report_chart_1);
 		mLayoutChart2 = (LinearLayout)findViewById(R.id.report_chart_2);
@@ -432,6 +435,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 			}
 			else if (result.equals("credentials_not_valid")){
 				Utils.restartApp(MainDistanceActivity.this);
+			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(MainDistanceActivity.this, null);
 			}
 		}
 			

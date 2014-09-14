@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lazooz</string>
+    <string name="app_name">La\'Zooz</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
@@ -13,7 +13,7 @@
     <string name="gps_activate_gps_body">Please turn on the GPS so proof of location could be established</string>
     <string name="gps_activate_gps_setting">Open GPS Settings</string>
 	
-	<string name="activation_code_template_eng">Lazooz app registration token: </string>
+	<string name="activation_code_template_eng">La\'Zooz app registration token: </string>
 
 	<string name="recommendation_input_msg_title">Recommendation</string>
 	<string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
@@ -51,7 +51,7 @@
     <string name="friends_message_main">Check out this cool app.</string>
     
     
-    <string name="gps_notif_open_gps_title">Lazooz GPS</string>
+    <string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
     <string name="gps_notif_open_gps_body">Please turn on the GPS</string>
     
     <string name="gps_message_no_gps_yes_net">Your GPS is off, please note that you will not be able to collect zoozs</string>
@@ -59,8 +59,8 @@
     <string name="gps_message_yes_gps_no_net">Your network location is turn off. we recommend to turn on your network location</string>
     
     <string name="splash_version_check_title">New Version</string>
-    <string name="splash_version_check_les_current">There is a new version of Lazooz, please update app from Google Play.</string>
-    <string name="splash_version_check_les_min">Your current version of Lazzoz is not up to date. In order to proceed, please update app from Google Play.</string>
+    <string name="splash_version_check_les_current">There is a new version of La\'Zooz, please update app from Google Play.</string>
+    <string name="splash_version_check_les_min">Your current version of La\'Zooz is not up to date. In order to proceed, please update app from Google Play.</string>
     
     <string-array name="days_array">
         <item>NULL</item>

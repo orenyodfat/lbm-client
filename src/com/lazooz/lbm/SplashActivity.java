@@ -1,6 +1,5 @@
 package com.lazooz.lbm;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.lazooz.lbm.communications.ServerCom;
@@ -8,35 +7,19 @@ import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-import android.os.Build;
-import android.provider.Settings;
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends Activity {
 	
 	protected int _splashTime = 3000;
 	private boolean mFinishAnimation;
@@ -172,26 +155,7 @@ public class SplashActivity extends ActionBarActivity {
 	}
 
 	
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.splash, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 
 	
 	
@@ -315,6 +279,15 @@ public class SplashActivity extends ActionBarActivity {
 				}
 			}
 			
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(SplashActivity.this, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SplashActivity.this.finish();
+						
+					}
+				});
+			}
 			
 				
 		}
