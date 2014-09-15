@@ -380,6 +380,20 @@ public class Utils {
 		mpTada.start();
 	*/	 
 	}
+
+	public static void playSound1(Context cntxt, int rawVal){
+		MediaPlayer mpTada = null ;
+		mpTada = MediaPlayer.create(cntxt, rawVal);
+		mpTada.setVolume(1.0f, 1.0f);
+		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					mp.release();
+				}
+			});
+		mpTada.start();
+		 
+	}
 	
     public static void restartApp(Context context){
     	MySharedPreferences.getInstance().clearAll(context);

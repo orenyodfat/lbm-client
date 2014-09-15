@@ -175,6 +175,21 @@ public class ServerCom {
 	
 	}
 	
+	
+	
+	public void getUsersLocationNearMe(String userId, String userSecret) {
+		String url = StaticParms.BASE_SERVER_URL + "api_get_users_location_near_me";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", userId ));
+		params.add(new BasicNameValuePair("user_secret", userSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+		
+	}
+	
+	
+	
 	public void setContactsZip(String UserId, String UserSecret, byte[] data)throws Exception
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_set_contacts";
@@ -405,6 +420,9 @@ public class ServerCom {
   	  
   	  
   	}
+
+
+
 
 
 

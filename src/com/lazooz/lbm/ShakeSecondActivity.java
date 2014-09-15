@@ -2,12 +2,21 @@ package com.lazooz.lbm;
 
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+import com.lazooz.lbm.businessClasses.WifiData;
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
@@ -16,12 +25,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class ShakeSecondActivity extends ActionBarActivity {
@@ -35,6 +48,8 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	private Sensor mAccelerometer;
 	private ShakeDetector mShakeDetector;
 	private AccelerometerTracker mAccelerometerTracker;
+	private ClusterManager<POSClusterItem> mClusterManager;
+
 	
 	
 	@Override
@@ -50,63 +65,25 @@ public class ShakeSecondActivity extends ActionBarActivity {
 		map = mapFragment.getMap();
 		
 		map.setMyLocationEnabled(true);
-        map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-			
-			@Override
-			public void onMyLocationChange(Location location) {
-				if (location != null){
-					setMapLocation(location);
-				}
-				
-			}
-		});
 		
 		
-		//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		
-		
-		
-		if (map!=null){
-			MarkerOptions mo = new MarkerOptions();
-			mGPSTracker = GPSTracker.getInstance(getApplicationContext());
-			mGPSTracker.setOnLocationListener(new LocationListener() {
-				
-				@Override
-				public void onStatusChanged(String provider, int status, Bundle extras) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onProviderEnabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onProviderDisabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onLocationChanged(Location location) {
-					
-						
-				
-					
-				}
-			});
-			
-			setMapLocation(mGPSTracker.getLocation());
-		    
-		 }
-		
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        Location location = locationManager.getLastKnownLocation(provider);
+        setMapLocation(location);
 		
 		
 		initShakeDetector();
 		
+		mClusterManager = new ClusterManager<POSClusterItem>(this, map);
+		map.setOnCameraChangeListener(mClusterManager);
+		map.setOnMarkerClickListener(mClusterManager);
+
 		
+		getUsersLocationNearMeAsync();
+		
+				
 	}
 	
 	
@@ -163,7 +140,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
 			@Override
 			public void onShake(float force) {
 				if (mAccelerometerTracker != null){
-					Utils.playSound(ShakeSecondActivity.this, R.raw.shake);
+					Utils.playSound1(ShakeSecondActivity.this, R.raw.shake);
 					//playSound();
 				}
 			}
@@ -180,6 +157,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	}
 	
 	private MediaPlayer mpTada = null;
+	public JSONArray mLocationArray;
 	
 	private void playSound(){
 		if (mpTada == null){
@@ -201,23 +179,143 @@ public class ShakeSecondActivity extends ActionBarActivity {
 		if (location != null){
 			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
 			
-			if (mLastMarker != null)
-				mLastMarker.remove();
-			mLastMarker = map.addMarker(new MarkerOptions().position(ll).title("Your Location"));
 			float currentZoom = map.getCameraPosition().zoom;
 
-		    if (currentZoom < 15)
-		    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));				
-		    map.getUiSettings().setZoomControlsEnabled(false);
-		    //map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-		    //CircleOptions co = new CircleOptions();
-            //co.center(ll).radius(mGPSTracker.getAccuracy()).fillColor(Color.GRAY).strokeColor(Color.BLACK).strokeWidth(4.0f);
-            //map.addCircle(co);
+		    if (currentZoom < 10)
+		    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 10));				
+		    map.getUiSettings().setZoomControlsEnabled(true);
             
 		}
 		
 	}
+	
+	private void setMapLocation2(Location location){
+		if (location != null){
+			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+	    	map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 11));				
+            
+		}
+		
+	}
+	
+	private void addMarkerToMap(double latitude, double longitude){
+		try {
+			map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void addMarkerToMap(LatLng point){
+		map.addMarker(new MarkerOptions().position(point));
+	}
+
+	
+	private void getUsersLocationNearMeAsync(){
+		GetUsersLocationNearMe getUsersLocationNearMe = new GetUsersLocationNearMe();
+		getUsersLocationNearMe.execute();
+	}
+	
+	
+	private class GetUsersLocationNearMe extends AsyncTask<String, Void, String> {
 
 
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(ShakeSecondActivity.this);
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				
+				bServerCom.getUsersLocationNearMe(msp.getUserId(ShakeSecondActivity.this), msp.getUserSecret(ShakeSecondActivity.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						mLocationArray = jsonReturnObj.getJSONArray("obj_list");
+						
+						
+						
+						Log.e("dddd", mLocationArray.toString());
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				for (int i=0; i<mLocationArray.length(); i++){
+					JSONObject jo;
+					try {
+						jo = (JSONObject)mLocationArray.get(i);
+						double lat = jo.getDouble("la");
+						double lon = jo.getDouble("lo");
+						POSClusterItem pci = new POSClusterItem(lat, lon);
+						mClusterManager.addItem(pci);
+						//addMarkerToMap(lat, lon);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				setMapLocation2(map.getMyLocation());
+				
 
+			}
+			else if (result.equals("credentials_not_valid")){
+				Utils.restartApp(ShakeSecondActivity.this);
+			}
+			else if (result.equals("ConnectionError")){
+				Utils.displayConnectionError(ShakeSecondActivity.this, null);
+			}
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+	}
+	
+	
+	
+	public class POSClusterItem implements ClusterItem {
+	    private final LatLng mPosition;
+
+	    public POSClusterItem(double lat, double lng) {
+	        mPosition = new LatLng(lat, lng);
+	    }
+
+	    @Override
+	    public LatLng getPosition() {
+	        return mPosition;
+	    }
+	}
+	
+	
+	
+	
+	
+	
 }
