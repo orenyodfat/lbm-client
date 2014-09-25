@@ -13,19 +13,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lazooz.lbm.businessClasses.ServerData;
+import com.lazooz.lbm.businessClasses.UserNotification;
+import com.lazooz.lbm.businessClasses.UserNotificationList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,11 +67,14 @@ public class MainActivity extends MyActionBarActivity  {
 	private LinearLayout mZoozBalLL;
 	private LinearLayout mAddFriendsLL;
 	private TextView mConvertionRateTV;
+	private TextView mCriticalMassLocationTV;
+	protected boolean mUnderCurrentVersionShowed;
+	private boolean mUnderMinVersionShowed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
-		super.onCreate(savedInstanceState, R.layout.activity_main_new1);
+		super.onCreate(savedInstanceState, R.layout.activity_main_new);
 		//setContentView(R.layout.activity_main);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
@@ -85,7 +93,7 @@ public class MainActivity extends MyActionBarActivity  {
 		mZoozBalTV = (TextView)findViewById(R.id.main_zoz_balance_tv);
 		mZoozBalTV.setText("0.0");
 		mFriendsTV = (TextView)findViewById(R.id.main_friends_tv);
-		mFriendsTV.setText("0.0");
+		mFriendsTV.setText("0");
 		mShakeTV = (TextView)findViewById(R.id.main_shake_tv);
 		
 		
@@ -152,6 +160,8 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		mCriticalMassPB = (ProgressBar)findViewById(R.id.main_critical_mass_pb);
 		mCriticalMassPB.setProgress(0);
+
+		mCriticalMassLocationTV = (TextView)findViewById(R.id.main_critical_mass_location_tv);
 		mCriticalMassFrame = (FrameLayout)findViewById(R.id.main_critical_mass_frame);
 		
 		mCriticalMassFrame.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +180,7 @@ public class MainActivity extends MyActionBarActivity  {
 		 final Runnable guiRunnable = new Runnable() {
 		      public void run() {
 		         UpdateGUI();
+		         checkVersion();
 		      }
 		   };
 		
@@ -181,7 +192,7 @@ public class MainActivity extends MyActionBarActivity  {
 					guiHandler.post(guiRunnable);				
 				}
 			};
-		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 3*1000);
+		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
 
 		startOnDayScheduler();
 		
@@ -189,9 +200,70 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
 		
-		getUserKeyDataAsync();
+		//getUserKeyDataAsync();
 		
 		
+		
+	}
+
+
+	protected void checkVersion() {
+		if(!mUnderMinVersionShowed && MySharedPreferences.getInstance().isUnderMinBuildNum(this)){
+			mUnderMinVersionShowed = true;
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+	     	alertDialog.setTitle(getString(R.string.splash_version_check_title));
+	     	alertDialog.setMessage(getString(R.string.splash_version_check_les_min));
+	        alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close", new DialogInterface.OnClickListener() {
+		    	
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+	 				 dialog.cancel();
+	 				 MainActivity.this.finish();
+	 				System.exit(0);
+		    	}
+		    });
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog,int which) {
+					final Uri marketUri = Uri.parse("market://details?id=com.lazooz.lbm"); 
+					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+	            	dialog.cancel();
+	            	MainActivity.this.finish();
+	 				System.exit(0);
+	            }
+	        });
+		    alertDialog.show();
+
+		}
+		else if (!mUnderCurrentVersionShowed && MySharedPreferences.getInstance().isUnderCurrentBuildNum(this)){
+			mUnderCurrentVersionShowed = true;
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+	     	alertDialog.setTitle(getString(R.string.splash_version_check_title));
+	     	alertDialog.setMessage(getString(R.string.splash_version_check_les_current));
+		    alertDialog.setCanceledOnTouchOutside(false);
+		    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close", new DialogInterface.OnClickListener() {
+		    	
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+	 				 dialog.cancel();
+		    	}
+		    });
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog,int which) {
+					final Uri marketUri = Uri.parse("market://details?id=com.lazooz.lbm"); 
+					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+	            	dialog.cancel();
+	 				MainActivity.this.finish();
+	 				System.exit(0);
+	 				
+	            }
+	        });
+		    try {
+				alertDialog.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
@@ -200,9 +272,24 @@ public class MainActivity extends MyActionBarActivity  {
 	protected void onResume() {
 		super.onResume();
 		checkGPS();
+		getUserKeyDataAsync();
+		checkNotif();
 	}
 	
 	
+	
+	
+	private void checkNotif() {
+		UserNotificationList notifList = MySharedPreferences.getInstance().getNotificationsToDisplay(this);
+		if (notifList != null){
+			for (int i = 0; i< notifList.getNotifications().size(); i++){
+				UserNotification notif = notifList.getNotifications().get(i);
+				notif.displayPopup(this);				
+			}
+		}
+	}
+
+
 	private void checkGPS() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);

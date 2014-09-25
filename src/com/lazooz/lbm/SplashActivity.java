@@ -199,6 +199,7 @@ public class SplashActivity extends Activity {
 						
 						mSrvrMinBuildNum = jsonReturnObj.getInt("min_build_num");
 						mSrvrCurrentBuildNum = jsonReturnObj.getInt("current_build_num");
+						MySharedPreferences.getInstance().saveBuildNum(SplashActivity.this, mSrvrCurrentBuildNum, mSrvrMinBuildNum);
 						
 					}
 				}
@@ -216,6 +217,13 @@ public class SplashActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result.equals("success")){
+				if (mFinishTimer){
+ 					mFinishRetrieveData = false;
+ 					StartTheActivity();
+ 				}
+ 				else
+ 					mFinishRetrieveData = true;
+				/*
 				mLocalBuildNum = Utils.getVersionCode(SplashActivity.this);
 				       
 				if (mSrvrMinBuildNum > mLocalBuildNum){
@@ -276,7 +284,7 @@ public class SplashActivity extends Activity {
 	 				}
 	 				else
 	 					mFinishRetrieveData = true;
-				}
+				}*/
 			}
 			
 			else if (result.equals("ConnectionError")){

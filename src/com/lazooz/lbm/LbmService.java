@@ -16,9 +16,12 @@ import org.json.JSONObject;
 
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.businessClasses.TelephonyDataTracker;
 import com.lazooz.lbm.businessClasses.TelephonyDataTracker.OnTelephonyDataListener;
+import com.lazooz.lbm.businessClasses.UserNotification;
+import com.lazooz.lbm.businessClasses.UserNotificationList;
 import com.lazooz.lbm.businessClasses.WifiData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
@@ -96,7 +99,6 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		mIsListenToGPSProvider = false;
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		//mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_LOW, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
 		mIsRequestLocationUpdateFirstTime = true;
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
 		mTelephonyDataTracker = new TelephonyDataTracker(this);
@@ -176,19 +178,177 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	
 	protected void checkEveryLongPeriod() {
 		sendDataToServerAsync();
+		isLiveAsync();
 	}
 	
 		
+	private void isLiveAsync(){
+		IsLive isLive = new IsLive();
+		isLive.execute();
+	}
+	
+	
+
+
+	private class IsLive extends AsyncTask<String, Void, String> {
+
+		private int mNotifNum;
+		private int mSrvrMinBuildNum;
+		private int mSrvrCurrentBuildNum;
+
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+          	ServerCom bServerCom = new ServerCom(LbmService.this);
+        	
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this));
+				jsonReturnObj = bServerCom.getReturnObject();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+						mNotifNum = jsonReturnObj.getInt("current_notification_num");
+						mSrvrMinBuildNum = jsonReturnObj.getInt("min_build_num");
+						mSrvrCurrentBuildNum = jsonReturnObj.getInt("current_build_num");
+						MySharedPreferences.getInstance().saveBuildNum(LbmService.this, mSrvrCurrentBuildNum, mSrvrMinBuildNum);
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				int lastNotifNum = MySharedPreferences.getInstance().getLastNotificationNum(LbmService.this, mNotifNum);
+				if (mNotifNum > lastNotifNum)
+					getUserNotificationsAsync(lastNotifNum);
+			}
+
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+
+
+		
+	}
+	
+	private void getUserNotificationsAsync(int fromNum){
+		GetUserNotifications getUserNotifications = new GetUserNotifications();
+		getUserNotifications.execute(fromNum);
+	}
+	
+	
+	private class GetUserNotifications extends AsyncTask<Integer, Void, String> {
+
+		private UserNotificationList mUsetNotificationList;
+		private Integer mFromNum;
+
+
+		@Override
+		protected String doInBackground(Integer... params) {
+			
+          	ServerCom bServerCom = new ServerCom(LbmService.this);
+        	mFromNum = params[0];
+              
+        	JSONObject jsonReturnObj=null;
+			try {
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				
+				bServerCom.getUserNotifications(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), mFromNum);
+				jsonReturnObj = bServerCom.getReturnObject();
+				
+				JSONArray userNotifArray = jsonReturnObj.getJSONArray("notifications");
+				Log.e("TAG", userNotifArray.toString());
+				mUsetNotificationList = new UserNotificationList(userNotifArray);
+				
+				
+				
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        	
+        	String serverMessage = "";
+	
+			try {
+				if (jsonReturnObj == null)
+					serverMessage = "ConnectionError";
+				else {
+					serverMessage = jsonReturnObj.getString("message");
+					if (serverMessage.equals("success")){
+					}
+				}
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				serverMessage = "GeneralError";
+			}
+			
+			
+			return serverMessage;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			if (result.equals("success")){
+				int maxNum = 0;
+				for (int i = 0; i < mUsetNotificationList.getNotifications().size(); i++){
+					UserNotification notif = mUsetNotificationList.getNotifications().get(i);
+					if(notif.getNum() > maxNum)
+						maxNum = notif.getNum(); 
+					if (notif.isNotif())
+						notif.displayNotifBar(LbmService.this);
+					if (notif.isPopup()){
+						MySharedPreferences.getInstance().addNotificationToDisplayList(LbmService.this, notif);
+					}
+					MySharedPreferences.getInstance().setLastNotificationNum(maxNum, LbmService.this);
+					
+				}
+			}
+
+		}
+			
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
+		
+	}
+	
+	
 	private void sendDataToServerAsync(){
 		
 		LocationDataToServer locationDataToServer = new LocationDataToServer();
 		locationDataToServer.execute();
 
 	}
-	
-	
-	
-	
 	private class LocationDataToServer extends AsyncTask<String, Void, String> {
 
 
@@ -358,6 +518,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				mLocationData.setLatitude(location.getLatitude());
 				mLocationData.setLongitude(location.getLongitude());
 				mLocationData.setAccuracy(location.getAccuracy());
+				mLocationData.setRoute(MySharedPreferences.getInstance().getRoute(this));
 			}
 			else
 				mLocationData.setHasLocationData(false);
@@ -408,6 +569,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
 			mIsListenToGPSProvider = true;
+			MySharedPreferences.getInstance().promoteRoute(this);
 			mNoSpeedTimer.startNow();
 		}
 
@@ -515,7 +677,6 @@ public class LbmService extends Service implements LocationListener, OnTelephony
     	   mLocationManager.removeUpdates(LbmService.this);
     	   mIsRequestLocationUpdateFirstTime = true;
     	   mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, LbmService.this);
-			//mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_LOW, GPS_MIN_DISTANCE_LOCATION_UPDATE, LbmService.this);
 			mIsListenToGPSProvider = false;
 			
 			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -542,6 +703,8 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
 			mIsListenToGPSProvider = true;
+			mTelephonyDataTracker.removeUpdates();
+			MySharedPreferences.getInstance().promoteRoute(this);
 		}		
 	}
 

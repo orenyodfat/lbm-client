@@ -119,13 +119,16 @@ public class Utils {
 	
 	public static void messageToUser(Context context, String title, String message){
 		try {
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setTitle(title);
-			builder.setMessage(message);
-			builder.setPositiveButton(context.getString(android.R.string.ok), null);
-			builder.show();
+			AlertDialog ad = new AlertDialog.Builder(context).create();
+			ad.setTitle(title);
+			ad.setMessage(message);
+			ad.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {}
+			});
+			ad.setCanceledOnTouchOutside(false);
+			ad.show();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -414,35 +417,39 @@ public class Utils {
  
     
     public static void displayConnectionError(Activity activity, final DialogInterface.OnClickListener lsnr){
-    	if(haveNetworkConnection(activity)){
-	     	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-	     	alertDialog.setTitle("No Connection");
-	     	alertDialog.setMessage("Failed to connect to La'Zooz server, please try again later.");
-		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-		    	@Override
-		        public void onClick(DialogInterface dialog, int which) {
-		    		if (lsnr != null) 
-		    			lsnr.onClick(dialog, which);
-		    	}
-		    });
-		    
-		    alertDialog.show();
-		}
-		else {
-	     	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-	     	alertDialog.setTitle("No Internet Connection");
-	     	alertDialog.setMessage("Please connect your device to the internet and restart the application");
-		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-		    	@Override
-		        public void onClick(DialogInterface dialog, int which) {
-		    		if (lsnr != null)
-		    			lsnr.onClick(dialog, which);
-		    	}
-		    });
-		    
-		    alertDialog.show();
+    	try {
+			if(haveNetworkConnection(activity)){
+			 	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+			 	alertDialog.setTitle("No Connection");
+			 	alertDialog.setMessage("Failed to connect to La'Zooz server, please try again later.");
+			    alertDialog.setCanceledOnTouchOutside(false);
+			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+			    	@Override
+			        public void onClick(DialogInterface dialog, int which) {
+			    		if (lsnr != null) 
+			    			lsnr.onClick(dialog, which);
+			    	}
+			    });
+			    
+			    alertDialog.show();
+			}
+			else {
+			 	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+			 	alertDialog.setTitle("No Internet Connection");
+			 	alertDialog.setMessage("Please connect your device to the internet and restart the application");
+			    alertDialog.setCanceledOnTouchOutside(false);
+			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+			    	@Override
+			        public void onClick(DialogInterface dialog, int which) {
+			    		if (lsnr != null)
+			    			lsnr.onClick(dialog, which);
+			    	}
+			    });
+			    
+			    alertDialog.show();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
     }
     

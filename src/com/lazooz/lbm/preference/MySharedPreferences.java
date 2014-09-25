@@ -14,9 +14,13 @@ import com.lazooz.lbm.IntroActivity;
 import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.MapShowLocationActivity;
 import com.lazooz.lbm.RegistrationActivity;
+import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.ServerData;
+import com.lazooz.lbm.businessClasses.UserNotification;
+import com.lazooz.lbm.businessClasses.UserNotificationList;
+import com.lazooz.lbm.utils.Utils;
 
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
@@ -178,6 +182,16 @@ public class MySharedPreferences {
 		
 	}
 	
+	public long getRoute(Context context){
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		return spData.getLong("CurrentRoute", 1);
+	}
+	
+	public void promoteRoute(Context context){
+		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		long current = spData.getLong("CurrentRoute", 1);
+		spData.edit().putLong("CurrentRoute", ++current).commit();
+	}
 	
 	public void saveLocationData(Context context, LocationData ld){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
@@ -365,7 +379,8 @@ public class MySharedPreferences {
 
 	public String getDefaultMyName(Context context){
 		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
-		return spData.getString("MyName", "John");		
+		//return spData.getString("MyName", "John");		
+		return spData.getString("MyName", "");
 	}
 	
 	public String getDefaultFriendsMessage(Context context){
@@ -485,11 +500,12 @@ public class MySharedPreferences {
 		editor.putLong("TimeStamp", System.currentTimeMillis());
 		editor.commit();
 	}
+	
 	public void saveContactsWithInstalledApp(Context context, JSONArray contacts) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		spData.edit().putString("ContactsWithInstalledApp", contacts.toString()).commit();
 	}
-
+	
 	public List<String> getContactsWithInstalledApp(Context context) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		String s = spData.getString("ContactsWithInstalledApp", "");
@@ -513,6 +529,36 @@ public class MySharedPreferences {
 		
 		return list;
 	}
+	public void saveContactsRecommended(Context context, JSONArray contacts) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("ContactsRecommended", contacts.toString()).commit();
+	}
+	
+	public List<String> getContactsRecommended(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		String s = spData.getString("ContactsRecommended", "");
+		JSONArray contactsArray = null;
+		try {
+			contactsArray = new JSONArray(s);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		List<String> list = new ArrayList<String>();
+		if (contactsArray != null){
+			for (int i=0; i<contactsArray.length(); i++) {
+			    try {
+					list.add( contactsArray.getString(i) );
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	
 
 	public void saveScreenInfoText(Context context, JSONObject jsonObj) {
 		SharedPreferences spData = context.getSharedPreferences("ScreenInfo",Context.MODE_MULTI_PROCESS);
@@ -640,6 +686,79 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("KeyPair",Context.MODE_MULTI_PROCESS);
 		return spData.getString("PrivateKey", "");
 	}
+
+	public int getLastNotificationNum(Context context, int initDefault) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		int lastNotificationNum = spData.getInt("SavedNotifNum", -1);
+		if (lastNotificationNum == -1){
+			spData.edit().putInt("SavedNotifNum", initDefault).commit();
+			return initDefault;
+		}
+		else
+			return lastNotificationNum;
+	}
 	
+	public void setLastNotificationNum(int notifNum, Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		spData.edit().putInt("SavedNotifNum", notifNum).commit();
+	}
+
+	public UserNotificationList getNotificationsToDisplay(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		String s = spData.getString("DisplayedNotificationList", "");
+		UserNotificationList unl;
+			try {
+				if (!s.equals("")){
+					unl = new UserNotificationList(new JSONArray(s));
+					spData.edit().putString("DisplayedNotificationList", "").commit();
+					return unl;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+	}
+
+	public void addNotificationToDisplayList(Context context, UserNotification notif) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		String s = spData.getString("DisplayedNotificationList", "");
+		UserNotificationList unl;
+		try {
+			if (s.equals(""))
+				unl = new UserNotificationList();
+			else
+				unl = new UserNotificationList(new JSONArray(s));
+			
+			unl.getNotifications().add(notif);
+			spData.edit().putString("DisplayedNotificationList", unl.toJSON().toString()).commit();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveBuildNum(Context context, int srvrCurrentBuildNum, int srvrMinBuildNum) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putInt("CurrentBuildNum", srvrCurrentBuildNum);
+		editor.putInt("MinBuildNum", srvrMinBuildNum);
+		editor.commit();
+	}
+	
+	public boolean isUnderMinBuildNum(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		int srvrMinBuildNum = spData.getInt("MinBuildNum", 0);
+		int srvrCurrentBuildNum = spData.getInt("CurrentBuildNum", 0);
+		int localBuildNum = Utils.getVersionCode(context);
+		return (localBuildNum < srvrMinBuildNum);
+	}
+
+	public boolean isUnderCurrentBuildNum(Context context){
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		int srvrMinBuildNum = spData.getInt("MinBuildNum", 0);
+		int srvrCurrentBuildNum = spData.getInt("CurrentBuildNum", 0);
+		int localBuildNum = Utils.getVersionCode(context);
+		return (localBuildNum < srvrCurrentBuildNum);
+	}
 	
 }

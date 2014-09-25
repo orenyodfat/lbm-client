@@ -29,6 +29,7 @@ import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,19 +57,15 @@ public class ContactListActivity extends Activity implements
 	private List<Contact> mContactList = new ArrayList<Contact>();
 	private boolean mIsSearchResultView = false;
 	private String mSearchTerm; // Stores the current search query term
-    private boolean mSearchQueryChanged;
 	private ContanctAdapter mAdapter;
-	private List<String> mContactsWithApp;
 	private LinearLayout mOperationButtonLayout;
 	private ProgressBar mProgBar;
 	private Button mSendButton;
-
+	private TextView.OnEditorActionListener mEditorActionListener;
 	private View mMessageView;
 	private EditText mMessageNameET;
 	private CheckBox mMessageNameCB;
 	private CheckBox mMessageMsgCB;
-	private int mMessageNumOfSelectedUsers;
-	private String mMessageSelectedContactName;
 	private TextView mMessageMsgP1TV;
 	private EditText mMessageMsgET;
 	
@@ -98,6 +95,18 @@ public class ContactListActivity extends Activity implements
 			}
 		});
 		
+		mEditorActionListener = new TextView.OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				 if (actionId == EditorInfo.IME_ACTION_SEND) {
+					 actionSend();
+					 return true;
+			     }
+				return false;
+			}
+		};
+
 		
 		loadListAsync();
 		
@@ -149,18 +158,28 @@ public class ContactListActivity extends Activity implements
 		}
 	}
 	
+
+	  
+
+	private void actionSend(){
+		
+	}
+	
+	
 	 protected void showMessageDlg() {
 		 mMessageView = getLayoutInflater().inflate(R.layout.message_input, null);
 		 mMessageMsgET = (EditText)mMessageView.findViewById(R.id.recmsg_the_message_et);
+		 mMessageMsgET.setOnEditorActionListener(mEditorActionListener);
 		 mMessageMsgP1TV = (TextView)mMessageView.findViewById(R.id.recmsg_the_message_p1_tv);
 		 mMessageNameET = (EditText)mMessageView.findViewById(R.id.recmsg_name_et);
+		 mMessageNameET.setOnEditorActionListener(mEditorActionListener);
 		 mMessageNameCB = (CheckBox)mMessageView.findViewById(R.id.recmsg_default_name_cb);
 		 mMessageMsgCB = (CheckBox)mMessageView.findViewById(R.id.recmsg_default_msg_cb);
 			
 		 
 		 MySharedPreferences msp = MySharedPreferences.getInstance();
-		 mMessageNumOfSelectedUsers = msp.getNumOfRecommendUser(this);
-		 mMessageSelectedContactName = msp.getRecommendUserName(this);
+		 //mMessageNumOfSelectedUsers = msp.getNumOfRecommendUser(this);
+		 //mMessageSelectedContactName = msp.getRecommendUserName(this);
 		 
 		 String defautMsg = msp.getDefaultFriendsMessage(this);
 		 if (defautMsg.equals(""))
@@ -170,7 +189,7 @@ public class ContactListActivity extends Activity implements
 		 mMessageNameET.setText(msp.getDefaultMyName(this));
 		 updateMessageP1(mMessageNameET.getText().toString());
 		 mMessageNameET.addTextChangedListener(mTextNameWatcher);
-		 mMessageNameET.requestFocus();
+		 //mMessageNameET.requestFocus();
 		 
 		 
 		 Builder builder = new AlertDialog.Builder(ContactListActivity.this);
@@ -243,15 +262,14 @@ public class ContactListActivity extends Activity implements
 				}
 			});
 
-		} else {
-			showToast("No Contact Found!!!");
-		}
+		} 
 	}
 	
 	private void CreateList(String constraint){
 		ArrayList<Contact> contactList = new ArrayList<Contact>();
 		String currentLocale = Utils.getCurrentLocale(this);
 		List<String> contactsWithApp = MySharedPreferences.getInstance().getContactsWithInstalledApp(this);
+		List<String> contactsRecommended = MySharedPreferences.getInstance().getContactsRecommended(this);
 		Cursor phones;
 		
 		if (constraint == null){
@@ -273,12 +291,34 @@ public class ContactListActivity extends Activity implements
 			if(objContact.isValidPhoneNum()){
 				objContact.setName(name);
 				objContact.setHasApp(contactsWithApp.contains(objContact.getPhoneNoInternational()));
+				objContact.setHasSentInv(contactsRecommended.contains(objContact.getPhoneNoInternational()));
 				contactList.add(objContact);
-
 			}
 
 		}
 		phones.close();
+		
+		
+		
+		
+		Uri simUri = Uri.parse("content://icc/adn");
+		phones    = this.getContentResolver().query(simUri, null, null,null, null);
+
+         while (phones.moveToNext()) {
+        	 String name = phones.getString(phones.getColumnIndex("name"));
+        	 String phoneNumber = phones.getString(phones.getColumnIndex("number"));
+             
+             Contact objContact = new Contact(currentLocale);
+             objContact.setPhoneNo(phoneNumber);
+             if(objContact.isValidPhoneNum()){
+            	 objContact.setName(name);
+            	 objContact.setHasApp(contactsWithApp.contains(objContact.getPhoneNoInternational()));
+  				 objContact.setHasSentInv(contactsRecommended.contains(objContact.getPhoneNoInternational()));
+            	 contactList.add(objContact);
+             }
+         }
+ 		phones.close();
+		
 		mContactList = contactList;
 		MySharedPreferences.getInstance().clearRecommendUsers(this);
 		
@@ -352,7 +392,7 @@ public class ContactListActivity extends Activity implements
 
 	                    // Restarts the loader. This triggers onCreateLoader(), which builds the
 	                    // necessary content Uri from mSearchTerm.
-	                    mSearchQueryChanged = true;
+	                    //mSearchQueryChanged = true;
 	                    //getLoaderManager().restartLoader(ContactsQuery.QUERY_ID, null, ContactsListFragment.this);
 	                    
 	                    //CreateList(mSearchTerm);

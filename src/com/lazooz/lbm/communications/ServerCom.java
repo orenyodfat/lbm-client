@@ -76,6 +76,30 @@ public class ServerCom {
 		this.postRequestToServer(-1, -1, url, params);
 	}
 
+	
+	public void isLive(String UserId, String UserSecret)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_is_live";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+				
+		this.postRequestToServer(-1, -1, url, params);
+	}
+
+	public void getUserNotifications(String UserId, String UserSecret, int fromNumber)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_get_user_notifications";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+		params.add(new BasicNameValuePair("from_number", fromNumber +""));
+				
+		this.postRequestToServer(-1, -1, url, params);
+	}
+	
 	public void setUsetPublicKey(String UserId, String UserSecret, String publicKey)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_set_user_pk";
@@ -231,12 +255,13 @@ public class ServerCom {
 		
 	}
 	
-	public void registerValidationToServer(String requestId, String token, String publicKey) {
+	public void registerValidationToServer(String requestId, String token, String publicKey, String recommendationCode) {
 		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("registration_request_id", requestId ));
 		params.add(new BasicNameValuePair("registration_request_token", token ));
+		params.add(new BasicNameValuePair("registration_request_recommendation_token", recommendationCode ));
 		params.add(new BasicNameValuePair("public_key", publicKey ));
 		
 		this.postRequestToServer(-1, -1, url, params);

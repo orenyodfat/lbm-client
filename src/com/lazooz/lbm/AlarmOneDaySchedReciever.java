@@ -56,7 +56,8 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 			String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
 			Contact objContact = new Contact(currentLocale);
-			objContact.setName(name);
+			//objContact.setName(name);
+			objContact.setName("");
 			objContact.setPhoneNo(phoneNumber);
 			
 			jsArray.put(objContact.toJSON());
@@ -116,6 +117,11 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 							JSONArray contacts = jsonReturnObj.getJSONArray("contacts_that_are_users");
 							Log.e("TAG", contacts.toString());
 							MySharedPreferences.getInstance().saveContactsWithInstalledApp(mContext, contacts);
+						}
+						if (jsonReturnObj.has("recommended_contacts_that_arent_users")){
+							JSONArray contacts = jsonReturnObj.getJSONArray("recommended_contacts_that_arent_users");
+							Log.e("TAG", contacts.toString());
+							MySharedPreferences.getInstance().saveContactsRecommended(mContext, contacts);
 						}
 					}
 				}

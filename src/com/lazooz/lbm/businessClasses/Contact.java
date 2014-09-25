@@ -17,6 +17,7 @@ public class Contact {
 	private boolean mSelected;
 	private String mCountryCode;
 	private boolean mHasApp;
+	private boolean mHasSentInv;
 	
 	public String getKey(){
 		return mName + mPhoneNo;
@@ -113,6 +114,14 @@ public class Contact {
 		return mHasApp;
 	}
 
+	public void setHasSentInv(boolean sentInv) {
+		mHasSentInv = sentInv;
+		
+	}
+	
+	public boolean hasSentInv(){
+		return mHasSentInv;
+	}
 	
 	public boolean isValidPhoneNum(){
 		PhoneNumberUtil pu = PhoneNumberUtil.getInstance();

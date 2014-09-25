@@ -98,7 +98,7 @@
                 android:background="@drawable/btn_gen"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Enter Confirmation Code"
+                android:text="Enter Validation Code"
                 android:textAppearance="?android:attr/textAppearanceMediumInverse"
                 android:textColor="@color/white" />
 

@@ -15,6 +15,7 @@ public class LocationData {
 	private double mLongitude;
 	private long mTimestamp;
 	private double mAccuracy;
+	private long mRoute;
 	
 	private String mMCC;
 	private String mMNC;
@@ -44,6 +45,7 @@ public class LocationData {
 			mLatitude = jsonObj.getDouble("lat");
 			mLongitude = jsonObj.getDouble("long");
 			mTimestamp = jsonObj.getLong("location_time");
+			mRoute = jsonObj.getLong("route");
 			mAccuracy = jsonObj.getDouble("location_accuracy");		
 			mMCC = jsonObj.getString("mcc");
 			mMNC = jsonObj.getString("mnc");
@@ -91,6 +93,7 @@ public class LocationData {
 			retObj.put("lat", mLatitude);
 			retObj.put("long", mLongitude);
 			retObj.put("location_time", mTimestamp);
+			retObj.put("route", mRoute);
 			retObj.put("location_accuracy", mAccuracy);
 			retObj.put("mcc", mMCC);
 			retObj.put("mnc", mMNC);
@@ -256,6 +259,14 @@ public class LocationData {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+
+	public long getRoute() {
+		return mRoute;
+	}
+
+	public void setRoute(long route) {
+		mRoute = route;
 	}
 	
 	

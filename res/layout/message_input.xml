@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:imeOptions="actionSend"
                 android:text="John" >
 
                 <requestFocus />
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-7dp"
             android:ems="10"
+            android:imeOptions="actionSend"
             android:inputType="textMultiLine"
             android:text="I recommend this app. It&apos;s cool" />
 

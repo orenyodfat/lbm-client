@@ -97,7 +97,8 @@ public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable
 		holder.phoneNoTV = (TextView) view.findViewById(R.id.contact_phone_tv);
 		holder.selectedCB = (CheckBox) view.findViewById(R.id.contact_selected_cb);
 		holder.hasAppIV = (ImageView) view.findViewById(R.id.contact_hasapp_iv);
-
+		holder.hasSentInvIV = (ImageView) view.findViewById(R.id.contact_hassentinv_iv);
+		
 		
 		
 
@@ -131,14 +132,22 @@ public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable
 		}
 		
 		
+		
 		if(holder.hasAppIV != null){
 			if (objBean.hasApp())
 				holder.hasAppIV.setVisibility(View.VISIBLE);
 			else
 				holder.hasAppIV.setVisibility(View.INVISIBLE);
-				
 		}
 		
+		if(holder.hasSentInvIV != null){
+			holder.hasSentInvIV.setVisibility(View.INVISIBLE);
+			if (!objBean.hasApp()){
+				if (objBean.hasSentInv())
+					holder.hasSentInvIV.setVisibility(View.VISIBLE);
+			}
+		}
+
 		return view;
 	}
 
@@ -199,6 +208,7 @@ public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable
 		public TextView nameTV, phoneNoTV;
 		public CheckBox selectedCB;
 		public ImageView hasAppIV;
+		public ImageView hasSentInvIV;
 	}
 
 }

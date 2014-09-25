@@ -14,6 +14,7 @@ import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -148,7 +149,7 @@ public class MyActionBarActivity extends ActionBarActivity {
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_legal))){
 			Intent intent = new Intent(this, WebViewActivity.class);
-			intent.putExtra("URL", "http://client.lazooz.org/legal_and_privacy");
+			intent.putExtra("URL", "http://lazooz.org/legal-and-privacy/");
 			startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_share))){
@@ -156,7 +157,9 @@ public class MyActionBarActivity extends ActionBarActivity {
     		sharingIntent.setAction(Intent.ACTION_SEND);
     		sharingIntent.setType("text/plain");
 	        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "La'Zooz");
-	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app La'Zooz.\nDownload from here:\nhttps://play.google.com/apps/testing/com.lazooz.lbm/");
+	        
+	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
+	        //sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app La'Zooz.\nDownload from here:\nhttps://play.google.com/apps/testing/com.lazooz.lbm/");
     		startActivity(Intent.createChooser(sharingIntent, "Share via"));
     		
     		}

@@ -68,10 +68,15 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	private TextView mToolTipButton;
 	private ToolTipView mToolTipView;
 	private ToolTipRelativeLayout mToolTipFrameLayout;
+	private ToolTipView mToolTipViewDlg; 
+	private ToolTipRelativeLayout mToolTipFrameLayoutDlg;
+			
 	protected TextView mCntryCodeTV;
 	private Spinner mCountrySpinner;
 
 	public boolean mIsNewUser;
+
+	protected TextView mToolTipDlgTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -174,9 +179,30 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			@Override
 			public void onClick(View v) {
 
-				final View addView = getLayoutInflater().inflate(R.layout.activation_input, null);
+				final View addView = getLayoutInflater().inflate(R.layout.activation_input_reg, null);
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
+				TextView recomInText = (TextView)addView.findViewById(R.id.recommendation_in_text);
+				
+				mToolTipFrameLayoutDlg = (ToolTipRelativeLayout) addView.findViewById(R.id.tooltipframelayout);
+				mToolTipDlgTV = (TextView)addView.findViewById(R.id.recommendation_tooltip_tv);
+				mToolTipDlgTV.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (mToolTipViewDlg == null) {
+							  addToolTipViewInDlg();
+					      }else {
+					    	  mToolTipViewDlg.remove();
+					    	  mToolTipViewDlg = null;
+					        }
+					}
+				});
+				
+
+				
+				
 				inText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+				recomInText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+				
 	        	Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
 
 	        	builder.setTitle(getString(R.string.reg_input_conf_title));
@@ -186,7 +212,9 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	TextView t = (TextView) addView.findViewById(R.id.activation_in_text);
 	                	String confCode = t.getText().toString();
-	                	performActivation(confCode);
+	                	TextView t1 = (TextView) addView.findViewById(R.id.recommendation_in_text);
+	                	String recomCode = t1.getText().toString();
+	                	performActivation(confCode, recomCode);
 
 	                	dialog.cancel();
 	                }
@@ -203,9 +231,10 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		
 		
 		
-		String actcode = getIntent().getStringExtra("ACTIVATION_CODE");
-		if ((actcode != null)&&(!actcode.equals(""))){
-			performActivation(actcode);
+		String actCode = getIntent().getStringExtra("ACTIVATION_CODE");
+		String recCode = getIntent().getStringExtra("RECOMMENDATION_CODE");
+		if ((actCode != null)&&(!actCode.equals(""))){
+			performActivation(actCode, recCode);
 			return;
 		}
 		
@@ -269,9 +298,9 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		
 	}
 	
-	protected void performActivation(String activationCode) {
+	protected void performActivation(String activationCode, String recommendationCode) {
 		String requestId = MySharedPreferences.getInstance().getRegRequestId(RegistrationActivity.this);
-		registerValidationToServerAsync(requestId, activationCode);			
+		registerValidationToServerAsync(requestId, activationCode, recommendationCode);			
 	}
 
 
@@ -295,9 +324,9 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	}
 	
 	
-	private void registerValidationToServerAsync(String requestId, String token){
+	private void registerValidationToServerAsync(String requestId, String token, String recommendationCode){
 		RegisterValidationToServer registerValidationToServer = new RegisterValidationToServer();
-		registerValidationToServer.execute(requestId, token);
+		registerValidationToServer.execute(requestId, token, recommendationCode);
 	}
 	
 	public static String checkActivationFromSMS(Context context, String smsBody){
@@ -310,7 +339,23 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		return activationCode;		
 	}
 
+	public static boolean hasFriendRecommendationFromSMS(Context context, String smsBody){
+		String actCodeTemplateEng = context.getString(R.string.recommendation_code_template_eng);
+		String actPreCodeTemplateEng = context.getString(R.string.recommendation_pre_code_template_eng);
+		return ((smsBody.contains(actCodeTemplateEng)) && (smsBody.contains(actPreCodeTemplateEng)));
+	}
 	
+	public static String checkFriendRecommendationFromSMS(Context context, String smsBody){
+		String actCodeTemplateEng = context.getString(R.string.recommendation_code_template_eng);
+		String actPreCodeTemplateEng = context.getString(R.string.recommendation_pre_code_template_eng);
+		String RecommendationCode = "";
+		if((smsBody.contains(actCodeTemplateEng)) && (smsBody.contains(actPreCodeTemplateEng))){
+			int start = smsBody.indexOf(actPreCodeTemplateEng);
+			int end = smsBody.indexOf(".", start+1);
+			RecommendationCode = smsBody.substring(start+actPreCodeTemplateEng.length()+1, end);
+		}
+		return RecommendationCode;		
+	}
 
 	
 	
@@ -362,7 +407,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
-				Toast.makeText(RegistrationActivity.this, "Thank you. We are sending you now the confirmation code.", Toast.LENGTH_LONG).show();
+				Toast.makeText(RegistrationActivity.this, "Thank you. We are sending you now the validation code.", Toast.LENGTH_LONG).show();
 			}
 			else if (result.equals("error_cell_not_valid")){
 				Utils.messageToUser(RegistrationActivity.this, "Input Error", "The number is not valid, please enter a valid cell phone number.");
@@ -387,6 +432,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			
 			String requestId = params[0];
 			String token = params[1];
+			String recommendationCode = params[2];
           	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
         	
           	genKeyPair();
@@ -394,7 +440,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
             String publicKey = MySharedPreferences.getInstance().getPublicKey(RegistrationActivity.this);  
         	JSONObject jsonReturnObj=null;
 			try {
-				bServerCom.registerValidationToServer(requestId, token, publicKey);
+				bServerCom.registerValidationToServer(requestId, token, publicKey, recommendationCode);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -433,7 +479,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				startNextScreen();
 			}
 			else{
-				Toast.makeText(RegistrationActivity.this, "Confirmation failed, please check the code", Toast.LENGTH_LONG).show();
+				Toast.makeText(RegistrationActivity.this, "Validation failed, please check the code", Toast.LENGTH_LONG).show();
 			}
 		}
 		
@@ -483,7 +529,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setTitle("confirmation succeeded");
+		    alertDialog.setTitle("Validation Succeeded");
 		    alertDialog.setMessage("Congratulation, you've got yourself a new digital wallet!");
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 		    	
@@ -504,7 +550,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 			
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setTitle("Confirmation succeed");
+		    alertDialog.setTitle("Validation Succeeded");
 		    alertDialog.setMessage("Welcome Back!");
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 		    	
@@ -540,7 +586,21 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 	  }
-		  	
+
+	  
+	  private void addToolTipViewInDlg() {
+		      	mToolTipViewDlg = mToolTipFrameLayoutDlg.showToolTipForView(new ToolTip()
+		      	.withText("Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend wil be credit with 20 ZOOZ.")
+		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipDlgTV);
+		      	mToolTipViewDlg.setOnToolTipViewClickedListener(new ToolTipView.OnToolTipViewClickedListener() {
+					
+					@Override
+					public void onToolTipViewClicked(ToolTipView toolTipView) {
+						mToolTipViewDlg = null;
+						
+					}
+				});
+	  }
 		      
 		     
 		      
