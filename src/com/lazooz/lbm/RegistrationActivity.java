@@ -56,7 +56,7 @@ import android.widget.Toast;
 
 
 
-public class RegistrationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener {
+public class RegistrationActivity extends MyActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener {
 	
 	
 	private Button mRegBtn;
@@ -75,15 +75,17 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 	private Spinner mCountrySpinner;
 
 	public boolean mIsNewUser;
-
+	private TextView mSpacerTV;
 	protected TextView mToolTipDlgTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		//super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState, R.layout.activity_registration, false);
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_registration);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		//setContentView(R.layout.activity_registration);
 
 		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
 		
@@ -182,6 +184,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 				final View addView = getLayoutInflater().inflate(R.layout.activation_input_reg, null);
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				TextView recomInText = (TextView)addView.findViewById(R.id.recommendation_in_text);
+				mSpacerTV = (TextView)addView.findViewById(R.id.spacer_tv);
+				mSpacerTV.setVisibility(View.GONE);
 				
 				mToolTipFrameLayoutDlg = (ToolTipRelativeLayout) addView.findViewById(R.id.tooltipframelayout);
 				mToolTipDlgTV = (TextView)addView.findViewById(R.id.recommendation_tooltip_tv);
@@ -189,11 +193,13 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 					@Override
 					public void onClick(View v) {
 						if (mToolTipViewDlg == null) {
-							  addToolTipViewInDlg();
-					      }else {
-					    	  mToolTipViewDlg.remove();
-					    	  mToolTipViewDlg = null;
-					        }
+							mSpacerTV.setVisibility(View.VISIBLE);
+							addToolTipViewInDlg();
+					    }else {
+					    	mToolTipViewDlg.remove();
+					    	mToolTipViewDlg = null;
+					    	mSpacerTV.setVisibility(View.GONE);
+					    }
 					}
 				});
 				
@@ -593,11 +599,10 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
 		      	.withText("Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend wil be credit with 20 ZOOZ.")
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipDlgTV);
 		      	mToolTipViewDlg.setOnToolTipViewClickedListener(new ToolTipView.OnToolTipViewClickedListener() {
-					
 					@Override
 					public void onToolTipViewClicked(ToolTipView toolTipView) {
 						mToolTipViewDlg = null;
-						
+						mSpacerTV.setVisibility(View.GONE);
 					}
 				});
 	  }

@@ -48,7 +48,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 	protected ProgressBar mProgBar;
 	private List<DrawerItem> mDrawerItems;
 	 
-	protected void onCreate(Bundle savedInstanceState, int layoutID) {
+	protected void onCreate(Bundle savedInstanceState, int layoutID, boolean isExistingUser) {
 		super.onCreate(savedInstanceState);
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
@@ -57,11 +57,16 @@ public class MyActionBarActivity extends ActionBarActivity {
 		
 		
 		mDrawerItems = new ArrayList<DrawerItem>();
-		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_me),R.drawable.tool_me));
+		if (isExistingUser)
+			mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_me),R.drawable.tool_me));
+		
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_info),R.drawable.tool_info));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_share),R.drawable.tool_share));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_website),R.drawable.tool_web));
-		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_wallet),R.drawable.tool_wallet));
+		
+		if (isExistingUser)
+			mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_wallet),R.drawable.tool_wallet));
+		
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_legal),R.drawable.tool_legal));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_report_bug),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_intro),0));

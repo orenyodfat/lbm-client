@@ -74,7 +74,7 @@ public class MainActivity extends MyActionBarActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
-		super.onCreate(savedInstanceState, R.layout.activity_main_new);
+		super.onCreate(savedInstanceState, R.layout.activity_main_new, true);
 		//setContentView(R.layout.activity_main);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));

@@ -34,13 +34,13 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 		Log.e("gil", "111111111111111111111111   AlarmOneDaySchedReciever   11111111111111111111");
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(context));
 		mContext = context;
-		reportContactsAsync();
+		reportContactsAsync(context);
 	}
 
 
 	
-	private void reportContactsAsync() {
-		sendContactsToServerAsync();
+	private void reportContactsAsync(Context context) {
+		sendContactsToServerAsync(context);
 		
 		
 	}
@@ -70,14 +70,14 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 		
 	}
 	
-	private void sendContactsToServerAsync(){
+	private void sendContactsToServerAsync(Context context){
 		
-		ContactsToServer contactsToServer = new ContactsToServer();
+		ContactsToServer contactsToServer = new ContactsToServer(context);
 		contactsToServer.execute();
 
 	}
 	
-	private class ContactsToServer extends AsyncTask<String, Void, String> {
+	/*private class ContactsToServer extends AsyncTask<String, Void, String> {
 
 
 		@Override
@@ -148,7 +148,7 @@ public class AlarmOneDaySchedReciever extends BroadcastReceiver {
 		protected void onPreExecute() {
 			
 		}
-	}
+	}*/
 	
 	
 	

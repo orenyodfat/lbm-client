@@ -37,6 +37,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -177,13 +178,17 @@ public class ContactListActivity extends Activity implements
 		 mMessageMsgCB = (CheckBox)mMessageView.findViewById(R.id.recmsg_default_msg_cb);
 			
 		 
+		 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		 imm.hideSoftInputFromWindow(mMessageMsgET.getWindowToken(), 0);
+		 
+		 
 		 MySharedPreferences msp = MySharedPreferences.getInstance();
 		 //mMessageNumOfSelectedUsers = msp.getNumOfRecommendUser(this);
 		 //mMessageSelectedContactName = msp.getRecommendUserName(this);
 		 
 		 String defautMsg = msp.getDefaultFriendsMessage(this);
 		 if (defautMsg.equals(""))
-			 defautMsg = getString(R.string.friends_message_main);
+			 defautMsg = getString(R.string.recommendation_default);
 		 mMessageMsgET.setText(defautMsg);
 		 
 		 mMessageNameET.setText(msp.getDefaultMyName(this));
@@ -194,7 +199,7 @@ public class ContactListActivity extends Activity implements
 		 
 		 Builder builder = new AlertDialog.Builder(ContactListActivity.this);
 		 builder.setTitle(getString(R.string.recommendation_input_msg_title));
-		 builder.setMessage(getString(R.string.recommendation_input_msg_body));
+		 //builder.setMessage(getString(R.string.recommendation_input_msg_body));
 		 builder.setView(mMessageView);
 		 builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
@@ -221,7 +226,7 @@ public class ContactListActivity extends Activity implements
          });
      	
      	builder.setNegativeButton(getString(android.R.string.cancel), null);
-     	builder.show().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);		
+     	builder.show();//.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);		
 	}
 
 

@@ -34,6 +34,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -43,8 +44,11 @@ import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
 public class LbmService extends Service implements LocationListener, OnTelephonyDataListener{
 
@@ -139,10 +143,41 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		
 		startOnDayScheduler();
 		
+		listenToContactsChanges();
+		
 		return Service.START_STICKY;
 	}
 	
 		
+	private void listenToContactsChanges() {
+		
+		getContentResolver().registerContentObserver(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, false, new ContactsContentObserver());
+		
+	}
+
+	
+	private class ContactsContentObserver extends ContentObserver {
+
+		public ContactsContentObserver() {
+			super(new Handler());
+		}
+		
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+			sendContactsToServerAsync(LbmService.this);
+		}
+	}
+	
+	
+	private void sendContactsToServerAsync(Context context){
+		
+		ContactsToServer contactsToServer = new ContactsToServer(context);
+		contactsToServer.execute();
+
+	}
+	
 	private void startOnDayScheduler() {
 		Calendar cal = Calendar.getInstance();
 		Intent intent = new Intent(this, AlarmOneDaySchedReciever.class);
@@ -584,7 +619,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				}
 				
 				//Utils.playSound(this, R.raw.ten_kms);
-				if (isGPSEnabled) //if gps is on - read sensors 				
+				if (isGPSEnabled && location.hasAccuracy() && (location.getAccuracy()<= 25)) //if gps is on - read sensors 				
 					readSensors();
 				else if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
 					if(MySharedPreferences.getInstance().shouldDisplayGPSNotif(this))
