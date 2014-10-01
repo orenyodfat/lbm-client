@@ -2,6 +2,8 @@ package com.lazooz.lbm;
 
 
 
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,11 +11,19 @@ import org.json.JSONObject;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
+import com.google.maps.android.clustering.ClusterManager.OnClusterInfoWindowClickListener;
+import com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener;
+import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener;
+import com.google.maps.android.clustering.view.ClusterRenderer;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.lazooz.lbm.businessClasses.WifiData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
@@ -77,6 +87,11 @@ public class ShakeSecondActivity extends ActionBarActivity {
 		initShakeDetector();
 		
 		mClusterManager = new ClusterManager<POSClusterItem>(this, map);
+		mClusterManager.setRenderer(new MyClusterRenderer(this, map, mClusterManager));
+		
+		
+				
+		
 		map.setOnCameraChangeListener(mClusterManager);
 		map.setOnMarkerClickListener(mClusterManager);
 
@@ -272,7 +287,8 @@ public class ShakeSecondActivity extends ActionBarActivity {
 						jo = (JSONObject)mLocationArray.get(i);
 						double lat = jo.getDouble("la");
 						double lon = jo.getDouble("lo");
-						POSClusterItem pci = new POSClusterItem(lat, lon);
+						boolean isMe = Utils.yesNoToBoolean(jo.getString("is_me"));
+						POSClusterItem pci = new POSClusterItem(lat, lon, isMe);
 						mClusterManager.addItem(pci);
 						//addMarkerToMap(lat, lon);
 					} catch (JSONException e) {
@@ -302,19 +318,64 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	
 	public class POSClusterItem implements ClusterItem {
 	    private final LatLng mPosition;
-
-	    public POSClusterItem(double lat, double lng) {
+	    private final boolean mIsMe;
+	    public POSClusterItem(double lat, double lng, boolean isMe) {
 	        mPosition = new LatLng(lat, lng);
+	        mIsMe = isMe;
 	    }
 
+	    
+	    
 	    @Override
 	    public LatLng getPosition() {
 	        return mPosition;
+	    }
+	    
+	    public boolean isMe(){
+	    	return mIsMe;
+	    }
+	}
+	
+	
+	class MyClusterRenderer extends DefaultClusterRenderer<POSClusterItem> {
+
+	    public MyClusterRenderer(Context context, GoogleMap map, ClusterManager<POSClusterItem> clusterManager) {
+	        super(context, map, clusterManager);
+	    }
+
+	    @Override
+	    protected void onBeforeClusterItemRendered(POSClusterItem item, MarkerOptions markerOptions) {
+	        super.onBeforeClusterItemRendered(item, markerOptions);
+
+	        markerOptions.title("ertertre");
+	        if (item.isMe()){
+	        	markerOptions.title("Me :-)");
+	        	markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+	        }
+	    }
+
+	    @Override
+	    protected void onClusterItemRendered(POSClusterItem clusterItem, Marker marker) {
+	        super.onClusterItemRendered(clusterItem, marker);
+
+	        //here you have access to the marker itself
 	    }
 	}
 	
 	
 	
+	
+	
+	
+	/*
+	 * googlemap.addMarker(new MarkerOptions()
+    .position(new LatLng( 65.07213,-2.109375))
+    .title("This is my title")
+    .snippet("and snippet")
+    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+    
+    
+	 * */
 	
 	
 	

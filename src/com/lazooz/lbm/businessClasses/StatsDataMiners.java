@@ -10,7 +10,7 @@ import com.lazooz.lbm.utils.Utils;
 
 public class StatsDataMiners {
 
-	private int mMonth;
+	private int mDay;
 	private int mCount;
 	
 
@@ -20,7 +20,7 @@ public class StatsDataMiners {
 	
 	public StatsDataMiners(JSONObject jsonObj){
 		try {
-			mMonth = jsonObj.getInt("month");
+			mDay = jsonObj.getInt("day");
 			mCount = jsonObj.getInt("count");
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class StatsDataMiners {
 		JSONObject retObj = new JSONObject();
 		
 		try {
-			retObj.put("month", mMonth);
+			retObj.put("day", mDay);
 			retObj.put("count", mCount);
 			
 		} catch (JSONException e) {
@@ -41,17 +41,17 @@ public class StatsDataMiners {
 	}
 
 
-	public int getMonth() {
-		return mMonth;
+	public int getDay() {
+		return mDay;
 	}
+/*
+	public String getDay(Context context) {
+		String[] dayArray = context.getResources().getStringArray(R.array.months_array);
+		return dayArray[mDay];
+	}*/
 
-	public String getMonth(Context context) {
-		String[] monthArray = context.getResources().getStringArray(R.array.months_array);
-		return monthArray[mMonth];
-	}
-
-	public void setMonth(int month) {
-		mMonth = month;
+	public void setMonth(int day) {
+		mDay = day;
 	}
 
 

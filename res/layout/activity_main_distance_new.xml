@@ -3,7 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lazooz.lbm.CongratulationsDrive100Activity"
+    tools:context="com.lazooz.lbm.MainDistanceActivity"
     tools:ignore="MergeRootFrame" >
 
     <ProgressBar
@@ -12,6 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
+    
+
+        
+	    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:background="@drawable/mined_loc_up"
             android:orientation="horizontal" >
 
@@ -58,57 +62,13 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:orientation="vertical" >
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/lazooz_mined_km_dark_blue"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mined Km this week"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/white"
-                    android:textSize="7sp" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="125Km"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/report_chart_1"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-            </LinearLayout>
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,6 +87,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
             </LinearLayout>
+           
         </LinearLayout>
 
         <LinearLayout
@@ -148,6 +109,8 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    
 
+    
 </FrameLayout>
 

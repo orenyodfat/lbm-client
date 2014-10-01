@@ -1,13 +1,16 @@
 package com.lazooz.lbm;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chart.BarChart.Type;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -21,6 +24,7 @@ import com.lazooz.lbm.businessClasses.ContactFriendList;
 import com.lazooz.lbm.businessClasses.StatsData;
 import com.lazooz.lbm.businessClasses.StatsDataList;
 import com.lazooz.lbm.businessClasses.StatsDataMiners;
+import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
 import com.lazooz.lbm.businessClasses.StatsDataMinersList;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
@@ -65,6 +69,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	public String mTotalMiners;
 	public String mNumPending;
 	public String mNumAccepted;
+	private LinkedHashMap<Integer,String> xyValues;
+	public String mInitialDate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,75 +113,127 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	}
 	
 
-
-
-
-	private void buildChart2(){
+	private void openChart(){
 		 
+		String[] chartTitles;
+ 		chartTitles = new String[] { "Total"};
+		List<double[]> values = new ArrayList<double[]>();
+	    values.add(mStatsDataMinerList.getDataDoubleArray());
+	    int totalXlength = 0;
 	    
-		  String[] titles = new String[] { "this week", "previus week"};
-		    List<double[]> x = new ArrayList<double[]>();
-		    for (int i = 0; i < titles.length; i++) {
-		      x.add(new double[] { 1, 2, 3, 4, 5, 6, 7});
-		    }
-		    List<double[]> values = new ArrayList<double[]>();
-		    values.add(new double[] { 50, 50, 52, 55, 56, 58, 62});
-		    values.add(new double[] { 36, 37, 38, 40, 46, 48, 48 });
-		    int[] colors = new int[] { Color.BLUE, Color.RED };
-		    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND};
-		    XYMultipleSeriesRenderer renderer = ChartUtil.buildRenderer(colors, styles);
-		    int length = renderer.getSeriesRendererCount();
-		    for (int i = 0; i < length; i++) {
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValues(true);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setDisplayChartValuesDistance(15);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
-		      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setChartValuesTextSize(20);
-		    }
-		    ChartUtil.setChartSettings(renderer, "24,000 miners paving the web", "Time", "Miners", 0.5, 7.5, 20, 90,
-		        Color.LTGRAY, Color.BLUE, Color.LTGRAY);
-		    //renderer.setXLabels(12);	    
-		    renderer.setXLabels(0);
-		    renderer.addXTextLabel(1, "Sun");
-		    renderer.addXTextLabel(2, "Mon");
-		    renderer.addXTextLabel(3, "Tue");
-		    renderer.addXTextLabel(4, "Wed");
-		    renderer.addXTextLabel(5, "Thu");
-		    renderer.addXTextLabel(6, "Fri");
-		    renderer.addXTextLabel(7, "Sat");
-		    
-		    
-		    
-		    renderer.setYLabels(10);
-		    renderer.setShowGrid(true);
-		    renderer.setXLabelsAlign(Align.RIGHT);
-		    renderer.setYLabelsAlign(Align.RIGHT);
-		    renderer.setZoomButtonsVisible(true);
-		   
-		    
-		    //renderer.setLegendHeight(100);
+    	
+	    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+	    
+        List<double[]> xAxisValues = new ArrayList<double[]>();
+	    xAxisValues.add(mStatsDataMinerList.getXDoubleArray());
+	    
+	    for (int i = 0; i < chartTitles.length; i++) {
+	    	XYSeries series = new XYSeries(chartTitles[i]);
+	    	double[] xV = xAxisValues.get(i);
+	    	double[] yV = values.get(i);
+	    	int seriesLength = xV.length;
+	      for (int k = 0; k < seriesLength; k++) {
+	    	  System.out.println("LOG X is "+xV[k]+ " y is "+yV[k]);
+	    	  series.add(xV[k]-1, yV[k]);
+	      }
+	      dataset.addSeries(series);
+	    }
+        
+        XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
+        incomeRenderer.setColor(Color.WHITE);
+        incomeRenderer.setPointStyle(PointStyle.CIRCLE);
+        incomeRenderer.setFillPoints(true);
+        incomeRenderer.setLineWidth(2);
+        incomeRenderer.setDisplayChartValues(true);
+        incomeRenderer.setDisplayChartValuesDistance(15);
+        incomeRenderer.setChartValuesTextSize(20);
+        incomeRenderer.setLineWidth(4);
+        incomeRenderer.setDisplayBoundingPoints(false); // for hiding the series when we scroll
+    	
+        // Creating a XYMultipleSeriesRenderer to customize the whole chart
+        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+        multiRenderer.setChartTitle("Miners Paveing the Web");
+        multiRenderer.setXTitle("Days");
+        multiRenderer.setYTitle("Miners");
+        multiRenderer.setZoomButtonsVisible(true);
+        multiRenderer.setBackgroundColor(0xf7f7f7);
+        multiRenderer.setMarginsColor(0xf7f7f7);
+        multiRenderer.setMargins(new int[] { 50, 60, 60, 30 });
+        multiRenderer.setAxisTitleTextSize(20);
+        multiRenderer.setChartTitleTextSize(25);
+        multiRenderer.setLabelsTextSize(20);
+        
+        multiRenderer.setXLabelsAlign(Align.CENTER);
+        multiRenderer.setYLabelsAlign(Align.RIGHT);
+        multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
+        multiRenderer.setZoomEnabled(false,false);
+        multiRenderer.setPointSize(8);  // increase the width of point size
+        multiRenderer.setXLabelsPadding(10);
+        
+        
+        xyValues = new LinkedHashMap<Integer,String>();
+        
+        for (int i = 0; i < chartTitles.length; i++) {
+	    	double[] xV = xAxisValues.get(i);
+	    	totalXlength =  xV.length;
+	    	System.out.println("LOG len is "+totalXlength);
+	    	for(int j=0;j<totalXlength;j++){
+	    		multiRenderer.addXTextLabel(j+1, Utils.addDays(xV[j], mInitialDate));  
+	    		xyValues.put(j+1, Utils.addDays(xV[j], mInitialDate));
+	    	}    	
+        }
+        
+    	multiRenderer.setXLabels(0);
+	    multiRenderer.setShowAxes(false);
+	    multiRenderer.setXAxisMin(0);
+	    multiRenderer.setXAxisMax(10);
+	    if(totalXlength < 10){
+	    	multiRenderer.setXAxisMax(totalXlength);
+	    }
+    	multiRenderer.setPanEnabled(true);
+    	multiRenderer.setPanLimits(new double [] {0,totalXlength+1,0,0});
+    	
+    	multiRenderer.setYAxisMin(Utils.getMinValueFromList(values));
+    	multiRenderer.setYAxisMax(Utils.getMaxValueFromList(values));
+	    multiRenderer.setAxesColor(Color.GRAY);
+	    multiRenderer.setLabelsColor(Color.WHITE);
+        multiRenderer.addSeriesRenderer(incomeRenderer);
+ 
+        // Creating a Time Chart
+        mChartView2 = (GraphicalView) ChartFactory.getTimeChartView(getBaseContext(), dataset, multiRenderer,"dd-MMM-yyyy");
+ 
+        multiRenderer.setClickEnabled(true);
+        multiRenderer.setSelectableBuffer(10);
+ 
+        // Setting a click event listener for the graph
+        mChartView2.setOnClickListener(new View.OnClickListener() {
 
-		    //renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
-		    //renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+            @Override
+            public void onClick(View v) {
+            	
+                SeriesSelection seriesSelection = mChartView2.getCurrentSeriesAndPoint();
+                double[] xy = mChartView2.toRealPoint(0);
 
-		    XYMultipleSeriesDataset dataset = ChartUtil.buildDataset(titles, x, values);
-		    XYSeries series = dataset.getSeriesAt(0);
-		    //series.addAnnotation("Vacation", 6, 30);
-		    mChartView2 = ChartFactory.getLineChartView(this, dataset, renderer);    
-		
-		    
-		    
-		    
-		    //mChartView =  ChartFactory.getRangeBarChartView(this, buildBarDataset(titles, values), renderer, Type.DEFAULT);
-		    
+                if (seriesSelection != null) {
 
-		mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+                    //                  debug
+                    Log.d("Punto", seriesSelection.getXValue() + ", " + seriesSelection.getValue());
+                    //                  debug
+                    Log.d("Chart point", "Chart element in series index " + seriesSelection.getSeriesIndex() + " data point index "
+                            + seriesSelection.getPointIndex() + " was clicked" + " closest point value X=" + seriesSelection.getXValue()
+                            + ", Y=" + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1]);
+                    
+                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" km" ,Toast.LENGTH_SHORT).show();               }
+            }
+        });
+ 
+            // Adding the Line Chart to the LinearLayout
+        mLayoutChart2.addView(mChartView2);
+    }	
+
+
 	
-		
-		
-	}
-	
-
+/*
 	private void buildChartZooz(){
 		 
 		String[] chartTitles;
@@ -246,7 +304,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	    mLayoutChart2.addView(mChartView2, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 
 
-}
+}*/
 	
 	
 	
@@ -371,12 +429,20 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
 						
-						if (jsonReturnObj.has("stats_data")){
+						//jsonReturnObj = readJasonFile();
+						JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
+						Log.e("TAG", statsArray.toString());
+						mStatsDataMinerList = new StatsDataMinersList(statsArray);
+						
+						mInitialDate = jsonReturnObj.getString("initial_date");
+						
+						
+					/*	if (jsonReturnObj.has("stats_data")){
 							mTotalMiners = jsonReturnObj.getString("total_miners");
 							JSONArray statsArray = jsonReturnObj.getJSONArray("stats_data");
 							Log.e("TAG", statsArray.toString());
 							mStatsDataMinerList = new StatsDataMinersList(statsArray);
-						}
+						}*/
 					}
 				}
 			} 
@@ -410,11 +476,29 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		}
 	}
 
+	private JSONObject readJasonFile(){
+        InputStream is;
+        String s = "";
+		try {
+			is = getAssets().open("server_data.json");
+	        int size = is.available();
+	        byte[] buffer = new byte[size];
+	        is.read(buffer);
+	        is.close();
+	        s = new String(buffer, "UTF-8");
+	        return new JSONObject(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+			
+	}
+	
 	public void updateGUI() {
 		//mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList);//, mContactList);
 		//mAddFriendsListView.setAdapter(mAdapter);
-		
-		buildChartZooz();
+		openChart();
+		//buildChartZooz();
 		
 	}
 

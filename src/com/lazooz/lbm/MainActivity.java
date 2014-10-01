@@ -80,7 +80,9 @@ public class MainActivity extends MyActionBarActivity  {
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 
 		OfflineActivities.getInstance(this).transmitDataToServer();
-
+		
+		MySharedPreferences.getInstance().initFirstTime(this);
+		
 		startService(new Intent(this, LbmService.class));
 		
 		Utils.setTitleColor(this, getResources().getColor(R.color.white));

@@ -31,6 +31,10 @@
 	<string name="drawer_entry_report_bug">Submit issue/bug</string>
 	<string name="drawer_entry_intro">Introduction</string>
 		
+	<string name="forground_notif_ticker_text">notif ticker</string>
+	<string name="forground_notif_title">notif title</string>
+	<string name="forground_notif_text">notif text</string>
+	 
 	
 	<string-array name="drawer_array">
         <item>@string/drawer_entry_me</item>

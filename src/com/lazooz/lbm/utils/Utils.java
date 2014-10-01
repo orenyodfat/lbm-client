@@ -1,14 +1,22 @@
 package com.lazooz.lbm.utils;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
@@ -43,6 +51,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 import android.widget.TextView;
 
 public class Utils {
@@ -143,7 +152,13 @@ public class Utils {
 	
 	public static String getCurrentLocale(Context context){
 		TelephonyManager    telMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-	    return telMgr.getNetworkCountryIso().toUpperCase();
+		String lcl = telMgr.getNetworkCountryIso().toUpperCase();
+		if (lcl.equals("")){
+				Locale current = context.getResources().getConfiguration().locale;
+				//lcl = current.getISO3Country();
+				lcl = current.getCountry();
+		}
+	    return lcl;
 	}
 	
 	public static void wait(int milisec){
@@ -453,5 +468,97 @@ public class Utils {
 		}
     }
     
+	public static double getMinValueFromList(List<double[]> values) {
+		double min=Double.MAX_VALUE, max=Double.MIN_VALUE;
+		for (double[] ds : values) {
+		    for (double d : ds) {
+		        if (d > max) max=d;
+		        if (d < min ) min=d;
+		    }
+		}
+		return min;
+	}
+	
+	public static double getMaxValueFromList(List<double[]> values) {
+		double min=Double.MAX_VALUE, max=Double.MIN_VALUE;
+		for (double[] ds : values) {
+		    for (double d : ds) {
+		        if (d > max) max=d;
+		        if (d < min ) min=d;
+		    }
+		}
+		return max;
+	}
+	
+	public static String addDays(double xValue, String initialDate) {
+		//String initialDate="2014-9-28";//can take any date in current format   
+		//SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
+		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd" );
+		String convertedDate = null;
+		Calendar cal = Calendar.getInstance();    
+		try {
+			cal.setTime(dateFormat.parse(initialDate));
+			cal.add( Calendar.DATE, ((int)xValue));    
+			
+			Format formatter = new SimpleDateFormat("dd MMM yy");
+			convertedDate=formatter.format(cal.getTime()); 
+			System.out.println("Date increase by one.."+convertedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return convertedDate;
+	}
+	
+ 
+    public static final Date fromString( String spec ) {
+        try {
+            return dateFormat.parse( spec );
+        } catch( ParseException dfe ) {
+            return invalidDate;
+        }
+    }
     
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private static final Date invalidDate = new Date(0);
+
+	
+	  public static void activateSavingLogcatToFile(Context context, boolean isAll) {    
+	        String fileName = "lazooz_logcat_"+System.currentTimeMillis()+".txt";
+	        File outputFile = new File(context.getExternalCacheDir(),fileName);
+	        Log.e("ZOOZ", outputFile.getPath());
+	        try {
+				@SuppressWarnings("unused")
+				Process process;
+				if (isAll)
+					process = Runtime.getRuntime().exec("logcat -v time -f "+outputFile.getAbsolutePath());
+				else
+					process = Runtime.getRuntime().exec("logcat -v time -f "+outputFile.getAbsolutePath() + " ZOOZ:I System.err:* AndroidRuntime:E *:F");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+
+	    
+	    
+		public static String readLogs(){
+			// Don't forget to add to the manifest: <uses-permission android:name="android.permission.READ_LOGS" />
+		    String res = "";
+			try {
+			      Process process = Runtime.getRuntime().exec("logcat -d");
+			      BufferedReader bufferedReader = new BufferedReader(
+			      new InputStreamReader(process.getInputStream()));
+
+			      StringBuilder log=new StringBuilder();
+			      String line;
+			      while ((line = bufferedReader.readLine()) != null) {
+			        log.append(line);
+			      }
+			      res =  log.toString();
+			    } 
+		    catch (IOException e) {
+			    }
+			return res;
+		
+		}
+	
 }

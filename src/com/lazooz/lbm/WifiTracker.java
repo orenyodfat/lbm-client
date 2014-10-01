@@ -56,6 +56,10 @@ public class WifiTracker {
 		mWifiManager.setWifiEnabled(true);
 	}
 	
+	public void setWifiDisabled(){
+		mWifiManager.setWifiEnabled(false);
+	}
+
 	public boolean isWifiEnabled(){
 		return mWifiManager.isWifiEnabled();
 	}

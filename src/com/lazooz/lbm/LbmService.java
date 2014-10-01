@@ -30,6 +30,7 @@ import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -56,6 +57,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
 	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
 	
+	public static final String FILE_TAG = "ZOOZ";
 	
 	private Timer ShortPeriodTimer;
 	private Timer LongPeriodTimer;
@@ -68,6 +70,8 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	private TelephonyDataTracker mTelephonyDataTracker;
 	private boolean mIsListenToGPSProvider;
 	private boolean mIsRequestLocationUpdateFirstTime = true;
+	private boolean mWifiWasEnabled;
+	private WifiTracker mWifiTracker;
 	
 	
 	public LbmService() {
@@ -99,8 +103,11 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
+		Utils.activateSavingLogcatToFile(this, false);
 
 		mIsListenToGPSProvider = false;
+		
+		Log.i(FILE_TAG, "SERVICE STARTED");
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		mIsRequestLocationUpdateFirstTime = true;
@@ -144,6 +151,8 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		startOnDayScheduler();
 		
 		listenToContactsChanges();
+		
+		myStartForeground();
 		
 		return Service.START_STICKY;
 	}
@@ -399,6 +408,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				
 				JSONArray dataList = msp.getLocationDataList(LbmService.this);
 				if (dataList != null){
+		          	Log.i(FILE_TAG, "send location data to server");
 					byte[] dataCompressed = Utils.compress(dataList.toString());
 					bServerCom.setLocationZip(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), dataCompressed);
 					jsonReturnObj = bServerCom.getReturnObject();
@@ -408,6 +418,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
+				Log.e(FILE_TAG, "error sending location data to server " + e1.getMessage());
 			}
         	
         	String serverMessage = "";
@@ -474,25 +485,32 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	
 
 	private void readWifi(){
-		WifiTracker wifiTracker = new WifiTracker(this);
-		wifiTracker.setWifiListener(new WifiTracker.wifiListener() {
+		mWifiTracker = new WifiTracker(this);
+		mWifiTracker.setWifiListener(new WifiTracker.wifiListener() {
 			@Override
 			public void onFinishScan(ArrayList<WifiData> connections) {
 				mLocationData.setWifiDataList(connections);
 				mLocationData.setHasWifiData(true);
-				readBT();
+				if (!mWifiWasEnabled)
+					mWifiTracker.setWifiDisabled();
+				readTelephonyData();
+				readGPSData();
 			}
 		});
-		if (wifiTracker.isWifiEnabled())
-			wifiTracker.scan();
+		if (mWifiTracker.isWifiEnabled()){
+			mWifiWasEnabled = true;
+			mWifiTracker.scan();
+		}
 		else{
-			wifiTracker.setWifiEnabled();
+			mWifiWasEnabled = false;
+			mWifiTracker.setWifiEnabled();
 			Utils.wait(2000);
-			if (wifiTracker.isWifiEnabled())
-				wifiTracker.scan();
+			if (mWifiTracker.isWifiEnabled())
+				mWifiTracker.scan();
 			else{
 				mLocationData.setHasWifiData(false);
-				readBT();
+				readTelephonyData();
+				readGPSData();
 			}
 		}
 		
@@ -540,6 +558,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	}
 	
 	private void readSensors(){
+		Log.i(FILE_TAG, "read Sensors");
 		mLocationData = new LocationData();		
 		readWifi();
 	}
@@ -562,6 +581,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 			mLocationData.setHasLocationData(false);
 		
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
+		Log.i(FILE_TAG, "save location data locally");
 		//Utils.playSound(this, R.raw.save);
 	}
 
@@ -589,14 +609,19 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	public void onLocationChanged(Location location) {
 		if(location.getProvider().equals(LocationManager.NETWORK_PROVIDER)){ // ignore first shoot after request, there was no real location change
 			if (mIsRequestLocationUpdateFirstTime){
+				Log.i(FILE_TAG, "onLocationChanged network first time");
 				mIsRequestLocationUpdateFirstTime = false;
 				return;
 			}
+			else
+				Log.i(FILE_TAG, "onLocationChanged network");
 		}
 		
 		Utils.playSound(this, R.raw.gps);
-		if (mSendingDataToServer)
+		if (mSendingDataToServer){
+			Log.i(FILE_TAG, "onLocationChanged during sending data to server");
 			return;
+		}
 
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -604,23 +629,26 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
 			mIsListenToGPSProvider = true;
+			Log.i(FILE_TAG, "turn on GPS_PROVIDER");
 			MySharedPreferences.getInstance().promoteRoute(this);
 			mNoSpeedTimer.startNow();
 		}
 
 		if (location.hasSpeed()){
-
+			Log.i(FILE_TAG, "location hasSpeed");
 			float speed = location.getSpeed();
 			if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h
 			
 				if (speed > 2.7){
+					Log.i(FILE_TAG, "Speed Over 10 kms");
 					Utils.playSound(this, R.raw.ten_kms);
 					mNoSpeedTimer.startNow();
 				}
 				
 				//Utils.playSound(this, R.raw.ten_kms);
-				if (isGPSEnabled && location.hasAccuracy() && (location.getAccuracy()<= 25)) //if gps is on - read sensors 				
+				if (isGPSEnabled && location.hasAccuracy() && (location.getAccuracy()<= 25)){ //if gps is on - read sensors 				
 					readSensors();
+				}
 				else if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
 					if(MySharedPreferences.getInstance().shouldDisplayGPSNotif(this))
 						displayNotifGPSDialog();
@@ -744,6 +772,26 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	}
 
 	
+    private void myStartForeground(){
+   	 Intent intent1 = new Intent(this, MainActivity.class);
+ 	    intent1.setAction(Intent.ACTION_VIEW);
+ 	    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+ 	    intent1.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+ 	    Notification notif = Utils.createNotificationsOngoing(getApplicationContext(), 
+ 	    		R.drawable.ic_stat_notif_logo, 
+ 	    		getString(R.string.forground_notif_ticker_text), 
+ 	    		getString(R.string.forground_notif_title), 
+ 	    		getString(R.string.forground_notif_text), 
+ 	    		intent1); 
+ 	    
+ 	   startForeground(1256, notif);
+    	
+   }
+   private void myStopForeground(){
+   	stopForeground(true);
+  }	
 	
-	
+   
+  
 }
