@@ -742,13 +742,25 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	public class NoSpeedTimer extends CountDownTimer {
 		private boolean mIsActive = false;
+		private boolean TimerHasStarted = false;
 		public NoSpeedTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
 		public void startNow(){
-			mIsActive = true;
-			start();
+			 if (!TimerHasStarted)
+			 {
+				 start();
+				 TimerHasStarted = true;
+			 }
+			 else
+			 {
+				  //restart
+				  cancel();
+				  start();
+				  TimerHasStarted=false;
+			 }
+			 mIsActive = TimerHasStarted;
 		}
 		
 		public boolean isActive(){
