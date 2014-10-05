@@ -458,7 +458,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		@Override
 		protected void onPostExecute(String result) {
 			mSendingDataToServer = false;
-			
+			/*
 			if (result.equals("success_distance_achieved")){
 				Utils.sendNotifications(LbmService.this, 
 						R.drawable.ic_launcher, 
@@ -470,7 +470,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 				
 				//startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
 
-			}
+			}*/
 		}
 			
 		
@@ -661,15 +661,26 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		
 		if (status == LocationProvider.OUT_OF_SERVICE){
-			if (provider.equals(LocationManager.NETWORK_PROVIDER))
-				mTelephonyDataTracker.requestCellUpdates(this);			
+			Utils.playSound(LbmService.this, R.raw.status_no_service);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", OUT_OF_SERVICE");
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+				if (!mIsListenToGPSProvider)
+					mTelephonyDataTracker.requestCellUpdates(this);
+			}
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
-			if (provider.equals(LocationManager.NETWORK_PROVIDER))
-				mTelephonyDataTracker.requestCellUpdates(this);						
+			Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+				if (!mIsListenToGPSProvider)
+					mTelephonyDataTracker.requestCellUpdates(this);
+			}
 		}
 		else if (status == LocationProvider.AVAILABLE){
+			Utils.playSound(LbmService.this, R.raw.status_avail);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", AVAILABLE");
 			if (provider.equals(LocationManager.NETWORK_PROVIDER))
 				mTelephonyDataTracker.removeUpdates();
 		}
@@ -677,10 +688,12 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		Log.i(FILE_TAG, "onProviderEnabled - " + provider);
 		if (provider.equals(LocationManager.GPS_PROVIDER)){
 			
 		}
 		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+			Utils.playSound(LbmService.this, R.raw.enable_provider_net);
 			mTelephonyDataTracker.removeUpdates();
 		}
 		
@@ -688,7 +701,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 
 	@Override
 	public void onProviderDisabled(String provider) {
-
+		Log.i(FILE_TAG, "onProviderDisabled - " + provider);
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
@@ -710,6 +723,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 			
 		}
 		else if (provider.equals(LocationManager.NETWORK_PROVIDER)){
+			Utils.playSound(LbmService.this, R.raw.disable_provider_net);
 			mTelephonyDataTracker.requestCellUpdates(this);
 		}
 		
@@ -735,6 +749,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		
        @Override
         public void onFinish() {
+    	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
     	   mIsActive = false;
     	   mLocationManager.removeUpdates(LbmService.this);
@@ -761,6 +776,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 
 	@Override
 	public void onCellChanged(int newCellID) {
+		Log.i(FILE_TAG, "onCellChanged");
 		Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		if (!mIsListenToGPSProvider){

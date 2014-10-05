@@ -87,6 +87,9 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		
 		//setContentView(R.layout.activity_registration);
 
+		
+		Utils.setTitleColor(this, getResources().getColor(R.color.white));
+		
 		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
 		
 		mToolTipButton = (TextView)findViewById(R.id.reg_text_tooltip_tv);

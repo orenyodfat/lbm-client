@@ -20,9 +20,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -308,7 +311,12 @@ public class MyActionBarActivity extends ActionBarActivity {
 			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
-				View row=super.getView(position, convertView, parent);
+				//View row=super.getView(position, convertView, parent);
+
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				View row = inflater.inflate(android.R.layout.simple_list_item_activated_1, null);
+				
+				
 				Drawable img = null;
 				TextView tv =(TextView)row.findViewById(android.R.id.text1);
 				try{

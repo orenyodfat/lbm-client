@@ -386,7 +386,7 @@ public class Utils {
 	
 
 	public static void playSound(Context cntxt, int rawVal){
-/*		MediaPlayer mpTada = null ;
+		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
 		mpTada.setVolume(1.0f, 1.0f);
 		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -396,7 +396,7 @@ public class Utils {
 				}
 			});
 		mpTada.start();
-	*/	 
+		 
 	}
 
 	public static void playSound1(Context cntxt, int rawVal){
@@ -524,8 +524,15 @@ public class Utils {
 	
 	  public static void activateSavingLogcatToFile(Context context, boolean isAll) {    
 	        String fileName = "lazooz_logcat_"+System.currentTimeMillis()+".txt";
-	        File outputFile = new File(context.getExternalCacheDir(),fileName);
-	        Log.e("ZOOZ", outputFile.getPath());
+	        File cacheDir = context.getExternalCacheDir();
+	        if (cacheDir == null)
+	        	cacheDir = context.getCacheDir();
+//	        if(!cacheDir.isDirectory()) 
+//	            cacheDir.mkdirs();
+	        
+	        
+	        File outputFile = new File(cacheDir,fileName);
+	        Log.e("ZOOZ", cacheDir + outputFile.getPath());
 	        try {
 				@SuppressWarnings("unused")
 				Process process;

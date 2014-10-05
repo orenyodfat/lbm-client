@@ -38,6 +38,11 @@ public class TelephonyDataTracker {
 	
 	public void requestCellUpdates(OnTelephonyDataListener onTelephonyDataListener){
 		this.mOnTelephonyDataListener = onTelephonyDataListener;
+		if (mTimer != null){
+			mTimer.cancel();
+			mTimer = null;
+		}
+		
 		mTimer = new Timer();
 		TimerTask timerTask = new TimerTask() {
 				@Override
@@ -66,7 +71,9 @@ public class TelephonyDataTracker {
 	}
 
 	public void removeUpdates(){
-		mTimer.cancel();
-		mTimer = null;
+		if (mTimer != null){
+			mTimer.cancel();
+			mTimer = null;
+		}
 	}
 }
