@@ -1,4 +1,6 @@
 lbm
 ===
 
-Lazooz Location Based Mining App
+Lazooz Location Based Mining Application
+
+This Android App is used for building La'zooz Collaborating Web
