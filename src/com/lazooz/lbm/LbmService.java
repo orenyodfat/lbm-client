@@ -741,30 +741,23 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	public class NoSpeedTimer extends CountDownTimer {
-		private boolean mIsActive = false;
 		private boolean TimerHasStarted = false;
 		public NoSpeedTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
 		public void startNow(){
-			 if (!TimerHasStarted)
-			 {
-				 start();
-				 TimerHasStarted = true;
-			 }
-			 else
-			 {
+			if (TimerHasStarted)
+			{
 				  //restart
 				  cancel();
-				  start();
-				  TimerHasStarted=false;
-			 }
-			 mIsActive = TimerHasStarted;
+			}
+			start();
+			TimerHasStarted = true;
 		}
 		
 		public boolean isActive(){
-			return mIsActive;
+			return TimerHasStarted;
 		}
 		
 		
@@ -772,7 +765,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
         public void onFinish() {
     	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
-    	   mIsActive = false;
+    	   TimerHasStarted = false;
     	   mLocationManager.removeUpdates(mGPSLocationListener);
     	   mIsRequestLocationUpdateFirstTime = true;
 			mIsListenToGPSProvider = false;
