@@ -491,6 +491,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 
 	private void readWifi(){
+		Utils.playSound(this, R.raw.read_wf);
 		mWifiTracker = new WifiTracker(this);
 		mWifiTracker.setWifiListener(new WifiTracker.wifiListener() {
 			@Override
@@ -524,6 +525,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	private void readBT(){
+		Utils.playSound(this, R.raw.read_bt);
 		BluetoothTracker bluetoothTracker = new BluetoothTracker(this);
 		bluetoothTracker.setBluetoothListener(new BluetoothTracker.bluetoothListener() {
 			
@@ -565,6 +567,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	private void readSensors(){
 		Log.i(FILE_TAG, "read Sensors");
+		Utils.playSound(this, R.raw.read_sensors);
 		mLocationData = new LocationData();		
 		readWifi();
 	}
@@ -588,7 +591,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
 		Log.i(FILE_TAG, "save location data locally");
-		//Utils.playSound(this, R.raw.save);
+		Utils.playSound(this, R.raw.save);
 	}
 
 	
