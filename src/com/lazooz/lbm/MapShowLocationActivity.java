@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +31,7 @@ import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.components.MyProgBar;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.Utils;
 
 public class MapShowLocationActivity extends ActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener, LocationListener{
 
@@ -62,7 +64,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_map_show_location);
-
+		
+		Utils.activateSavingLogcatToFile(this, false);
 		
 		mWasInMission = getIntent().getBooleanExtra("MISSION_GPS_ON", false);
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -104,6 +107,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 				if (location != null){
 					updateAccuracy((int)location.getAccuracy());
 					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+					Log.i("MAP_SHOW", "google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
 					setMapLocation(location);
 					
 				}
@@ -177,7 +181,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		if (location != null){
 			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
 			
-		    map.getUiSettings().setZoomControlsEnabled(false);
+			Log.i("MAP_SHOW", "set map init location: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
+		    
+			map.getUiSettings().setZoomControlsEnabled(false);
 			
 	    	
 	    	map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
@@ -210,6 +216,8 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private void setMapLocation(Location location){
 		if (location != null){
 			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+			
+			Log.i("MAP_SHOW", "set map location: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
 			
 			if (mLastMarker != null)
 				mLastMarker.remove();
@@ -257,33 +265,41 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 	@Override
 	public void onLocationChanged(Location location) {
+		Log.i("MAP_SHOW", "onLocationChanged: " + "LAT:"+ location.getLatitude() + " LON: " + location.getLongitude() + " ACC:" + (int)location.getAccuracy());
 		if (mMapWasInit){
-			if (location.getProvider().equals(LocationManager.GPS_PROVIDER))
+			Log.i("MAP_SHOW", "onLocationChanged, map was init");
+			if (location.getProvider().equals(LocationManager.GPS_PROVIDER)){
+				Log.i("MAP_SHOW", "sonLocationChanged from GPS_PROVIDER");
 				setMapLocation(location);
+			}
+			else
+				Log.i("MAP_SHOW", "sonLocationChanged from NETWORK - do nothing");
 		}
 		
 	}
 
 	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
+	public void onProviderDisabled(String provider) {
+		Log.i("MAP_SHOW", "onProviderDisabled: " +  provider);
 		
 	}
 
 	@Override
-	public void onProviderEnabled(String arg0) {
-		// TODO Auto-generated method stub
+	public void onProviderEnabled(String provider) {
+		Log.i("MAP_SHOW", "onProviderEnabled: " +  provider);
 		
 	}
 
 	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle bundle) {
-		// TODO Auto-generated method stub
-		
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.i("MAP_SHOW", "onStatusChanged: " +  provider + " status:" + status);
 	}
 
 	private Location getLocation(){
-		return mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		if (isGPSEnabled())
+			return mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		else
+			return mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 	}
 
 	
@@ -300,6 +316,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	
 	@Override
 	protected void onResume() {
+		Log.i("MAP_SHOW", "onResume, start listen to location");
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		super.onResume();
@@ -308,6 +325,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	
 	@Override
 	protected void onPause() {
+		Log.i("MAP_SHOW", "onPause, stop listen to location");
 		mLocationManager.removeUpdates(this);
 		super.onPause();
 	}

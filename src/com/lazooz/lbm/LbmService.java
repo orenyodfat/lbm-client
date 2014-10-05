@@ -51,7 +51,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
-public class LbmService extends Service implements LocationListener, OnTelephonyDataListener{
+public class LbmService extends Service implements OnTelephonyDataListener{
 
 	public static final int GPS_MIN_TIME_LOCATION_UPDATE_HIGHT = 10*1000; // 10 sec
 	public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
@@ -72,6 +72,8 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	private boolean mIsRequestLocationUpdateFirstTime = true;
 	private boolean mWifiWasEnabled;
 	private WifiTracker mWifiTracker;
+	private NetworkLocationListener mNetworkLocationListener;
+	private GPSLocationListener mGPSLocationListener;
 	
 	
 	public LbmService() {
@@ -105,13 +107,17 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		
 		Utils.activateSavingLogcatToFile(this, false);
 
+		mNetworkLocationListener = new NetworkLocationListener();
+		mGPSLocationListener = new GPSLocationListener();
+		
+		
 		mIsListenToGPSProvider = false;
 		
 		Log.i(FILE_TAG, "SERVICE STARTED");
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		mIsRequestLocationUpdateFirstTime = true;
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
 		mTelephonyDataTracker = new TelephonyDataTracker(this);
 		
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -603,7 +609,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 	//******************************************************************************************************
 	//LocationListener
 	//******************************************************************************************************
-	
+	/*
 	
 	@Override
 	public void onLocationChanged(Location location) {
@@ -627,7 +633,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
 		if (!mIsListenToGPSProvider){
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
 			mIsListenToGPSProvider = true;
 			Log.i(FILE_TAG, "turn on GPS_PROVIDER");
 			MySharedPreferences.getInstance().promoteRoute(this);
@@ -728,7 +734,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		}
 		
 	}
-
+*/
 	
 	
 	public class NoSpeedTimer extends CountDownTimer {
@@ -752,9 +758,8 @@ public class LbmService extends Service implements LocationListener, OnTelephony
     	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
     	   mIsActive = false;
-    	   mLocationManager.removeUpdates(LbmService.this);
+    	   mLocationManager.removeUpdates(mGPSLocationListener);
     	   mIsRequestLocationUpdateFirstTime = true;
-    	   mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, LbmService.this);
 			mIsListenToGPSProvider = false;
 			
 			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -780,7 +785,7 @@ public class LbmService extends Service implements LocationListener, OnTelephony
 		Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		if (!mIsListenToGPSProvider){
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, this);
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
 			mIsListenToGPSProvider = true;
 			mTelephonyDataTracker.removeUpdates();
 			MySharedPreferences.getInstance().promoteRoute(this);
@@ -807,7 +812,193 @@ public class LbmService extends Service implements LocationListener, OnTelephony
    private void myStopForeground(){
    	stopForeground(true);
   }	
-	
+
    
+/***********************************************************************************************************************************************/	
+/******************************************       NetworkLocationListener          *************************************************************/
+/***********************************************************************************************************************************************/	
+   
+   private class NetworkLocationListener implements LocationListener{
+
+	@Override
+	public void onLocationChanged(Location location) {
+		
+		if (mIsRequestLocationUpdateFirstTime){
+			Log.i(FILE_TAG, "onLocationChanged network first time");
+			mIsRequestLocationUpdateFirstTime = false;
+			return;
+		}
+		else
+			Log.i(FILE_TAG, "onLocationChanged network");
+		
+		Utils.playSound(LbmService.this, R.raw.gps);
+
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if (!mIsListenToGPSProvider){
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+			mIsListenToGPSProvider = true;
+			Log.i(FILE_TAG, "turn on GPS_PROVIDER");
+			MySharedPreferences.getInstance().promoteRoute(LbmService.this);
+			mNoSpeedTimer.startNow();
+		}
+
+		if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
+			if(MySharedPreferences.getInstance().shouldDisplayGPSNotif(LbmService.this))
+				displayNotifGPSDialog();
+		}
+		
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		Log.i(FILE_TAG, "onProviderDisabled - " + provider);
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if ((!isGPSEnabled)&&(!isNetworkEnabled)){
+			if (!noGPSNotifSent){
+				noGPSNotifSent = true;
+				Utils.sendNotifications(LbmService.this, 
+									R.drawable.ic_launcher, 
+									"La'Zooz Notification", 
+									"GPS is off", 
+									"Location could not be establish.", 
+									new Intent(LbmService.this, MainActivity.class),
+									true);
+			}
+		}
+		
+		
+		Utils.playSound(LbmService.this, R.raw.disable_provider_net);
+		mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		Log.i(FILE_TAG, "onProviderEnabled - " + provider);
+		Utils.playSound(LbmService.this, R.raw.enable_provider_net);
+		mTelephonyDataTracker.removeUpdates();
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		if (status == LocationProvider.OUT_OF_SERVICE){
+			Utils.playSound(LbmService.this, R.raw.status_no_service);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", OUT_OF_SERVICE");
+			if (!mIsListenToGPSProvider)
+				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+		}
+		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
+			Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
+			if (!mIsListenToGPSProvider)
+				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+		}
+		else if (status == LocationProvider.AVAILABLE){
+			Utils.playSound(LbmService.this, R.raw.status_avail);
+			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", AVAILABLE");
+			mTelephonyDataTracker.removeUpdates();
+		}
+	}
+		
+	   
+   }
+
+   /***********************************************************************************************************************************************/	
+   /******************************************       GPSLocationListener              *************************************************************/
+   /***********************************************************************************************************************************************/	
+   
+   
+   
+   
+   private class GPSLocationListener implements LocationListener{
+
+		@Override
+		public void onLocationChanged(Location location) {
+			
+			
+			Utils.playSound(LbmService.this, R.raw.gps);
+			if (mSendingDataToServer){
+				Log.i(FILE_TAG, "onLocationChanged during sending data to server");
+				return;
+			}
+
+			boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+			
+
+			if (location.hasSpeed()){
+				Log.i(FILE_TAG, "location hasSpeed");
+				float speed = location.getSpeed();
+				if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h  enter if over 10km/s or the 5 min timer is active
+				
+					if (speed > 2.7){  // over 10 km/s start-over the timer
+						Log.i(FILE_TAG, "Speed Over 10 kms");
+						Utils.playSound(LbmService.this, R.raw.ten_kms);
+						mNoSpeedTimer.startNow();
+					}
+					
+					//Utils.playSound(this, R.raw.ten_kms);
+					if (isGPSEnabled && location.hasAccuracy() && (location.getAccuracy()<= 25)){ //if gps is on - read sensors 				
+						readSensors();
+					}
+				}
+				
+			}
+			
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			Log.i(FILE_TAG, "onProviderDisabled - " + provider);
+			boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+			
+			if ((!isGPSEnabled)&&(!isNetworkEnabled)){
+				if (!noGPSNotifSent){
+					noGPSNotifSent = true;
+					Utils.sendNotifications(LbmService.this, 
+										R.drawable.ic_launcher, 
+										"La'Zooz Notification", 
+										"GPS is off", 
+										"Location could not be establish.", 
+										new Intent(LbmService.this, MainActivity.class),
+										true);
+				}
+			}
+			
+			
+
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			Log.i(FILE_TAG, "onProviderEnabled - " + provider);
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			if (status == LocationProvider.OUT_OF_SERVICE){
+				Utils.playSound(LbmService.this, R.raw.status_no_service);
+				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", OUT_OF_SERVICE");
+			}
+			else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
+				Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
+				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
+			}
+			else if (status == LocationProvider.AVAILABLE){
+				Utils.playSound(LbmService.this, R.raw.status_avail);
+				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", AVAILABLE");
+			}
+			
+		}
+   }
+		   
   
 }
