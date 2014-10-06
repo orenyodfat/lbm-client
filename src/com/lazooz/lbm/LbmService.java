@@ -741,23 +741,20 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	public class NoSpeedTimer extends CountDownTimer {
-		private boolean TimerHasStarted = false;
+		private boolean mIsActive = false;
 		public NoSpeedTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
 		public void startNow(){
-			if (TimerHasStarted)
-			{
-				  //restart
+			if (mIsActive)
 				  cancel();
-			}
 			start();
-			TimerHasStarted = true;
+			mIsActive = true;
 		}
 		
 		public boolean isActive(){
-			return TimerHasStarted;
+			return mIsActive;
 		}
 		
 		
@@ -765,7 +762,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
         public void onFinish() {
     	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
-    	   TimerHasStarted = false;
+    	   mIsActive = false;
     	   mLocationManager.removeUpdates(mGPSLocationListener);
     	   mIsRequestLocationUpdateFirstTime = true;
 			mIsListenToGPSProvider = false;
@@ -790,7 +787,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public void onCellChanged(int newCellID) {
 		Log.i(FILE_TAG, "onCellChanged");
-		Utils.playSound(this, R.raw.cell_change);
+		//Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
@@ -880,7 +877,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		}
 		
 		
-		Utils.playSound(LbmService.this, R.raw.disable_provider_net);
+		//Utils.playSound(LbmService.this, R.raw.disable_provider_net);
 		mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 
 		
@@ -889,7 +886,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public void onProviderEnabled(String provider) {
 		Log.i(FILE_TAG, "onProviderEnabled - " + provider);
-		Utils.playSound(LbmService.this, R.raw.enable_provider_net);
+		//Utils.playSound(LbmService.this, R.raw.enable_provider_net);
 		mTelephonyDataTracker.removeUpdates();
 	}
 

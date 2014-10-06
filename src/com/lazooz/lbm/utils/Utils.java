@@ -47,6 +47,7 @@ import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -524,15 +525,23 @@ public class Utils {
 	
 	  public static void activateSavingLogcatToFile(Context context, boolean isAll) {    
 	        String fileName = "lazooz_logcat_"+System.currentTimeMillis()+".txt";
+	        
+	        File sdCard = Environment.getExternalStorageDirectory() ;
+	        File dir = new File (sdCard.getAbsolutePath() + "/lazooz_logs");
+	        dir.mkdirs();
+	        File outputFile = new File(dir, fileName);
+	        
+	        /*
+	        
 	        File cacheDir = context.getExternalCacheDir();
 	        if (cacheDir == null)
 	        	cacheDir = context.getCacheDir();
-//	        if(!cacheDir.isDirectory()) 
-//	            cacheDir.mkdirs();
+	        if(!cacheDir.isDirectory()) 
+	            cacheDir.mkdirs();
 	        
 	        
-	        File outputFile = new File(cacheDir,fileName);
-	        Log.e("ZOOZ", cacheDir + outputFile.getPath());
+	        File outputFile = new File(cacheDir,fileName);*/
+	        Log.e("ZOOZ", outputFile.getAbsolutePath());
 	        try {
 				@SuppressWarnings("unused")
 				Process process;

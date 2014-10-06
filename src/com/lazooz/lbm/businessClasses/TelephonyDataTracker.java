@@ -1,11 +1,15 @@
 package com.lazooz.lbm.businessClasses;
 
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 
 
 
@@ -64,12 +68,25 @@ public class TelephonyDataTracker {
 			int cellId = cellLocation.getCid();
 			if(mLastCid  != cellId){
 				mLastCid = cellId;
-				mOnTelephonyDataListener.onCellChanged(mLastCid);
+				 Message msg = handler.obtainMessage();
+			     handler.sendMessage(msg);
+			       
+				
 			}
 			
 		}
 	}
 
+	 private final Handler handler = new Handler() {
+	        public void handleMessage(Message msg) {
+            	  try {
+            		  mOnTelephonyDataListener.onCellChanged(mLastCid);
+            	  }catch (Exception e) {
+            		  e.printStackTrace();
+            	  }
+	        }
+	 };
+	
 	public void removeUpdates(){
 		if (mTimer != null){
 			mTimer.cancel();
