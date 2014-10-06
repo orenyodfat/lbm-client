@@ -387,6 +387,7 @@ public class Utils {
 	
 
 	public static void playSound(Context cntxt, int rawVal){
+		/*
 		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
 		mpTada.setVolume(1.0f, 1.0f);
@@ -397,7 +398,7 @@ public class Utils {
 				}
 			});
 		mpTada.start();
-		 
+		 */
 	}
 
 	public static void playSound1(Context cntxt, int rawVal){

@@ -201,9 +201,15 @@ public class MySharedPreferences {
 		
 		int writeCursor = spData.getInt("WriteCursor", 0);
 		
+		Log.i("ZOOZ", "saveLocationData writeCursor: " + writeCursor);
+		
 		float prevDistance = spData.getFloat("LocalDist", 0);
 		double prevLong = getDouble(spData, "LocalLongPrev", 0);
 		double prevLat = getDouble(spData, "LocalLatPrev", 0);
+		
+		Log.i("ZOOZ", "saveLocationData prevDistance: " + prevDistance);
+		Log.i("ZOOZ", "saveLocationData prevLong: " + prevLong);
+		Log.i("ZOOZ", "saveLocationData prevLat: " + prevLat);
 		
 		putDouble(editor, "LocalLongPrev", ld.getLongitude());
 		putDouble(editor, "LocalLatPrev", ld.getLatitude());
@@ -225,6 +231,11 @@ public class MySharedPreferences {
 				locationB.setLongitude(ld.getLongitude());
 
 				res = locationA.distanceTo(locationB);
+				
+				Log.i("ZOOZ", "saveLocationData distanceTo: " + res);
+				
+				if (res > 1000)
+					res = 0;
 				
 			} catch (Exception e) {
 				res = 0;

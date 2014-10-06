@@ -87,8 +87,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 	private boolean isLocationEnabled(){
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		return isGPSEnabled && isNetworkEnabled;
+		//boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return isGPSEnabled;// && isNetworkEnabled;
 	}
 	
 	private Location getLocation(){
@@ -574,23 +574,20 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	private void readGPSData(){
 		mLocationData.setTimestamp(System.currentTimeMillis());
-		if (isLocationEnabled()){
+		Location location = getLocation();
+		if (location != null){
 			mLocationData.setHasLocationData(true);
-			Location location = getLocation();
-			if (location != null){
-				mLocationData.setLatitude(location.getLatitude());
-				mLocationData.setLongitude(location.getLongitude());
-				mLocationData.setAccuracy(location.getAccuracy());
-				mLocationData.setRoute(MySharedPreferences.getInstance().getRoute(this));
-			}
-			else
-				mLocationData.setHasLocationData(false);
+			mLocationData.setLatitude(location.getLatitude());
+			mLocationData.setLongitude(location.getLongitude());
+			mLocationData.setAccuracy(location.getAccuracy());
+			mLocationData.setRoute(MySharedPreferences.getInstance().getRoute(this));
 		}
 		else
 			mLocationData.setHasLocationData(false);
 		
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
 		Log.i(FILE_TAG, "save location data locally");
+		Log.i(FILE_TAG, "data: " + mLocationData.toJSON().toString());
 		Utils.playSound(this, R.raw.save);
 	}
 
@@ -787,7 +784,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public void onCellChanged(int newCellID) {
 		Log.i(FILE_TAG, "onCellChanged");
-		//Utils.playSound(this, R.raw.cell_change);
+		Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
@@ -836,7 +833,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		else
 			Log.i(FILE_TAG, "onLocationChanged network");
 		
-		Utils.playSound(LbmService.this, R.raw.gps);
+		
 
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -844,7 +841,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		if (!mIsListenToGPSProvider){
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
 			mIsListenToGPSProvider = true;
-			Log.i(FILE_TAG, "turn on GPS_PROVIDER");
+			Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 			MySharedPreferences.getInstance().promoteRoute(LbmService.this);
 			mNoSpeedTimer.startNow();
 		}
@@ -859,7 +856,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.i(FILE_TAG, "onProviderDisabled - " + provider);
+		Log.i(FILE_TAG, "network onProviderDisabled - " + provider);
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
@@ -885,7 +882,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.i(FILE_TAG, "onProviderEnabled - " + provider);
+		Log.i(FILE_TAG, "network onProviderEnabled - " + provider);
 		//Utils.playSound(LbmService.this, R.raw.enable_provider_net);
 		mTelephonyDataTracker.removeUpdates();
 	}
@@ -894,19 +891,19 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		if (status == LocationProvider.OUT_OF_SERVICE){
 			Utils.playSound(LbmService.this, R.raw.status_no_service);
-			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", OUT_OF_SERVICE");
+			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", OUT_OF_SERVICE");
 			if (!mIsListenToGPSProvider)
 				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
 			Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
-			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
+			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
 			if (!mIsListenToGPSProvider)
 				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 		}
 		else if (status == LocationProvider.AVAILABLE){
 			Utils.playSound(LbmService.this, R.raw.status_avail);
-			Log.i(FILE_TAG, "onStatusChanged - " + provider + ", AVAILABLE");
+			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", AVAILABLE");
 			mTelephonyDataTracker.removeUpdates();
 		}
 	}
@@ -926,31 +923,41 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		@Override
 		public void onLocationChanged(Location location) {
 			
-			
 			Utils.playSound(LbmService.this, R.raw.gps);
 			if (mSendingDataToServer){
-				Log.i(FILE_TAG, "onLocationChanged during sending data to server");
+				Log.i(FILE_TAG, "GPS onLocationChanged during sending data to server");
 				return;
 			}
 
-			boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-			
 
 			if (location.hasSpeed()){
-				Log.i(FILE_TAG, "location hasSpeed");
+				Log.i(FILE_TAG, "GPS location hasSpeed");
 				float speed = location.getSpeed();
 				if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h  enter if over 10km/s or the 5 min timer is active
 				
 					if (speed > 2.7){  // over 10 km/s start-over the timer
-						Log.i(FILE_TAG, "Speed Over 10 kms");
+						Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 						Utils.playSound(LbmService.this, R.raw.ten_kms);
 						mNoSpeedTimer.startNow();
 					}
 					
-					//Utils.playSound(this, R.raw.ten_kms);
-					if (isGPSEnabled && location.hasAccuracy() && (location.getAccuracy()<= 25)){ //if gps is on - read sensors 				
-						readSensors();
+					
+					if (location.hasAccuracy()){
+						if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
+							readSensors();
+						}
+						else if(location.getAccuracy()> 100){  				
+							Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
+						} 
+						else if(location.getAccuracy()> 50){  				
+							Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
+						} 
+						else if(location.getAccuracy()> 25){  				
+							Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
+						} 
 					}
+					else
+						Utils.playSound(LbmService.this, R.raw.no_accuracy);
 				}
 				
 			}
@@ -960,7 +967,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			Log.i(FILE_TAG, "onProviderDisabled - " + provider);
+			Log.i(FILE_TAG, "GPS onProviderDisabled - " + provider);
 			boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 			
@@ -984,22 +991,22 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			Log.i(FILE_TAG, "onProviderEnabled - " + provider);
+			Log.i(FILE_TAG, "GPS onProviderEnabled - " + provider);
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			if (status == LocationProvider.OUT_OF_SERVICE){
 				Utils.playSound(LbmService.this, R.raw.status_no_service);
-				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", OUT_OF_SERVICE");
+				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", OUT_OF_SERVICE");
 			}
 			else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
 				Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
-				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
+				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
 			}
 			else if (status == LocationProvider.AVAILABLE){
 				Utils.playSound(LbmService.this, R.raw.status_avail);
-				Log.i(FILE_TAG, "onStatusChanged - " + provider + ", AVAILABLE");
+				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", AVAILABLE");
 			}
 			
 		}
