@@ -502,10 +502,11 @@ public class MySharedPreferences {
 		return spData.getInt("CriticalMass", 0);
 	}
 
-	public void saveDataFromServer2(Context context, String zoozBalance, String distance, boolean isDistanceAchievement) {
+	public void saveDataFromServerService(Context context, String zoozBalance, String potentialZoozBalance, String distance, boolean isDistanceAchievement) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
+		editor.putString("PotentialZoozBalance", potentialZoozBalance);
 		editor.putString("Distance", distance);
 		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
 		editor.putLong("TimeStamp", System.currentTimeMillis());

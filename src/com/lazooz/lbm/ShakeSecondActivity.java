@@ -51,7 +51,6 @@ public class ShakeSecondActivity extends ActionBarActivity {
 
 	private GoogleMap map;
 	private TextView mMainTextTV;
-	private GPSTracker mGPSTracker;
 	private Marker mLastMarker;
 	
 	private SensorManager mSensorManager;

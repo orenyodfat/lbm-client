@@ -55,7 +55,6 @@ public class MainActivity extends MyActionBarActivity  {
 	private ImageButton mAddFriendsBtn;
 	private ImageButton mShakeBtn;
 	private ProgressBar mCriticalMassPB;
-	private GPSTracker mGPS;
 	private LocationManager mLocationManager;
 	private TextView mFriendsTV;
 	private TextView mShakeTV;
@@ -346,8 +345,9 @@ public class MainActivity extends MyActionBarActivity  {
 
 		
 		//mDistanceTV.setText(sd.getDistance());
-		float f = Float.valueOf(sd.getZoozBalance());
-		mZoozBalTV.setText(String.format("%.2f", f));
+		float zb = Float.valueOf(sd.getZoozBalance());
+		float pzb = Float.valueOf(sd.getPotentialZoozBalance());
+		mZoozBalTV.setText(String.format("%.2f", pzb));
 		
 		
 		int numInvitedContacts = msp.getNumInvitedContacts(this);

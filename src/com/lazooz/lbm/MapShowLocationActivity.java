@@ -38,8 +38,6 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private Button nextBtn;
 	private GoogleMap map;
 	private boolean mWasInMission;
-	//private GPSTracker mGPSTracker;
-	//private TextView mMapAccuracyTV;
 	private Marker mLastMarker;
 	private Button mToolTipButton;
 	private ToolTipView mToolTipView;
@@ -88,7 +86,6 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//mGPSTracker.setOnLocationListener(null);
 				MySharedPreferences.getInstance().setStage(MapShowLocationActivity.this, MySharedPreferences.STAGE_REG_INIT);
 				startActivity(new Intent(MapShowLocationActivity.this, RegistrationActivity.class));
 				finish();			

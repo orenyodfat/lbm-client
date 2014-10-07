@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
+import com.lazooz.lbm.BuildConfig;
 import com.lazooz.lbm.R;
 import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.TelephonyData;
@@ -387,18 +388,18 @@ public class Utils {
 	
 
 	public static void playSound(Context cntxt, int rawVal){
-		/*
-		MediaPlayer mpTada = null ;
-		mpTada = MediaPlayer.create(cntxt, rawVal);
-		mpTada.setVolume(1.0f, 1.0f);
-		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				@Override
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-		mpTada.start();
-		 */
+		if (BuildConfig.DEBUG){
+			MediaPlayer mpTada = null ;
+			mpTada = MediaPlayer.create(cntxt, rawVal);
+			mpTada.setVolume(1.0f, 1.0f);
+			mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+						mp.release();
+					}
+				});
+			mpTada.start();
+		}
 	}
 
 	public static void playSound1(Context cntxt, int rawVal){

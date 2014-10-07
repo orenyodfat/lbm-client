@@ -62,7 +62,6 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private Timer ShortPeriodTimer;
 	private Timer LongPeriodTimer;
 	private LocationData mLocationData;
-	//private GPSTracker mGPSTracker;
 	private LocationManager mLocationManager;
 	private boolean noGPSNotifSent = false;
 	public boolean mSendingDataToServer = false;
@@ -125,8 +124,6 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			mTelephonyDataTracker.requestCellUpdates(this);
 		
 		
-		//mGPSTracker = GPSTracker.getInstance(this);
-		//mGPSTracker.setOnLocationListener(this);
 
 		
 		/*
@@ -438,12 +435,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						Utils.playSound(LbmService.this, R.raw.server_sent);
 						MySharedPreferences.getInstance().commitReadCursor(LbmService.this);
 						String zoozBalance = jsonReturnObj.getString("zooz");
+						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
 						String distance = jsonReturnObj.getString("distance");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
 						
-						MySharedPreferences.getInstance().saveDataFromServer2(LbmService.this, zoozBalance, distance, isDistanceAchievement);
+						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievement);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
 						}
@@ -936,28 +934,26 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h  enter if over 10km/s or the 5 min timer is active
 				
 					if (speed > 2.7){  // over 10 km/s start-over the timer
-						Log.i(FILE_TAG, "GPS Speed Over 10 kms");
-						Utils.playSound(LbmService.this, R.raw.ten_kms);
-						mNoSpeedTimer.startNow();
-					}
-					
-					
-					if (location.hasAccuracy()){
-						if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
-							readSensors();
+						if (location.hasAccuracy()){
+							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
+								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
+								Utils.playSound(LbmService.this, R.raw.ten_kms);
+								mNoSpeedTimer.startNow();
+								readSensors();
+							}
+							else if(location.getAccuracy()> 100){  				
+								Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
+							} 
+							else if(location.getAccuracy()> 50){  				
+								Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
+							} 
+							else if(location.getAccuracy()> 25){  				
+								Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
+							} 
 						}
-						else if(location.getAccuracy()> 100){  				
-							Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
-						} 
-						else if(location.getAccuracy()> 50){  				
-							Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
-						} 
-						else if(location.getAccuracy()> 25){  				
-							Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
-						} 
+						else
+							Utils.playSound(LbmService.this, R.raw.no_accuracy);
 					}
-					else
-						Utils.playSound(LbmService.this, R.raw.no_accuracy);
 				}
 				
 			}

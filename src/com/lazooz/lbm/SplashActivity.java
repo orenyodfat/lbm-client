@@ -90,10 +90,6 @@ public class SplashActivity extends Activity {
 		
 		case MySharedPreferences.STAGE_INTRO:
 			return IntroActivity.class;
-/*			if (GPSTracker.getInstance(this).isGPSEnabled())
-				return MapShowLocationActivity.class;
-			else
-				return IntroActivity.class; */
 				
 			
 		case MySharedPreferences.STAGE_MAP:
