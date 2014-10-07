@@ -347,7 +347,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
 	    protected void onBeforeClusterItemRendered(POSClusterItem item, MarkerOptions markerOptions) {
 	        super.onBeforeClusterItemRendered(item, markerOptions);
 
-	        markerOptions.title("ertertre");
+	        //markerOptions.title("");
 	        if (item.isMe()){
 	        	markerOptions.title("Me :-)");
 	        	markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
