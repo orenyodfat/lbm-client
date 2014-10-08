@@ -155,7 +155,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		listenToContactsChanges();
 		
-		myStartForeground();
+		//myStartForeground();
 		
 		return Service.START_STICKY;
 	}

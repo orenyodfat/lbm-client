@@ -239,7 +239,7 @@
                         android:id="@+id/TextView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="POT ZOOZ BALANCE"
+                        android:text="POTENTIAL ZOOZ"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/lazooz_main_title_txt" />
 
@@ -278,7 +278,7 @@
                         android:id="@+id/TextView03"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CONVERSION RATE"
+                        android:text="TARGET ZOOZ RATE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/lazooz_main_title_txt" />
 

@@ -388,6 +388,7 @@ public class Utils {
 	
 
 	public static void playSound(Context cntxt, int rawVal){
+		/*
 		if (BuildConfig.DEBUG){
 			MediaPlayer mpTada = null ;
 			mpTada = MediaPlayer.create(cntxt, rawVal);
@@ -399,7 +400,7 @@ public class Utils {
 					}
 				});
 			mpTada.start();
-		}
+		}*/
 	}
 
 	public static void playSound1(Context cntxt, int rawVal){
