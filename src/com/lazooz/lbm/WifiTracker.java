@@ -64,11 +64,11 @@ public class WifiTracker {
 		return mWifiManager.isWifiEnabled();
 	}
 	
-	public void scan(){
+	public boolean scan(){
 		mWifiReceiver = new WifiReceiver();
 		mContext.registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		
-		mWifiManager.startScan();
+		return mWifiManager.startScan();
 	}
 	
 	

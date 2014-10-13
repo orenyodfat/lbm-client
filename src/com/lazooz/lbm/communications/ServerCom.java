@@ -77,13 +77,14 @@ public class ServerCom {
 	}
 
 	
-	public void isLive(String UserId, String UserSecret)
+	public void isLive(String UserId, String UserSecret, String locationString)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_is_live";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("user_id", UserId ));
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+		params.add(new BasicNameValuePair("network_location", locationString ));
 				
 		this.postRequestToServer(-1, -1, url, params);
 	}
@@ -116,6 +117,13 @@ public class ServerCom {
 	
 	public void setLocationZip(String UserId, String UserSecret, byte[] data)throws Exception
 	{
+		/*
+		try {
+			Utils.saveToTempFile(mContext, data);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}*/
+		
 		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
 		String TAG = "run";
     	try { 

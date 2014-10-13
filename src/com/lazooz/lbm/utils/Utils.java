@@ -4,6 +4,7 @@ package com.lazooz.lbm.utils;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -97,7 +98,20 @@ public class Utils {
 		return outputText;
 	}
 	
+	public static String getDateTimeFromMilli(long milliSeconds){
+		return getDateTimeFromMilli(milliSeconds, "dd/MM/yyyy HH:mm:ss");
+	}
 	
+	public static String getDateTimeFromMilli(long milliSeconds, String dateFormat)
+    {
+	        // Create a DateFormatter object for displaying date in specified format.
+	        DateFormat formatter = new SimpleDateFormat(dateFormat);
+
+	        // Create a calendar object that will convert the date and time value in milliseconds to date. 
+	         Calendar calendar = Calendar.getInstance();
+	         calendar.setTimeInMillis(milliSeconds);
+	         return formatter.format(calendar.getTime());
+	}
 	
 	public static TelephonyData getTelephonyData(Context context){
 
@@ -556,8 +570,29 @@ public class Utils {
 				e.printStackTrace();
 			}
 	    }
-
-	    
+/*
+	  public static void saveToTempFile(Context context, byte[] data) {    
+	        String fileName = "lazooz_data_"+System.currentTimeMillis()+".txt";
+	        
+	        File sdCard = Environment.getExternalStorageDirectory() ;
+	        File dir = new File (sdCard.getAbsolutePath() + "/lazooz_logs");
+	        dir.mkdirs();
+	        
+	        try {
+	        	FileOutputStream outputStream;
+	        	String file = sdCard.getAbsolutePath() + "/lazooz_logs/" + fileName;
+	        	outputStream = context.openFileOutput(file, Context.MODE_PRIVATE);
+	        	outputStream.write(data);
+	        	outputStream.close();
+	        	
+	        	} catch (Exception e) {
+	        	  e.printStackTrace();
+	        	}
+	        
+	        
+	        
+	      
+	    }*/
 	    
 		public static String readLogs(){
 			// Don't forget to add to the manifest: <uses-permission android:name="android.permission.READ_LOGS" />

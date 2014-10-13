@@ -54,7 +54,7 @@ import android.widget.Toast;
 public class LbmService extends Service implements OnTelephonyDataListener{
 
 	public static final int GPS_MIN_TIME_LOCATION_UPDATE_HIGHT = 10*1000; // 10 sec
-	public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
+	//public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
 	public static final int GPS_MIN_DISTANCE_LOCATION_UPDATE = 30; // meter
 	
 	public static final String FILE_TAG = "ZOOZ";
@@ -73,7 +73,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private WifiTracker mWifiTracker;
 	private NetworkLocationListener mNetworkLocationListener;
 	private GPSLocationListener mGPSLocationListener;
-	
+	private boolean mReadingSensorsNow = false;
+	private long mLastReadSensorsTime = 0;
 	
 	public LbmService() {
 	}
@@ -92,8 +93,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	private Location getLocation(){
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (location == null)
-			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//		if (location == null)
+//			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		return location;
 	}
 	
@@ -230,8 +231,31 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 		
 	private void isLiveAsync(){
+		String jString = "";
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (isNetworkEnabled){
+			Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			JSONObject jObj = new JSONObject();
+			try {
+				jObj.put("lat", location.getLatitude());
+				jObj.put("long", location.getLongitude());
+
+				if (location.hasAccuracy())
+					jObj.put("location_accuracy", location.getAccuracy());
+				
+				if (location.hasSpeed())
+					jObj.put("location_speed", location.getSpeed());		
+					
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			jString = jObj.toString();
+			
+		}
+
 		IsLive isLive = new IsLive();
-		isLive.execute();
+		isLive.execute(jString);
 	}
 	
 	
@@ -248,13 +272,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		protected String doInBackground(String... params) {
 			
           	ServerCom bServerCom = new ServerCom(LbmService.this);
-        	
+          	String locationString = params[0];
               
         	JSONObject jsonReturnObj=null;
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
 				
-				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this));
+				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -504,14 +528,24 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		});
 		if (mWifiTracker.isWifiEnabled()){
 			mWifiWasEnabled = true;
-			mWifiTracker.scan();
+			if (!mWifiTracker.scan()){ // scan failed, the onFinishScan will not be called
+				mLocationData.setHasWifiData(false);
+				readTelephonyData();
+				readGPSData();
+			}
 		}
 		else{
 			mWifiWasEnabled = false;
 			mWifiTracker.setWifiEnabled();
 			Utils.wait(2000);
-			if (mWifiTracker.isWifiEnabled())
-				mWifiTracker.scan();
+			if (mWifiTracker.isWifiEnabled()){
+				if (!mWifiTracker.scan()){  // scan failed, the onFinishScan will not be called
+					mWifiTracker.setWifiDisabled();
+					mLocationData.setHasWifiData(false);
+					readTelephonyData();
+					readGPSData();					
+				}
+			}
 			else{
 				mLocationData.setHasWifiData(false);
 				readTelephonyData();
@@ -564,6 +598,25 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 	
 	private void readSensors(){
+		if (mReadingSensorsNow){
+			Log.i(FILE_TAG, "read Sensors request while not finish reading prev");
+			return;
+		}
+		
+		long currentTime = System.currentTimeMillis();
+		if ((mLastReadSensorsTime > 0) && (currentTime - mLastReadSensorsTime < 9*1000)){
+			
+			Log.i(FILE_TAG, "read Sensors less then 9 sec apart, mLastReadSensorsTime:" + 
+					Utils.getDateTimeFromMilli(mLastReadSensorsTime) + 
+					" currentTime: "+ 
+					Utils.getDateTimeFromMilli(currentTime));
+			
+			return;
+		}
+		
+		mLastReadSensorsTime = currentTime;
+		mReadingSensorsNow = true;
+		
 		Log.i(FILE_TAG, "read Sensors");
 		Utils.playSound(this, R.raw.read_sensors);
 		mLocationData = new LocationData();		
@@ -577,7 +630,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			mLocationData.setHasLocationData(true);
 			mLocationData.setLatitude(location.getLatitude());
 			mLocationData.setLongitude(location.getLongitude());
-			mLocationData.setAccuracy(location.getAccuracy());
+			if(location.hasAccuracy())
+				mLocationData.setAccuracy(location.getAccuracy());
+			if(location.hasSpeed())
+				mLocationData.setSpeed(location.getSpeed());
 			mLocationData.setRoute(MySharedPreferences.getInstance().getRoute(this));
 		}
 		else
@@ -587,19 +643,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		Log.i(FILE_TAG, "save location data locally");
 		Log.i(FILE_TAG, "data: " + mLocationData.toJSON().toString());
 		Utils.playSound(this, R.raw.save);
+		mReadingSensorsNow = false;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -15,6 +15,7 @@ public class LocationData {
 	private double mLongitude;
 	private long mTimestamp;
 	private double mAccuracy;
+	private double mSpeed;
 	private long mRoute;
 	
 	private String mMCC;
@@ -47,6 +48,7 @@ public class LocationData {
 			mTimestamp = jsonObj.getLong("location_time");
 			mRoute = jsonObj.getLong("route");
 			mAccuracy = jsonObj.getDouble("location_accuracy");		
+			mSpeed = jsonObj.getDouble("location_speed");
 			mMCC = jsonObj.getString("mcc");
 			mMNC = jsonObj.getString("mnc");
 			mCID = jsonObj.getInt("cid");
@@ -95,6 +97,7 @@ public class LocationData {
 			retObj.put("location_time", mTimestamp);
 			retObj.put("route", mRoute);
 			retObj.put("location_accuracy", mAccuracy);
+			retObj.put("location_speed", mSpeed);
 			retObj.put("mcc", mMCC);
 			retObj.put("mnc", mMNC);
 			retObj.put("cid", mCID);
@@ -153,6 +156,14 @@ public class LocationData {
 
 	public double getAccuracy() {
 		return mAccuracy;
+	}
+
+	public void setSpeed(double speed) {
+		mSpeed = speed;
+	}
+
+	public double getSpeed() {
+		return mSpeed;
 	}
 
 	public void setAccuracy(double accuracy) {
@@ -268,6 +279,7 @@ public class LocationData {
 	public void setRoute(long route) {
 		mRoute = route;
 	}
+
 	
 	
 }
