@@ -15,11 +15,13 @@ import org.json.JSONObject;
 import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.businessClasses.UserNotification;
 import com.lazooz.lbm.businessClasses.UserNotificationList;
+import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -31,6 +33,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,6 +88,8 @@ public class MainActivity extends MyActionBarActivity  {
 		MySharedPreferences.getInstance().initFirstTime(this);
 		
 		startService(new Intent(this, LbmService.class));
+
+		initNFC();
 		
 		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
@@ -416,12 +423,27 @@ public class MainActivity extends MyActionBarActivity  {
 
 	
 	
+	@SuppressLint("NewApi")
+	private void initNFC(){
+		  NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);// (only need to do this once)
+		  if (nfc != null) { // in case there is no NFC
+		  // create an NDEF message containing the current URL:
+		  NdefRecord rec = NdefRecord.createUri(StaticParms.PLAY_STORE_APP_LINK); // url: current URL (String or Uri)
+		  NdefMessage ndef = new NdefMessage(rec);
+		  // make it available via Android Beam:
+		  nfc.setNdefPushMessage(ndef, this);
+		  }
+	  }
+	
+	
 	
 	
 	private void sendFriendRecommendToServerAsync(String theMessage){
 		FriendRecommendToServer friendRecommendToServer = new FriendRecommendToServer();
 		friendRecommendToServer.execute(theMessage);
 	}
+
+	
 	
 	private class FriendRecommendToServer extends AsyncTask<String, Void, String> {
 

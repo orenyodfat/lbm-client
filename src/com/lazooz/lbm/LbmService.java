@@ -42,6 +42,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -75,6 +78,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private GPSLocationListener mGPSLocationListener;
 	private boolean mReadingSensorsNow = false;
 	private long mLastReadSensorsTime = 0;
+	private boolean mWifiWasSetOnByMe = false;
+	private boolean mWifiWasInit = false;
 	
 	public LbmService() {
 	}
@@ -245,12 +250,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				
 				if (location.hasSpeed())
 					jObj.put("location_speed", location.getSpeed());		
-					
-			} catch (JSONException e) {
+				
+				jString = jObj.toString();
+				
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-			jString = jObj.toString();
+			
 			
 		}
 
@@ -510,24 +517,49 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 	
 	
-	
+	private void initWifi(){
+		
+		mWifiWasInit  = true;
+		mWifiWasSetOnByMe = false;
+		mWifiWasEnabled = false;
 
-	private void readWifi(){
-		Utils.playSound(this, R.raw.read_wf);
 		mWifiTracker = new WifiTracker(this);
+		
 		mWifiTracker.setWifiListener(new WifiTracker.wifiListener() {
 			@Override
 			public void onFinishScan(ArrayList<WifiData> connections) {
 				mLocationData.setWifiDataList(connections);
 				mLocationData.setHasWifiData(true);
-				if (!mWifiWasEnabled)
-					mWifiTracker.setWifiDisabled();
 				readTelephonyData();
 				readGPSData();
 			}
 		});
+		
 		if (mWifiTracker.isWifiEnabled()){
 			mWifiWasEnabled = true;
+			return;
+		}
+		else{
+			mWifiWasEnabled = false;
+			mWifiTracker.setWifiEnabled();
+			
+			for(int i = 0; i<10; i++){ // loop up to 2 sec
+				Utils.wait(200);
+				if (mWifiTracker.isWifiEnabled())
+					break;
+			}
+			
+			if (mWifiTracker.isWifiEnabled()){
+				mWifiWasSetOnByMe = true;
+			}
+		}
+		
+		
+	}
+
+	private void readWifi(){
+		Utils.playSound(this, R.raw.read_wf);
+		if (mWifiTracker.isWifiEnabled()){
 			if (!mWifiTracker.scan()){ // scan failed, the onFinishScan will not be called
 				mLocationData.setHasWifiData(false);
 				readTelephonyData();
@@ -535,24 +567,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			}
 		}
 		else{
-			mWifiWasEnabled = false;
-			mWifiTracker.setWifiEnabled();
-			Utils.wait(2000);
-			if (mWifiTracker.isWifiEnabled()){
-				if (!mWifiTracker.scan()){  // scan failed, the onFinishScan will not be called
-					mWifiTracker.setWifiDisabled();
-					mLocationData.setHasWifiData(false);
-					readTelephonyData();
-					readGPSData();					
-				}
-			}
-			else{
-				mLocationData.setHasWifiData(false);
-				readTelephonyData();
-				readGPSData();
-			}
+			mLocationData.setHasWifiData(false);
+			readTelephonyData();
+			readGPSData();
 		}
-		
 	}
 	
 	
@@ -803,6 +821,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
         public void onFinish() {
     	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
+    	   
+    	   mWifiWasInit = false;
+    	   
+    	   if (mWifiWasEnabled && mWifiWasSetOnByMe)
+    		   mWifiTracker.setWifiDisabled();
+    	   
+    	   
     	   mIsActive = false;
     	   mLocationManager.removeUpdates(mGPSLocationListener);
     	   mIsRequestLocationUpdateFirstTime = true;
@@ -859,6 +884,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
    	stopForeground(true);
   }	
 
+   
+
+   
    
 /***********************************************************************************************************************************************/	
 /******************************************       NetworkLocationListener          *************************************************************/
@@ -985,6 +1013,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								Utils.playSound(LbmService.this, R.raw.ten_kms);
 								mNoSpeedTimer.startNow();
+								
+								if (!mWifiWasInit)
+									initWifi();
+								
 								readSensors();
 							}
 							else if(location.getAccuracy()> 100){  				

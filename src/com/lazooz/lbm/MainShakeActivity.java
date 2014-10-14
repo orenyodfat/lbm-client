@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 public class MainShakeActivity extends ActionBarActivity {
@@ -18,6 +19,7 @@ public class MainShakeActivity extends ActionBarActivity {
 
 	private TextView mMainTextTV;
 	private Button mNextBtn;
+	protected LocationManager mLocationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +41,26 @@ public class MainShakeActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
-				startActivity(intent);
+				
+				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+				boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+				boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+					
+					
+				if (!isGPSEnabled && !isNetworkEnabled)
+					Utils.showSettingsAlert(MainShakeActivity.this, getString(R.string.gps_message_no_gps_no_net));
+				else{
+					Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
+					startActivity(intent);
+					finish();
+				}
 				
 			}
 		});
 
-		
-		
+			
+				
+				
 	}
 	
 	@Override

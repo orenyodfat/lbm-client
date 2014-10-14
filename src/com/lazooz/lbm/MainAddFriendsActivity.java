@@ -166,7 +166,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
         multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
-        multiRenderer.setZoomEnabled(false,false);
+        multiRenderer.setZoomEnabled(true,false);
         multiRenderer.setPointSize(8);  // increase the width of point size
         multiRenderer.setXLabelsPadding(10);
         
@@ -223,7 +223,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
                             + seriesSelection.getPointIndex() + " was clicked" + " closest point value X=" + seriesSelection.getXValue()
                             + ", Y=" + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1]);
                     
-                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" km" ,Toast.LENGTH_SHORT).show();               }
+                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" miners" ,Toast.LENGTH_SHORT).show();               }
             }
         });
  
