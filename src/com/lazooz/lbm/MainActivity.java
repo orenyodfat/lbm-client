@@ -234,7 +234,7 @@ public class MainActivity extends MyActionBarActivity  {
 		    });
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-					final Uri marketUri = Uri.parse("market://details?id=com.lazooz.lbm"); 
+					final Uri marketUri = Uri.parse("PLAY_STORE_APP_LINK_MARKET"); 
 					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
 	            	dialog.cancel();
 	            	MainActivity.this.finish();
@@ -259,7 +259,7 @@ public class MainActivity extends MyActionBarActivity  {
 		    });
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-					final Uri marketUri = Uri.parse("market://details?id=com.lazooz.lbm"); 
+					final Uri marketUri = Uri.parse("PLAY_STORE_APP_LINK_MARKET"); 
 					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
 	            	dialog.cancel();
 	 				MainActivity.this.finish();
@@ -429,7 +429,7 @@ public class MainActivity extends MyActionBarActivity  {
 		  NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);// (only need to do this once)
 		  if (nfc != null) { // in case there is no NFC
 		  // create an NDEF message containing the current URL:
-		  NdefRecord rec = NdefRecord.createUri(StaticParms.PLAY_STORE_APP_LINK); // url: current URL (String or Uri)
+		  NdefRecord rec = NdefRecord.createUri(StaticParms.PLAY_STORE_APP_LINK_MARKET); // url: current URL (String or Uri)
 		  NdefMessage ndef = new NdefMessage(rec);
 		  // make it available via Android Beam:
 		  nfc.setNdefPushMessage(ndef, this);

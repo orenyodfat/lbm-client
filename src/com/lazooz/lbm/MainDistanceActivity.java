@@ -72,7 +72,8 @@ public class MainDistanceActivity extends ActionBarActivity {
 	private LinkedHashMap<Integer,String> xyValues;
 	public String mInitialDateAllUsers;
 	public String mInitialDateUser;
-	public static final int X_AXIS_MAX = 9; // 10 sec
+	private static final int X_AXIS_MAX = 9; // 10 sec
+	private static final boolean ZOOM_X = false; 
 
 	
 	@Override
@@ -257,7 +258,7 @@ public class MainDistanceActivity extends ActionBarActivity {
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
         multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
-        multiRenderer.setZoomEnabled(true,false);
+        multiRenderer.setZoomEnabled(ZOOM_X,false);
         multiRenderer.setPointSize(8);  // increase the width of point size
         multiRenderer.setXLabelsPadding(10);
         
@@ -374,7 +375,8 @@ public class MainDistanceActivity extends ActionBarActivity {
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
         multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
-        multiRenderer.setZoomEnabled(true,false);
+        multiRenderer.setZoomEnabled(ZOOM_X,false);
+        
         multiRenderer.setPointSize(8);  // increase the width of point size
         multiRenderer.setXLabelsPadding(10);
         
@@ -406,7 +408,7 @@ public class MainDistanceActivity extends ActionBarActivity {
 	    multiRenderer.setAxesColor(Color.GRAY);
 	    multiRenderer.setLabelsColor(Color.WHITE);
         multiRenderer.addSeriesRenderer(incomeRenderer);
- 
+       
         // Creating a Time Chart
         mChartView2 = (GraphicalView) ChartFactory.getTimeChartView(getBaseContext(), dataset, multiRenderer,"dd-MMM-yyyy");
  

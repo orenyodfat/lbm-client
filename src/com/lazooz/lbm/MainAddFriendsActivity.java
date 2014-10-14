@@ -167,7 +167,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
         multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
-        multiRenderer.setZoomEnabled(true,false);
+        multiRenderer.setZoomEnabled(false,false);
         multiRenderer.setPointSize(8);  // increase the width of point size
         multiRenderer.setXLabelsPadding(10);
         
