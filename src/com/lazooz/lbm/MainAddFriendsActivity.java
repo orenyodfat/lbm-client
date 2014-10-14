@@ -71,6 +71,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	public String mNumAccepted;
 	private LinkedHashMap<Integer,String> xyValues;
 	public String mInitialDate;
+	public static final int X_AXIS_MAX = 9; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,8 +187,8 @@ public class MainAddFriendsActivity extends ActionBarActivity {
     	multiRenderer.setXLabels(0);
 	    multiRenderer.setShowAxes(false);
 	    multiRenderer.setXAxisMin(0);
-	    multiRenderer.setXAxisMax(10);
-	    if(totalXlength < 10){
+	    multiRenderer.setXAxisMax(X_AXIS_MAX);
+	    if(totalXlength < X_AXIS_MAX){
 	    	multiRenderer.setXAxisMax(totalXlength);
 	    }
     	multiRenderer.setPanEnabled(true);

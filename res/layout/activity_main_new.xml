@@ -168,7 +168,7 @@
                     android:id="@+id/TextView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TIMES SHAKED"
+                    android:text="TIMES SHAKEN"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/lazooz_main_title_txt" />
 
