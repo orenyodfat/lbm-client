@@ -824,7 +824,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
     	   
     	   mWifiWasInit = false;
     	   
-    	   if (mWifiWasEnabled && mWifiWasSetOnByMe)
+    	   if (!mWifiWasEnabled && mWifiWasSetOnByMe)
     		   mWifiTracker.setWifiDisabled();
     	   
     	   
@@ -902,8 +902,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			mIsRequestLocationUpdateFirstTime = false;
 			return;
 		}
-		else
-			Log.i(FILE_TAG, "onLocationChanged network");
+		//else
+			//Log.i(FILE_TAG, "onLocationChanged network");
 		
 		
 
@@ -1080,7 +1080,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			}
 			else if (status == LocationProvider.AVAILABLE){
 				Utils.playSound(LbmService.this, R.raw.status_avail);
-				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", AVAILABLE");
+				//Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", AVAILABLE");
 			}
 			
 		}

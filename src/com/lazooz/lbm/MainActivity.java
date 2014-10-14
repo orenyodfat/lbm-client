@@ -87,7 +87,8 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		MySharedPreferences.getInstance().initFirstTime(this);
 		
-		startService(new Intent(this, LbmService.class));
+		if(!Utils.isMyServiceRunning(this, LbmService.class))
+			startService(new Intent(this, LbmService.class));
 
 		initNFC();
 		

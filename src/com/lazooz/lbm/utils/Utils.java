@@ -28,6 +28,8 @@ import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -614,5 +616,17 @@ public class Utils {
 			return res;
 		
 		}
-	
+
+		
+		public static boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
+		    ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+		        if (serviceClass.getName().equals(service.service.getClassName())) {
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+		
+		
 }
