@@ -72,7 +72,7 @@ public class MainDistanceActivity extends ActionBarActivity {
 	private LinkedHashMap<Integer,String> xyValues;
 	public String mInitialDateAllUsers;
 	public String mInitialDateUser;
-	private static final int X_AXIS_MAX = 9; // 10 sec
+	private static final int X_AXIS_MAX = 6; // 10 sec
 	private static final boolean ZOOM_X = false; 
 
 	

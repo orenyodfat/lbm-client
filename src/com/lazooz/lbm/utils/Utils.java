@@ -520,9 +520,9 @@ public class Utils {
 			cal.setTime(dateFormat.parse(initialDate));
 			cal.add( Calendar.DATE, ((int)xValue));    
 			
-			Format formatter = new SimpleDateFormat("dd MMM yy");
+			Format formatter = new SimpleDateFormat("dd MMM yy",Locale.US);
 			convertedDate=formatter.format(cal.getTime()); 
-			System.out.println("Date increase by one.."+convertedDate);
+			//System.out.println("Date increase by one.."+convertedDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

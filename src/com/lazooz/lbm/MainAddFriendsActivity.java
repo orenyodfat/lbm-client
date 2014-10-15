@@ -71,7 +71,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	public String mNumAccepted;
 	private LinkedHashMap<Integer,String> xyValues;
 	public String mInitialDate;
-	public static final int X_AXIS_MAX = 9; 
+	public static final int X_AXIS_MAX = 6; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
