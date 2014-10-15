@@ -110,7 +110,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
-		Utils.activateSavingLogcatToFile(this, false);
+		//Utils.activateSavingLogcatToFile(this, false);
 
 		mNetworkLocationListener = new NetworkLocationListener();
 		mGPSLocationListener = new GPSLocationListener();
