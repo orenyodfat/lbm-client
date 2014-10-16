@@ -278,6 +278,7 @@ public class MySharedPreferences {
 	public JSONArray getLocationDataList(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
 		boolean dataExist = false;
+	
 		int writeCursor = spData.getInt("WriteCursor", 1);
 		int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
 		JSONArray jsArray = new JSONArray();
@@ -286,6 +287,7 @@ public class MySharedPreferences {
 			for (int i=commitedReadCursor; i<=writeCursor; i++){
 				dataExist = true;
 				String locationDataString = spData.getString("LocationDataList_" + i, "");
+				/*todo : Need to check here if the locationDataString is not "" - this throws exception */
 				JSONObject obj = new JSONObject(locationDataString);
 				jsArray.put(obj);
 			}
