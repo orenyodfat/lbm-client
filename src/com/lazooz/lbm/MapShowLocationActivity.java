@@ -46,6 +46,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private LocationManager mLocationManager;
 	private MyProgBar mMyProgBar;
 	private boolean mIsAccuraccyAccomplished;
+	private boolean mAsAccuraccy;
 	private String mLastMsg = "";
 
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
@@ -81,6 +82,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		
 		mMapWasInit = false;
 		mIsAccuraccyAccomplished = false;
+		mAsAccuraccy = false;
 		
 		nextBtn = (Button)findViewById(R.id.map_show_loc_next_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +126,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		 new Handler().postDelayed(new Runnable() {
 	            @Override
 	            public void run() {
+	            	if (!mAsAccuraccy)
 	                addPurpleToolTipView("Identifing your location....");
 	            }
 	        }, 1000);
@@ -132,7 +135,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	}
 	
     protected void updateAccuracy(int accuracy) {
-    	
+    	mAsAccuraccy = true;
     	if (accuracy < 25){
     		if (!mIsAccuraccyAccomplished)
     			addPurpleToolTipView("Successfully located, please continue to the next screen.");
