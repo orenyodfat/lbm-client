@@ -591,7 +591,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 		  */    	
 		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
-		      					   .withText("At this stage you are mining a credit for Zooz tokens, which will be converted into real Zooz tokens soon as the network is established and the authentication of your data is completed.\nThis procedure is made to avoid an abuse of the system.")
+		      					   .withText("At this stage you are mining potential Zooz tokens, which will be converted into real Zooz tokens upon the use of the collaborative transportation network, once established and the authentication of your data is completed.\nThis procedure is made to avoid an abuse of the system.")
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 	  }
