@@ -38,7 +38,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		setContentView(R.layout.activity_intro);
+		setContentView(R.layout.activity_desclimer);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
@@ -54,7 +54,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 		
 		
 		
-		nextBtn = (Button)findViewById(R.id.intro_next_btn);
+		nextBtn = (Button)findViewById(R.id.intro_accept_btn);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
