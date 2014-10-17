@@ -483,9 +483,7 @@ public class Utils {
 			    
 			    alertDialog.show();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
     }
     
 	public static double getMinValueFromList(List<double[]> values) {
@@ -545,10 +543,26 @@ public class Utils {
 	  public static void activateSavingLogcatToFile(Context context, boolean isAll) {    
 	        String fileName = "lazooz_logcat_"+System.currentTimeMillis()+".txt";
 	        
-	        File sdCard = Environment.getExternalStorageDirectory() ;
-	        File dir = new File (sdCard.getAbsolutePath() + "/lazooz_logs");
-	        dir.mkdirs();
-	        File outputFile = new File(dir, fileName);
+	        //File folder = new File(Environment.getExternalStorageDirectory() + "/lazooz_logs");
+	        File folder = new File(context.getExternalCacheDir() + "/lazooz_logs");
+	        boolean success = true;
+	        if (!folder.exists()) {
+	            success = folder.mkdir();
+	        }
+	        if (success) {
+	            Log.e("Log", "Log folder ok");
+	        } else {
+	        	Log.e("Log", "Log folder fail"); 
+	        }
+	        
+	        
+	        
+	        //File sdCard = Environment.getExternalStorageDirectory() ;
+	        //File dir = new File (sdCard.getAbsolutePath() + "/lazooz_logs");
+	        //dir.mkdirs();
+	        
+	        
+	        File outputFile = new File(folder, fileName);
 	        
 	        /*
 	        

@@ -53,7 +53,7 @@ public class ServerCom {
 		
 	}
 	
-	public void setLocation1(String UserId, String UserSecret, String data)
+	public void setLocation1dddsfsdfs(String UserId, String UserSecret, String data)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
 
@@ -85,7 +85,8 @@ public class ServerCom {
 		params.add(new BasicNameValuePair("user_id", UserId ));
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("network_location", locationString ));
-				
+		params.add(new BasicNameValuePair("android_build_num", Utils.getVersionCode(mContext) + ""));		
+		
 		this.postRequestToServer(-1, -1, url, params);
 	}
 
@@ -143,6 +144,7 @@ public class ServerCom {
 	          multipartEntity.addPart("user_secret", new StringBody(UserSecret));
 	          multipartEntity.addPart("md5", new StringBody(md5));
 	          multipartEntity.addPart("location_data", new ByteArrayBody(data, "application/zip", "data.zip"));
+
 	          request.setEntity(multipartEntity);
 	 
 	          HttpResponse response = client.execute(request);
@@ -299,7 +301,7 @@ public class ServerCom {
 	}
 		
 	
-	public void doSetLocationXX(String productId, String token, String latitude, String longitude,
+	public void doSetLocationXXdsfgsdfgsdf(String productId, String token, String latitude, String longitude,
 			String locationTime, String locationAccuracy)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "app_info/set_location";

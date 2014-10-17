@@ -630,7 +630,9 @@ public class MainDistanceActivity extends ActionBarActivity {
 				Utils.restartApp(MainDistanceActivity.this);
 			}
 			else if (result.equals("ConnectionError")){
-				Utils.displayConnectionError(MainDistanceActivity.this, null);
+				try {
+					Utils.displayConnectionError(MainDistanceActivity.this, null);
+				} catch (Exception e) {}
 			}
 		}
 			

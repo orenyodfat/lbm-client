@@ -48,7 +48,9 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private boolean mIsAccuraccyAccomplished;
 	private boolean mAsAccuraccy;
 	private String mLastMsg = "";
-
+	
+	public static final String FILE_TAG = "ZOOZ";
+	
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 8; // 
 	
@@ -65,6 +67,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		setContentView(R.layout.activity_map_show_location);
 		
 		Utils.activateSavingLogcatToFile(this, false);
+		Log.i(FILE_TAG, "LOG CREATED");
 		
 		mWasInMission = getIntent().getBooleanExtra("MISSION_GPS_ON", false);
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

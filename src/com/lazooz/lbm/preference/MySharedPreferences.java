@@ -279,7 +279,10 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
 		boolean dataExist = false;
 	
-		int writeCursor = spData.getInt("WriteCursor", 1);
+		int writeCursor = spData.getInt("WriteCursor", 0);
+		if (writeCursor == 0)
+			return null;
+		
 		int commitedReadCursor = spData.getInt("CommitedReadCursor", 1);
 		JSONArray jsArray = new JSONArray();
 		try {

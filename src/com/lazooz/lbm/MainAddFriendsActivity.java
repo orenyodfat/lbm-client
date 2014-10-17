@@ -385,7 +385,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				Utils.restartApp(MainAddFriendsActivity.this);
 			}
 			else if (result.equals("ConnectionError")){
-				Utils.displayConnectionError(MainAddFriendsActivity.this, null);
+				try {
+					Utils.displayConnectionError(MainAddFriendsActivity.this, null);
+				} catch (Exception e) {}
 			}
 		}
 			
@@ -466,7 +468,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				Utils.restartApp(MainAddFriendsActivity.this);
 			}
 			else if (result.equals("ConnectionError")){
-				Utils.displayConnectionError(MainAddFriendsActivity.this, null);
+				try {
+					Utils.displayConnectionError(MainAddFriendsActivity.this, null);
+				} catch (Exception e) {}
 			}
 		}
 			
