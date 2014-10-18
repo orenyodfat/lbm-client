@@ -166,8 +166,8 @@ public class MyActionBarActivity extends ActionBarActivity {
     		sharingIntent.setType("text/plain");
 	        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "La'Zooz");
 	        
-	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
-	        //sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nCheck out this cool app La'Zooz.\nDownload from here:\n"+ StaticParms.PLAY_STORE_APP_LINK);
+	        //sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
+	        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\nJoin La`Zooz .\nDownload from here:\n"+ StaticParms.PLAY_STORE_APP_LINK);
     		startActivity(Intent.createChooser(sharingIntent, "Share via"));
     		
     		}
