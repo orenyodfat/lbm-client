@@ -238,7 +238,7 @@ public class MainActivity extends MyActionBarActivity  {
 					try {
 					    startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
 					} catch (android.content.ActivityNotFoundException anfe) {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET)));
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK)));
 					}
 	            	dialog.cancel();
 	            	MainActivity.this.finish();
@@ -267,7 +267,7 @@ public class MainActivity extends MyActionBarActivity  {
 					try {
 					    startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
 					} catch (android.content.ActivityNotFoundException anfe) {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET)));
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK)));
 					}
 	            	dialog.cancel();
 	 				MainActivity.this.finish();
