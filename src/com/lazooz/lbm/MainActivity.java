@@ -234,8 +234,12 @@ public class MainActivity extends MyActionBarActivity  {
 		    });
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-					final Uri marketUri = Uri.parse("PLAY_STORE_APP_LINK_MARKET"); 
-					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+					final Uri marketUri = Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET);
+					try {
+					    startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+					} catch (android.content.ActivityNotFoundException anfe) {
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET)));
+					}
 	            	dialog.cancel();
 	            	MainActivity.this.finish();
 	 				System.exit(0);
@@ -259,8 +263,12 @@ public class MainActivity extends MyActionBarActivity  {
 		    });
 		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Open Google Play", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-					final Uri marketUri = Uri.parse("PLAY_STORE_APP_LINK_MARKET"); 
-					startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+					final Uri marketUri = Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET); 
+					try {
+					    startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+					} catch (android.content.ActivityNotFoundException anfe) {
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(StaticParms.PLAY_STORE_APP_LINK_MARKET)));
+					}
 	            	dialog.cancel();
 	 				MainActivity.this.finish();
 	 				System.exit(0);
