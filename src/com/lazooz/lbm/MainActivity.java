@@ -70,7 +70,7 @@ public class MainActivity extends MyActionBarActivity  {
 	private LinearLayout mShakeLL;
 	private LinearLayout mZoozBalLL;
 	private LinearLayout mAddFriendsLL;
-	private TextView mConvertionRateTV;
+	//private TextView mConvertionRateTV;
 	private TextView mCriticalMassLocationTV;
 	protected boolean mUnderCurrentVersionShowed;
 	private boolean mUnderMinVersionShowed;
@@ -106,7 +106,7 @@ public class MainActivity extends MyActionBarActivity  {
 		mShakeTV = (TextView)findViewById(R.id.main_shake_tv);
 		
 		
-		mConvertionRateTV = (TextView)findViewById(R.id.main_zooz_conversion_rate_tv);
+		//mConvertionRateTV = (TextView)findViewById(R.id.main_zooz_conversion_rate_tv);
 		
 		mShakeTV.setText("0.0");
 		
@@ -366,13 +366,13 @@ public class MainActivity extends MyActionBarActivity  {
 		mShakeTV.setText(numShakedUsers +"");		
 		mCriticalMassPB.setProgress(criticalMass);
 		mCriticalMassPB.setMax(100);
-		
+		/*
 		String dolarConvertionRate = msp.getDolarConvertionRate(this);
 		if (dolarConvertionRate.equals(""))
 			mConvertionRateTV.setText("");
 		else
 			mConvertionRateTV.setText("1=$" + dolarConvertionRate);
-			
+			*/
 	
 	}
 	

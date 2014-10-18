@@ -4,8 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/intro"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbars="vertical"
     tools:context="com.lazooz.lbm.IntroActivity"
     tools:ignore="MergeRootFrame" >
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="230dp"
+       android:layout_marginTop="@dimen/abc_action_bar_default_height"
+       android:fadeScrollbars="false"
+       android:scrollbarAlwaysDrawVerticalTrack="false" >
 
     <TextView
         android:id="@+id/intro_info_tv"
@@ -17,7 +26,8 @@
         android:text="Hello, I am La&apos;Zooz %v%.\r\n\r\nBy running this app and sharing it with others you are taking part in the establishment of the first Collaborative Transportation Web.\r\n\r\nAnyone contributing to this is being rewarded with ZooZ tokens.\r\nOnce the network is established, Zooz could be traded in exchange for movement"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
-
+    
+      </ScrollView>
     <Button
         android:id="@+id/intro_accept_btn"
         android:layout_width="120dp"

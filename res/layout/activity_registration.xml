@@ -53,7 +53,7 @@
                 android:layout_marginTop="10dp"
                 android:drawableRight="@drawable/ic_qmark1"
                 android:gravity="center"
-                android:text="You can now start recieving Zooz for your contribution."
+                android:text="You can now start receiving Potential Zooz for your contribution."
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Zooz are secured tokens that are stored in a digital wallet."
+                android:text="Potential Zooz are digital tokens that are currently stored on our servers ."
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white" />
 

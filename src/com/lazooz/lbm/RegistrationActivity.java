@@ -482,7 +482,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		
 		@Override
 		protected void onPostExecute(String result) {
-			mProgBar.setVisibility(View.GONE);	
+			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
 				startNextScreen();
@@ -599,7 +599,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 	  
 	  private void addToolTipViewInDlg() {
 		      	mToolTipViewDlg = mToolTipFrameLayoutDlg.showToolTipForView(new ToolTip()
-		      	.withText("Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend wil be credit with 20 ZOOZ.")
+		      	.withText("Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend will be credited with 10 potential Zooz.")
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipDlgTV);
 		      	mToolTipViewDlg.setOnToolTipViewClickedListener(new ToolTipView.OnToolTipViewClickedListener() {
 					@Override

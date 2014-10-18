@@ -263,7 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:text="zooz"
+                            android:text="pz"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/lazooz_main_txt" />
                     </LinearLayout>
@@ -273,26 +273,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp" >
-
-                    <TextView
+                   <!-- 
+                     <TextView
                         android:id="@+id/TextView03"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TARGET ZOOZ RATE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/lazooz_main_title_txt" />
-
+                    
                     <TextView
                         android:id="@+id/main_zooz_conversion_rate_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="5dp"
-                        android:text="1=$0.9"
+                        android:text="1=0.9"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/lazooz_main_txt"
                         android:textSize="30sp" />
-
+                     -->
                 </FrameLayout>
 
             </LinearLayout>

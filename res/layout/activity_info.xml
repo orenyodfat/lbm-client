@@ -3,9 +3,10 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/intro"
     tools:context="com.lazooz.lbm.IntroActivity"
     tools:ignore="MergeRootFrame" >
-
+ <!-- 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -14,7 +15,7 @@
         android:text="info"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
-
+ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
