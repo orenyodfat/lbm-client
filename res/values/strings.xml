@@ -19,7 +19,7 @@
 	
 	<string name="recommendation_input_msg_title">Recommendation</string>
 	<string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
-	<string name="recommendation_default">This is a link to social app I installed. This application is building a "ride sharing" network that will be owned by the community. After installing this App it will start mining tokens "Zooz" for you while driving. When the network will be established those tokens will be used for moving. Check it out.</string>
+	<string name="recommendation_default">This is a link to social app I installed. This application is building a "ride sharing" network that will be owned by the community. After installing this App it will start mining Potential Zooz tokens for you while driving. When the network will be established those tokens will be used for moving. Check it out.</string>
 	<string name="recommendation_default_start">Hello there, </string>
 			
 	<string name="drawer_entry_me">Me</string>
