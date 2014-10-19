@@ -1,5 +1,6 @@
 package com.lazooz.lbm;
 
+import com.lazooz.lbm.components.MyScrollView;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
@@ -30,6 +32,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 	private TextView mInfoTV;
 	private LocationManager mLocationManager;
 	private boolean mIsFromMenuMode;
+	private MyScrollView mScrollView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,10 +54,23 @@ public class DesclmtrActivity extends ActionBarActivity {
 		mInfoTV.setText(theTitle + "\n"+ theText);
 		
 
-		
+		mScrollView = (MyScrollView)findViewById(R.id.dsclmr_scrill_view);
+		mScrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {
+			
+			@Override
+			public void onScrollChanged(int l, int t, int oldl, int oldt) {
+				View view = (View) mScrollView.getChildAt(mScrollView.getChildCount()-1);
+		        int diff = (view.getBottom() - (mScrollView.getHeight() + mScrollView.getScrollY()));// Calculate the scrolldiff
+		        if( diff < 80 ){  // if diff is zero, then the bottom has been reached
+		        	nextBtn.setEnabled(true);
+		        }
+				
+			}
+		});
 		
 		
 		nextBtn = (Button)findViewById(R.id.intro_accept_btn);
+		nextBtn.setEnabled(false);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -75,13 +91,13 @@ public class DesclmtrActivity extends ActionBarActivity {
 			}
 		});
 		
-		if (mIsFromMenuMode){
+/*		if (mIsFromMenuMode){
 			nextBtn.setVisibility(View.INVISIBLE);
 		}
 			
 		if (!mIsFromMenuMode)
 			MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
-		
+*/		
 		
 		
 	}
