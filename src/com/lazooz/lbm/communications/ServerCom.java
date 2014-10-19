@@ -77,7 +77,7 @@ public class ServerCom {
 	}
 
 	
-	public void isLive(String UserId, String UserSecret, String locationString)
+	public void isLive(String UserId, String UserSecret, String locationString, String publicKey)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_is_live";
 
@@ -85,7 +85,8 @@ public class ServerCom {
 		params.add(new BasicNameValuePair("user_id", UserId ));
 		params.add(new BasicNameValuePair("user_secret", UserSecret ));
 		params.add(new BasicNameValuePair("network_location", locationString ));
-		params.add(new BasicNameValuePair("android_build_num", Utils.getVersionCode(mContext) + ""));		
+		params.add(new BasicNameValuePair("android_build_num", Utils.getVersionCode(mContext) + ""));
+		params.add(new BasicNameValuePair("public_key", publicKey ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 	}

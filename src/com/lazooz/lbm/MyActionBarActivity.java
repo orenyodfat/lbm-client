@@ -152,8 +152,8 @@ public class MyActionBarActivity extends ActionBarActivity {
     		startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_me))){
-    	//	Intent intent = new Intent(this, MeActivity.class);
-    	//	startActivity(intent);
+    		Intent intent = new Intent(this, MeActivity.class);
+    		startActivity(intent);
     	}
     	else if (di.getText().equals(getString(R.string.drawer_entry_legal))){
 			Intent intent = new Intent(this, WebViewActivity.class);

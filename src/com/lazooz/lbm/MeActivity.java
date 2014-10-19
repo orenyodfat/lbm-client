@@ -30,6 +30,7 @@ public class MeActivity extends ActionBarActivity {
 	private TextView mNumKmTV;
 	private TextView mNumShakesTV;
 	private TextView mZoozsTV;
+	private TextView mPotZoozsTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,8 @@ public class MeActivity extends ActionBarActivity {
 		mNumFriendsTV= (TextView)findViewById(R.id.me_num_friends_invited_tv);
 		mNumKmTV= (TextView)findViewById(R.id.me_num_km_mined_tv);
 		mNumShakesTV= (TextView)findViewById(R.id.me_num_shakes_tv);
-		mZoozsTV= (TextView)findViewById(R.id.me_zoozs_tv);
+		mZoozsTV= (TextView)findViewById(R.id.zooz_balance_tv);
+		mPotZoozsTV= (TextView)findViewById(R.id.zooz_poten_balance_tv);
 		
 		
 		
@@ -70,7 +72,14 @@ public class MeActivity extends ActionBarActivity {
 		mNumFriendsTV.setText(msp.getNumInvitedContacts(this)+"");
 		mNumKmTV.setText(String.format("%.1f", distanceKMf));
 		mNumShakesTV.setText(msp.getNumShakedUsers(this)+"");
-		mZoozsTV.setText(sd.getZoozBalance());
+		
+		float zb = Float.valueOf(sd.getZoozBalance());
+		float pzb = Float.valueOf(sd.getPotentialZoozBalance());
+		
+		mZoozsTV.setText(String.format("%.2f", zb));
+		mPotZoozsTV.setText(String.format("%.2f", pzb));
+
+		
 
 	}
 	

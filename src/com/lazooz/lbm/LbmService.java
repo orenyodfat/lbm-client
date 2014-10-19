@@ -284,8 +284,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
         	JSONObject jsonReturnObj=null;
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
-				
-				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString);
+				String publicKey = MySharedPreferences.getInstance().getPublicKey(LbmService.this); 
+				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString, publicKey);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
