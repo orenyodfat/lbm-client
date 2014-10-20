@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import com.google.android.gms.internal.mf;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
@@ -160,6 +161,11 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		startOnDayScheduler();
 		
 		listenToContactsChanges();
+		
+		
+		 
+		    
+		
 		
 		//myStartForeground();
 		
@@ -621,6 +627,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			return;
 		}
 		
+		mReadingSensorsNow = true;
+		
 		long currentTime = System.currentTimeMillis();
 		if ((mLastReadSensorsTime > 0) && (currentTime - mLastReadSensorsTime < 9*1000)){
 			
@@ -633,7 +641,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		}
 		
 		mLastReadSensorsTime = currentTime;
-		mReadingSensorsNow = true;
+		
 		
 		Log.i(FILE_TAG, "read Sensors");
 		Utils.playSound(this, R.raw.read_sensors);
@@ -816,26 +824,17 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			return mIsActive;
 		}
 		
+		public void setIsActive(boolean isActive){
+			mIsActive = isActive;
+		}
+		
 		
        @Override
         public void onFinish() {
     	   Log.i(FILE_TAG, "onFinish GPS Times");
     	   Utils.playSound(LbmService.this, R.raw.timer_end);
     	   
-    	   mWifiWasInit = false;
-    	   
-    	   if (!mWifiWasEnabled && mWifiWasSetOnByMe)
-    		   mWifiTracker.setWifiDisabled();
-    	   
-    	   
-    	   mIsActive = false;
-    	   mLocationManager.removeUpdates(mGPSLocationListener);
-    	   mIsRequestLocationUpdateFirstTime = true;
-			mIsListenToGPSProvider = false;
-			
-			boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-			if (!isNetworkEnabled)
-				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+    	   finishTimerProcess();
 			
        }
 
@@ -848,18 +847,35 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 
 
-
+	private void finishTimerProcess(){
+		 mWifiWasInit = false;
+  	   
+  	   if (!mWifiWasEnabled && mWifiWasSetOnByMe)
+  		   mWifiTracker.setWifiDisabled();
+  	   
+  	   mNoSpeedTimer.setIsActive(false);
+  	   mLocationManager.removeUpdates(mGPSLocationListener);
+  	   mIsRequestLocationUpdateFirstTime = true;
+  	   mIsListenToGPSProvider = false;
+			
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (!isNetworkEnabled)
+			mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+	}
 
 	@Override
 	public void onCellChanged(int newCellID) {
 		Log.i(FILE_TAG, "onCellChanged");
 		Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
+		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
 		if (!mIsListenToGPSProvider){
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
-			mIsListenToGPSProvider = true;
-			mTelephonyDataTracker.removeUpdates();
-			MySharedPreferences.getInstance().promoteRoute(this);
+			if (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(this))){
+				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+				mIsListenToGPSProvider = true;
+				mTelephonyDataTracker.removeUpdates();
+				MySharedPreferences.getInstance().promoteRoute(this);
+			}
 		}		
 	}
 
@@ -910,12 +926,16 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
+		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
+		
 		if (!mIsListenToGPSProvider){
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
-			mIsListenToGPSProvider = true;
-			Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
-			MySharedPreferences.getInstance().promoteRoute(LbmService.this);
-			mNoSpeedTimer.startNow();
+			if (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(LbmService.this))){
+				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+				mIsListenToGPSProvider = true;
+				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
+				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
+				mNoSpeedTimer.startNow();
+			}
 		}
 
 		if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
@@ -994,6 +1014,19 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 		@Override
 		public void onLocationChanged(Location location) {
+			boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
+			if (ChargerConnectivityMode && !Utils.isPowerCableConnected(LbmService.this)){
+				if (mReadingSensorsNow)
+					return;
+				else {		
+					if (mNoSpeedTimer.isActive())
+						mNoSpeedTimer.cancel();
+					finishTimerProcess();
+					return;
+				}
+			}
+			
+			
 			
 			Utils.playSound(LbmService.this, R.raw.gps);
 			if (mSendingDataToServer){

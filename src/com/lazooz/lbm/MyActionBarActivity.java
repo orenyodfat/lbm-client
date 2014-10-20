@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import com.lazooz.lbm.businessClasses.DrawerItem;
 import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.preference.SettingsActivity;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
 import android.location.Geocoder;
@@ -73,6 +74,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_legal),R.drawable.tool_legal));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_report_bug),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_intro),0));
+		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_settings),0));
 
         
         
@@ -190,6 +192,10 @@ public class MyActionBarActivity extends ActionBarActivity {
 			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra("URL", url);
 			startActivity(intent);
+    	}
+    	else if (di.getText().equals(getString(R.string.drawer_entry_settings))){
+    		Intent intent = new Intent(this, SettingsActivity.class);
+    		startActivity(intent);
     	}
 
     	

@@ -58,7 +58,9 @@ public class MainShakeActivity extends ActionBarActivity {
 			}
 		});
 
-			
+		
+		
+		
 				
 				
 	}

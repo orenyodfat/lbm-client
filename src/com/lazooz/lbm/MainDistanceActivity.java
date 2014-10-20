@@ -95,8 +95,6 @@ public class MainDistanceActivity extends ActionBarActivity {
 		mLayoutChart3 = (LinearLayout)findViewById(R.id.report_chart_3);
 		mDistanceTV = (TextView)findViewById(R.id.main_distance_tv);
 		
-		
-		
 		MySharedPreferences msp = MySharedPreferences.getInstance();
 		ServerData sd = msp.getServerData(this);
 		

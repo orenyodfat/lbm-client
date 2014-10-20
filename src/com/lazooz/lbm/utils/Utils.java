@@ -38,6 +38,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
@@ -50,6 +51,7 @@ import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -640,6 +642,12 @@ public class Utils {
 		        }
 		    }
 		    return false;
+		}
+
+	    public static boolean isPowerCableConnected(Context context) {
+		        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		        int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+		        return plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
 		}
 		
 		

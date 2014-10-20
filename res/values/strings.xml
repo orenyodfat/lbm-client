@@ -30,6 +30,7 @@
 	<string name="drawer_entry_legal">Legal and Privacy</string>
 	<string name="drawer_entry_report_bug">Submit issue/bug</string>
 	<string name="drawer_entry_intro">Introduction</string>
+	<string name="drawer_entry_settings">Settings</string>
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
 	<string name="forground_notif_title">notif title</string>
@@ -68,6 +69,14 @@
     <string name="splash_version_check_title">New Version</string>
     <string name="splash_version_check_les_current">There is a new version of La\'Zooz, please update app from Google Play.</string>
     <string name="splash_version_check_les_min">Your current version of La\'Zooz is not up to date. In order to proceed, please update app from Google Play.</string>
+    
+    
+    <string name="settings_category_mining">Mining</string>
+    <string name="settings_mining_charger_connectivity_title_on">Charger Connectivity - On</string>
+    <string name="settings_mining_charger_connectivity_title_off">Charger Connectivity - Off</string>
+    <string name="settings_mining_charger_connectivity_summary_on">Mining only when charger cable is connected</string>
+    <string name="settings_mining_charger_connectivity_summary_off">Mining regardless charger cable connectivity</string>
+    
     
     <string-array name="days_array">
         <item>NULL</item>

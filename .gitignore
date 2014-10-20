@@ -140,3 +140,7 @@ bin/res/crunch/drawable-xxhdpi/splash.png
 playstore.txt
 prod.key
 prod.key.pass
+bin/res/crunch/drawable-xxhdpi/accept_btn.png
+bin/res/crunch/drawable-xxhdpi/accept_btn_press.png
+bin/res/crunch/drawable-xxhdpi/gen_btn_dis.png
+bin/res/crunch/drawable-xxhdpi/splash.png

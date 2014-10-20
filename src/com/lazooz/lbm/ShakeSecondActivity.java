@@ -97,7 +97,8 @@ public class ShakeSecondActivity extends ActionBarActivity {
 		
 		getUsersLocationNearMeAsync();
 		
-				
+		Utils.messageToUser(this, "Shake", "Shaking with others is not supported yet.");
+		
 	}
 	
 	

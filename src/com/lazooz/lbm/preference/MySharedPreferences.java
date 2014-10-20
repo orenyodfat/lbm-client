@@ -777,5 +777,15 @@ public class MySharedPreferences {
 		int localBuildNum = Utils.getVersionCode(context);
 		return (localBuildNum < srvrCurrentBuildNum);
 	}
+
 	
+	public boolean getChargerConnectivityMode(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.getBoolean("ChargerConnectivityMode", SettingsActivity.PREF_MINING_CHARGER_CONNECTIVITY_DEFAULT);
+	}
+	
+	public boolean setChargerConnectivityMode(Context context, boolean mode) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.edit().putBoolean("ChargerConnectivityMode", mode).commit();
+	}
 }

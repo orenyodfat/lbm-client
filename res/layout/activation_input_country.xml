@@ -15,7 +15,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="County: "
+            android:text="Country: "
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <Spinner

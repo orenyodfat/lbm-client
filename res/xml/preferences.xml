@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+				
+    <PreferenceCategory android:title="@string/settings_category_mining"
+        android:summary="" >
+        
+        
+        <CheckBoxPreference
+	            android:defaultValue="true"
+            	android:title="@string/settings_mining_charger_connectivity_title_off" 
+            	android:summary="@string/settings_mining_charger_connectivity_summary_off" 
+	            android:key="key_charger_connectivity">
+        </CheckBoxPreference>
+        
+        
+    </PreferenceCategory>
+    
+    
+</PreferenceScreen>
