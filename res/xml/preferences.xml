@@ -12,6 +12,12 @@
 	            android:key="key_charger_connectivity">
         </CheckBoxPreference>
         
+        <CheckBoxPreference
+	            android:defaultValue="true"
+            	android:title="@string/settings_mining_enable_disable_mining_title" 
+            	android:summary="@string/settings_mining_enable_disable_mining_summary_enable" 
+	            android:key="key_mining_enable_disable">
+        </CheckBoxPreference>
         
     </PreferenceCategory>
     

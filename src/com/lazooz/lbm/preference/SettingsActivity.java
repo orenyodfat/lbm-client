@@ -15,10 +15,16 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 
+	public static final String KEY_CHARGER_CONNECT = "key_charger_connectivity";
+	public static final String KEY_MINING_ENA_DIS = "key_mining_enable_disable";
+	
+	
 	public static final boolean PREF_MINING_CHARGER_CONNECTIVITY_DEFAULT = false;
+	public static final boolean PREF_MINING_MINING_ENAB_DIS_DEFAULT = true;
 	
 	private PreferenceScreen mPrefSet;
 	private CheckBoxPreference mPowerSaverPref;
+	private CheckBoxPreference mMiningEnaDisPref;
 
 
 
@@ -31,7 +37,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		
 		//getSActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		mPowerSaverPref = (CheckBoxPreference)mPrefSet.findPreference("key_charger_connectivity");  
+		mPowerSaverPref = (CheckBoxPreference)mPrefSet.findPreference(KEY_CHARGER_CONNECT);  
 		mPowerSaverPref.setChecked(MySharedPreferences.getInstance().getChargerConnectivityMode(this));
 		if(mPowerSaverPref.isChecked()){
 			mPowerSaverPref.setSummary(R.string.settings_mining_charger_connectivity_summary_on);
@@ -41,6 +47,16 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			mPowerSaverPref.setSummary(R.string.settings_mining_charger_connectivity_summary_off);
 			mPowerSaverPref.setTitle(R.string.settings_mining_charger_connectivity_title_off);
 		}
+
+		mMiningEnaDisPref = (CheckBoxPreference)mPrefSet.findPreference(KEY_MINING_ENA_DIS);  
+		mMiningEnaDisPref.setChecked(MySharedPreferences.getInstance().getMiningEnabledMode(this));
+		mMiningEnaDisPref.setTitle(R.string.settings_mining_enable_disable_mining_title);
+		if(mMiningEnaDisPref.isChecked())
+			mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_enable);
+		else 
+			mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_disable);
+			
+
 		
 	}
 
@@ -68,7 +84,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-		if (key.equals("key_charger_connectivity")){
+		if (key.equals(KEY_CHARGER_CONNECT)){
 			
 			MySharedPreferences.getInstance().setChargerConnectivityMode(this, mPowerSaverPref.isChecked());
 			if(mPowerSaverPref.isChecked()){
@@ -79,6 +95,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 				mPowerSaverPref.setSummary(R.string.settings_mining_charger_connectivity_summary_off);
 				mPowerSaverPref.setTitle(R.string.settings_mining_charger_connectivity_title_off);
 			}
+		}
+		else if (key.equals(KEY_MINING_ENA_DIS)){
+			
+			MySharedPreferences.getInstance().setMiningEnabledMode(this, mMiningEnaDisPref.isChecked());
+			
+			if(mMiningEnaDisPref.isChecked())
+				mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_enable);
+			else 
+				mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_disable);
+			
+			
 		}
 		
 	}

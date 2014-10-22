@@ -77,6 +77,10 @@
     <string name="settings_mining_charger_connectivity_summary_on">Mining only when charger cable is connected</string>
     <string name="settings_mining_charger_connectivity_summary_off">Mining regardless charger cable connectivity</string>
     
+    <string name="settings_mining_enable_disable_mining_title">Mining</string>
+    <string name="settings_mining_enable_disable_mining_summary_enable">Mining is enabled</string>
+    <string name="settings_mining_enable_disable_mining_summary_disable">Mining is disabled</string>
+    
     
     <string-array name="days_array">
         <item>NULL</item>

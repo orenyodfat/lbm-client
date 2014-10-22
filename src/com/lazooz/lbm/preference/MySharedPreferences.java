@@ -788,4 +788,14 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
 		return spData.edit().putBoolean("ChargerConnectivityMode", mode).commit();
 	}
+
+	public boolean getMiningEnabledMode(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.getBoolean("MiningEnabledMode", SettingsActivity.PREF_MINING_MINING_ENAB_DIS_DEFAULT);
+	}
+	
+	public boolean setMiningEnabledMode(Context context, boolean mode) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.edit().putBoolean("MiningEnabledMode", mode).commit();
+	}
 }

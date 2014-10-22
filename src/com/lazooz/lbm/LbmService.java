@@ -869,8 +869,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		Utils.playSound(this, R.raw.cell_change);
 		mNoSpeedTimer.startNow();
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
+		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(this);
 		if (!mIsListenToGPSProvider){
-			if (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(this))){
+			if (MiningEnabledMode && ((!ChargerConnectivityMode) || (ChargerConnectivityMode && Utils.isPowerCableConnected(this)))){
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
 				mIsListenToGPSProvider = true;
 				mTelephonyDataTracker.removeUpdates();
@@ -927,9 +928,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
+		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(LbmService.this);
 		
 		if (!mIsListenToGPSProvider){
-			if (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(LbmService.this))){
+			if (MiningEnabledMode && (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(LbmService.this)))){
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
 				mIsListenToGPSProvider = true;
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
@@ -1015,7 +1017,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		@Override
 		public void onLocationChanged(Location location) {
 			boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
-			if (ChargerConnectivityMode && !Utils.isPowerCableConnected(LbmService.this)){
+			boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(LbmService.this);
+			if ((!MiningEnabledMode)||(ChargerConnectivityMode && !Utils.isPowerCableConnected(LbmService.this))){
 				if (mReadingSensorsNow)
 					return;
 				else {		
