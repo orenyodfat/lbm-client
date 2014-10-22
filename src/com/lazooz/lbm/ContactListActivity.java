@@ -404,8 +404,8 @@ public class ContactListActivity extends Activity implements
 	                    //sortList();
 	                    //mAdapter.notifyDataSetChanged();
 	                    
-	                    
-	                    mAdapter.getFilter().filter(mSearchTerm);	
+	                    if ((mAdapter != null) && (mAdapter.getFilter() != null))
+	                    	mAdapter.getFilter().filter(mSearchTerm);	
 	                    
 	                    return true;
 	                }

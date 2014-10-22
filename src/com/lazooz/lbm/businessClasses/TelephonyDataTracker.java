@@ -7,7 +7,9 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.CellLocation;
 import android.telephony.TelephonyManager;
+import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 
@@ -61,19 +63,30 @@ public class TelephonyDataTracker {
 	
 	
 	protected void checkEveryPeriod() {
-		
-		GsmCellLocation cellLocation = (GsmCellLocation)mTelephonyManager.getCellLocation();
-		
-		if (cellLocation != null){
-			int cellId = cellLocation.getCid();
-			if(mLastCid  != cellId){
-				mLastCid = cellId;
-				 Message msg = handler.obtainMessage();
-			     handler.sendMessage(msg);
-			       
+		GsmCellLocation gsmCellLocation;
+		CdmaCellLocation cdmaCellLocation;
+		try {
+			CellLocation cellLocation = (CellLocation)mTelephonyManager.getCellLocation();
+			if (cellLocation != null){
+				int cellId = 0;
 				
+				if(cellLocation instanceof GsmCellLocation) {
+					gsmCellLocation = (GsmCellLocation)cellLocation;
+					cellId = gsmCellLocation.getCid();
+				}
+				else if(cellLocation instanceof CdmaCellLocation) {
+					cdmaCellLocation = (CdmaCellLocation)cellLocation;
+					cellId = cdmaCellLocation.getBaseStationId();
+				}
+
+				if(mLastCid  != cellId){
+					mLastCid = cellId;
+					 Message msg = handler.obtainMessage();
+				     handler.sendMessage(msg);
+				}
 			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

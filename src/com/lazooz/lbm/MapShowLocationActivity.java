@@ -2,6 +2,7 @@ package com.lazooz.lbm;
 
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -9,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,15 +56,19 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 8; // 
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (map==null)
+			initMap();
+	}
 	
-
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_map_show_location);
 		
@@ -99,28 +105,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		
 		nextBtn.setVisibility(View.INVISIBLE);
 		
-		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-		map = mapFragment.getMap();
-		map.setMyLocationEnabled(true);
-        map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-			
-			@Override
-			public void onMyLocationChange(Location location) {
-				if (location != null){
-					updateAccuracy((int)location.getAccuracy());
-					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-					Log.i("ZOOZ", "MAP_SW google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
-					setMapLocation(location);
-					
-				}
-				
-			}
-		});
-		
-		
-		if (map!=null){
-			setMapInitLocation(getLocation());
-		 }
+		initMap();
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAP);
 		
@@ -135,6 +120,30 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	        }, 1000);
 		
 		
+	}
+	
+	private void initMap(){
+		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+		map = mapFragment.getMap();
+        
+        if (map!=null){
+    		map.setMyLocationEnabled(true);
+            map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+    			
+    			@Override
+    			public void onMyLocationChange(Location location) {
+    				if (location != null){
+    					updateAccuracy((int)location.getAccuracy());
+    					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+    					Log.i("ZOOZ", "MAP_SW google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
+    					setMapLocation(location);
+    					
+    				}
+    				
+    			}
+    		});
+			setMapInitLocation(getLocation());
+		 }
 	}
 	
     protected void updateAccuracy(int accuracy) {

@@ -36,7 +36,7 @@ public class IntroActivity extends ActionBarActivity {
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_intro);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);

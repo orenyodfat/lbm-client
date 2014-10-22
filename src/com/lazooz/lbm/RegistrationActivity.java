@@ -109,8 +109,8 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 
 				TextView inText = (TextView)addView.findViewById(R.id.activation_in_text);
 				inText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-				String phone = Utils.getMyPhoneNum(RegistrationActivity.this);
-				inText.setText(phone);
+				//String phone = Utils.getMyPhoneNum(RegistrationActivity.this);
+				//inText.setText(phone);
 
 				mCountrySpinner = (Spinner)addView.findViewById(R.id.country_spnr);
 				mCountrySpinner.setOnItemSelectedListener(new CountryOnItemSelectedListener());

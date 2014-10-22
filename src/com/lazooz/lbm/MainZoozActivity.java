@@ -188,8 +188,21 @@ public class MainZoozActivity extends ActionBarActivity {
 		startActivity(intent); 
 	}
 	
+	private void sharePrivateImageApproved(){
+		String pathofBmp = Images.Media.insertImage(getContentResolver(), mPrivateBmp,"", null);
+		Uri bmpUri = Uri.parse(pathofBmp);
+		final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+		intent.setType("image/png");
+		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Private Key");
+		intent.putExtra(android.content.Intent.EXTRA_TEXT, "My private key is:\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
+		MainZoozActivity.this.startActivity(Intent.createChooser(intent, "Export Private Key"));
+		MainZoozActivity.this.startActivity(intent);
+	}
+	
 	private void sharePrivateImage(){
-		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		AlertDialog alertDialog = new AlertDialog.Builder(MainZoozActivity.this).create();
      	alertDialog.setTitle("Export Private Key");
      	alertDialog.setMessage("You are about to export your private key.\nPlease note that it's your wallet and you should send it to yourself for backup purposes only");
 	    alertDialog.setCanceledOnTouchOutside(false);
@@ -197,16 +210,7 @@ public class MainZoozActivity extends ActionBarActivity {
 	    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Export", new DialogInterface.OnClickListener() {
 	    	@Override
 	        public void onClick(DialogInterface dialog, int which) {
-	    		String pathofBmp = Images.Media.insertImage(getContentResolver(), mPrivateBmp,"", null);
-	    		Uri bmpUri = Uri.parse(pathofBmp);
-	    		final Intent intent = new Intent(     android.content.Intent.ACTION_SEND);
-	    		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-	    		intent.setType("image/png");
-	    		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Private Key");
-	    		intent.putExtra(android.content.Intent.EXTRA_TEXT, "My private key is:\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
-	    		startActivity(Intent.createChooser(intent, "Export Private Key"));
-	    		startActivity(intent);
+	    		sharePrivateImageApproved();
 	    	}
 	    });
 	    

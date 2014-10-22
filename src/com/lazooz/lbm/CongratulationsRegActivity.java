@@ -29,7 +29,7 @@ public class CongratulationsRegActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_congratulations_reg);
 		MySharedPreferences.getInstance().setStage(CongratulationsRegActivity.this, MySharedPreferences.STAGE_REG_CONGRATS);

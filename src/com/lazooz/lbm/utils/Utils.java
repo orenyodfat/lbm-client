@@ -217,6 +217,7 @@ public class Utils {
 	
 	
 	public static String getMyPhoneNum(Context context){
+		// requier uses-permission android:name="android.permission.READ_PHONE_STATE" in manifest
 		TelephonyManager tMgr =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 		String myNum = tMgr.getLine1Number();
 //		if (myNum.equals(""))
