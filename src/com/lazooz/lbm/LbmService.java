@@ -154,8 +154,6 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
 		
 		
-		mNoSpeedTimer = new NoSpeedTimer(1000*60*5, 1000);
-		
 		
 		
 		startOnDayScheduler();
@@ -580,7 +578,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 	
 	
-	private void readBT(){
+	/*private void readBT(){
 		Utils.playSound(this, R.raw.read_bt);
 		BluetoothTracker bluetoothTracker = new BluetoothTracker(this);
 		bluetoothTracker.setBluetoothListener(new BluetoothTracker.bluetoothListener() {
@@ -611,7 +609,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		
 		
-	}
+	}*/
 	
 	
 
@@ -645,7 +643,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		Log.i(FILE_TAG, "read Sensors");
 		Utils.playSound(this, R.raw.read_sensors);
-		mLocationData = new LocationData();		
+		mLocationData = new LocationData();
+		
+		
 		readWifi();
 	}
 	
@@ -805,15 +805,31 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 	}
 */
+	private void start1MinNoSpeedTimer(){
+		if (mNoSpeedTimer != null){
+			mNoSpeedTimer.cancel();
+			mNoSpeedTimer = null;
+		}
+		mNoSpeedTimer = new NoSpeedTimer(1000*60, 1000);
+		mNoSpeedTimer.startNow1();
+	}
 	
-	
+	private void start5MinNoSpeedTimer(){
+		if (mNoSpeedTimer != null){
+			mNoSpeedTimer.cancel();
+			mNoSpeedTimer = null;
+		}
+		mNoSpeedTimer = new NoSpeedTimer(1000*60*5, 1000);
+		mNoSpeedTimer.startNow1();
+	}
+
 	public class NoSpeedTimer extends CountDownTimer {
 		private boolean mIsActive = false;
 		public NoSpeedTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
-		public void startNow(){
+		public void startNow1(){
 			if (mIsActive)
 				  cancel();
 			start();
@@ -846,6 +862,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
        
 	}
 
+	
 
 	private void finishTimerProcess(){
 		 mWifiWasInit = false;
@@ -867,7 +884,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	public void onCellChanged(int newCellID) {
 		Log.i(FILE_TAG, "onCellChanged");
 		Utils.playSound(this, R.raw.cell_change);
-		mNoSpeedTimer.startNow();
+		start1MinNoSpeedTimer();
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
 		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(this);
 		if (!mIsListenToGPSProvider){
@@ -936,7 +953,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				mIsListenToGPSProvider = true;
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
-				mNoSpeedTimer.startNow();
+				start1MinNoSpeedTimer();
 			}
 		}
 
@@ -1048,7 +1065,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								Utils.playSound(LbmService.this, R.raw.ten_kms);
-								mNoSpeedTimer.startNow();
+								start5MinNoSpeedTimer();
 								
 								if (!mWifiWasInit)
 									initWifi();

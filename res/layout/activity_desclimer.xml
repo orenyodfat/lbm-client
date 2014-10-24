@@ -13,7 +13,6 @@
        android:id="@+id/dsclmr_scrill_view"
        android:layout_width="match_parent"
        android:layout_height="230dp"
-       android:layout_marginTop="@dimen/abc_action_bar_default_height"
        android:fadeScrollbars="false"
        android:scrollbarAlwaysDrawVerticalTrack="false" >
 
@@ -30,18 +29,38 @@
     
       </com.lazooz.lbm.components.MyScrollView>
 
-    <Button
-        android:id="@+id/intro_accept_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
-        android:background="@drawable/btn_gen"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Please scroll down the text\n and accept the terms"
-        android:textColor="@color/white"
-        android:textSize="13sp" />
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/intro_accept_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/btn_gen"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="I accept the terms"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/black50"
+            android:padding="5dp"
+            android:text="Please scroll down the text\n and accept the terms"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </FrameLayout>
 

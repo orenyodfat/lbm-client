@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lazooz.lbm"
-    android:versionCode="20"
-    android:versionName="1.04" >
+    android:versionCode="22"
+    android:versionName="1.05" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -58,11 +58,11 @@
         
         <meta-data
 			android:name="com.google.android.maps.v2.API_KEY"
-        	android:value="AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M" />
+        	android:value="AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw" />
         
 <!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->        
 <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
-<!-- AIzaSyAOZnsC84Vi4cp-zZCattqKsyYlgP1JSdk   production gil-->                       
+<!-- AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M   production -->                       
         
          <meta-data
 			android:name="com.google.android.gms.version"
