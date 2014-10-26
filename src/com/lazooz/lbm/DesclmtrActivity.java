@@ -33,6 +33,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 	private LocationManager mLocationManager;
 	private boolean mIsFromMenuMode;
 	private MyScrollView mScrollView;
+	private TextView mInfohelpTV;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 
 		mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
 		
-		
+		mInfohelpTV = (TextView)findViewById(R.id.textView1);
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
 		String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
 		String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
@@ -63,6 +64,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 		        int diff = (view.getBottom() - (mScrollView.getHeight() + mScrollView.getScrollY()));// Calculate the scrolldiff
 		        if( diff < 80 ){  // if diff is zero, then the bottom has been reached
 		        	nextBtn.setEnabled(true);
+		        	mInfohelpTV.setVisibility(View.INVISIBLE);
 		        }
 				
 			}
