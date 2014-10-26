@@ -184,13 +184,20 @@ public class MySharedPreferences {
 	
 	public long getRoute(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
-		return spData.getLong("CurrentRoute", 1);
+		long route = spData.getLong("CurrentRoute", -1);
+		if (route > -1)
+			return route;
+		
+		long numTime = System.currentTimeMillis();
+		spData.edit().putLong("CurrentRoute", numTime).commit();
+		return numTime;
 	}
 	
 	public void promoteRoute(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
-		long current = spData.getLong("CurrentRoute", 1);
-		spData.edit().putLong("CurrentRoute", ++current).commit();
+
+		long numTime = System.currentTimeMillis();
+		spData.edit().putLong("CurrentRoute", numTime).commit();
 	}
 	
 	public void saveLocationData(Context context, LocationData ld){
