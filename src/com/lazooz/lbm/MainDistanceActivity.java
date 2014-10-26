@@ -33,6 +33,7 @@ import com.lazooz.lbm.utils.Utils;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -232,11 +233,10 @@ public class MainDistanceActivity extends ActionBarActivity {
         incomeRenderer.setColor(Color.WHITE);
         incomeRenderer.setPointStyle(PointStyle.CIRCLE);
         incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(2);
+        
         incomeRenderer.setDisplayChartValues(true);
         incomeRenderer.setDisplayChartValuesDistance(15);
-        incomeRenderer.setChartValuesTextSize(20);
-        incomeRenderer.setLineWidth(4);
+        
         incomeRenderer.setDisplayBoundingPoints(false); // for hiding the series when we scroll
     	
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
@@ -248,16 +248,34 @@ public class MainDistanceActivity extends ActionBarActivity {
         multiRenderer.setBackgroundColor(0xf7f7f7);
         multiRenderer.setMarginsColor(0xf7f7f7);
         multiRenderer.setMargins(new int[] { 50, 60, 60, 30 });
-        multiRenderer.setAxisTitleTextSize(20);
-        multiRenderer.setChartTitleTextSize(25);
-        multiRenderer.setLabelsTextSize(20);
+        
+        if (Utils.getScreenDendity(this) > DisplayMetrics.DENSITY_HIGH){
+        	multiRenderer.setAxisTitleTextSize(20);
+        	multiRenderer.setChartTitleTextSize(25);
+        	multiRenderer.setLabelsTextSize(20);
+        	multiRenderer.setPointSize(8);
+        	incomeRenderer.setLineWidth(4);
+        	incomeRenderer.setChartValuesTextSize(20);
+        }
+        else{
+        	multiRenderer.setAxisTitleTextSize(12);
+        	multiRenderer.setChartTitleTextSize(18);
+        	multiRenderer.setLabelsTextSize(12);
+        	multiRenderer.setPointSize(5);
+        	incomeRenderer.setLineWidth(2);
+        	incomeRenderer.setChartValuesTextSize(15);
+        }
+        
+        
+        
+        
         
         
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
         multiRenderer.setPanEnabled(true, false); // scroll only x axis so true
         multiRenderer.setZoomEnabled(ZOOM_X,false);
-        multiRenderer.setPointSize(8);  // increase the width of point size
+         
         multiRenderer.setXLabelsPadding(10);
         
         
@@ -350,11 +368,8 @@ public class MainDistanceActivity extends ActionBarActivity {
         incomeRenderer.setColor(Color.WHITE);
         incomeRenderer.setPointStyle(PointStyle.CIRCLE);
         incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(2);
         incomeRenderer.setDisplayChartValues(true);
         incomeRenderer.setDisplayChartValuesDistance(15);
-        incomeRenderer.setChartValuesTextSize(20);
-        incomeRenderer.setLineWidth(4);
         incomeRenderer.setDisplayBoundingPoints(false); // for hiding the series when we scroll
     	
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
@@ -366,9 +381,6 @@ public class MainDistanceActivity extends ActionBarActivity {
         multiRenderer.setBackgroundColor(0xf7f7f7);
         multiRenderer.setMarginsColor(0xf7f7f7);
         multiRenderer.setMargins(new int[] { 50, 60, 60, 30 });
-        multiRenderer.setAxisTitleTextSize(20);
-        multiRenderer.setChartTitleTextSize(25);
-        multiRenderer.setLabelsTextSize(20);
         
         multiRenderer.setXLabelsAlign(Align.CENTER);
         multiRenderer.setYLabelsAlign(Align.RIGHT);
@@ -377,6 +389,25 @@ public class MainDistanceActivity extends ActionBarActivity {
         
         multiRenderer.setPointSize(8);  // increase the width of point size
         multiRenderer.setXLabelsPadding(10);
+        
+        
+        if (Utils.getScreenDendity(this) > DisplayMetrics.DENSITY_HIGH){
+        	multiRenderer.setAxisTitleTextSize(20);
+        	multiRenderer.setChartTitleTextSize(25);
+        	multiRenderer.setLabelsTextSize(20);
+        	multiRenderer.setPointSize(8);
+        	incomeRenderer.setLineWidth(4);
+        	incomeRenderer.setChartValuesTextSize(20);
+        }
+        else{
+        	multiRenderer.setAxisTitleTextSize(12);
+        	multiRenderer.setChartTitleTextSize(18);
+        	multiRenderer.setLabelsTextSize(12);
+        	multiRenderer.setPointSize(5);
+        	incomeRenderer.setLineWidth(2);
+        	incomeRenderer.setChartValuesTextSize(15);
+        }
+
         
         
         xyValues = new LinkedHashMap<Integer,String>();

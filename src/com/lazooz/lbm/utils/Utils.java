@@ -58,6 +58,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -650,6 +651,31 @@ public class Utils {
 		        int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
 		        return plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
 		}
-		
+	    
+	    public static int getScreenDendity(Activity activity){
+	        DisplayMetrics metrics = new DisplayMetrics();
+	        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	        int density = metrics.densityDpi;
+
+	        if (density==DisplayMetrics.DENSITY_HIGH) {
+	            Log.e("Screen Density: ","HIGH");
+	        }
+	        else if (density==DisplayMetrics.DENSITY_MEDIUM) {
+	            Log.e("Screen Density: ","MEDIUM");
+	        }
+	        else if (density==DisplayMetrics.DENSITY_LOW) {
+	            Log.e("Screen Density: ","LOW");
+	        }
+	        else if (density==DisplayMetrics.DENSITY_XHIGH) {
+	            Log.e("Screen Density: ","XHIGH");
+	        }
+	        else if (density==DisplayMetrics.DENSITY_XXHIGH) {
+	            Log.e("Screen Density: ","XXHIGH");
+	        }
+	        else {
+	            Log.e("Screen Density: ","UNKNOWN_CATEGORY");
+	        }
+	        return density;
+	    }
 		
 }

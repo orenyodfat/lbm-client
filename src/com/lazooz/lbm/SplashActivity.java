@@ -46,6 +46,8 @@ public class SplashActivity extends Activity {
 		mProgressBar = (ProgressBar)findViewById(R.id.splash_progress);
 		
 		
+		Utils.getScreenDendity(this);
+		
 		getScreenTextAsync();
 		
 	

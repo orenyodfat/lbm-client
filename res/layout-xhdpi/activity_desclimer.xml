@@ -56,7 +56,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/black50"
             android:padding="5dp"
-            android:text="Please scroll down the text\n and accept the terms"
+            android:text="Please scroll the text\n and accept the terms"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/white" />
 
