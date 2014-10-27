@@ -263,7 +263,9 @@ public class ContactListActivity extends Activity implements
 			Collections.sort(mContactList, new Comparator<Contact>() {
 				@Override
 				public int compare(Contact lhs, Contact rhs) {
-					return lhs.getName().compareTo(rhs.getName());
+					if ((lhs.getName()!= null)&&(rhs.getName() != null)) 
+					 return lhs.getName().compareTo(rhs.getName());
+					return 0;
 				}
 			});
 
