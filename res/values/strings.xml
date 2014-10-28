@@ -64,7 +64,7 @@
     
     <string name="gps_message_no_gps_yes_net">Your GPS is off, please note that you will not be able to collect zoozs</string>
     <string name="gps_message_no_gps_no_net">Your GPS and your network location are turned off, please note that you will not be able to collect zoozs</string>
-    <string name="gps_message_yes_gps_no_net">Your network location is turn off. we recommend to turn on your network location</string>
+    <string name="gps_message_yes_gps_no_net">Your network location is disable. It is recommended to enable it for battery usage efficiency</string>
     
     <string name="splash_version_check_title">New Version</string>
     <string name="splash_version_check_les_current">There is a new version of La\'Zooz, please update app from Google Play.</string>
@@ -80,6 +80,13 @@
     <string name="settings_mining_enable_disable_mining_title">Mining</string>
     <string name="settings_mining_enable_disable_mining_summary_enable">Mining is enabled</string>
     <string name="settings_mining_enable_disable_mining_summary_disable">Mining is disabled</string>
+
+    
+    <string name="settings_category_privacy">Privacy</string>
+    <string name="settings_privacy_show_my_location_title">Visibility to Others</string>
+    <string name="settings_privacy_show_my_location_summary_enable">My position is visible to others (no itentity)</string>
+    <string name="settings_privacy_show_my_location_summary_disable">My position is hidden</string>
+    
     
      <string-array name="sched_gps">
         <item>a day</item>

@@ -828,4 +828,20 @@ public class MySharedPreferences {
 		return (System.currentTimeMillis() > reminderTime);
 	}
 	
+	public boolean hasNetworkLocationReminderDisplayed(Context context){
+		SharedPreferences spData = context.getSharedPreferences("GPSReminder",Context.MODE_MULTI_PROCESS);
+		return spData.getBoolean("NetworkLocationReminderDisplayed", false);
+	}
+	
+	public void setNetworkLocationReminderDisplay(Context context){
+		SharedPreferences spData = context.getSharedPreferences("GPSReminder",Context.MODE_MULTI_PROCESS);
+		spData.edit().putBoolean("NetworkLocationReminderDisplayed", true).commit();
+	}
+
+	public boolean getShowMyLocationSettings(Context context) {
+
+		
+		return false;
+	}
+	
 }

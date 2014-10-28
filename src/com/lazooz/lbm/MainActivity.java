@@ -323,7 +323,7 @@ public class MainActivity extends MyActionBarActivity  {
 		else if (!isGPSEnabled && !isNetworkEnabled)
 			showSettingsAlert(getString(R.string.gps_message_no_gps_no_net));
 		else if (isGPSEnabled && !isNetworkEnabled)
-			showSettingsAlert(getString(R.string.gps_message_yes_gps_no_net));
+			showSettingsAlertOneTime(getString(R.string.gps_message_yes_gps_no_net));
 	}
 
 
@@ -342,11 +342,46 @@ public class MainActivity extends MyActionBarActivity  {
 
 		
 	}
+	public void showSettingsAlertOneTime(String theMessage){
+		
+		
+		
+		if(MySharedPreferences.getInstance().hasNetworkLocationReminderDisplayed(this)) 
+			return;
+		
+		MySharedPreferences.getInstance().setNetworkLocationReminderDisplay(this);
+		
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+   	 
+
+		alert.setTitle(getString(R.string.gps_activate_gps_title));
+		alert.setMessage(theMessage);
+ 
+		alert.setPositiveButton(getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+            	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            	startActivity(intent);
+            }
+        });
+ 
+		alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	mNoGPSAlertDialogIsOn = false;
+            	dialog.cancel();
+            }
+        });
+ 
+
+		alert.show();
+	}
+	
 	
 	public void showSettingsAlert(String theMessage){
 		
 		if (mNoGPSAlertDialogIsOn)
 			return;
+		
 		
 		if(!MySharedPreferences.getInstance().hasTimePassedForGPSReminder(this)) // if it is not the time to show the dialog - return
 			return;
