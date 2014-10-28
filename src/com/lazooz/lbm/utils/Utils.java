@@ -433,6 +433,10 @@ public class Utils {
 	}
 
 	public static void playSound1(Context cntxt, int rawVal){
+		boolean SoundEnabledMode = MySharedPreferences.getInstance().getSoundEnabledMode(cntxt);
+		if (SoundEnabledMode == false)
+			return;
+		
 		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
 		mpTada.setVolume(1.0f, 1.0f);

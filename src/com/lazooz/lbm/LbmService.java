@@ -748,6 +748,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		if (!isNetworkEnabled)
 			mTelephonyDataTracker.requestCellUpdates(LbmService.this);
+		Utils.playSound1(LbmService.this,R.raw.potential_zooz_mining_ended);
 	}
 
 	@Override
@@ -763,6 +764,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				mIsListenToGPSProvider = true;
 				mTelephonyDataTracker.removeUpdates();
 				MySharedPreferences.getInstance().promoteRoute(this);
+				Utils.playSound1(this, R.raw.potential_zooz_mining_stared);
+				
 			}
 		}		
 	}
@@ -824,6 +827,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
 				start1MinNoSpeedTimer();
+				Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
 			}
 		}
 

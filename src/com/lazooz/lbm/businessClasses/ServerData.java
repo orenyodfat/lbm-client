@@ -1,5 +1,10 @@
 package com.lazooz.lbm.businessClasses;
 
+import android.content.Context;
+
+import com.lazooz.lbm.R;
+import com.lazooz.lbm.utils.Utils;
+
 public class ServerData {
 	private String mDistance;
 	private String mZoozBalance;
@@ -34,8 +39,12 @@ public class ServerData {
 	public void setZoozBalance(String zoozBalance) {
 		mZoozBalance = zoozBalance;
 	}
-	public void setPotentialZoozBalance(String potZoozBalance) {
-		mPotZoozBalance = potZoozBalance;
+	public void setPotentialZoozBalance(String potZoozBalance,Context context) {
+		if (mPotZoozBalance!= potZoozBalance)
+		{
+		   Utils.playSound1(context, R.raw.drop_coin_10);
+		   mPotZoozBalance = potZoozBalance;   
+		}
 	}
 	public boolean isDistanceAchievement() {
 		return mIsDistanceAchievement;

@@ -17,14 +17,21 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 
 	public static final String KEY_CHARGER_CONNECT = "key_charger_connectivity";
 	public static final String KEY_MINING_ENA_DIS = "key_mining_enable_disable";
+	public static final String KEY_SOUND_ENA_DIS = "key_sound_enable_disable";
 	
 	
 	public static final boolean PREF_MINING_CHARGER_CONNECTIVITY_DEFAULT = true;
 	public static final boolean PREF_MINING_MINING_ENAB_DIS_DEFAULT = true;
+	public static final boolean PREF_SOUND_GESTERS_ENAB_DIS_DEFAULT = true;
+	
+	
 	
 	private PreferenceScreen mPrefSet;
 	private CheckBoxPreference mPowerSaverPref;
 	private CheckBoxPreference mMiningEnaDisPref;
+	private CheckBoxPreference mSoundEnaDisPref;
+	
+	
 
 
 
@@ -55,7 +62,14 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_enable);
 		else 
 			mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_disable);
-			
+		
+		mSoundEnaDisPref = (CheckBoxPreference)mPrefSet.findPreference(KEY_SOUND_ENA_DIS);  
+		mSoundEnaDisPref.setChecked(MySharedPreferences.getInstance().getSoundEnabledMode(this));
+		mSoundEnaDisPref.setTitle(R.string.settings_sound_enable_disable_title);
+		if(mSoundEnaDisPref.isChecked())
+			mSoundEnaDisPref.setSummary(R.string.settings_sound_enable_disable_summary_enable);
+		else 
+			mSoundEnaDisPref.setSummary(R.string.settings_sound_enable_disable_summary_disable);
 
 		
 	}
@@ -104,6 +118,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 				mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_enable);
 			else 
 				mMiningEnaDisPref.setSummary(R.string.settings_mining_enable_disable_mining_summary_disable);
+			
+			
+		}
+        else if (key.equals(KEY_SOUND_ENA_DIS)){
+			
+			MySharedPreferences.getInstance().setSoundEnabledMode(this, mSoundEnaDisPref.isChecked());
+			
+			if(mSoundEnaDisPref.isChecked())
+				mSoundEnaDisPref.setSummary(R.string.settings_sound_enable_disable_summary_enable);
+			else 
+				mSoundEnaDisPref.setSummary(R.string.settings_sound_enable_disable_summary_disable);
 			
 			
 		}

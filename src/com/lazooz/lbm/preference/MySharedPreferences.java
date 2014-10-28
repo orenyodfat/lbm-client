@@ -449,7 +449,7 @@ public class MySharedPreferences {
 		ServerData sd = new ServerData();
 		
 		sd.setZoozBalance(spData.getString("ZoozBalance", "0.0"));
-		sd.setPotentialZoozBalance(spData.getString("PotentialZoozBalance", "0.0"));
+		sd.setPotentialZoozBalance(spData.getString("PotentialZoozBalance", "0.0"),context);
 		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
@@ -801,9 +801,19 @@ public class MySharedPreferences {
 		return spData.getBoolean("MiningEnabledMode", SettingsActivity.PREF_MINING_MINING_ENAB_DIS_DEFAULT);
 	}
 	
+	public boolean getSoundEnabledMode(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.getBoolean("SoundEnabledMode", SettingsActivity.PREF_SOUND_GESTERS_ENAB_DIS_DEFAULT);
+	}
+	
 	public boolean setMiningEnabledMode(Context context, boolean mode) {
 		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
 		return spData.edit().putBoolean("MiningEnabledMode", mode).commit();
+	}
+	
+	public boolean setSoundEnabledMode(Context context, boolean mode) {
+		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
+		return spData.edit().putBoolean("SoundEnabledMode", mode).commit();
 	}
 
 	public void activateGPSReminder(Context context, boolean isDay, boolean isWeek, boolean isNever) {

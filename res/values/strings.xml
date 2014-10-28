@@ -78,8 +78,12 @@
     <string name="settings_mining_charger_connectivity_summary_off">Mining regardless charger cable connectivity</string>
     
     <string name="settings_mining_enable_disable_mining_title">Mining</string>
-    <string name="settings_mining_enable_disable_mining_summary_enable">Mining is enabled</string>
-    <string name="settings_mining_enable_disable_mining_summary_disable">Mining is disabled</string>
+    <string name="settings_mining_enable_disable_mining_summary_enable">Mining enable</string>
+    <string name="settings_mining_enable_disable_mining_summary_disable">Mining disable</string>
+    
+    <string name="settings_sound_enable_disable_title">Sound</string>
+    <string name="settings_sound_enable_disable_summary_enable">Sound enable</string>
+    <string name="settings_sound_enable_disable_summary_disable">Sound disable</string>
 
     
     <string name="settings_category_privacy">Privacy</string>
