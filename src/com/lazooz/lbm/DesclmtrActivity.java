@@ -8,6 +8,8 @@ import com.lazooz.lbm.utils.Utils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -28,12 +30,11 @@ import android.provider.Settings;
 public class DesclmtrActivity extends ActionBarActivity {
 
 	private Button nextBtn;
-	private Button gpsActivateBtn;
 	private TextView mInfoTV;
 	private LocationManager mLocationManager;
 	private boolean mIsFromMenuMode;
 	private MyScrollView mScrollView;
-	private TextView mInfohelpTV;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +48,6 @@ public class DesclmtrActivity extends ActionBarActivity {
 
 		mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
 		
-		mInfohelpTV = (TextView)findViewById(R.id.textView1);
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
 		String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
 		String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
@@ -63,8 +63,6 @@ public class DesclmtrActivity extends ActionBarActivity {
 				View view = (View) mScrollView.getChildAt(mScrollView.getChildCount()-1);
 		        int diff = (view.getBottom() - (mScrollView.getHeight() + mScrollView.getScrollY()));// Calculate the scrolldiff
 		        if( diff < 80 ){  // if diff is zero, then the bottom has been reached
-		        	nextBtn.setEnabled(true);
-		        	mInfohelpTV.setVisibility(View.INVISIBLE);
 		        }
 				
 			}
@@ -72,7 +70,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 		
 		
 		nextBtn = (Button)findViewById(R.id.intro_accept_btn);
-		nextBtn.setEnabled(false);
+		nextBtn.setEnabled(true);
 		nextBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -82,7 +80,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 					
 					
 				if (!isGPSEnabled && !isNetworkEnabled)
-					Utils.showSettingsAlert(DesclmtrActivity.this, getString(R.string.gps_message_no_gps_no_net));
+					Utils.showSettingsAlertNoRem(DesclmtrActivity.this, getString(R.string.gps_message_no_gps_no_net));
 				else{
 					Intent intent = new Intent(DesclmtrActivity.this, MapShowLocationActivity.class);
 					intent.putExtra("MISSION_GPS_ON", true);
@@ -93,13 +91,8 @@ public class DesclmtrActivity extends ActionBarActivity {
 			}
 		});
 		
-/*		if (mIsFromMenuMode){
-			nextBtn.setVisibility(View.INVISIBLE);
-		}
-			
-		if (!mIsFromMenuMode)
-			MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_INTRO);
-*/		
+		
+		
 		
 		
 	}

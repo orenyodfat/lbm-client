@@ -49,17 +49,6 @@
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/black50"
-            android:padding="5dp"
-            android:text="Please scroll the text\n and accept the terms"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/white" />
-
     </LinearLayout>
 
 </FrameLayout>
