@@ -81,7 +81,18 @@
     <string name="settings_mining_enable_disable_mining_summary_enable">Mining is enabled</string>
     <string name="settings_mining_enable_disable_mining_summary_disable">Mining is disabled</string>
     
+     <string-array name="sched_gps">
+        <item>a day</item>
+        <item>a week</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
     
+     
     <string-array name="days_array">
         <item>NULL</item>
         <item>Sun</item>

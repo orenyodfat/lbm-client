@@ -42,6 +42,7 @@ public class GPSNotifDialogActivity extends Activity {
 	    	
 	    	@Override
 	        public void onClick(DialogInterface dialog, int which) {
+	    		
 	    		 CheckBox cb = (CheckBox)view.findViewById(R.id.dont_show_cb);
 	    		 MySharedPreferences.getInstance().setDefaultGPSNotif(GPSNotifDialogActivity.this, cb.isChecked(), System.currentTimeMillis());
  				 dialog.cancel();
@@ -52,6 +53,7 @@ public class GPSNotifDialogActivity extends Activity {
 	    
 	    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
+            	
 	    		 CheckBox cb = (CheckBox)view.findViewById(R.id.dont_show_cb);
     			 MySharedPreferences.getInstance().setDefaultGPSNotif(GPSNotifDialogActivity.this, cb.isChecked(), System.currentTimeMillis());
             	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

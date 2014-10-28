@@ -42,6 +42,11 @@ public class MainShakeActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View arg0) {
 				
+				Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
+				startActivity(intent);
+				finish();
+				
+				/*
 				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 				boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 				boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -53,7 +58,7 @@ public class MainShakeActivity extends ActionBarActivity {
 					Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
 					startActivity(intent);
 					finish();
-				}
+				}*/
 				
 			}
 		});

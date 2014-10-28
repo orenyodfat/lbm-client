@@ -805,4 +805,27 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
 		return spData.edit().putBoolean("MiningEnabledMode", mode).commit();
 	}
+
+	public void activateGPSReminder(Context context, boolean isDay, boolean isWeek, boolean isNever) {
+		SharedPreferences spData = context.getSharedPreferences("GPSReminder",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		
+		if (isDay)
+			editor.putLong("reminderTime", System.currentTimeMillis() + 24*60*60*1000); // 1 day
+			//editor.putLong("reminderTime", System.currentTimeMillis() + 60*1000); // for testing
+		else if (isWeek)
+			editor.putLong("reminderTime", System.currentTimeMillis() + 7*24*60*60*1000); // 7 days
+			//editor.putLong("reminderTime", System.currentTimeMillis() + 5*60*1000); // for testing
+		else if (isNever)
+			editor.putLong("reminderTime", System.currentTimeMillis() + 365*24*60*60*1000); // one year
+		
+		editor.commit();
+	}
+	
+	public boolean hasTimePassedForGPSReminder(Context context){
+		SharedPreferences spData = context.getSharedPreferences("GPSReminder",Context.MODE_MULTI_PROCESS);
+		long reminderTime = spData.getLong("reminderTime", 0);
+		return (System.currentTimeMillis() > reminderTime);
+	}
+	
 }

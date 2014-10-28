@@ -68,7 +68,7 @@ public class IntroActivity extends ActionBarActivity {
 					
 					
 				if (!isGPSEnabled && !isNetworkEnabled)
-					Utils.showSettingsAlert(IntroActivity.this, getString(R.string.gps_message_no_gps_no_net));
+					Utils.showSettingsAlertNoRem(IntroActivity.this, getString(R.string.gps_message_no_gps_no_net));
 				else{
 					Intent intent = new Intent(IntroActivity.this, DesclmtrActivity.class);
 					startActivity(intent);

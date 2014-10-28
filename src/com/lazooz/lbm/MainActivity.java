@@ -22,6 +22,7 @@ import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -39,6 +40,7 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +78,8 @@ public class MainActivity extends MyActionBarActivity  {
 	private TextView mCriticalMassLocationTV;
 	protected boolean mUnderCurrentVersionShowed;
 	private boolean mUnderMinVersionShowed;
-
+	private AlertDialog.Builder mNoGPSAlertDialog;
+	private boolean mNoGPSAlertDialogIsOn = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//super.onCreate(savedInstanceState);
@@ -314,11 +319,11 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		
 		if (!isGPSEnabled && isNetworkEnabled)
-			Utils.showSettingsAlert(this, getString(R.string.gps_message_no_gps_yes_net));
+			showSettingsAlert(getString(R.string.gps_message_no_gps_yes_net));
 		else if (!isGPSEnabled && !isNetworkEnabled)
-			Utils.showSettingsAlert(this, getString(R.string.gps_message_no_gps_no_net));
+			showSettingsAlert(getString(R.string.gps_message_no_gps_no_net));
 		else if (isGPSEnabled && !isNetworkEnabled)
-			Utils.showSettingsAlert(this, getString(R.string.gps_message_yes_gps_no_net));
+			showSettingsAlert(getString(R.string.gps_message_yes_gps_no_net));
 	}
 
 
@@ -338,7 +343,72 @@ public class MainActivity extends MyActionBarActivity  {
 		
 	}
 	
-	
+	public void showSettingsAlert(String theMessage){
+		
+		if (mNoGPSAlertDialogIsOn)
+			return;
+		
+		if(!MySharedPreferences.getInstance().hasTimePassedForGPSReminder(this)) // if it is not the time to show the dialog - return
+			return;
+		
+		mNoGPSAlertDialogIsOn = true;
+		
+		mNoGPSAlertDialog = new AlertDialog.Builder(this);
+   	 
+		final View addView = getLayoutInflater().inflate(R.layout.activation_gps_notif_new_dlg, null);
+		
+		mNoGPSAlertDialog.setView(addView);
+		
+		RadioGroup rg = (RadioGroup)addView.findViewById(R.id.gps_reminder_rg);
+		rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (checkedId == R.id.gps_reminder_day_rb){
+					
+				}
+				else if (checkedId == R.id.gps_reminder_week_rb){
+					
+				}
+				else if (checkedId == R.id.gps_reminder_never_rb){
+					
+				}
+			}
+		});
+		mNoGPSAlertDialog.setTitle(getString(R.string.gps_activate_gps_title));
+		mNoGPSAlertDialog.setMessage(theMessage);
+ 
+		mNoGPSAlertDialog.setPositiveButton(getString(R.string.gps_activate_gps_setting), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+            	RadioButton rbDay = (RadioButton)addView.findViewById(R.id.gps_reminder_day_rb);
+            	RadioButton rbWeek = (RadioButton)addView.findViewById(R.id.gps_reminder_week_rb);
+            	RadioButton rbNever = (RadioButton)addView.findViewById(R.id.gps_reminder_never_rb);
+            	MySharedPreferences.getInstance().activateGPSReminder(MainActivity.this, rbDay.isChecked(), rbWeek.isChecked(), rbNever.isChecked());
+            	mNoGPSAlertDialogIsOn = false;
+            	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            	startActivity(intent);
+            }
+        });
+ 
+		mNoGPSAlertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	RadioButton rbDay = (RadioButton)addView.findViewById(R.id.gps_reminder_day_rb);
+            	RadioButton rbWeek = (RadioButton)addView.findViewById(R.id.gps_reminder_week_rb);
+            	RadioButton rbNever = (RadioButton)addView.findViewById(R.id.gps_reminder_never_rb);
+            	MySharedPreferences.getInstance().activateGPSReminder(MainActivity.this, rbDay.isChecked(), rbWeek.isChecked(), rbNever.isChecked());
+            	mNoGPSAlertDialogIsOn = false;
+            	dialog.cancel();
+            }
+        });
+ 
+		mNoGPSAlertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				mNoGPSAlertDialogIsOn = false;
+			}
+		});
+
+		mNoGPSAlertDialog.show();
+	}
 	protected void UpdateGUI() {
 
 		MySharedPreferences msp = MySharedPreferences.getInstance();

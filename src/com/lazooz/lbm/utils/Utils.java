@@ -60,6 +60,9 @@ import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class Utils {
@@ -310,7 +313,7 @@ public class Utils {
 	
 	
 	
-	public static void showSettingsAlert(final Context context, String theMessage){
+	public static void showSettingsAlertNoRem(final Context context, String theMessage){
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
    	 
         // Setting Dialog Title
@@ -337,6 +340,12 @@ public class Utils {
         // Showing Alert Message
         alertDialog.show();
 	}
+
+
+
+
+
+
 
 	public static void sendNotifications(Context cntxt, int icon, String tickerText, 
 			String notifTitle, String notifText, Intent notifIntent, boolean withSound){
