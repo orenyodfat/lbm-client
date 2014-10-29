@@ -470,8 +470,7 @@ public class MySharedPreferences {
 		
 		
 		String pz = spData.getString("PotentialZoozBalance", "0.0");
-		if (spData.getString("PotentialZoozBalance", "0.0").equalsIgnoreCase(potentialZoozBalance)==false)
-			 Utils.playSound1(context, R.raw.drop_coin_10);
+		
 		editor.putString("PotentialZoozBalance", potentialZoozBalance);
 		
 		editor.putString("Distance", distance);

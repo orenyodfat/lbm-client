@@ -82,6 +82,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private long mLastReadSensorsTime = 0;
 	private boolean mWifiWasSetOnByMe = false;
 	private boolean mWifiWasInit = false;
+	private String mPotentialZoozBalance = "0.0";
+	private String mPrevPotentialZoozBalance = "0.0";
+	
 	
 	public LbmService() {
 	}
@@ -235,8 +238,17 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 	
 	protected void checkEveryLongPeriod() {
+		
+		MySharedPreferences msp = MySharedPreferences.getInstance();
+		
 		sendDataToServerAsync();
 		isLiveAsync();
+		if (mPotentialZoozBalance.compareTo(mPrevPotentialZoozBalance)!= 0)
+		{
+			 Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+			 mPrevPotentialZoozBalance = mPotentialZoozBalance;
+		}
+		
 	}
 	
 		
@@ -476,7 +488,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
-						
+						mPotentialZoozBalance = potentialZoozBalance;
 						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievement);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
