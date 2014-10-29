@@ -19,6 +19,12 @@
 	            android:key="key_mining_enable_disable">
         </CheckBoxPreference>
         
+        <CheckBoxPreference
+	            android:defaultValue="true"
+            	android:title="@string/settings_sound_enable_disable_title" 
+            	android:summary="@string/settings_sound_enable_disable_summary_enable" 
+	            android:key="key_sound_enable_disable">
+        </CheckBoxPreference>
     </PreferenceCategory>
     
     

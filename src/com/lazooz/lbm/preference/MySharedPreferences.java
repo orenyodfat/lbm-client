@@ -13,6 +13,7 @@ import com.lazooz.lbm.CongratulationsRegActivity;
 import com.lazooz.lbm.IntroActivity;
 import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.MapShowLocationActivity;
+import com.lazooz.lbm.R;
 import com.lazooz.lbm.RegistrationActivity;
 import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.Contact;
@@ -449,7 +450,7 @@ public class MySharedPreferences {
 		ServerData sd = new ServerData();
 		
 		sd.setZoozBalance(spData.getString("ZoozBalance", "0.0"));
-		sd.setPotentialZoozBalance(spData.getString("PotentialZoozBalance", "0.0"),context);
+		sd.setPotentialZoozBalance(spData.getString("PotentialZoozBalance", "0.0"));
 		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
@@ -466,6 +467,11 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
+		
+		
+		String pz = spData.getString("PotentialZoozBalance", "0.0");
+		if (spData.getString("PotentialZoozBalance", "0.0").equalsIgnoreCase(potentialZoozBalance)==false)
+			 Utils.playSound1(context, R.raw.drop_coin_10);
 		editor.putString("PotentialZoozBalance", potentialZoozBalance);
 		
 		editor.putString("Distance", distance);

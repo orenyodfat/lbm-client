@@ -72,6 +72,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private NoSpeedTimer mNoSpeedTimer;
 	private TelephonyDataTracker mTelephonyDataTracker;
 	private boolean mIsListenToGPSProvider;
+	private boolean mIsListenToGPSProviderFromCellChange = false;
 	private boolean mIsRequestLocationUpdateFirstTime = true;
 	private boolean mWifiWasEnabled;
 	private WifiTracker mWifiTracker;
@@ -762,9 +763,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
 				start1MinNoSpeedTimer();
 				mIsListenToGPSProvider = true;
+				mIsListenToGPSProviderFromCellChange =true;
 				mTelephonyDataTracker.removeUpdates();
 				MySharedPreferences.getInstance().promoteRoute(this);
-				Utils.playSound1(this, R.raw.potential_zooz_mining_stared);
+//				Utils.playSound1(this, R.raw.potential_zooz_mining_stared);
 				
 			}
 		}		
@@ -940,6 +942,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								Utils.playSound(LbmService.this, R.raw.ten_kms);
+								if (mIsListenToGPSProviderFromCellChange)
+								{ 
+									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
+									/* It need to ba handle*/
+									Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+									mIsListenToGPSProviderFromCellChange = false;
+									
+								}
 								start5MinNoSpeedTimer();
 								
 								if (!mWifiWasInit)

@@ -293,12 +293,16 @@ public class MainDistanceActivity extends ActionBarActivity {
         
     	multiRenderer.setXLabels(0);
 	    multiRenderer.setShowAxes(false);
-	    multiRenderer.setXAxisMin(0);
-	    multiRenderer.setXAxisMax(X_AXIS_MAX);
-	    if(totalXlength < X_AXIS_MAX){
-	    	multiRenderer.setXAxisMax(totalXlength);
-	    }
-    	multiRenderer.setPanEnabled(true);
+	    
+	     multiRenderer.setXAxisMin(totalXlength-5);
+	     multiRenderer.setXAxisMax( totalXlength+1 );
+
+	     if(totalXlength <= X_AXIS_MAX){
+	     multiRenderer.setXAxisMin(0); 
+	     multiRenderer.setXAxisMax(totalXlength);
+	     }
+	    
+	    multiRenderer.setPanEnabled(true);
     	multiRenderer.setPanLimits(new double [] {0,totalXlength+1,0,0});
     	
     	multiRenderer.setYAxisMin(Utils.getMinValueFromList(values));
@@ -424,11 +428,15 @@ public class MainDistanceActivity extends ActionBarActivity {
         
     	multiRenderer.setXLabels(0);
 	    multiRenderer.setShowAxes(false);
-	    multiRenderer.setXAxisMin(0);
-	    multiRenderer.setXAxisMax(X_AXIS_MAX);
-	    if(totalXlength < X_AXIS_MAX){
-	    	multiRenderer.setXAxisMax(totalXlength);
-	    }
+	     
+	     multiRenderer.setXAxisMin(totalXlength-5);
+	     multiRenderer.setXAxisMax( totalXlength+1 );
+
+	     if(totalXlength <= X_AXIS_MAX){
+	     multiRenderer.setXAxisMin(0); 
+	     multiRenderer.setXAxisMax(totalXlength);
+	     }
+
     	multiRenderer.setPanEnabled(true);
     	multiRenderer.setPanLimits(new double [] {0,totalXlength+1,0,0});
     	

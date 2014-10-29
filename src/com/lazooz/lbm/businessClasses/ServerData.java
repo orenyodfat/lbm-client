@@ -39,12 +39,9 @@ public class ServerData {
 	public void setZoozBalance(String zoozBalance) {
 		mZoozBalance = zoozBalance;
 	}
-	public void setPotentialZoozBalance(String potZoozBalance,Context context) {
-		if (mPotZoozBalance!= potZoozBalance)
-		{
-		   Utils.playSound1(context, R.raw.drop_coin_10);
-		   mPotZoozBalance = potZoozBalance;   
-		}
+	public void setPotentialZoozBalance(String potZoozBalance) {
+	
+		mPotZoozBalance = potZoozBalance; 
 	}
 	public boolean isDistanceAchievement() {
 		return mIsDistanceAchievement;

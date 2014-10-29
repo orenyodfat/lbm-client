@@ -7,7 +7,9 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.CellInfoGsm;
 import android.telephony.CellLocation;
+import android.telephony.CellSignalStrengthGsm;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
@@ -20,7 +22,7 @@ public class TelephonyDataTracker {
 	private OnTelephonyDataListener mOnTelephonyDataListener;
 	private Timer mTimer;
 	private TelephonyManager mTelephonyManager;
-	private int mLastCid = 0;
+	private int mLastCid = 0xFFFF;
 
 	public TelephonyDataTracker(Context context){
 		mTelephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -65,22 +67,34 @@ public class TelephonyDataTracker {
 	protected void checkEveryPeriod() {
 		GsmCellLocation gsmCellLocation;
 		CdmaCellLocation cdmaCellLocation;
+		int CallState = mTelephonyManager.getCallState();
+		int  DataState = mTelephonyManager.getDataState();
+
 		try {
 			CellLocation cellLocation = (CellLocation)mTelephonyManager.getCellLocation();
 			if (cellLocation != null){
 				int cellId = 0;
+				int level;
 				
 				if(cellLocation instanceof GsmCellLocation) {
 					gsmCellLocation = (GsmCellLocation)cellLocation;
 					cellId = gsmCellLocation.getCid();
+					// for example value of first element
+		
 				}
 				else if(cellLocation instanceof CdmaCellLocation) {
 					cdmaCellLocation = (CdmaCellLocation)cellLocation;
 					cellId = cdmaCellLocation.getBaseStationId();
 				}
-
-				if(mLastCid  != cellId){
-					mLastCid = cellId;
+                cellId &=0xFFFF;
+                
+                if (mLastCid == 0xFFFF) /*First Time*/
+				{
+                	 mLastCid = cellId;
+				}
+                else if ((cellId!=-1)&& (mLastCid  != cellId)){
+					
+					 mLastCid = cellId;
 					 Message msg = handler.obtainMessage();
 				     handler.sendMessage(msg);
 				}
