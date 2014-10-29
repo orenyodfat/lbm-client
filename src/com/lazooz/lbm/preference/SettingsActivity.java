@@ -22,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	
 	public static final boolean PREF_MINING_CHARGER_CONNECTIVITY_DEFAULT = true;
 	public static final boolean PREF_MINING_MINING_ENAB_DIS_DEFAULT = true;
-	public static final boolean PREF_SOUND_GESTERS_ENAB_DIS_DEFAULT = true;
+	public static final boolean PREF_SOUND_GESTERS_ENAB_DIS_DEFAULT = false;
 	
 	
 	
