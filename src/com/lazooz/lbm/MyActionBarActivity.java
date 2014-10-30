@@ -6,28 +6,21 @@ package com.lazooz.lbm;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-
-
 import com.lazooz.lbm.businessClasses.DrawerItem;
 import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.preference.SettingsActivity;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;

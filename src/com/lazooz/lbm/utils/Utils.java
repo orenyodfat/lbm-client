@@ -4,7 +4,6 @@ package com.lazooz.lbm.utils;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -21,9 +20,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
-import com.lazooz.lbm.BuildConfig;
 import com.lazooz.lbm.R;
-import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -39,8 +36,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -53,16 +48,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class Utils {
@@ -79,7 +69,7 @@ public class Utils {
 
 
 			
-			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 			outputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			Date now = new Date();
 			outputText = outputFormat.format(now);
@@ -96,7 +86,7 @@ public class Utils {
 	public static String getTimeInGMT(Date theDate){
 		String outputText = "";	
 		try {
-			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 			outputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			outputText = outputFormat.format(theDate);
 
@@ -113,7 +103,7 @@ public class Utils {
 	public static String getDateTimeFromMilli(long milliSeconds, String dateFormat)
     {
 	        // Create a DateFormatter object for displaying date in specified format.
-	        DateFormat formatter = new SimpleDateFormat(dateFormat);
+	        DateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
 
 	        // Create a calendar object that will convert the date and time value in milliseconds to date. 
 	         Calendar calendar = Calendar.getInstance();
@@ -367,11 +357,8 @@ public class Utils {
 
 	public static Notification createNotificationsOngoing(Context cntxt, int icon, String tickerText, 
 		String notifTitle, String notifText, Intent notifIntent){
-
-		final int MY_NOTIFICATION_ID = 2;
-		NotificationManager notificationManager;
 		Notification myNotification;
-		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);
+		
 		myNotification = new Notification(icon, tickerText, System.currentTimeMillis());
 		Context context = cntxt.getApplicationContext();
 		String notificationTitle = notifTitle;
@@ -528,7 +515,7 @@ public class Utils {
 	public static String addDays(double xValue, String initialDate) {
 		//String initialDate="2014-9-28";//can take any date in current format   
 		//SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
-		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd" );
+		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd",Locale.US );
 		String convertedDate = null;
 		Calendar cal = Calendar.getInstance();    
 		try {
@@ -553,7 +540,7 @@ public class Utils {
         }
     }
     
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
 	private static final Date invalidDate = new Date(0);
 
 	

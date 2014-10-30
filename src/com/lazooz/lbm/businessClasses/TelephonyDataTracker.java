@@ -19,10 +19,10 @@ import android.util.Log;
 
 public class TelephonyDataTracker {
 
-	private OnTelephonyDataListener mOnTelephonyDataListener;
+	private static OnTelephonyDataListener mOnTelephonyDataListener;
 	private Timer mTimer;
 	private TelephonyManager mTelephonyManager;
-	private int mLastCid = 0xFFFF;
+	private static int mLastCid = 0xFFFF;
 
 	public TelephonyDataTracker(Context context){
 		mTelephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -104,7 +104,7 @@ public class TelephonyDataTracker {
 		}
 	}
 
-	 private final Handler handler = new Handler() {
+	 private final static Handler handler = new Handler() {
 	        public void handleMessage(Message msg) {
             	  try {
             		  mOnTelephonyDataListener.onCellChanged(mLastCid);

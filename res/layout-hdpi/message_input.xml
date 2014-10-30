@@ -25,7 +25,7 @@
 
             <EditText
                 android:id="@+id/recmsg_name_et"
-                android:layout_width="fill_parent"
+                android:layout_width= "0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="save for later" />
+            android:text="@string/save_for_later" />
 
     </LinearLayout>
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="save for later" />
+            android:text="@string/save_for_later" />
 
     </LinearLayout>
 

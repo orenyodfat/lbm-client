@@ -480,7 +480,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				else {
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
-						Utils.playSound(LbmService.this, R.raw.server_sent);
+					//	//Utils.playSound(LbmService.this, R.raw.server_sent);
 						MySharedPreferences.getInstance().commitReadCursor(LbmService.this);
 						String zoozBalance = jsonReturnObj.getString("zooz");
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
@@ -575,7 +575,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 
 	private void readWifi(){
-		Utils.playSound(this, R.raw.read_wf);
+		//Utils.playSound(this, R.raw.read_wf);
 		if (mWifiTracker.isWifiEnabled()){
 			if (!mWifiTracker.scan()){ // scan failed, the onFinishScan will not be called
 				mLocationData.setHasWifiData(false);
@@ -592,7 +592,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	/*private void readBT(){
-		Utils.playSound(this, R.raw.read_bt);
+		//Utils.playSound(this, R.raw.read_bt);
 		BluetoothTracker bluetoothTracker = new BluetoothTracker(this);
 		bluetoothTracker.setBluetoothListener(new BluetoothTracker.bluetoothListener() {
 			
@@ -655,7 +655,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		
 		Log.i(FILE_TAG, "read Sensors");
-		Utils.playSound(this, R.raw.read_sensors);
+		//Utils.playSound(this, R.raw.read_sensors);
 		mLocationData = new LocationData();
 		
 		
@@ -681,7 +681,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
 		Log.i(FILE_TAG, "save location data locally");
 		Log.i(FILE_TAG, "data: " + mLocationData.toJSON().toString());
-		Utils.playSound(this, R.raw.save);
+		//Utils.playSound(this, R.raw.save);
 		mReadingSensorsNow = false;
 	}
 
@@ -731,7 +731,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
        @Override
         public void onFinish() {
     	   Log.i(FILE_TAG, "onFinish GPS Times");
-    	   Utils.playSound(LbmService.this, R.raw.timer_end);
+    	   //Utils.playSound(LbmService.this, R.raw.timer_end);
     	   
     	   finishTimerProcess();
 			
@@ -767,7 +767,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public void onCellChanged(int newCellID) {
 		Log.i(FILE_TAG, "onCellChanged");
-		Utils.playSound(this, R.raw.cell_change);
+		//Utils.playSound(this, R.raw.cell_change);
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
 		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(this);
 		if (!mIsListenToGPSProvider){
@@ -874,7 +874,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		}
 		
 		
-		//Utils.playSound(LbmService.this, R.raw.disable_provider_net);
+		////Utils.playSound(LbmService.this, R.raw.disable_provider_net);
 		mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 
 		
@@ -883,26 +883,26 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public void onProviderEnabled(String provider) {
 		Log.i(FILE_TAG, "network onProviderEnabled - " + provider);
-		//Utils.playSound(LbmService.this, R.raw.enable_provider_net);
+		////Utils.playSound(LbmService.this, R.raw.enable_provider_net);
 		mTelephonyDataTracker.removeUpdates();
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		if (status == LocationProvider.OUT_OF_SERVICE){
-			Utils.playSound(LbmService.this, R.raw.status_no_service);
+			//Utils.playSound(LbmService.this, R.raw.status_no_service);
 			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", OUT_OF_SERVICE");
 			if (!mIsListenToGPSProvider)
 				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
-			Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
+			//Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
 			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
 			if (!mIsListenToGPSProvider)
 				mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 		}
 		else if (status == LocationProvider.AVAILABLE){
-			Utils.playSound(LbmService.this, R.raw.status_avail);
+			//Utils.playSound(LbmService.this, R.raw.status_avail);
 			Log.i(FILE_TAG, "network onStatusChanged - " + provider + ", AVAILABLE");
 			mTelephonyDataTracker.removeUpdates();
 		}
@@ -937,7 +937,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			
 			
 			
-			Utils.playSound(LbmService.this, R.raw.gps);
+			//Utils.playSound(LbmService.this, R.raw.gps);
 			if (mSendingDataToServer){
 				Log.i(FILE_TAG, "GPS onLocationChanged during sending data to server");
 				return;
@@ -953,7 +953,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						if (location.hasAccuracy()){
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
-								Utils.playSound(LbmService.this, R.raw.ten_kms);
+								//Utils.playSound(LbmService.this, R.raw.ten_kms);
 								if (mIsListenToGPSProviderFromCellChange)
 								{ 
 									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
@@ -970,17 +970,17 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 								readSensors();
 							}
 							else if(location.getAccuracy()> 100){  				
-								Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
+								//Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
 							} 
 							else if(location.getAccuracy()> 50){  				
-								Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
+								//Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
 							} 
 							else if(location.getAccuracy()> 25){  				
-								Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
+								//Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
 							} 
 						}
-						else
-							Utils.playSound(LbmService.this, R.raw.no_accuracy);
+						//else
+							//Utils.playSound(LbmService.this, R.raw.no_accuracy);
 					}
 				}
 				
@@ -1021,15 +1021,15 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			if (status == LocationProvider.OUT_OF_SERVICE){
-				Utils.playSound(LbmService.this, R.raw.status_no_service);
+				//Utils.playSound(LbmService.this, R.raw.status_no_service);
 				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", OUT_OF_SERVICE");
 			}
 			else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE){
-				Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
+				//Utils.playSound(LbmService.this, R.raw.status_no_service_temp);
 				Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", TEMPORARILY_UNAVAILABLE");
 			}
 			else if (status == LocationProvider.AVAILABLE){
-				Utils.playSound(LbmService.this, R.raw.status_avail);
+				//Utils.playSound(LbmService.this, R.raw.status_avail);
 				//Log.i(FILE_TAG, "GPS onStatusChanged - " + provider + ", AVAILABLE");
 			}
 			

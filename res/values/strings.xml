@@ -91,6 +91,9 @@
     <string name="settings_privacy_show_my_location_summary_enable">My position is visible to others (no itentity)</string>
     <string name="settings_privacy_show_my_location_summary_disable">My position is hidden</string>
     
+    <string name="save_for_later">save for later</string>
+    
+    
     
      <string-array name="sched_gps">
         <item>a day</item>

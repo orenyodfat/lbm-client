@@ -93,13 +93,13 @@
             android:label="@string/app_name" >
         </activity>
         
-        
         <activity
-            android:name="com.lazooz.lbm.MissionGPSOnActivity"
+            android:name="com.lazooz.lbm.MyActionBarActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
+        
         <activity
             android:name="com.lazooz.lbm.CongratulationsGPSActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -112,12 +112,7 @@
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name="com.lazooz.lbm.MissionDrive100Activity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
-        </activity>
+       
         <activity
             android:name="com.lazooz.lbm.CongratulationsRegActivity"
             android:configChanges="orientation|keyboardHidden"
