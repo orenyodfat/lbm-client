@@ -448,9 +448,12 @@ public class Utils {
     }
 
     public static void setTitleColor(Activity activity, int color){
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView titleTV = (TextView)activity.findViewById(titleId); 
-		titleTV.setTextColor(color);
+		try {
+			int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+			TextView titleTV = (TextView)activity.findViewById(titleId); 
+			titleTV.setTextColor(color);
+		} catch (Exception e) {
+		}
 
     }
  

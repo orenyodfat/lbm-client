@@ -243,10 +243,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		sendDataToServerAsync();
 		isLiveAsync();
-		if (mPotentialZoozBalance.compareTo(mPrevPotentialZoozBalance)!= 0)
-		{
-			 Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
-			 mPrevPotentialZoozBalance = mPotentialZoozBalance;
+		try {
+			if (mPotentialZoozBalance.compareTo(mPrevPotentialZoozBalance)!= 0)
+			{
+				 Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+				 mPrevPotentialZoozBalance = mPotentialZoozBalance;
+			}
+		} catch (Exception e) {
 		}
 		
 	}
