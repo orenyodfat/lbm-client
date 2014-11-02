@@ -73,6 +73,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private TelephonyDataTracker mTelephonyDataTracker;
 	private boolean mIsListenToGPSProvider;
 	private boolean mIsListenToGPSProviderFromCellChange = false;
+	private boolean mIsListenToGPSProviderFromNetChange = false;
 	private boolean mIsRequestLocationUpdateFirstTime = true;
 	private boolean mWifiWasEnabled;
 	private WifiTracker mWifiTracker;
@@ -244,7 +245,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		sendDataToServerAsync();
 		isLiveAsync();
 		try {
-			if (mPotentialZoozBalance.compareTo(mPrevPotentialZoozBalance)!= 0)
+			if ((Integer.parseInt(mPotentialZoozBalance)-Integer.parseInt(mPrevPotentialZoozBalance))>=1)
 			{
 				 Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
 				 mPrevPotentialZoozBalance = mPotentialZoozBalance;
@@ -844,7 +845,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
 				start1MinNoSpeedTimer();
-				Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+				mIsListenToGPSProviderFromNetChange = true;
+				//Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
 			}
 		}
 
@@ -957,12 +959,15 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								//Utils.playSound(LbmService.this, R.raw.ten_kms);
-								if (mIsListenToGPSProviderFromCellChange)
+								if (mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange)
 								{ 
 									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
 									/* It need to ba handle*/
 									Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
-									mIsListenToGPSProviderFromCellChange = false;
+									if (mIsListenToGPSProviderFromCellChange)
+									 mIsListenToGPSProviderFromCellChange = false;
+									if (mIsListenToGPSProviderFromNetChange)
+										mIsListenToGPSProviderFromNetChange = false;
 									
 								}
 								start5MinNoSpeedTimer();
