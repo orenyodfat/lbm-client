@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 public class SplashActivity extends Activity {
 	
 	protected int _splashTime = 3000;
-	private boolean mFinishAnimation;
 	private boolean mFinishTimer;
 	private boolean mFinishRetrieveData;
 	private ProgressBar mProgressBar;
@@ -85,7 +84,7 @@ public class SplashActivity extends Activity {
 
 	public Class<?> getNextActivity(){
 		int stage = MySharedPreferences.getInstance().getStage(this);
-
+       // stage = MySharedPreferences.STAGE_REG_CONGRATS;
 		switch (stage) {
 		case MySharedPreferences.STAGE_NEVER_RUN:
 			return IntroActivity.class;
@@ -162,7 +161,6 @@ public class SplashActivity extends Activity {
 
 		private int mSrvrMinBuildNum;
 		private int mSrvrCurrentBuildNum;
-		private int mLocalBuildNum;
 
 
 		@Override
@@ -172,10 +170,8 @@ public class SplashActivity extends Activity {
         	
               
         	JSONObject jsonReturnObj=null;
-			try {
-				MySharedPreferences msp = MySharedPreferences.getInstance();
-				
-				
+			try {				
+	
 				bServerCom.getScreenInfoText();
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {

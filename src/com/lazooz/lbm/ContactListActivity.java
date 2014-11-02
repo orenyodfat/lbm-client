@@ -42,7 +42,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -196,11 +195,11 @@ public class ContactListActivity extends Activity implements
 		 mMessageNameET.addTextChangedListener(mTextNameWatcher);
 		 //mMessageNameET.requestFocus();
 		 
-		 
+		
 		 Builder builder = new AlertDialog.Builder(ContactListActivity.this);
 		 builder.setTitle(getString(R.string.recommendation_input_msg_title));
 		 //builder.setMessage(getString(R.string.recommendation_input_msg_body));
-		 builder.setView(mMessageView);
+				 builder.setView(mMessageView);
 		 builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
             	 if(mMessageNameCB.isChecked())
@@ -519,7 +518,7 @@ public class ContactListActivity extends Activity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			
+		//	android.os.Debug.waitForDebugger();
 			CreateList(null);
 			sortList();
 

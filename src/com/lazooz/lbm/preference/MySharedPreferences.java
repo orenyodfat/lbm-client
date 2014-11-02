@@ -3,7 +3,6 @@ package com.lazooz.lbm.preference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,9 +12,7 @@ import com.lazooz.lbm.CongratulationsRegActivity;
 import com.lazooz.lbm.IntroActivity;
 import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.MapShowLocationActivity;
-import com.lazooz.lbm.R;
 import com.lazooz.lbm.RegistrationActivity;
-import com.lazooz.lbm.SplashActivity;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.ServerData;
@@ -24,7 +21,6 @@ import com.lazooz.lbm.businessClasses.UserNotificationList;
 import com.lazooz.lbm.utils.Utils;
 
 import android.content.Context;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
@@ -417,7 +413,6 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
 		
 		JSONArray jsArray = new JSONArray();
-		JSONObject retObj = new JSONObject() ;
 		
 		Map<String,?> keys = spData.getAll();
 		
@@ -467,9 +462,6 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		editor.putString("ZoozBalance", zoozBalance);
-		
-		
-		String pz = spData.getString("PotentialZoozBalance", "0.0");
 		
 		editor.putString("PotentialZoozBalance", potentialZoozBalance);
 		
@@ -777,14 +769,12 @@ public class MySharedPreferences {
 	public boolean isUnderMinBuildNum(Context context){
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		int srvrMinBuildNum = spData.getInt("MinBuildNum", 0);
-		int srvrCurrentBuildNum = spData.getInt("CurrentBuildNum", 0);
 		int localBuildNum = Utils.getVersionCode(context);
 		return (localBuildNum < srvrMinBuildNum);
 	}
 
 	public boolean isUnderCurrentBuildNum(Context context){
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
-		int srvrMinBuildNum = spData.getInt("MinBuildNum", 0);
 		int srvrCurrentBuildNum = spData.getInt("CurrentBuildNum", 0);
 		int localBuildNum = Utils.getVersionCode(context);
 		return (localBuildNum < srvrCurrentBuildNum);

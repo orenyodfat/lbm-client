@@ -1,10 +1,6 @@
 package com.lazooz.lbm;
 
 
-
-
-import java.util.Calendar;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,16 +18,12 @@ import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -41,11 +33,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.Menu;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -328,13 +318,10 @@ public class MainActivity extends MyActionBarActivity  {
 
 
 	private void startOnDayScheduler() {
-		Calendar cal = Calendar.getInstance();
+		
 		Intent intent = new Intent(this, AlarmOneDaySchedReciever.class);
 		PendingIntent pintent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		
-		Random r = new Random();
-		int delay = r.nextInt(1000);
 		
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
@@ -453,12 +440,7 @@ public class MainActivity extends MyActionBarActivity  {
 		float distanceLocal = msp.getLocalDistance(this);
 		float distanceTotal = distanceFromServer + distanceLocal;
 		float distanceKMf = distanceTotal / 1000;
-		float distanceMf = distanceTotal % 1000;
 
-		int distanceKMd = (int)distanceKMf;
-		int distanceMd = (int)distanceMf;
-		
-		int localDist = (int)distanceLocal;
 		
 		//mDistanceTV.setText(String.format("%dkm  %dm , l=%d", distanceKMd, distanceMd, localDist));
 		//mDistanceTV.setText(String.format("%dkm  %dm", distanceKMd, distanceMd));
@@ -466,7 +448,6 @@ public class MainActivity extends MyActionBarActivity  {
 
 		
 		//mDistanceTV.setText(sd.getDistance());
-		float zb = Float.valueOf(sd.getZoozBalance());
 		float pzb = Float.valueOf(sd.getPotentialZoozBalance());
 		mZoozBalTV.setText(String.format("%.2f", pzb));
 		
@@ -523,10 +504,10 @@ public class MainActivity extends MyActionBarActivity  {
 				mProgBar.setVisibility(View.GONE);
 		    if (requestCode == 1) {
 		        if(resultCode == RESULT_OK){
-		        	String fromActivity = data.getStringExtra("ACTIVITY");
+		        //	String fromActivity = data.getStringExtra("ACTIVITY");
 		        	String theMessage = data.getStringExtra("MESSAGE");
-		        	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
-		            Log.e("aaa", s);
+		        //	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
+		        //    Log.e("aaa", s);
 		            sendFriendRecommendToServerAsync(theMessage);
 		        }
 		        if (resultCode == RESULT_CANCELED) {

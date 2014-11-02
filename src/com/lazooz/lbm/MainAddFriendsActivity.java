@@ -1,15 +1,12 @@
 package com.lazooz.lbm;
 
-import java.io.InputStream;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -21,37 +18,28 @@ import org.json.JSONObject;
 
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.ContactFriendList;
-import com.lazooz.lbm.businessClasses.StatsData;
-import com.lazooz.lbm.businessClasses.StatsDataList;
-import com.lazooz.lbm.businessClasses.StatsDataMiners;
-import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
 import com.lazooz.lbm.businessClasses.StatsDataMinersList;
+import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
-import com.lazooz.lbm.utils.ChartUtil;
 import com.lazooz.lbm.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 
 public class MainAddFriendsActivity extends ActionBarActivity {
 
@@ -325,21 +313,6 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 
 
 }*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private void getUserContactDataAsync(){
 		GetUserContactData getUserContactData = new GetUserContactData();
 		getUserContactData.execute();
@@ -500,7 +473,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		}
 	}
 
-	private JSONObject readJasonFile(){
+	/*private JSONObject readJasonFile(){
         InputStream is;
         String s = "";
 		try {
@@ -516,7 +489,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			return null;
 		}
 			
-	}
+	}*/
 	
 	public void updateGUI() {
 		//mAdapter = new FriendsAdapter(this, R.layout.friend_row, mContactFriendsList);//, mContactList);
@@ -527,7 +500,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 	}
 
 	
-	private void CreateList(String constraint){
+	/*private void CreateList(String constraint){
 		HashMap<String, Contact> contactList = new HashMap<String, Contact>();
 		String currentLocale = Utils.getCurrentLocale(this);
 		List<String> contactsWithApp = MySharedPreferences.getInstance().getContactsWithInstalledApp(this);
@@ -562,7 +535,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		
 		
 	}
-	
+	*/
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -570,11 +543,13 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				mProgBar.setVisibility(View.GONE);
 		    if (requestCode == 1) {
 		        if(resultCode == RESULT_OK){
-		        	String fromActivity = data.getStringExtra("ACTIVITY");
+		      //  	String fromActivity = data.getStringExtra("ACTIVITY");
 		        	String theMessage = data.getStringExtra("MESSAGE");
-		        	String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
-		            Log.e("aaa", s);
-		            sendFriendRecommendToServerAsync(theMessage);
+		        	//String s = MySharedPreferences.getInstance().getRecommendUserList(this).toString();
+		            //Log.e("aaa", s);
+		        	sendFriendRecommendViaSMS(theMessage+"\n"+StaticParms.PLAY_STORE_APP_LINK);
+		            sendFriendRecommendToServerAsync("*");
+		            
 		        }
 		        if (resultCode == RESULT_CANCELED) {
 		            //Write your code if there's no result
@@ -584,7 +559,33 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 
 	
 	
+	private void sendFriendRecommendViaSMS(String theMessage)
+	{
+		MySharedPreferences msp = MySharedPreferences.getInstance();
+		JSONArray dataList = msp.getRecommendUserList(MainAddFriendsActivity.this);
+		int i;
+		String ContactsNumbers= new String("smsto:");
+		
+		JSONObject retObj = new JSONObject() ;
+		
+		try {
+			for(i=0;i<dataList.length();i++){
+				retObj = dataList.getJSONObject(i);
+				Contact contact = new Contact(retObj,"IL");
+				ContactsNumbers = ContactsNumbers.concat(contact.getPhoneNo());
+				
+				if (i < dataList.length()-1)
+					ContactsNumbers = ContactsNumbers.concat(";");
+			 }
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	
+		Intent smsIntent = new Intent(Intent.ACTION_SENDTO,Uri.parse(ContactsNumbers));
+		smsIntent.putExtra("sms_body",theMessage);
+		startActivity(smsIntent);
+	}
 	
 	private void sendFriendRecommendToServerAsync(String theMessage){
 		FriendRecommendToServer friendRecommendToServer = new FriendRecommendToServer();
@@ -639,7 +640,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			
 			if (result.equals("success")){
-				Toast.makeText(MainAddFriendsActivity.this, "Recommendation Sent", Toast.LENGTH_LONG).show();
+				Toast.makeText(MainAddFriendsActivity.this, R.string.invitation_sent, Toast.LENGTH_LONG).show();
 				getUserContactDataAsync();
 				//startActivity(new Intent(MainAddFriendsActivity.this, CongratulationsGetFriendsActivity.class));
 			}
