@@ -52,7 +52,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".Analytics">
         
         <uses-library android:name="com.google.android.maps" />
         
@@ -304,6 +305,17 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+        <!-- Used for Google Play Store Campaign Measurement-->;
+         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+         <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+          android:exported="true">
+         <intent-filter>
+         <action android:name="com.android.vending.INSTALL_REFERRER" />
+  </intent-filter>
+</receiver>
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+          <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
+                     android:resource="@xml/global_tracker" />
     </application>
 
 </manifest>
