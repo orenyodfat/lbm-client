@@ -571,7 +571,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		try {
 			for(i=0;i<dataList.length();i++){
 				retObj = dataList.getJSONObject(i);
-				Contact contact = new Contact(retObj,"IL");
+				Contact contact = new Contact(retObj,"");
 				ContactsNumbers = ContactsNumbers.concat(contact.getPhoneNo());
 				
 				if (i < dataList.length()-1)

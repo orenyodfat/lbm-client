@@ -73,6 +73,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private TelephonyDataTracker mTelephonyDataTracker;
 	private boolean mIsListenToGPSProvider;
 	private boolean mIsListenToGPSProviderFromCellChange = false;
+	private boolean mSoundStart = false;
 	private boolean mIsListenToGPSProviderFromNetChange = false;
 	private boolean mIsRequestLocationUpdateFirstTime = true;
 	private boolean mWifiWasEnabled;
@@ -765,7 +766,11 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		if (!isNetworkEnabled)
 			mTelephonyDataTracker.requestCellUpdates(LbmService.this);
-		Utils.playSound1(LbmService.this,R.raw.potential_zooz_mining_ended);
+		if (mSoundStart)
+		{			
+		 Utils.playSound1(LbmService.this,R.raw.potential_zooz_mining_ended);
+		 mSoundStart =false;
+		}
 	}
 
 	@Override
@@ -959,11 +964,12 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								//Utils.playSound(LbmService.this, R.raw.ten_kms);
-								if (mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange)
+								if ((mSoundStart== false)&&(mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange))
 								{ 
 									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
 									/* It need to ba handle*/
 									Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+									mSoundStart = true;
 									if (mIsListenToGPSProviderFromCellChange)
 									 mIsListenToGPSProviderFromCellChange = false;
 									if (mIsListenToGPSProviderFromNetChange)
