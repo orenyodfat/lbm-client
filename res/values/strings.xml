@@ -35,8 +35,8 @@
 	<string name="drawer_entry_settings">Settings</string>
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
-	<string name="forground_notif_title">notif title</string>
-	<string name="forground_notif_text">notif text</string>
+	<string name="forground_notif_title">La\'zooz</string>
+	<string name="forground_notif_text">Running .Tap to open.</string>
 	
 	
 	<string-array name="drawer_array">

@@ -171,7 +171,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		    
 		
 		
-		//myStartForeground();
+		myStartForeground();
 		
 		return Service.START_STICKY;
 	}

@@ -35,8 +35,8 @@
 	<string name="drawer_entry_settings">הגדרות</string>
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
-	<string name="forground_notif_title">notif title</string>
-	<string name="forground_notif_text">notif text</string>
+	<string name="forground_notif_title">לזוז</string>
+	<string name="forground_notif_text">פועל.לחץ לפתיחה.</string>
 	 
 	
 	<string-array name="drawer_array">
