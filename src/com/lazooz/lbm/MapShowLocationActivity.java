@@ -115,7 +115,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	            @Override
 	            public void run() {
 	            	if (!mAsAccuraccy)
-	                addPurpleToolTipView("Identifing your location....");
+	                addPurpleToolTipView(getString(R.string.identifying_your_location));
 	            }
 	        }, 1000);
 		
@@ -150,7 +150,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
     	mAsAccuraccy = true;
     	if (accuracy < 25){
     		if (!mIsAccuraccyAccomplished)
-    			addPurpleToolTipView("Successfully located, please continue to the next screen.");
+    			addPurpleToolTipView(getString(R.string.successfuly_located));
     		mIsAccuraccyAccomplished = true;
     		nextBtn.setVisibility(View.VISIBLE);
     	}
@@ -159,7 +159,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
         mMyProgBar.invalidate();
         
         if (!mIsAccuraccyAccomplished)
-        	addPurpleToolTipView("Please reach the open air to improve your location accuracy");
+        	addPurpleToolTipView(getString(R.string.improve_your_location));
 		
 	}
 

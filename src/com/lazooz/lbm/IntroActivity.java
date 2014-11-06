@@ -45,7 +45,8 @@ public class IntroActivity extends ActionBarActivity {
 		
 		
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
-		String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
+		//String theText = MySharedPreferences.getInstance().getIntroScreenText(this);
+		String theText = getString(R.string.intro_text);
 		try{
 			theText = theText.replace("%v%", Utils.getVersionName(this));
 		}

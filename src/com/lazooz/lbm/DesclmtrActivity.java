@@ -49,8 +49,10 @@ public class DesclmtrActivity extends ActionBarActivity {
 		mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
 		
 		mInfoTV = (TextView)findViewById(R.id.intro_info_tv);
-		String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
-		String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
+		String theTitle = getString(R.string.disclaimer_title);
+		//String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
+		//String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
+		String theText = getString(R.string.disclaimer_text);
 		
 		mInfoTV.setText(theTitle + "\n"+ theText);
 		

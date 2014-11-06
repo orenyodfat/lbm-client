@@ -15,7 +15,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Meeting with other users face to face helps in securing the network.\n\nBut it is also fun :)\n\nIn this step you are prompt to interact with other users by meeting with them and shaking your phones together.\nFor each shake with a new user you will mine 20 Zooz."
+        android:text="@string/shake_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"
         android:textSize="15sp" />

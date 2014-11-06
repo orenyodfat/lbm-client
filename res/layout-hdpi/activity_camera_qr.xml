@@ -14,7 +14,7 @@
 
   <TextView
     android:id="@+id/scanText"
-    android:text="Scanning..."
+    android:text="@string/scanning"
     android:layout_height="wrap_content" 
     android:layout_width="match_parent">
   </TextView>

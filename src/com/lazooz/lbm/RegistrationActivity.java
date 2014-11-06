@@ -282,15 +282,15 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		}
 
 		new AlertDialog.Builder(RegistrationActivity.this)
-			.setTitle("Phone number verification")
-			.setMessage("Register with: " + mPhoneNoInternational +" ?")
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			.setTitle(getString(R.string.Phone_number_verification))
+			.setMessage(getString(R.string.register_with) + mPhoneNoInternational +" ?")
+			.setPositiveButton(getString(R.string.approve), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					registerToServerAsync(mPhoneNoE164);
 				}	
 			})
-			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();				
@@ -416,10 +416,10 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
-				Toast.makeText(RegistrationActivity.this, "Thank you. We are sending you now the validation code.", Toast.LENGTH_LONG).show();
+				Toast.makeText(RegistrationActivity.this, getString(R.string.send_validation_code_thanks), Toast.LENGTH_LONG).show();
 			}
 			else if (result.equals("error_cell_not_valid")){
-				Utils.messageToUser(RegistrationActivity.this, "Input Error", "The number is not valid, please enter a valid cell phone number.");
+				Utils.messageToUser(RegistrationActivity.this, "Input Error",getString(R.string.send_validation_code_fail));
 				//Toast.makeText(RegistrationActivity.this, "Invalid phone number", Toast.LENGTH_LONG).show();				
 			}
 
@@ -488,7 +488,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 				startNextScreen();
 			}
 			else{
-				Toast.makeText(RegistrationActivity.this, "Validation failed, please check the code", Toast.LENGTH_LONG).show();
+				Toast.makeText(RegistrationActivity.this, getString(R.string.code_validation_fail), Toast.LENGTH_LONG).show();
 			}
 		}
 		
@@ -538,9 +538,9 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setTitle("Validation Succeeded");
-		    alertDialog.setMessage("Congratulation, you've got yourself a new digital wallet!");
-		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		    alertDialog.setTitle(getString(R.string.code_validation_success));
+		    alertDialog.setMessage(getString(R.string.congratulation_for_registration));
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok_button), new DialogInterface.OnClickListener() {
 		    	
 		    	@Override
 		        public void onClick(DialogInterface dialog, int which) {
@@ -559,9 +559,9 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 			
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		    alertDialog.setCanceledOnTouchOutside(false);
-		    alertDialog.setTitle("Validation Succeeded");
-		    alertDialog.setMessage("Welcome Back!");
-		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		    alertDialog.setTitle(getString(R.string.code_validation_success));
+		    alertDialog.setMessage(getString(R.string.welcome_back));
+		    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok_button), new DialogInterface.OnClickListener() {
 		    	
 		    	@Override
 		        public void onClick(DialogInterface dialog, int which) {
@@ -591,7 +591,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 		  */    	
 		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()
-		      					   .withText("At this stage you are mining potential Zooz tokens, which will be converted into real Zooz tokens upon the use of the collaborative transportation network, once established and the authentication of your data is completed.\nThis procedure is made to avoid an abuse of the system.")
+		      					   .withText(getString(R.string.tool_tip_reg1))
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipButton);
 		      	mToolTipView.setOnToolTipViewClickedListener(this);
 	  }
@@ -599,7 +599,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 	  
 	  private void addToolTipViewInDlg() {
 		      	mToolTipViewDlg = mToolTipFrameLayoutDlg.showToolTipForView(new ToolTip()
-		      	.withText("Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend will be credited with 10 potential Zooz.")
+		      	.withText(getString(R.string.invitation_code_option))
 		                           .withColor(getResources().getColor(R.color.holo_green_light)), mToolTipDlgTV);
 		      	mToolTipViewDlg.setOnToolTipViewClickedListener(new ToolTipView.OnToolTipViewClickedListener() {
 					@Override
