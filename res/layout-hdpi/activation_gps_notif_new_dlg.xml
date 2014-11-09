@@ -5,19 +5,11 @@
     android:orientation="horizontal"
     android:padding="10dp" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Remind me in:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/black" />
-
     <RadioGroup
         android:id="@+id/gps_reminder_rg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_25"
         android:orientation="vertical" >
 
         <RadioButton
@@ -25,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:checked="false"
-            android:text="a day"
+            android:text="@string/a_day"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     	<RadioButton
@@ -33,7 +25,7 @@
     	    android:layout_width="wrap_content"
     	    android:layout_height="25dp"
     	    android:checked="false"
-    	    android:text="a week"
+    	    android:text="@string/a_week"
     	    android:textAppearance="?android:attr/textAppearanceSmall" />
 
     	<RadioButton
@@ -41,9 +33,19 @@
     	    android:layout_width="wrap_content"
     	    android:layout_height="25dp"
     	    android:checked="false"
-    	    android:text="never"
+    	    android:text="@string/never"
     	    android:textAppearance="?android:attr/textAppearanceSmall" />
 
 	</RadioGroup>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="@string/remained_me"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/black" />
 
 </LinearLayout>

@@ -712,6 +712,39 @@ After testing phase they will be stored onto a secured public ledger.</string>
      <string name="registration_5">Enter Validation Code</string>
      <string name="country">Country: </string>
      
+     <string name="remained_me">Remind me in:</string>
+     <string name="a_day">a day</string>
+     <string name="a_week">a week</string>
+     <string name="never">never</string>
+     
+     <string name="validation_code">Validation code:</string>
+     <string name="invitation_code">Invitation code:</string>
+     
+     <string name="send_invitation">Send Invitation</string>
+     
+     <string name="i_accept_the_terms">I accept the terms</string>
+     
+     <string name="friends_accepted_your_invitation">friends accepted \nyour invitation</string>
+     
+     <string name="friends_pending_your_invitation">pending freinds \ninvitations</string>
+     
+      <string name="mined_km">MINED KILOMETERS</string>
+     <string name="km">Km</string>
+     
+     <string name="invited_freinds">INVITED FRIENDS</string>
+     <string name="potential_zooz">POTENTIAL ZOOZ</string>
+     <string name="shakes">shakes</string>
+     <string name="critical_mass">CRITICAL MASS</string>
+      <string name="times_shaken">TIMES SHAKEN</string>
+      <string name="friends">friends</string>
+      <string name="pz">pz</string>
+     
+     
+     
+     
+     
+     
+     
      
      
     

@@ -47,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:lines="2"
                     android:maxLines="2"
-                    android:text="friends accepted \nyour invitation"
+                    android:text="@string/friends_accepted_your_invitation"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -82,10 +82,10 @@
                     android:id="@+id/TextView01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="friends pending \nyour invitation"
+                    android:text="@string/friends_pending_your_invitation"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

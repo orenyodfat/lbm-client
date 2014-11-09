@@ -37,7 +37,7 @@
                     android:id="@+id/TextView23"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MINED KILOMETERS"
+                    android:text="@string/mined_km"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/lazooz_main_title_txt" />
 
@@ -104,7 +104,7 @@
                     android:id="@+id/TextView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="INVITED FRIENDS"
+                    android:text="@string/invited_freinds"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/lazooz_main_title_txt" />
 
@@ -128,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="friends"
+                        android:text="@string/friends"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
@@ -171,7 +171,7 @@
                     android:id="@+id/TextView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TIMES SHAKEN"
+                    android:text="@string/times_shaken"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/lazooz_main_title_txt" />
 
@@ -195,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="shakes"
+                        android:text="@string/shakes"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
@@ -243,7 +243,7 @@
                         android:id="@+id/TextView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="POTENTIAL ZOOZ"
+                        android:text="@string/potential_zooz"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/lazooz_main_title_txt" />
 
@@ -267,7 +267,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:text="pz"
+                            android:text="@string/pz"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/lazooz_main_txt" />
                     </LinearLayout>
@@ -342,7 +342,7 @@
                         android:id="@+id/TextView02"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CRITICAL MASS"
+                        android:text="@string/critical_mass"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/lazooz_main_title_txt" />
 
