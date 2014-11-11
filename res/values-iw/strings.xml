@@ -75,7 +75,7 @@
     <string name="splash_version_check_les_min">הגרסה הנוכחית אינה מעודכנת.בכדי להמשיך ,נא עדכן מחנות גוגל</string>
     
     
-    <string name="settings_category_mining">קרייה</string>
+    <string name="settings_category_mining">כרייה</string>
     <string name="settings_mining_charger_connectivity_title_on">חיבור מטען -פעיל</string>
     <string name="settings_mining_charger_connectivity_title_off">חיבור מטען -אינו פעיל</string>
     <string name="settings_mining_charger_connectivity_summary_on">כרייה רק כאשר כבל הטעינה מחובר</string>
@@ -113,9 +113,7 @@
 כל המידע המוצג לך על ידי האפליקציה יכול להיות לא מדויק או שגוי.גרסה זו כורה זוזים פוטנציאלים לא מאומתים, אימות זוזים פוטנציאלים  אלו עשוי להתגלות כבלתי אפשרי ולכן יתרת הזוזים הפוטנציאלים עלולה להשתנות או להמחק בכל זמן. ניצול לרעה של המערכת יכול גם הוא לגרום למחיקת צבירת הזוזים .ישנו סיכוי שזוזים פוטנציאליים אלו לא יהיה שמישים או שרשת התחבורה השיתופית אולי לא תהפוך שמישה לעולם.</string>
     
     
-    <string name="second_step_screen_text">תנועתך הינה אבן היסוד של הרשת , ואתה תזכה בזוזים פוטנציאלים על תרומתך.
-כל נסיעה עם אפליקצית לזוז במצב כריה תזכה אותך בזוזים פוטנציאלים.
-צירוף חבר לרשת יזכה אותך גם כן בזוזים פוטנציאלים</string>
+    <string name="second_step_screen_text">תנועתך הינה אבן היסוד של הרשת ותרומתך מוערכת ומתוגמלת \nכל נסיעה עם אפליקצית לזוז במצב כריה תזכה אותך בזוזים פוטנציאלים \nצירוף חבר לרשת יזכה אותך גם כן בזוזים פוטנציאלים</string>
     
      <string name="tool_tip_reg1">כעת אתה כורה זוזים פוטנציאלים, כאשר רשת התחבורה באיזורך תהיה פעילה ווידוא אמיתות המידע שנשלח אלינו. תוכל להמיר זוזים פוטנציאלים אלו לתנועה. חלק מהזוזים הפוטנציאלים יומרו לזוזים כפרס על השימוש ברשת התחבורה השיתופית. תהליך זה נוצר כדי לעודד את יצירת רשת התחבורה השיתופית תוך כדי מניעת שימוש לרעה במערכת</string>
 
@@ -132,27 +130,31 @@
     <string name="ok_button">המשך</string>
     <string name="welcome_back">ברוך שובך!</string>
     <string name="next">הבא</string>
-    <string name="whats_next">מה הלאה?</string>
+    <string name="whats_next">מה הלאה</string>
     <string name="registration_1">כעת אתה יכול להתחיל לכרות זוזים פוטנציאלים עבור תרומתך</string>
-     <string name="registration_2">זוזים פוטנציאלים הם מטבעות דיגיטליים המאוחסנים כרגע על השרתים שלנו</string>
-     <string name="registration_3">הכנס את מספר הטלפון שלך כדי ליצור ארנק.
-קוד אימות ישלח בSMS לטלפון שלך. האפליקציה תקרא אותו ותודא שזה מספר הטלפון שלך. במידה והאפליקציה לא עשתה כן העתק את המספר מההודעה והדבק אותו בתיבה שנפתחת בעת לחיצה על כפתור האימות
-</string>
-<string name="registration_4">הרשם</string>
-     <string name="registration_5">הכנס קוד אימות</string>
-     <string name="country">מדינה</string>
+    <string name="registration_2">זוזים פוטנציאלים הם מטבעות דיגיטליים המאוחסנים כרגע על השרתים שלנו</string>
+    <string name="registration_3">הכנס את מספר הטלפון שלך כדי ליצור ארנק\nקוד אימות ישלח אליך באמצעות הודעת טקסט\nהאפליקציה תקרא ותאמת אותו</string>
+    <string name="registration_4">הרשם</string>
+    <string name="registration_5">הכנס קוד אימות</string>
+    <string name="country">מדינה</string>
      
-     <string name="remained_me">הזכר לי</string>
-     <string name="a_day">בעוד יום</string>
-     <string name="a_week">בעוד שבוע</string>
-     <string name="never">לעולם</string>
+    <string name="remained_me">הזכר לי</string>
+    <string name="a_day">בעוד יום</string>
+    <string name="a_week">בעוד שבוע</string>
+    <string name="never">לעולם</string>
      
-     <string name="validation_code">קוד אימות</string>
-     <string name="invitation_code">קוד הזמנה</string>
+    <string name="validation_code">קוד אימות</string>
+    <string name="invitation_code">קוד הזמנה</string>
      
-     <string name="send_invitation">שלח הזמנה</string>
+    <string name="send_invitation">שלח הזמנה</string>
      
-    <string name="mined_km">מרחק שנכרה</string>
+      <string name="i_accept_the_terms">אשר את התנאים</string>
+     
+     <string name="friends_accepted_your_invitation">הזמנות מאושרות</string>
+     
+     <string name="friends_pending_your_invitation">הזמנות ממתינות\nלאישור</string>
+     
+     <string name="mined_km">מרחק שנכרה</string>
      <string name="km">קילומטר</string>
      
      <string name="invited_freinds">חברים שהוזמנו</string>
@@ -162,6 +164,16 @@
       <string name="times_shaken">מספר שקשוקים</string>
       <string name="friends">חברים</string>
       <string name="pz">זפ</string>
+      
+      <string name="gotit">המשך</string>
+      <string name ="potential_zooz_balance">זוזים פוטנציאלים</string>
+      <string name ="zooz_balance">זוזים</string>
+      <string name ="zooz_address">כתובת</string>
+      <string name ="private_key">מפתח פרטי</string>
+      <string name ="scan">סרוק</string>
+       <string name ="export">יצא</string>
+       <string name ="show">הראה</string>
+      
      
  
      

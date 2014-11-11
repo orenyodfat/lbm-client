@@ -45,7 +45,7 @@
             android:background="@drawable/btn_gen"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="I accept the terms"
+            android:text="@string/i_accept_the_terms"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="@color/white" />
 

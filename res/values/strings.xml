@@ -738,6 +738,21 @@ After testing phase they will be stored onto a secured public ledger.</string>
       <string name="times_shaken">TIMES SHAKEN</string>
       <string name="friends">friends</string>
       <string name="pz">pz</string>
+      
+      
+      <string name="gotit">Got it!</string>
+      
+       <string name ="potential_zooz_balance">Potential Zooz Balance</string>
+       <string name ="zooz_balance">Zooz Balance</string>
+       
+       <string name ="zooz_address">Zooz address</string>
+       <string name ="private_key">Private Key</string>
+       <string name ="scan">Scan</string>
+       <string name ="export">Export</string>
+       <string name ="show">Show</string>
+
+       
+       
      
      
      
