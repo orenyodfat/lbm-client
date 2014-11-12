@@ -66,6 +66,7 @@
     
     <string name="gps_message_no_gps_yes_net">Your GPS is off, please note that you will not be able to collect zoozs</string>
     <string name="gps_message_no_gps_no_net">Your GPS and your network location are turned off, please note that you will not be able to collect zoozs</string>
+    <string name="gps_message_no_gps_no_net_feature">Your GPS and your network location are turned off.You need to enable that for this feature</string>
     <string name="gps_message_yes_gps_no_net">Your network location is disable. It is recommended to enable it for battery usage efficiency</string>
     
     <string name="splash_version_check_title">New Version</string>
@@ -701,7 +702,7 @@ But it is also fun :)
 In this step you are prompt to interact with other users by meeting with them and shaking your phones together.
 For each shake with a new user you will mine a number of Potential Zooz tokens.</string>
     
-    
+    <string name="find_lazooz_users">Find La\'Zooz users</string>
      <string name="next">Next</string>
      <string name="whats_next">What\'s Next?</string>
      <string name="registration_1">You can now start receiving Potential Zooz for your contribution</string>

@@ -33,7 +33,8 @@ public class MainShakeActivity extends ActionBarActivity {
 		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mMainTextTV = (TextView)findViewById(R.id.main_shake_maintext_tv);
-		mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));
+		
+		//mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));
 		
 		
 		mNextBtn = (Button)findViewById(R.id.main_shake_next_btn);

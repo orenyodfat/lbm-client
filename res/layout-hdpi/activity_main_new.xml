@@ -61,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="Km"
+                        android:text="@string/km"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>

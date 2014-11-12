@@ -127,6 +127,10 @@
     <string name="congratulation_for_registration">ברכות,יש לך ארנק דיגיטלי חדש!</string>
     <string name="ok_button">המשך</string>
     <string name="welcome_back">ברוך שובך!</string>
+    <string name="do_not_show_this_msg_again">אל תראה הודעה זו שוב</string>
+    <string name="scanning">סורק</string>
+    <string name="shake_text">פגישה עם חברי לזוז עוזרת להבטחת הרשת אך חותא מכך זה כיף:).בשלב זה עליך לשקשק את הטלפון עם משתמש נוסף.בעבור כל שקשוק שתצליח לעשות בזמן,תוכל לזכות בזוז פוטנציאלי </string>
+    <string name="find_lazooz_users">מצא חברי לזוז</string>
     <string name="next">הבא</string>
     <string name="whats_next">מה הלאה</string>
     <string name="registration_1">כעת אתה יכול להתחיל לכרות זוזים פוטנציאלים עבור תרומתך</string>
@@ -161,7 +165,7 @@
      <string name="critical_mass">מסה קריטית</string>
       <string name="times_shaken">מספר שקשוקים</string>
       <string name="friends">חברים</string>
-      <string name="pz">זפ</string>
+      <string name="pz">זוזים פוטנציאלים</string>
       
       <string name="gotit">המשך</string>
       <string name ="potential_zooz_balance">זוזים פוטנציאלים</string>
@@ -173,7 +177,7 @@
        <string name ="show">הראה</string>
        
        
-       <string name ="share_def_text">שלום,הצטרף ללזוז הורד מ:</string>
+       <string name ="share_def_text">הי,מוזמן לזוז.ניתן להוריד מ:</string>
       
      
  

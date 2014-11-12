@@ -552,7 +552,11 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 					RegistrationActivity.this.finish();					        
 		    	}
 		    });
-		    alertDialog.show();
+		    if(!RegistrationActivity.this.isFinishing())
+		    {
+		    	 alertDialog.show();//show dialog
+		    }
+		   
 			
 		}
 		else {
@@ -573,7 +577,8 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 					RegistrationActivity.this.finish();					        
 		    	}
 		    });
-		    alertDialog.show();
+		    if(!RegistrationActivity.this.isFinishing())
+		     alertDialog.show();
 			
 		}
 
