@@ -750,6 +750,10 @@ After testing phase they will be stored onto a secured public ledger.</string>
        <string name ="scan">Scan</string>
        <string name ="export">Export</string>
        <string name ="show">Show</string>
+       
+       <string name ="share_def_text">Hi,\nJoin La\`Zooz .\nDownload from here:\n</string>
+       
+        
 
        
        

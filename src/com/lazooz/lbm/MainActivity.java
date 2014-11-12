@@ -523,7 +523,9 @@ public class MainActivity extends MyActionBarActivity  {
 		  NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);// (only need to do this once)
 		  if (nfc != null) { // in case there is no NFC
 		  // create an NDEF message containing the current URL:
-		  NdefRecord rec = NdefRecord.createUri(StaticParms.PLAY_STORE_APP_LINK_MARKET); // url: current URL (String or Uri)
+		  MySharedPreferences msp = MySharedPreferences.getInstance();
+
+		  NdefRecord rec = NdefRecord.createUri(String.format(StaticParms.PLAY_STORE_APP_LINK_FORMAT,"nfc",msp.getPublicKey(this),msp.getUserId(this))); // url: current URL (String or Uri)
 		  NdefMessage ndef = new NdefMessage(rec);
 		  // make it available via Android Beam:
 		  nfc.setNdefPushMessage(ndef, this);
