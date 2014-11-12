@@ -29,7 +29,7 @@
          android:background="@drawable/gen_btn"
          android:paddingLeft="10dp"
          android:paddingRight="10dp"
-         android:text="Find La&apos;Zooz users"
+         android:text="@string/find_lazooz_users"
          android:textColor="@color/white" />
 
 </FrameLayout>

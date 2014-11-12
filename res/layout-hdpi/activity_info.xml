@@ -30,7 +30,7 @@
                 android:id="@+id/TextView01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Version: "
+                android:text="@string/info_version"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
@@ -53,7 +53,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Application Build Number: "
+                android:text="@string/info_app_build_version"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
@@ -76,7 +76,7 @@
                 android:id="@+id/TextView03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Server Build Number: "
+                android:text="@string/info_server_build_number"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
