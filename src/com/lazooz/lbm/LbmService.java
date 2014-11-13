@@ -110,7 +110,12 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		return location;
 	}
 	
-	
+	@Override
+	public void onDestroy()
+	{
+		//Utils.playSound1(LbmService.this, R.raw.status_no_service);
+		
+	}
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    //Toast.makeText(this, "onStartCommand", Toast.LENGTH_LONG).show();
@@ -122,7 +127,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		mNetworkLocationListener = new NetworkLocationListener();
 		mGPSLocationListener = new GPSLocationListener();
 		
-		
+		//Utils.playSound1(LbmService.this, R.raw.status_avail);
 		mIsListenToGPSProvider = false;
 		
 		Log.i(FILE_TAG, "SERVICE STARTED");
@@ -165,6 +170,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		startOnDayScheduler();
 		
 		listenToContactsChanges();
+		
+		
 		
 		
 		 
@@ -226,12 +233,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 
 	    
-	
+	/*
 
 	protected void checkEveryShortPeriod() {
 		readSensors();
 		
 	}
+	*/
 
 	private void displayNotifGPSDialog(){
 		Intent intent = new Intent(this, GPSNotifDialogActivity.class);
@@ -553,7 +561,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				mLocationData.setWifiDataList(connections);
 				mLocationData.setHasWifiData(true);
 				readTelephonyData();
-				readGPSData();
+				SaveLocationData();
 			}
 		});
 		
@@ -585,13 +593,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			if (!mWifiTracker.scan()){ // scan failed, the onFinishScan will not be called
 				mLocationData.setHasWifiData(false);
 				readTelephonyData();
-				readGPSData();
+				SaveLocationData();
 			}
 		}
 		else{
 			mLocationData.setHasWifiData(false);
 			readTelephonyData();
-			readGPSData();
+			SaveLocationData();
 		}
 	}
 	
@@ -637,7 +645,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		mLocationData.setTelephonyData(td);
 	}
 	
-	private void readSensors(){
+	private void readSensors(Location location){
 		if (mReadingSensorsNow){
 			Log.i(FILE_TAG, "read Sensors request while not finish reading prev");
 			return;
@@ -663,10 +671,35 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		//Utils.playSound(this, R.raw.read_sensors);
 		mLocationData = new LocationData();
 		
-		
 		readWifi();
+		
+		mLocationData.setTimestamp(System.currentTimeMillis());
+		if (location != null){
+			mLocationData.setHasLocationData(true);
+			mLocationData.setLatitude(location.getLatitude());
+			mLocationData.setLongitude(location.getLongitude());
+			if(location.hasAccuracy())
+				mLocationData.setAccuracy(location.getAccuracy());
+			if(location.hasSpeed())
+				mLocationData.setSpeed(location.getSpeed());
+			mLocationData.setRoute(MySharedPreferences.getInstance().getRoute(this));
+		}
+		else
+			mLocationData.setHasLocationData(false);
+		
 	}
 	
+	private void SaveLocationData(){
+		
+		MySharedPreferences.getInstance().saveLocationData(this, mLocationData);
+		/*
+		Log.i(FILE_TAG, "save location data locally");
+		Log.i(FILE_TAG, "data: " + mLocationData.toJSON().toString());
+		*/
+		//Utils.playSound(this, R.raw.save);
+		mReadingSensorsNow = false;
+	}
+	/*
 	private void readGPSData(){
 		mLocationData.setTimestamp(System.currentTimeMillis());
 		Location location = getLocation();
@@ -689,6 +722,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		//Utils.playSound(this, R.raw.save);
 		mReadingSensorsNow = false;
 	}
+	*/
 
 	
 	
@@ -945,6 +979,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				}
 			}
 			
+			if (mReadingSensorsNow)
+				return;
 			
 			
 			//Utils.playSound(LbmService.this, R.raw.gps);
@@ -981,7 +1017,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 								if (!mWifiWasInit)
 									initWifi();
 								
-								readSensors();
+								readSensors(location);
 							}
 							else if(location.getAccuracy()> 100){  				
 								//Utils.playSound(LbmService.this, R.raw.accuracy_over_100);

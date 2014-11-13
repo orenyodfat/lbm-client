@@ -25,16 +25,23 @@ public class InfoActivity extends ActionBarActivity {
 	private TextView mBuildNameTV;
 	private TextView mBuildNumTV;
 	private TextView mServerBuildNumTV;
+	private TextView ver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		
-		setContentView(R.layout.activity_info);
+		String locale = InfoActivity.this.getResources().getConfiguration().locale.getLanguage();
+	
+		if  (locale.equalsIgnoreCase("he")||locale.equalsIgnoreCase("iw"))
+			setContentView(R.layout.activity_info_rtf2);
+		else
+		    setContentView(R.layout.activity_info);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		Utils.setTitleColor(this, getResources().getColor(R.color.white));
+		
+		
 		
 		mBuildNameTV = (TextView)findViewById(R.id.build_name_tv);
 		mBuildNumTV = (TextView)findViewById(R.id.build_num_tv);

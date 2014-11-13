@@ -75,11 +75,11 @@ public class MainZoozActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View arg0) {
 				AlertDialog alertDialog = new AlertDialog.Builder(MainZoozActivity.this).create();
-		     	alertDialog.setTitle("Scan a new Key");
-		     	alertDialog.setMessage("Did you backed up your old key?\nPlease note that scanning a new key will delete the old one and you will not be able to take the money from there.\nPlease use the Export button for backup.");
+		     	alertDialog.setTitle(getString(R.string.scan_a_new_key));
+		     	alertDialog.setMessage(getString(R.string.scan_a_new_key_msg));
 			    alertDialog.setCanceledOnTouchOutside(false);
 			    
-			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Scan a new key", new DialogInterface.OnClickListener() {
+			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.scan_a_new_key), new DialogInterface.OnClickListener() {
 			    	@Override
 			        public void onClick(DialogInterface dialog, int which) {
 						Intent intent = new Intent(MainZoozActivity.this, CameraQRActivity.class);
@@ -120,7 +120,7 @@ public class MainZoozActivity extends ActionBarActivity {
 		});
 
 		mShowPrivateKeyBtn = (Button)findViewById(R.id.show_private_btn);
-		mShowPrivateKeyBtn.setText("Show");
+		mShowPrivateKeyBtn.setText(getString(R.string.show));
 		mIsPrivateShow = false;
 		mShowPrivateKeyBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -128,7 +128,7 @@ public class MainZoozActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				if (mIsPrivateShow){
 					mIsPrivateShow = false;
-					mShowPrivateKeyBtn.setText("Show");
+					mShowPrivateKeyBtn.setText(getString(R.string.show));
 					mPrivateDotsIV.setVisibility(View.VISIBLE);
 					mPrivateKeyTV.setVisibility(View.INVISIBLE);
 					mQRPrivatePixeldIV.setVisibility(View.VISIBLE);
@@ -136,7 +136,7 @@ public class MainZoozActivity extends ActionBarActivity {
 				}
 				else {
 					mIsPrivateShow = true;
-					mShowPrivateKeyBtn.setText("Hide");
+					mShowPrivateKeyBtn.setText(getString(R.string.hide));
 					mPrivateDotsIV.setVisibility(View.INVISIBLE);
 					mPrivateKeyTV.setVisibility(View.VISIBLE);
 					mQRPrivatePixeldIV.setVisibility(View.INVISIBLE);
@@ -182,9 +182,9 @@ public class MainZoozActivity extends ActionBarActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
 		intent.setType("image/png");
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Zooz Address");
-		intent.putExtra(android.content.Intent.EXTRA_TEXT, "My Zooz Address is:\n\n" + MySharedPreferences.getInstance().getPublicKey(this));
-		startActivity(Intent.createChooser(intent, "Export Zooz Address"));
+		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_zooz_address));
+		intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_zooz_address)+" :\n\n" + MySharedPreferences.getInstance().getPublicKey(this));
+		startActivity(Intent.createChooser(intent, getString(R.string.export_zooz_address)));
 		startActivity(intent); 
 	}
 	
@@ -195,19 +195,19 @@ public class MainZoozActivity extends ActionBarActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
 		intent.setType("image/png");
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Private Key");
-		intent.putExtra(android.content.Intent.EXTRA_TEXT, "My private key is:\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
-		MainZoozActivity.this.startActivity(Intent.createChooser(intent, "Export Private Key"));
+		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_private_key));
+		intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_private_key)+" :\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
+		MainZoozActivity.this.startActivity(Intent.createChooser(intent, getString(R.string.export_private_key)));
 		MainZoozActivity.this.startActivity(intent);
 	}
 	
 	private void sharePrivateImage(){
 		AlertDialog alertDialog = new AlertDialog.Builder(MainZoozActivity.this).create();
-     	alertDialog.setTitle("Export Private Key");
-     	alertDialog.setMessage("You are about to export your private key.\nPlease note that it's your wallet and you should send it to yourself for backup purposes only");
+     	alertDialog.setTitle(getString(R.string.export_private_key));
+     	alertDialog.setMessage(getString(R.string.export_private_key_msg));
 	    alertDialog.setCanceledOnTouchOutside(false);
 	    
-	    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Export", new DialogInterface.OnClickListener() {
+	    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.export), new DialogInterface.OnClickListener() {
 	    	@Override
 	        public void onClick(DialogInterface dialog, int which) {
 	    		sharePrivateImageApproved();
@@ -273,17 +273,18 @@ public class MainZoozActivity extends ActionBarActivity {
 				
 				
 				if (!isValidAddress(mScannedKey)){
-					Utils.messageToUser(this, "SCAN", "The QR code is not a valid address");
+					Utils.messageToUser(this, getString(R.string.scan), getString(R.string.scan_qr_msg));
 					return;
 				}
 				
 				
 		     	AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		     	alertDialog.setTitle("Import Zooz Address");
+		     	alertDialog.setTitle(getString(R.string.import_zooz_address));
 		     	
-		     	Spannable wordtoSpan = new SpannableString("A new Zooz Address was scanned:\n" + 
+		     	
+		     	Spannable wordtoSpan = new SpannableString(getString(R.string.new_zooz_address_scan_msg_1) + 
 															mScannedKey + 
-															"\nDo you want to replace the existing one?");        
+															getString(R.string.new_zooz_address_scan_msg_2));        
 
 		     	wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLACK), 30, 30+mScannedKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		     	wordtoSpan.setSpan(new BackgroundColorSpan(Color.YELLOW), 30, 30+mScannedKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -375,7 +376,7 @@ public class MainZoozActivity extends ActionBarActivity {
 		protected void onPostExecute(String result) {
 			
 			if (result.equals("success")){
-				Toast.makeText(MainZoozActivity.this, "The key was updated", Toast.LENGTH_LONG).show();
+				Toast.makeText(MainZoozActivity.this, getString(R.string.the_key_updated), Toast.LENGTH_LONG).show();
 				MySharedPreferences.getInstance().saveKeyPair(MainZoozActivity.this, "", mScannedKey);
 				UpdateGUI();
 			}
@@ -383,7 +384,7 @@ public class MainZoozActivity extends ActionBarActivity {
 				Utils.restartApp(MainZoozActivity.this);
 			}
 			else
-				Toast.makeText(MainZoozActivity.this, "Failed to update ket. please try again later.", Toast.LENGTH_LONG).show();
+				Toast.makeText(MainZoozActivity.this, getString(R.string.key_update_fail), Toast.LENGTH_LONG).show();
 		}
 			
 		

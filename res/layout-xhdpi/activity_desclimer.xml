@@ -14,14 +14,14 @@
        android:layout_width="match_parent"
        android:layout_height="240dp"
        android:fadeScrollbars="false"
-       android:fillViewport="true"
        android:scrollbarAlwaysDrawVerticalTrack="false" >
 
     <TextView
         android:id="@+id/intro_info_tv"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
         android:layout_margin="20dp"
+        android:paddingBottom="20dp"
         android:gravity="center"
         android:text="@string/disclaimer_text"
         android:textAppearance="?android:attr/textAppearanceMedium"

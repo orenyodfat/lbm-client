@@ -139,9 +139,9 @@ public class MainAddFriendsActivity extends ActionBarActivity {
     	
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer.setChartTitle("Miners Paveing the Web");
-        multiRenderer.setXTitle("Days");
-        multiRenderer.setYTitle("Miners");
+        multiRenderer.setChartTitle(getString(R.string.miners_paveing_the_web));
+        multiRenderer.setXTitle(getString(R.string.days));
+        multiRenderer.setYTitle(getString(R.string.miners));
         multiRenderer.setZoomButtonsVisible(true);
         multiRenderer.setBackgroundColor(0xf7f7f7);
         multiRenderer.setMarginsColor(0xf7f7f7);
@@ -231,7 +231,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
                             + seriesSelection.getPointIndex() + " was clicked" + " closest point value X=" + seriesSelection.getXValue()
                             + ", Y=" + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1]);
                     
-                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" miners" ,Toast.LENGTH_SHORT).show();               }
+                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" "+getString(R.string.miners) ,Toast.LENGTH_SHORT).show();               }
             }
         });
  

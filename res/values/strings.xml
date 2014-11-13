@@ -100,6 +100,12 @@
     <string name="improve_your_location">Please reach the open air to improve your location accuracy</string>
     <string name="identifying_your_location">Identifing your location....</string>
     
+    <string name="no_connection">No Connection</string>
+    <string name="no_connection_msg">Failed to connect to La\'Zooz server, please try again later.</string>
+    
+    <string name="no_net_connection">No Network Connection</string>
+    <string name="no_net_connection_msg">Please onnect your device to the network and restart the application</string>
+    
      <string-array name="sched_gps">
         <item>a day</item>
         <item>a week</item>
@@ -752,8 +758,17 @@ After testing phase they will be stored onto a secured public ledger.</string>
       <string name="info_app_build_version">Application Build Number: </string>
       <string name="info_server_build_number">Server Build Number: </string>
       
+      <string name="total">Total</string>
+      <string name="miners_paveing_the_web">Miners Paveing the Web</string>
+      <string name="days">Days</string>
+      <string name="miners">Miners</string>
+      <string name="my_mined_km_history">My Mined Km History</string>
       
-
+      <string name="total_community_mined_km_history">Total Community Mined Km History</string>
+      
+      <string name="tap_here_to_invite_a_friend">Tap here to invite a friend</string>
+      
+     
       
       
       
@@ -768,6 +783,29 @@ After testing phase they will be stored onto a secured public ledger.</string>
        <string name ="scan">Scan</string>
        <string name ="export">Export</string>
        <string name ="show">Show</string>
+       <string name ="hide">Hide</string>
+       <string name ="scan_a_new_key">Scan a new Key</string>
+       <string name ="scan_a_new_key_msg">Did you backed up your old key?\nPlease note that scanning a new key will delete the old one and you will not be able to take the money from there.\nPlease use the Export button for backup.</string>
+       
+
+       <string name ="my_zooz_address">My Zooz address</string>
+       <string name ="export_zooz_address">Export Zooz Address</string>
+       <string name ="export_private_key">Export Private Key</string>
+       <string name ="my_private_key">My Private Key</string>
+       
+       <string name ="export_private_key_msg">You are about to export your private key.\nPlease note that it\'s your wallet and you should send it to yourself for backup purposes only</string>
+       <string name ="the_key_updated">The key updated</string>
+       <string name ="key_update_fail">Failed to update key. Please try again later.</string>
+       
+       <string name ="scan_qr_msg">The QR code is not a valid address</string>
+        <string name ="import_zooz_address">Import Zooz Address</string>
+		     	 
+		     	<string name ="new_zooz_address_scan_msg_1">A new Zooz Address was scanned:\n</string>
+		     	<string name ="new_zooz_address_scan_msg_2">\nDo you want to replace the existing one?</string>
+       
+       
+       
+       
        
        <string name ="share_def_text">Hi,\nJoin La\`Zooz .\nDownload from here:\n</string>
        
