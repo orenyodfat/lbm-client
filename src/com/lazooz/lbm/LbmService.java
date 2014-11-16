@@ -68,7 +68,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private LocationData mLocationData;
 	private LocationManager mLocationManager;
 	private boolean noGPSNotifSent = false;
-	public boolean mSendingDataToServer = false;
+	public int mSendingDataToServer = 0;
 	private NoSpeedTimer mNoSpeedTimer;
 	private TelephonyDataTracker mTelephonyDataTracker;
 	private boolean mIsListenToGPSProvider;
@@ -86,6 +86,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private boolean mWifiWasInit = false;
 	private String mPotentialZoozBalance = "0.0";
 	private String mPrevPotentialZoozBalance = "0.0";
+	private Runnable runnable;
+	
+	private Handler handler; 
 	
 	
 	public LbmService() {
@@ -154,7 +157,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			};*/
 		//ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 2*60*1000);
 		
-
+       /*
 		LongPeriodTimer = new Timer();
 		TimerTask oneMinTimerTask = new TimerTask() {
 				@Override
@@ -163,6 +166,20 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				}
 			};
 		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
+		*/
+		runnable = new Runnable() {
+			   @Override
+			   public void run() {
+			      /* do what you need to do */
+				  checkEveryLongPeriod();
+			      /* and here comes the "trick" */
+			      handler.postDelayed(this, 1000*60);
+			   }
+			};
+			
+		handler = new Handler();
+		handler.postDelayed(runnable, 1000*60);
+		
 		
 		
 		
@@ -249,7 +266,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	protected void checkEveryLongPeriod() {
 		
-		MySharedPreferences msp = MySharedPreferences.getInstance();
+	//	MySharedPreferences msp = MySharedPreferences.getInstance();
+		
+	//	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
 		
 		sendDataToServerAsync();
 		isLiveAsync();
@@ -478,7 +497,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 					jsonReturnObj = bServerCom.getReturnObject();
 				}
 				else
+				{
+					mSendingDataToServer = 0;
 					return "";
+				}
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -516,13 +538,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				serverMessage = "GeneralError";
 			}
 			
-			
+			mSendingDataToServer = 0;
 			return serverMessage;
 		}
 		
 		@Override
 		protected void onPostExecute(String result) {
-			mSendingDataToServer = false;
+			mSendingDataToServer = 0;
 			/*
 			if (result.equals("success_distance_achieved")){
 				Utils.sendNotifications(LbmService.this, 
@@ -541,7 +563,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		@Override
 		protected void onPreExecute() {
-			mSendingDataToServer = true;
+			mSendingDataToServer = 1;
 			
 		}
 	}
@@ -572,12 +594,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		else{
 			mWifiWasEnabled = false;
 			mWifiTracker.setWifiEnabled();
-			
+			/*
 			for(int i = 0; i<10; i++){ // loop up to 2 sec
 				Utils.wait(200);
 				if (mWifiTracker.isWifiEnabled())
 					break;
 			}
+			*/
 			
 			if (mWifiTracker.isWifiEnabled()){
 				mWifiWasSetOnByMe = true;
@@ -589,6 +612,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 	private void readWifi(){
 		//Utils.playSound(this, R.raw.read_wf);
+		
 		if (mWifiTracker.isWifiEnabled()){
 			if (!mWifiTracker.scan()){ // scan failed, the onFinishScan will not be called
 				mLocationData.setHasWifiData(false);
@@ -651,27 +675,27 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			return;
 		}
 		
-		mReadingSensorsNow = true;
+		//mReadingSensorsNow = true;
+		long currentTime = System.nanoTime();
 		
-		long currentTime = System.currentTimeMillis();
-		if ((mLastReadSensorsTime > 0) && (currentTime - mLastReadSensorsTime < 9*1000)){
+		if ((mLastReadSensorsTime > 0) && (currentTime - mLastReadSensorsTime < 9*1000*1000)){
 			
 			Log.i(FILE_TAG, "read Sensors less then 9 sec apart, mLastReadSensorsTime:" + 
 					Utils.getDateTimeFromMilli(mLastReadSensorsTime) + 
 					" currentTime: "+ 
 					Utils.getDateTimeFromMilli(currentTime));
+			// Utils.playSound1(LbmService.this,R.raw.no_accuracy);
 			
 			return;
 		}
 		
+		mReadingSensorsNow = true;
 		mLastReadSensorsTime = currentTime;
 		
 		
 		Log.i(FILE_TAG, "read Sensors");
 		//Utils.playSound(this, R.raw.read_sensors);
 		mLocationData = new LocationData();
-		
-		readWifi();
 		
 		mLocationData.setTimestamp(System.currentTimeMillis());
 		if (location != null){
@@ -687,6 +711,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		else
 			mLocationData.setHasLocationData(false);
 		
+		readWifi();
+		
+		
+		
 	}
 	
 	private void SaveLocationData(){
@@ -696,7 +724,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		Log.i(FILE_TAG, "save location data locally");
 		Log.i(FILE_TAG, "data: " + mLocationData.toJSON().toString());
 		*/
-		//Utils.playSound(this, R.raw.save);
+		//Utils.playSound1(this, R.raw.save);
 		mReadingSensorsNow = false;
 	}
 	/*
@@ -796,13 +824,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
   	   mLocationManager.removeUpdates(mGPSLocationListener);
   	   mIsRequestLocationUpdateFirstTime = true;
   	   mIsListenToGPSProvider = false;
-			
+  	    mIsRequestLocationUpdateFirstTime = true;
+  	    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		if (!isNetworkEnabled)
 			mTelephonyDataTracker.requestCellUpdates(LbmService.this);
 		if (mSoundStart)
 		{			
-		 Utils.playSound1(LbmService.this,R.raw.potential_zooz_mining_ended);
+		// Utils.playSound1(LbmService.this,R.raw.potential_zooz_mining_ended);
 		 mSoundStart =false;
 		}
 	}
@@ -871,8 +900,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		
 
-		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
 		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(LbmService.this);
@@ -884,6 +913,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
 				start1MinNoSpeedTimer();
+				mLocationManager.removeUpdates(mNetworkLocationListener);
+				
 				mIsListenToGPSProviderFromNetChange = true;
 				//Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
 			}
@@ -980,12 +1011,24 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			}
 			
 			if (mReadingSensorsNow)
+			{
+				//Utils.playSound1(LbmService.this, R.raw.read_sensors);
 				return;
+			}
 			
 			
 			//Utils.playSound(LbmService.this, R.raw.gps);
-			if (mSendingDataToServer){
+			if (mSendingDataToServer>0){
+				mSendingDataToServer++;
+				/*
 				Log.i(FILE_TAG, "GPS onLocationChanged during sending data to server");
+				if (mSendingDataToServer >= 6)
+				{
+					Utils.playSound1(LbmService.this, R.raw.send_data_6);
+				}
+				else
+				 Utils.playSound1(LbmService.this, R.raw.server_sent);
+				 */
 				return;
 			}
 
@@ -999,7 +1042,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						if (location.hasAccuracy()){
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
 								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
-								//Utils.playSound(LbmService.this, R.raw.ten_kms);
+								//Utils.playSound1(LbmService.this, R.raw.ten_kms);
 								if ((mSoundStart== false)&&(mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange))
 								{ 
 									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
@@ -1013,28 +1056,52 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 									
 								}
 								start5MinNoSpeedTimer();
-								
+							
 								if (!mWifiWasInit)
 									initWifi();
+								else
+								{
+									if (mWifiWasEnabled ==false)
+									{
+										if (mWifiTracker.isWifiEnabled()){
+											mWifiWasSetOnByMe = true;
+										}
+									}
+								}
+						
 								
 								readSensors(location);
 							}
+							/*
 							else if(location.getAccuracy()> 100){  				
-								//Utils.playSound(LbmService.this, R.raw.accuracy_over_100);
+								Utils.playSound1(LbmService.this, R.raw.accuracy_over_100);
 							} 
 							else if(location.getAccuracy()> 50){  				
-								//Utils.playSound(LbmService.this, R.raw.accuracy_over_50);
+								Utils.playSound1(LbmService.this, R.raw.accuracy_over_50);
 							} 
+							*/
 							else if(location.getAccuracy()> 25){  				
-								//Utils.playSound(LbmService.this, R.raw.accuracy_over_25);
-							} 
+							//	Utils.playSound1(LbmService.this, R.raw.accuracy_over_25);
+							}
+							/*
 						}
-						//else
-							//Utils.playSound(LbmService.this, R.raw.no_accuracy);
+						else
+							Utils.playSound1(LbmService.this, R.raw.no_accuracy);
+					}
+					else
+						Utils.playSound1(LbmService.this, R.raw.less_then_ten);	
+				}
+				else
+					Utils.playSound1(LbmService.this, R.raw.less_then_ten);				
+			}
+			else
+				Utils.playSound1(LbmService.this, R.raw.less_then_ten);
+				*/
+						}
+						}
 					}
 				}
 				
-			}
 			
 			
 		}

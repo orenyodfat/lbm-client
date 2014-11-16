@@ -19,7 +19,9 @@ import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,10 +128,22 @@ public class ServerCom {
 			e1.printStackTrace();
 		}*/
 		
+		
+		
 		String url = StaticParms.BASE_SERVER_URL + "api_set_location";
 		String TAG = "run";
     	try { 
-	          HttpClient client = new DefaultHttpClient();
+    	    HttpParams httpParameters = new BasicHttpParams();
+		    // Set the timeout in milliseconds until a connection is established.
+		    // The default value is zero, that means the timeout is not used. 
+		    int timeoutConnection = 4000;
+		    HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		    // Set the default socket timeout (SO_TIMEOUT) 
+		    // in milliseconds which is the timeout for waiting for data.
+		    int timeoutSocket = 10000;
+		      HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+	          HttpClient client = new DefaultHttpClient(httpParameters);
+	          
 	          
 	          HttpPost request = new HttpPost();
 	          request.setURI(new URI(url));
