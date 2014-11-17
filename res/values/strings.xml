@@ -60,6 +60,8 @@
     <string name="friends_message_p1_multy_select">Hi it\'s %s,</string>
     <string name="friends_message_main">Check out this cool app.</string>
     
+    <string name="share_via">Share via</string>
+    
     
     <string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
     <string name="gps_notif_open_gps_body">Please turn on the GPS</string>

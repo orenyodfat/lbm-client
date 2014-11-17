@@ -164,7 +164,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 	        
 	        //sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
 	        sharingIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.share_def_text)+ String.format(StaticParms.PLAY_STORE_APP_LINK_FORMAT,"share",msp.getPublicKey(this),msp.getUserId(this))); // url: current URL (String or Uri));
-    		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    		startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
     		
     		}
     	else if (di.getText().equals(getString(R.string.drawer_entry_wallet))){

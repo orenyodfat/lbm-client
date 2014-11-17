@@ -33,6 +33,7 @@
 	<string name="drawer_entry_report_bug">דווח תקלות</string>
 	<string name="drawer_entry_intro">הסבר</string>
 	<string name="drawer_entry_settings">הגדרות</string>
+	<string name="share_via">שתף באמצעות</string>
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
 	<string name="forground_notif_title">notif title</string>
@@ -58,7 +59,7 @@
    
     <string name="friends_message_p1_one_select">   %2$s  %1$s שלום</string>
     
-     <string name="friends_message_p1_multy_select"> ,%s שלום זה </string>
+    <string name="friends_message_p1_multy_select"> שלום זה %s, </string>
     <string name="friends_message_main">תבדוק את האפליקציה הזו</string>
     
     

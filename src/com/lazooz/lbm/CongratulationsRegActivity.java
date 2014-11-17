@@ -38,7 +38,7 @@ public class CongratulationsRegActivity extends ActionBarActivity {
 		
 		
 		mMainTextTV = (TextView)findViewById(R.id.congrats_reg_text_tv);
-		mMainTextTV.setText(MySharedPreferences.getInstance().getSecondScreenText(this));
+		//mMainTextTV.setText(MySharedPreferences.getInstance().getSecondScreenText(this));
 		
 		
 		nextBtn = (Button)findViewById(R.id.congratulation_reg_next_btn);
