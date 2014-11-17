@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:background="@drawable/btn_gen"
-                    android:text="Next"
+                    android:text="@string/next"
                     android:textColor="@color/white" />
 
             </FrameLayout>

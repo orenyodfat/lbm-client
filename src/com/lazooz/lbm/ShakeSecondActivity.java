@@ -79,6 +79,11 @@ public class ShakeSecondActivity extends ActionBarActivity {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
+        if (provider == null)
+        {
+        	Utils.messageToUser(this, "Shake", "Your location service is off.Please turn it on");
+        	return;
+        }
         Location location = locationManager.getLastKnownLocation(provider);
         setMapLocation(location);
 		

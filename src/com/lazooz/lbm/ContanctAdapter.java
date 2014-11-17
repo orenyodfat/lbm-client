@@ -165,9 +165,11 @@ public class ContanctAdapter extends ArrayAdapter<Contact> implements Filterable
 
 				notifyDataSetChanged();
 				clear();
-				
-				for(Contact contact : mContactList)
-					add(contact);
+				if (mContactList!=null)
+				{
+				 for(Contact contact : mContactList)
+				  	add(contact);
+				}
 				
 				notifyDataSetInvalidated();
 				

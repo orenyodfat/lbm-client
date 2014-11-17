@@ -241,9 +241,9 @@ public class MainDistanceActivity extends ActionBarActivity {
     	
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer.setChartTitle("Total Community Mined Km History");
-        multiRenderer.setXTitle("Days");
-        multiRenderer.setYTitle("kms");
+        multiRenderer.setChartTitle(getString(R.string.total_community_mined_km_history));
+        multiRenderer.setXTitle(getString(R.string.days));
+        multiRenderer.setYTitle(getString(R.string.km));
         multiRenderer.setZoomButtonsVisible(true);
         multiRenderer.setBackgroundColor(0xf7f7f7);
         multiRenderer.setMarginsColor(0xf7f7f7);
@@ -335,7 +335,7 @@ public class MainDistanceActivity extends ActionBarActivity {
                             + seriesSelection.getPointIndex() + " was clicked" + " closest point value X=" + seriesSelection.getXValue()
                             + ", Y=" + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1]);
                     
-                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" km" ,Toast.LENGTH_SHORT).show();               }
+                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" "+getString(R.string.km) ,Toast.LENGTH_SHORT).show();               }
             }
         });
  
@@ -378,9 +378,9 @@ public class MainDistanceActivity extends ActionBarActivity {
     	
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer.setChartTitle("My Mined Km History");
-        multiRenderer.setXTitle("Days");
-        multiRenderer.setYTitle("kms");
+        multiRenderer.setChartTitle(getString(R.string.my_mined_km_history));
+        multiRenderer.setXTitle(getString(R.string.days));
+        multiRenderer.setYTitle(getString(R.string.km));
         multiRenderer.setZoomButtonsVisible(true);
         multiRenderer.setBackgroundColor(0xf7f7f7);
         multiRenderer.setMarginsColor(0xf7f7f7);
@@ -470,7 +470,7 @@ public class MainDistanceActivity extends ActionBarActivity {
                             + seriesSelection.getPointIndex() + " was clicked" + " closest point value X=" + seriesSelection.getXValue()
                             + ", Y=" + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1]);
                     
-                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" km" ,Toast.LENGTH_SHORT).show();               }
+                    Toast.makeText(getBaseContext(),"" +xyValues.get((int)seriesSelection.getXValue()) + " , " + seriesSelection.getValue() +" "+getString(R.string.km),Toast.LENGTH_SHORT).show();               }
             }
         });
  

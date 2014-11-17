@@ -35,6 +35,9 @@ public class LocationData {
 		mHasWifiData = false;
 		mHasBluetoothData = false;
 		mHasLocationData = false;
+		mSpeed = 0;
+		mAccuracy = 0;
+		
 	}
 	
 	public LocationData(JSONObject jsonObj) {

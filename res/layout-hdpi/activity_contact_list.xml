@@ -27,12 +27,12 @@
 
         <Button
             android:id="@+id/floating_button_send"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/blue"
-            android:text="Send Invitation"
+            android:text="@string/send_invitation"
             android:textColor="@color/white" />
 
     </LinearLayout>

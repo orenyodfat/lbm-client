@@ -24,8 +24,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
+            android:layout_marginTop="10dp"
+            android:gravity="right" >
+            
+              <TextView
+                android:id="@+id/build_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+              
+              <TextView
+                android:id="@+id/build_name_tv_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+              
             <TextView
                 android:id="@+id/TextView01"
                 android:layout_width="wrap_content"
@@ -34,21 +51,29 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
-            <TextView
-                android:id="@+id/build_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1.0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/lazooz_wallet_titles" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
+            android:layout_marginTop="10dp"
+            android:gravity="right" >
+            
+            <TextView
+                android:id="@+id/build_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+               <TextView
+                android:id="@+id/build_num_tv_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+            
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -57,21 +82,32 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
-            <TextView
-                android:id="@+id/build_num_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/lazooz_wallet_titles" />
+            
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
+            android:layout_marginTop="10dp"
+            android:gravity="right" >
+            
+             <TextView
+                android:id="@+id/server_build_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+             
+              <TextView
+                android:id="@+id/server_build_num_tv_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+             
             <TextView
                 android:id="@+id/TextView03"
                 android:layout_width="wrap_content"
@@ -80,13 +116,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/lazooz_wallet_titles" />
 
-            <TextView
-                android:id="@+id/server_build_num_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/lazooz_wallet_titles" />
+           
 
         </LinearLayout>
     </LinearLayout>

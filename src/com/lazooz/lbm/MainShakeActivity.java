@@ -33,7 +33,8 @@ public class MainShakeActivity extends ActionBarActivity {
 		Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mMainTextTV = (TextView)findViewById(R.id.main_shake_maintext_tv);
-		mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));
+		
+		//mMainTextTV.setText(MySharedPreferences.getInstance().getBeforShakeText(this));
 		
 		
 		mNextBtn = (Button)findViewById(R.id.main_shake_next_btn);
@@ -41,24 +42,20 @@ public class MainShakeActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View arg0) {
+			
 				
-				Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
-				startActivity(intent);
-				finish();
-				
-				/*
 				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 				boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 				boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 					
 					
 				if (!isGPSEnabled && !isNetworkEnabled)
-					Utils.showSettingsAlert(MainShakeActivity.this, getString(R.string.gps_message_no_gps_no_net));
+					Utils.showSettingsAlertNoRem(MainShakeActivity.this, getString(R.string.gps_message_no_gps_no_net_feature));
 				else{
 					Intent intent = new Intent(MainShakeActivity.this, ShakeSecondActivity.class);
 					startActivity(intent);
 					finish();
-				}*/
+				}
 				
 			}
 		});

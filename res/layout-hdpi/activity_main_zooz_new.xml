@@ -3,7 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lazooz.lbm.CongratulationsDrive100Activity"
+    tools:context=".CongratulationsDrive100Activity"
     tools:ignore="MergeRootFrame" >
 
     <LinearLayout
@@ -28,7 +28,7 @@
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zooz Balance"
+                    android:text="@string/zooz_balance"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lazooz_wallet_titles" />
 
@@ -69,7 +69,7 @@
                     android:id="@+id/TextView01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Potential Zooz Balance"
+                    android:text="@string/potential_zooz_balance"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lazooz_wallet_titles" />
 
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Zooz Address"
+                    android:text="@string/zooz_address"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lazooz_wallet_titles" />
 
@@ -180,7 +180,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/wallet_btn"
-                            android:text="Scan"
+                            android:text="@string/scan"
                             android:textColor="@color/white" />
 
                         <Button
@@ -190,7 +190,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/wallet_btn"
-                            android:text="Export"
+                            android:text="@string/export"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -220,7 +220,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Private Key"
+                    android:text="@string/private_key"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lazooz_wallet_titles" />
 
@@ -301,7 +301,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/wallet_btn"
-                            android:text="Show"
+                            android:text="@string/show"
                             android:textColor="@color/white" />
 
                         <Button
@@ -311,7 +311,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/wallet_btn"
-                            android:text="Export"
+                            android:text="@string/export"
                             android:textColor="@color/white" />
 
                     </LinearLayout>

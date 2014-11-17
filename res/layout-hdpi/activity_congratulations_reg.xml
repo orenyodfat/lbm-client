@@ -14,7 +14,7 @@
         android:layout_gravity="top"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="Your movement is a building block for this network, and you can earn the value for this contribution right now.\n\nFor each 1 Km traveled with La&apos;Zooz app and GPS active, you will mine and recieve 1 Zooz.\r\nAdding any friend to the network will entitle you with 20 Zooz"
+        android:text="@string/second_step_screen_text"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/white" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/gen_btn"
-        android:text="Got It!"
+        android:text="@string/gotit"
         android:textAppearance="?android:attr/textAppearanceMediumInverse"
         android:textColor="@color/white"
         android:textStyle="bold" />

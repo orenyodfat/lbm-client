@@ -59,8 +59,8 @@ public class Utils {
 
 
 
-   
-	
+	static boolean SpeakerWasOn;
+	static AudioManager audioManager;
 	
 	public static String getNowTimeInGMT(){
 		String outputText = "";
@@ -69,7 +69,7 @@ public class Utils {
 
 
 			
-			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
+			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"/*,Locale.US*/);
 			outputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			Date now = new Date();
 			outputText = outputFormat.format(now);
@@ -86,7 +86,7 @@ public class Utils {
 	public static String getTimeInGMT(Date theDate){
 		String outputText = "";	
 		try {
-			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
+			DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"/*,Locale.US*/);
 			outputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			outputText = outputFormat.format(theDate);
 
@@ -103,7 +103,7 @@ public class Utils {
 	public static String getDateTimeFromMilli(long milliSeconds, String dateFormat)
     {
 	        // Create a DateFormatter object for displaying date in specified format.
-	        DateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
+	        DateFormat formatter = new SimpleDateFormat(dateFormat/*,Locale.US*/);
 
 	        // Create a calendar object that will convert the date and time value in milliseconds to date. 
 	         Calendar calendar = Calendar.getInstance();
@@ -421,16 +421,28 @@ public class Utils {
 
 	public static void playSound1(Context cntxt, int rawVal){
 		boolean SoundEnabledMode = MySharedPreferences.getInstance().getSoundEnabledMode(cntxt);
+		
 		if (SoundEnabledMode == false)
 			return;
-		
+		audioManager = (AudioManager)cntxt.getSystemService(Context.AUDIO_SERVICE);
+		SpeakerWasOn = audioManager.isSpeakerphoneOn();
+		if (!SpeakerWasOn)
+		  audioManager.setSpeakerphoneOn(true);
 		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
 		mpTada.setVolume(1.0f, 1.0f);
+	
+		
 		mpTada.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					mp.release();
+					if (!SpeakerWasOn)
+					{   
+					//	AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+						audioManager.setSpeakerphoneOn(false);
+					}
+						
 				}
 			});
 		mpTada.start();
@@ -462,8 +474,8 @@ public class Utils {
     	try {
 			if(haveNetworkConnection(activity)){
 			 	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-			 	alertDialog.setTitle("No Connection");
-			 	alertDialog.setMessage("Failed to connect to La'Zooz server, please try again later.");
+			 	alertDialog.setTitle(activity.getString(R.string.no_connection));
+			 	alertDialog.setMessage(activity.getString(R.string.no_connection_msg));
 			    alertDialog.setCanceledOnTouchOutside(false);
 			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 			    	@Override
@@ -477,8 +489,8 @@ public class Utils {
 			}
 			else {
 			 	AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-			 	alertDialog.setTitle("No Internet Connection");
-			 	alertDialog.setMessage("Please connect your device to the internet and restart the application");
+			 	alertDialog.setTitle(activity.getString(R.string.no_net_connection));
+			 	alertDialog.setMessage(activity.getString(R.string.no_net_connection_msg));
 			    alertDialog.setCanceledOnTouchOutside(false);
 			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 			    	@Override
@@ -518,14 +530,14 @@ public class Utils {
 	public static String addDays(double xValue, String initialDate) {
 		//String initialDate="2014-9-28";//can take any date in current format   
 		//SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
-		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd",Locale.US );
+		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd"/*,Locale.US*/ );
 		String convertedDate = null;
 		Calendar cal = Calendar.getInstance();    
 		try {
 			cal.setTime(dateFormat.parse(initialDate));
 			cal.add( Calendar.DATE, ((int)xValue));    
 			
-			Format formatter = new SimpleDateFormat("dd MMM yy",Locale.US);
+			Format formatter = new SimpleDateFormat("dd MMM yy"/*,Locale.US*/);
 			convertedDate=formatter.format(cal.getTime()); 
 			//System.out.println("Date increase by one.."+convertedDate);
 		} catch (ParseException e) {
@@ -543,7 +555,7 @@ public class Utils {
         }
     }
     
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"/*,Locale.US*/);
 	private static final Date invalidDate = new Date(0);
 
 	

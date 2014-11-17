@@ -2,6 +2,8 @@ package com.lazooz.lbm;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
@@ -33,7 +35,12 @@ public class SplashActivity extends Activity {
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_splash);
+		if (StaticParms.TEST_VERSION)
+		 setContentView(R.layout.activity_splash_test);
+		else
+		 setContentView(R.layout.activity_splash);	
+			
+		
 
 		/*
 		Intent intent = new Intent(SplashActivity.this, ShakeSecondActivity.class);
