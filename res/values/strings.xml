@@ -106,7 +106,7 @@
     <string name="no_connection_msg">Failed to connect to La\'Zooz server, please try again later.</string>
     
     <string name="no_net_connection">No Network Connection</string>
-    <string name="no_net_connection_msg">Please onnect your device to the network and restart the application</string>
+    <string name="no_net_connection_msg">Please connect your device to the network and restart the application</string>
     
      <string-array name="sched_gps">
         <item>a day</item>
@@ -761,7 +761,7 @@ After testing phase they will be stored onto a secured public ledger.</string>
       <string name="info_server_build_number">Server Build Number: </string>
       
       <string name="total">Total</string>
-      <string name="miners_paveing_the_web">Miners Paveing the Web</string>
+      <string name="miners_paveing_the_web">Miners Paving the Web</string>
       <string name="days">Days</string>
       <string name="miners">Miners</string>
       <string name="my_mined_km_history">My Mined Km History</string>

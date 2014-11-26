@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">La\'Zooz</string>
+    <string name="hello_world">Привет, мир!</string>
+    <string name="action_settings">Настройки</string>
+    <string name="title_activity_splash">Заставка</string>
+	<string name="reg_input_num_title">Регистрация</string>
+	<string name="reg_input_num_body">Пожалуйста, укажите, номер вашего телефона, мы вышлем Вам код активации</string>
+	<string name="reg_input_conf_title">Регистрация</string>
+	<string name="reg_input_conf_body">Пожалуйста, введите код активации</string>
+	<string name="gps_activate_gps_title">Включите GPS</string>
+    <string name="gps_activate_gps_body">Пожалуйста, включите GPS для определения вашего местоположения</string>
+    <string name="gps_activate_gps_setting">Откройте настройки GPS</string>
+	
+	<string name="activation_code_template_eng">Ключ регистрации в La\'Zooz</string>
+	<string name="recommendation_code_template_eng">La\'Zooz с подарком за рекомендацию друга</string>
+	<string name="recommendation_pre_code_template_eng">ключ:</string>
+	
+	<string name="recommendation_input_msg_title">Рекомендация</string>
+	<string name="recommendation_input_msg_body">Пожалуйста, напишите рекомендацию</string>
+	<string name="recommendation_default">Это ссылка на установку социального приложения. Приложение создает Совместную Транспортную Сеть, которая будет принадлежать всему сообществу. После установки приложения оно начнёт собирать для вас потенциальные маркеры ZOOZ во время вождения. Когда сеть будет создана, эти маркеры будут использоваться для перемещений. Попробуйте.</string>
+	<string name="recommendation_default_start">Привет</string>
+	<string name="invitation_sent">Приглашение отправлено</string>
+	
+			
+	<string name="drawer_entry_me">Я</string>
+	<string name="drawer_entry_info">Информация</string>
+	<string name="drawer_entry_share">Поделиться</string>
+	<string name="drawer_entry_website">Веб-сайт</string>
+	<string name="drawer_entry_wallet">Кошелек</string>
+	<string name="drawer_entry_legal">Правоприменение и конфиденциальность</string>
+	<string name="drawer_entry_report_bug">Сообщить о проблеме/ошибке</string>
+	<string name="drawer_entry_intro">Введение</string>
+	<string name="drawer_entry_settings">Настройки</string>
+		
+	<string name="forground_notif_ticker_text">Тикер сообщения</string>
+	<string name="forground_notif_title">Заголовок сообщения</string>
+	<string name="forground_notif_text">Текст сообщения</string>
+	
+	
+	<string-array name="drawer_array">
+        <item>@string/drawer_entry_me</item>
+        <item>@string/drawer_entry_info</item>
+        <item>@string/drawer_entry_share</item>
+        <item>@string/drawer_entry_website</item>
+        <item>@string/drawer_entry_wallet</item>
+        <item>@string/drawer_entry_legal</item>
+    </string-array>
+	
+	<string name="drawer_open1"></string>
+    <string name="drawer_close1"></string>
+	
+    
+     <string name="menu_search">Поиск</string>
+    <string name="search_hint">Найти контакты</string>
+    
+    
+    <string name="friends_message_p1_one_select">Привет, %1$s, это %2$s, </string>
+    <string name="friends_message_p1_multy_select">Привет, это %s,</string>
+    <string name="friends_message_main">Попробуй приложение, оно классное.</string>
+    
+    <string name="share_via">Поделиться посредством</string>
+    
+    
+    <string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
+    <string name="gps_notif_open_gps_body">Пожалуйста, включите GPS</string>
+    
+    <string name="gps_message_no_gps_yes_net">Ваш GPS выключен, пожалуйста, обратите внимание, что вы не будете в состоянии собирать zooz-маркеры</string>
+    <string name="gps_message_no_gps_no_net">Ваш GPS и место в сети выключены, пожалуйста, обратите внимание, что вы не сможете собирать zooz-маркеры</string>
+    <string name="gps_message_no_gps_no_net_feature">Ваш GPS и место в сети выключены. Вам необходимо их включить</string>
+    <string name="gps_message_yes_gps_no_net">Местоположение в сети выключено. Рекомендуется включить его для повышения эффективности использования батареи</string>
+    
+    <string name="splash_version_check_title">Новая версия</string>
+    <string name="splash_version_check_les_current">Появилась новая версия приложения La\'Zooz. Пожалуйста, обновите приложение в Google Play</string>
+    <string name="splash_version_check_les_min">Ваша текущая версия La\'Zooz устарела. Для продолжения, пожалуйста, обновите приложение в Google Play.</string>
+    
+    
+    <string name="settings_category_mining">Получение</string>
+    <string name="settings_mining_charger_connectivity_title_on">Зарядное устройство подключено</string>
+    <string name="settings_mining_charger_connectivity_title_off">Зарядное устройство отключено</string>
+    <string name="settings_mining_charger_connectivity_summary_on">Получение маркеров, только когда зарядное устройство подключено</string>
+    <string name="settings_mining_charger_connectivity_summary_off">Получение маркеров независимо от подключения зарядного устройства</string>
+    
+    <string name="settings_mining_enable_disable_mining_title">Получение (маркеров)</string>
+    <string name="settings_mining_enable_disable_mining_summary_enable">Получение возможно</string>
+    <string name="settings_mining_enable_disable_mining_summary_disable">Получение невозможно</string>
+    
+    <string name="settings_sound_enable_disable_title">Звук</string>
+    <string name="settings_sound_enable_disable_summary_enable">Звук включён</string>
+    <string name="settings_sound_enable_disable_summary_disable">Звук выключен</string>
+
+    
+    <string name="settings_category_privacy">Конфиденциальность</string>
+    <string name="settings_privacy_show_my_location_title">Видно другим</string>
+    <string name="settings_privacy_show_my_location_summary_enable">Мое местоположение видно другим (без идентификации)</string>
+    <string name="settings_privacy_show_my_location_summary_disable">Мое местоположение скрыто</string>
+    
+    <string name="save_for_later">Сохранить на будущее</string>
+    
+    <string name="successfuly_located">Местоположение успешно определено, пожалуйста, перейдите к следующему экрану.</string>
+    <string name="improve_your_location">Пожалуйста, доберитесь до открытого пространства, чтобы улучшить точность определения местоположения</string>
+    <string name="identifying_your_location">Определение Вашего местоположения....</string>
+    
+    <string name="no_connection">Нет связи</string>
+    <string name="no_connection_msg">Не удалось подключиться к La\'Zooz серверу, пожалуйста, попробуйте позже</string>
+    
+    <string name="no_net_connection">Отсутствует подключение к сети</string>
+    <string name="no_net_connection_msg">Пожалуйста, подключитесь к сети и перезапустите приложение</string>
+    
+     <string-array name="sched_gps">
+        <item>день</item>
+        <item>неделя</item>
+        <item>Mon Пнд</item>
+        <item>Tue Втр</item>
+        <item>Wed Срд</item>
+        <item>Thu Чтв</item>
+        <item>Fri Птн</item>
+        <item>Sat Сбт</item>
+    </string-array>
+    
+     
+    <string-array name="days_array">
+        <item>NULL н.д.</item>
+        <item>Sun Вск</item>
+        <item>Mon Пнд</item>
+        <item>Tue Втр</item>
+        <item>Wed Срд</item>
+        <item>Thu Чтв</item>
+        <item>Fri Птн</item>
+        <item>Sat Сбт</item>
+    </string-array>
+    
+    <string-array name="months_array">
+        <item>NULL Н.Д.</item>
+        <item>Jan Янв</item>
+        <item>Feb Фев</item>
+        <item>Mar Март</item>
+        <item>Apr Апр</item>
+        <item>May Май</item>
+        <item>Jun Июнь</item>
+        <item>Aug Авг</item>
+        <item>Sep Сен</item>
+        <item>Oct Окт</item>
+        <item>Nov Ноя</item>
+        <item>Dec Дек</item>
+     </string-array>
+    
+        <string-array name="country_list_entry_values">
+        <item>AF</item>
+        <item>AL</item>
+        <item>DZ</item>
+        <item>AS</item>
+        <item>AD</item>
+        <item>AO</item>
+        <item>AI</item>
+        <item>AQ</item>
+        <item>AG</item>
+        <item>AR</item>
+        <item>AM</item>
+        <item>AW</item>
+        <item>AU</item>
+        <item>AT</item>
+        <item>AZ</item>
+        <item>BS</item>
+        <item>BH</item>
+        <item>BD</item>
+        <item>BB</item>
+        <item>BY</item>
+        <item>BE</item>
+        <item>BZ</item>
+        <item>BJ</item>
+        <item>BM</item>
+        <item>BT</item>
+        <item>BO</item>
+        <item>BA</item>
+        <item>BW</item>
+        <item>BV</item>
+        <item>BR</item>
+        <item>BQ</item>
+        <item>IO</item>
+        <item>VG</item>
+        <item>BN</item>
+        <item>BG</item>
+        <item>BF</item>
+        <item>BI</item>
+        <item>KH</item>
+        <item>CM</item>
+        <item>CA</item>
+        <item>CT</item>
+        <item>CV</item>
+        <item>KY</item>
+        <item>CF</item>
+        <item>TD</item>
+        <item>CL</item>
+        <item>CN</item>
+        <item>CX</item>
+        <item>CC</item>
+        <item>CO</item>
+        <item>KM</item>
+        <item>CG</item>
+        <item>CD</item>
+        <item>CK</item>
+        <item>CR</item>
+        <item>HR</item>
+        <item>CU</item>
+        <item>CY</item>
+        <item>CZ</item>
+        <item>CI</item>
+        <item>DK</item>
+        <item>DJ</item>
+        <item>DM</item>
+        <item>DO</item>
+        <item>NQ</item>
+        <item>DD</item>
+        <item>EC</item>
+        <item>EG</item>
+        <item>SV</item>
+        <item>GQ</item>
+        <item>ER</item>
+        <item>EE</item>
+        <item>ET</item>
+        <item>FK</item>
+        <item>FO</item>
+        <item>FJ</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>GF</item>
+        <item>PF</item>
+        <item>TF</item>
+        <item>FQ</item>
+        <item>GA</item>
+        <item>GM</item>
+        <item>GE</item>
+        <item>DE</item>
+        <item>GH</item>
+        <item>GI</item>
+        <item>GR</item>
+        <item>GL</item>
+        <item>GD</item>
+        <item>GP</item>
+        <item>GU</item>
+        <item>GT</item>
+        <item>GG</item>
+        <item>GN</item>
+        <item>GW</item>
+        <item>GY</item>
+        <item>HT</item>
+        <item>HM</item>
+        <item>HN</item>
+        <item>HK</item>
+        <item>HU</item>
+        <item>IS</item>
+        <item>IN</item>
+        <item>ID</item>
+        <item>IR</item>
+        <item>IQ</item>
+        <item>IE</item>
+        <item>IM</item>
+        <item>IL</item>
+        <item>IT</item>
+        <item>JM</item>
+        <item>JP</item>
+        <item>JE</item>
+        <item>JT</item>
+        <item>JO</item>
+        <item>KZ</item>
+        <item>KE</item>
+        <item>KI</item>
+        <item>KW</item>
+        <item>KG</item>
+        <item>LA</item>
+        <item>LV</item>
+        <item>LB</item>
+        <item>LS</item>
+        <item>LR</item>
+        <item>LY</item>
+        <item>LI</item>
+        <item>LT</item>
+        <item>LU</item>
+        <item>MO</item>
+        <item>MK</item>
+        <item>MG</item>
+        <item>MW</item>
+        <item>MY</item>
+        <item>MV</item>
+        <item>ML</item>
+        <item>MT</item>
+        <item>MH</item>
+        <item>MQ</item>
+        <item>MR</item>
+        <item>MU</item>
+        <item>YT</item>
+        <item>FX</item>
+        <item>MX</item>
+        <item>FM</item>
+        <item>MI</item>
+        <item>MD</item>
+        <item>MC</item>
+        <item>MN</item>
+        <item>ME</item>
+        <item>MS</item>
+        <item>MA</item>
+        <item>MZ</item>
+        <item>MM</item>
+        <item>NA</item>
+        <item>NR</item>
+        <item>NP</item>
+        <item>NL</item>
+        <item>AN</item>
+        <item>NT</item>
+        <item>NC</item>
+        <item>NZ</item>
+        <item>NI</item>
+        <item>NE</item>
+        <item>NG</item>
+        <item>NU</item>
+        <item>NF</item>
+        <item>KP</item>
+        <item>VD</item>
+        <item>MP</item>
+        <item>NO</item>
+        <item>OM</item>
+        <item>PC</item>
+        <item>PK</item>
+        <item>PW</item>
+        <item>PS</item>
+        <item>PA</item>
+        <item>PZ</item>
+        <item>PG</item>
+        <item>PY</item>
+        <item>YD</item>
+        <item>PE</item>
+        <item>PH</item>
+        <item>PN</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>PR</item>
+        <item>QA</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>RW</item>
+        <item>RE</item>
+        <item>BL</item>
+        <item>SH</item>
+        <item>KN</item>
+        <item>LC</item>
+        <item>MF</item>
+        <item>PM</item>
+        <item>VC</item>
+        <item>WS</item>
+        <item>SM</item>
+        <item>SA</item>
+        <item>SN</item>
+        <item>RS</item>
+        <item>CS</item>
+        <item>SC</item>
+        <item>SL</item>
+        <item>SG</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>SB</item>
+        <item>SO</item>
+        <item>ZA</item>
+        <item>GS</item>
+        <item>KR</item>
+        <item>ES</item>
+        <item>LK</item>
+        <item>SD</item>
+        <item>SR</item>
+        <item>SJ</item>
+        <item>SZ</item>
+        <item>SE</item>
+        <item>CH</item>
+        <item>SY</item>
+        <item>ST</item>
+        <item>TW</item>
+        <item>TJ</item>
+        <item>TZ</item>
+        <item>TH</item>
+        <item>TL</item>
+        <item>TG</item>
+        <item>TK</item>
+        <item>TO</item>
+        <item>TT</item>
+        <item>TN</item>
+        <item>TR</item>
+        <item>TM</item>
+        <item>TC</item>
+        <item>TV</item>
+        <item>UM</item>
+        <item>PU</item>
+        <item>VI</item>
+        <item>UG</item>
+        <item>UA</item>
+        <item>SU</item>
+        <item>AE</item>
+        <item>GB</item>
+        <item>US</item>
+        <item>ZZ</item>
+        <item>UY</item>
+        <item>UZ</item>
+        <item>VU</item>
+        <item>VA</item>
+        <item>VE</item>
+        <item>VN</item>
+        <item>WK</item>
+        <item>WF</item>
+        <item>EH</item>
+        <item>YE</item>
+        <item>ZM</item>
+        <item>ZW</item>
+        <item>AX</item>
+    </string-array>
+    <string-array name="country_list_entries">
+        <item>Афганистан</item>
+        <item>Албания</item>
+        <item>Алжир</item>
+        <item>Американское Самоа</item>
+        <item>Андорра</item>
+        <item>Ангола</item>
+        <item>Ангилья</item>
+        <item>Антарктика</item>
+        <item>Антигуа и Барбуда</item>
+        <item>Аргентина</item>
+        <item>Армения</item>
+        <item>Аруба</item>
+        <item>Австралия</item>
+        <item>Австрия</item>
+        <item>Азербайджан</item>
+        <item>Багамы</item>
+        <item>Бахрейн</item>
+        <item>Бангладеш</item>
+        <item>Барбадос</item>
+        <item>Белоруссия</item>
+        <item>Бельгия</item>
+        <item>Белиз</item>
+        <item>Бенин</item>
+        <item>Bermuda</item>
+        <item>Бутан</item>
+        <item>Боливия</item>
+        <item>Босния и Герцеговина</item>
+        <item>Ботсвана</item>
+        <item>Остров Буве</item>
+        <item>Бразилия</item>
+        <item>Британская антарктическая территория</item>
+        <item>Британская территория в Индийском океане</item>
+        <item>Британские Виргинские острова</item>
+        <item>Бруней</item>
+        <item>Болгария</item>
+        <item>Буркина Фасо</item>
+        <item>Бурунди</item>
+        <item>Камбоджа</item>
+        <item>Камерун</item>
+        <item>Канада</item>
+        <item>Острова Кантон и Эндербери</item>
+        <item>Кабо-Верде</item>
+        <item>Каймановы острова</item>
+        <item>Центрально-Африканская Республика</item>
+        <item>Чад</item>
+        <item>Чили</item>
+        <item>Китай</item>
+        <item>Остров Рождества</item>
+        <item>Кокосовые острова</item>
+        <item>Колумбия</item>
+        <item>Коморские острова</item>
+        <item>Конго - Браззавиль</item>
+        <item>Конго - Киншаса</item>
+        <item>Острова Кука</item>
+        <item>Коста-Рика</item>
+        <item>Хорватия</item>
+        <item>Куба</item>
+        <item>Кипр</item>
+        <item>Чешская Республика</item>
+        <item>Кот-Д\'Ивуар</item>
+        <item>Дания</item>
+        <item>Джибути</item>
+        <item>Доминика</item>
+        <item>Доминиканская Республика</item>
+        <item>Земля Королевы Мод</item>
+        <item>Восточная Германия</item>
+        <item>Эквадор</item>
+        <item>Египет</item>
+        <item>Эль-Сальвадор</item>
+        <item>Экваториальная Гвинея</item>
+        <item>Эритрея</item>
+        <item>Эстония</item>
+        <item>Эфиопия</item>
+        <item>Фолклендские острова</item>
+        <item>Фарерские острова</item>
+        <item>Фиджи</item>
+        <item>Финлядния</item>
+        <item>Франция</item>
+        <item>Французская Гвиана</item>
+        <item>Французская Полинезия</item>
+        <item>Французские Южные территории</item>
+        <item>Французские Южные и Антарктические территории</item>
+        <item>Габон</item>
+        <item>Гамбия</item>
+        <item>Грузия</item>
+        <item>Германия</item>
+        <item>Гана</item>
+        <item>Гибралтар</item>
+        <item>Греция</item>
+        <item>Гренландия</item>
+        <item>Гренада</item>
+        <item>Гваделупа</item>
+        <item>Гуам</item>
+        <item>Гватемала</item>
+        <item>Гернси</item>
+        <item>Гвинея</item>
+        <item>Гвинея-Бисау</item>
+        <item>Гайана</item>
+        <item>Гаити</item>
+        <item>Остров Херд и острова Макдональд</item>
+        <item>Гондурас</item>
+        <item>Гонконг</item>
+        <item>Венгрия</item>
+        <item>Исландия</item>
+        <item>Индия</item>
+        <item>Индонезия</item>
+        <item>Иран</item>
+        <item>Ирак</item>
+        <item>Ирландия</item>
+        <item>Остров Мэн</item>
+        <item>Израиль</item>
+        <item>Италия</item>
+        <item>Ямайка</item>
+        <item>Япония</item>
+        <item>Джерси</item>
+        <item>Остров Джонстон</item>
+        <item>Иордания</item>
+        <item>Казахстан</item>
+        <item>Кения</item>
+        <item>Кирибати</item>
+        <item>Кювейт</item>
+        <item>Киргизия</item>
+        <item>Лаос</item>
+        <item>Латвия</item>
+        <item>Ливан</item>
+        <item>Лесото</item>
+        <item>Либерия</item>
+        <item>Ливия</item>
+        <item>Лихтенштейн</item>
+        <item>Литва</item>
+        <item>Люксембург</item>
+        <item>Макао</item>
+        <item>Македония</item>
+        <item>Мадагаскар</item>
+        <item>Малави</item>
+        <item>Малайзия</item>
+        <item>Мальдивы</item>
+        <item>Мали</item>
+        <item>Мальта</item>
+        <item>Маршалловы острова</item>
+        <item>Мартиника</item>
+        <item>Мавритания</item>
+        <item>Маврикий</item>
+        <item>Майотта</item>
+        <item>Метрополия Франции</item>
+        <item>Мексика</item>
+        <item>Микронезия</item>
+        <item>Мидуэй</item>
+        <item>Молдавия</item>
+        <item>Монако</item>
+        <item>Монголия</item>
+        <item>Черногория</item>
+        <item>Монтсеррат</item>
+        <item>Морокко</item>
+        <item>Мозамбик</item>
+        <item>Мьянма [Бирма]</item>
+        <item>Намибия</item>
+        <item>Науру</item>
+        <item>Непал</item>
+        <item>Нидерланды</item>
+        <item>Нидерландские Антильские острова</item>
+        <item>Нейтральная зона</item>
+        <item>Новая Каледония</item>
+        <item>Новая Зеландия</item>
+        <item>Никарагуа</item>
+        <item>Нигер</item>
+        <item>Нигерия</item>
+        <item>Ниуэ</item>
+        <item>Остров Норфолк</item>
+        <item>Северная Корея</item>
+        <item>Северный Вьетнам</item>
+        <item>Оман</item>
+        <item>Подопечная территория Тихоокеанские острова</item>
+        <item>Пакистан</item>
+        <item>Палау</item>
+        <item>Палестинские территории</item>
+        <item>Панама</item>
+        <item>Зона Панамского канала</item>
+        <item>Папуа — Новая Гвинея</item>
+        <item>Парагвай</item>
+        <item>Йемен</item>
+        <item>Перу</item>
+        <item>Филиппины</item>
+        <item>Острова Питкэрн</item>
+        <item>Польша</item>
+        <item>Португалия</item>
+        <item>Пуэрто-Рико</item>
+        <item>Катар</item>
+        <item>Румыния</item>
+        <item>Российская Федерация</item>
+        <item>Руанда</item>
+        <item>Реюньон</item>
+        <item>Сен-Бартелеми</item>
+        <item>Остров Святой Елены</item>
+        <item>Сент-Китс и Невис</item>
+        <item>Сент-Люсия</item>
+        <item>Сен-Мартен</item>
+        <item>Сен-Пьер и Микелон</item>
+        <item>Сент-Винсент и Гренадины</item>
+        <item>Самоа</item>
+        <item>Сан-Марино</item>
+        <item>Саудовская Аравия</item>
+        <item>Сенегал</item>
+        <item>Сербия</item>
+        <item>Сербия и Черногория</item>
+        <item>Сейшельские Острова</item>
+        <item>Сьерра-Леоне</item>
+        <item>Сингапур</item>
+        <item>Словакия</item>
+        <item>Словения</item>
+        <item>Соломоновы Острова</item>
+        <item>Сомали</item>
+        <item>Южная Африка</item>
+        <item>Южная Георгия и Южные Сандвичевы Острова</item>
+        <item>Южная Корея</item>
+        <item>Испания</item>
+        <item>Шри-Ланка</item>
+        <item>Судан</item>
+        <item>Суринам</item>
+        <item>Шпицберген и Ян-Майен</item>
+        <item>Свазиленд</item>
+        <item>Швеция</item>
+        <item>Швейцария</item>
+        <item>Сирия</item>
+        <item>Сан-Томе и Принсипи</item>
+        <item>Тайвань</item>
+        <item>Таджикистан</item>
+        <item>Танзания</item>
+        <item>Таиланд</item>
+        <item>Тимор-Лесте</item>
+        <item>Того</item>
+        <item>Токелау</item>
+        <item>Тонга</item>
+        <item>Тринидад и Тобаго</item>
+        <item>Тунис</item>
+        <item>Турция</item>
+        <item>Туркменистан</item>
+        <item>Теркс и Кайкос</item>
+        <item>Тувалу</item>
+        <item>Внешние малые острова США</item>
+        <item>Американские разные тихоокеанские острова</item>
+        <item>Американские Виргинские острова</item>
+        <item>Уганда</item>
+        <item>Украина</item>
+        <item>Союз Советских Социалистических Республик</item>
+        <item>Объединенные Арабские Эмираты</item>
+        <item>Великобритания</item>
+        <item>Соединённые Штаты Америки</item>
+        <item>Неизвестная или недействительная область</item>
+        <item>Уругвай</item>
+        <item>Узбекистан</item>
+        <item>Вануату</item>
+        <item>Ватикан</item>
+        <item>Венесуэла</item>
+        <item>Вьетнам</item>
+        <item>Уэйк</item>
+        <item>Уоллис и Футуна</item>
+        <item>Западная Сахара</item>
+        <item>Йемен</item>
+        <item>Замбия</item>
+        <item>Зимбабве</item>
+        <item>Аландские острова</item>
+    </string-array>
+    <string name="intro_text" formatted="false">Привет, я La\'Zooz %v%.\r\n\r\nРаботая и делясь этим приложением с другими, вы принимаете участие в создании первой\n Совместной Транспортной Сети.\n\rВаше участие будет вознаграждено получением потенциальных Zooz-маркеров, которые будут выдаваться за передвижения, когда сеть начнёт работать.</string>
+    <string name="disclaimer_title">La\'Zooz ПРЕДУПРЕЖДЕНИЕ</string>
+    <string name="disclaimer_text">* Вам необходимо прокрутить текст, прежде чем вы сможете \'Принять условия\'.
+
+Это бета-версия мобильного приложения La\'Zooz. Любая информация в приложении может быть не точна. Эта версия приложения позволяет собирать Неверифицированные Потенциальные Zooz-маркеры. Верификация данных маркеров может быть невозможна, а следовательно, баланс Неверифицированных Потенциальных Zooz-маркеров может изменяться или быть сброшен в любое время. Злоупотребление системой может привести к потере вашего баланса Zooz-маркеров. Потенциальные Zooz-маркеры могут не быть приняты к использованию. Совместная Транспортная Сеть может никогда не быть запущена в работу.</string>
+    <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Potential Zooz for this contribution. Ваши действия - это фундамент работы данной сети, Вы будете вознаграждены Потенциальными Zooz за это.
+
+Каждая поездка с приложением La\'Zooz и включенным GPS позволит Вам собирать маркеры Zooz.
+Подключение к сети любого знакомого также позволит получить Вам определённое количество Zooz-маркеров.</string>
+    <string name="tool_tip_reg1">На данном этапе вы собираете потенциальные Zooz-маркеры. Когда транспортная сеть заработает в вашем геограифеском районе и будет выполнена аутентификация Ваших данных Вы сможете обменивать маркеры на перемещения. Определённое количество Ваших Потенциальных Zooz-маркеров будут конвертированы в Zooz-маркеры в качестве вознаграждения за использование транспортной сети. Эта процедура производится для мотивации в использовании системы по назначению и одновременно для уменьшения злоупотреблений при работе с ней.</string>
+    <string name="invitation_code_option">Необязательно, если вы получили код приглашения, пожалуйста, укажите его.\nУказывая пригласительный код Ваш друг получити 10 Потенциальных Zooz-маркеров.</string>
+    <string name="Phone_number_verification">Проверка номера телефона</string>
+    <string name="register_with">Зарегистрироваться с: </string>
+    <string name="approve">Подтвердить</string>
+    <string name="cancel">Отмена</string>
+    <string name="send_validation_code_thanks">Спасибо. Мы отправили Вам код валидации.</string>
+    <string name="send_validation_code_fail">Номер указан неверно, пожалуйста, укажите корректный номер телефона.</string>
+    <string name="code_validation_fail">Проверка не выполнена, пожалуйста, перепроверьте код</string>
+    <string name="code_validation_success">Проверка пройдена</string>
+    <string name="congratulation_for_registration">Поздравляем, у вас появился новый цифровой кошелёк!</string>
+    <string name="ok_button">ОК</string>
+    <string name="welcome_back">С возвращением!</string>
+    
+    <string name="do_not_show_this_msg_again">Не показывать это сообщение в дальнейшем</string>
+    <string name="scanning">Сканирую...</string>
+    <string name="shake_text">Личные встречи с другими пользователями помогают в повышении безопасности сети.
+
+Но это также и весело :)
+
+На этом шаге Вас попросят проконтактировать с другими пользователями, встретившись с ними и вместе потреся телефонами.
+За каждое такое действие Вы получите определённое количество Zooz-маркеров.</string>
+    
+    <string name="find_lazooz_users">Найти La\'Zooz пользователей</string>
+     <string name="next">Дальше</string>
+     <string name="whats_next">Что дальше?</string>
+     <string name="registration_1">Вы можете начать получать Потенциальные Zooz-маркеры за Ваши действия</string>
+     <string name="registration_2">Потенциальные Zooz - это хранимые у нас на серверах цифровые маркеры. 
+После стадии тестирования они будут храниться в охраняемом публичном реестре.</string>
+     <string name="registration_3">Укажите номер телефона для создания кошелька, код проверки будет отправлен Вам по СМС.</string>
+     <string name="registration_4">Регистрация</string>
+     <string name="registration_5">Введите код проверки</string>
+     <string name="country">Страна: </string>
+     
+     <string name="remained_me">Напомнить мне через:</string>
+     <string name="a_day">день</string>
+     <string name="a_week">неделю</string>
+     <string name="never">никогда</string>
+     
+     <string name="validation_code">Код проверки:</string>
+     <string name="invitation_code">Код приглашения:</string>
+     
+     <string name="send_invitation">Отправить приглашение</string>
+     
+     <string name="i_accept_the_terms">Я принимаю условия</string>
+     
+     <string name="friends_accepted_your_invitation">друзья, принявшие \nтвоё приглашение</string>
+     
+     <string name="friends_pending_your_invitation">ещё не принятые друзьями \nприглашения</string>
+     
+      <string name="mined_km">ЗАРАБОТАННЫЕ КИЛОМЕТРЫ</string>
+     <string name="km">км</string>
+     
+     <string name="invited_freinds">ПРИГЛАШЁННЫЕ ДРУЗЬЯ</string>
+     <string name="potential_zooz">ПОТЕНЦИАЛЬНЫЕ ZOOZ</string>
+     <string name="shakes">тряски</string>
+     <string name="critical_mass">КРИТИЧЕСКАЯ МАССА</string>
+      <string name="times_shaken">КОЛИЧЕСТВО ТРЯСОК</string>
+      <string name="friends">друзей</string>
+      <string name="pz">пz</string>
+      
+      <string name="me_shakes">Тряски</string>
+      <string name="me_invited_freinds">Приглашённые друзья</string>
+      <string name="me_mined_km">Заработанные км</string>
+      <string name="me_my_impact">Моё влияние</string>
+      <string name="me_wallet_num">Кошелёк #: </string>
+      <string name="me_id">ID: </string>
+      
+      
+      <string name="info_version">Версия: </string>
+      <string name="info_app_build_version">Номер сборки приложения: </string>
+      <string name="info_server_build_number">Номер серверной сборки: </string>
+      
+      <string name="total">Всего</string>
+      <string name="miners_paveing_the_web">Собиратели, прокладывающие Сеть</string>
+      <string name="days">Дни(ей)</string>
+      <string name="miners">Собиратели</string>
+      <string name="my_mined_km_history">История собранных мною километров</string>
+      
+      <string name="total_community_mined_km_history">История собранных всем сообществом километров</string>
+      
+      <string name="tap_here_to_invite_a_friend">Нажмите, чтобы пригласить друга</string>
+      
+     
+      
+      
+      
+      
+      <string name="gotit">Получил!</string>
+      
+       <string name ="potential_zooz_balance">Баланс Потенциальных Zooz</string>
+       <string name ="zooz_balance">Баланс Zooz</string>
+       
+       <string name ="zooz_address">Адрес Zooz</string>
+       <string name ="private_key">Частный ключ</string>
+       <string name ="scan">Скан</string>
+       <string name ="export">Экспорт</string>
+       <string name ="show">Показать</string>
+       <string name ="hide">Скрыть</string>
+       <string name ="scan_a_new_key">Сканировать новый ключ</string>
+       <string name ="scan_a_new_key_msg">Вы сохранили Ваш старый ключ?\nПожалуйста, имейте в виду, что сканирование нового ключа сотрёт старый, и Вы не сможете снять деньги с него.\nПожалуйста, используйте Экспорт для создания резервной копии.</string>
+       
+
+       <string name ="my_zooz_address">Мой адрес Zooz</string>
+       <string name ="export_zooz_address">Экспорт адреса Zooz</string>
+       <string name ="export_private_key">Экспорт частного ключа</string>
+       <string name ="my_private_key">Мой частный ключ</string>
+       
+       <string name ="export_private_key_msg">Вы собираетесь экспортировать Ваш частный ключ.\nПожалуйста, учтите, что это Ваш кошелёк и Вам необходимо отправить его себе только в целях сохранности</string>
+       <string name ="the_key_updated">Ключ обновлён</string>
+       <string name ="key_update_fail">Не удалось обновить ключ. Пожалуйста, попробуйте позже.</string>
+       
+       <string name ="scan_qr_msg">QR-код не является корректным адресом</string>
+        <string name ="import_zooz_address">Импортировать адрес Zooz</string>
+		     	 
+		     	<string name ="new_zooz_address_scan_msg_1">Новый адрес Zooz был отсканирован:\n</string>
+		     	<string name ="new_zooz_address_scan_msg_2">\nВы хотите заменить уже существующий?</string>
+       
+       
+       
+       
+       
+       <string name ="share_def_text">Привет,\nПрисоединяйтесь к La\`Zooz .\nЗагрузить приложение:\n</string>
+       
+        
+
+       
+       
+     
+     
+     
+     
+     
+     
+     
+     
+     
+    
+    
+    
+    
+    
+    
+    
+    
+</resources>
