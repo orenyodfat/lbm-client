@@ -26,8 +26,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
-
+Icon
 # Thumbnails
 ._*
 
@@ -144,3 +143,4 @@ bin/res/crunch/drawable-xxhdpi/accept_btn.png
 bin/res/crunch/drawable-xxhdpi/accept_btn_press.png
 bin/res/crunch/drawable-xxhdpi/gen_btn_dis.png
 bin/res/crunch/drawable-xxhdpi/splash.png
+bin/*s
