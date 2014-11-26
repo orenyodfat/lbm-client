@@ -82,8 +82,22 @@ public class MainZoozActivity extends ActionBarActivity {
 			    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.scan_a_new_key), new DialogInterface.OnClickListener() {
 			    	@Override
 			        public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(MainZoozActivity.this, CameraQRActivity.class);
-						startActivityForResult(intent, 1);
+			    		
+						//Intent intent = new Intent(MainZoozActivity.this, CameraQRActivity.class);
+			    		try {
+
+			    		    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+			    		    intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
+
+			    		    startActivityForResult(intent, 0);
+
+			    		} catch (Exception e) {
+
+			    		    Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+			    		    Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
+			    		    startActivity(marketIntent);
+
+			    		}
 			    	}
 			    });
 			    
@@ -267,10 +281,11 @@ public class MainZoozActivity extends ActionBarActivity {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == 1) {
-			if ((intent != null)&& (intent.hasExtra("DATA"))){
-				mScannedKey = intent.getStringExtra("DATA");
+		super.onActivityResult(requestCode, resultCode, intent);
+		if ((requestCode == 0)&& (resultCode == RESULT_OK)){
+			if ((intent != null)&& (intent.hasExtra("SCAN_RESULT"))){
 				
+				mScannedKey = intent.getStringExtra("SCAN_RESULT");
 				
 				if (!isValidAddress(mScannedKey)){
 					Utils.messageToUser(this, getString(R.string.scan), getString(R.string.scan_qr_msg));
@@ -283,7 +298,7 @@ public class MainZoozActivity extends ActionBarActivity {
 		     	
 		     	
 		     	Spannable wordtoSpan = new SpannableString(getString(R.string.new_zooz_address_scan_msg_1) + 
-															mScannedKey + 
+															mScannedKey +"\n"+ 
 															getString(R.string.new_zooz_address_scan_msg_2));        
 
 		     	wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLACK), 30, 30+mScannedKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

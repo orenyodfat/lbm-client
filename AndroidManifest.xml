@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lazooz.lbm"
-    android:versionCode="33"
-    android:versionName="1.15" >
+    android:versionCode="34"
+    android:versionName="1.16" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -34,11 +34,12 @@
 	<uses-permission android:name="com.lazooz.lbm.permission.MAPS_RECEIVE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC"/>
+    <!-- 
 	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.NFC"/>
-	
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    -->
     <!--
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
     -->
@@ -204,11 +205,12 @@
             	android:name="android.support.PARENT_ACTIVITY"
             	android:value="com.lazooz.lbm.MainActivity" />
     	</activity>
-    	
+    	<!-- 
          <activity android:name="com.lazooz.lbm.CameraQRActivity"
              android:screenOrientation="portrait"
              android:label="@string/app_name" >
          </activity>
+          -->
 
          <activity android:name="com.lazooz.lbm.preference.SettingsActivity"
              android:screenOrientation="portrait"

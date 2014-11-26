@@ -33,9 +33,7 @@
 	<string name="drawer_entry_report_bug">דווח תקלות</string>
 	<string name="drawer_entry_intro">הסבר</string>
 	<string name="drawer_entry_settings">הגדרות</string>
-	
 	<string name="share_via">שתף באמצעות</string>
-	
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
 	<string name="forground_notif_title">notif title</string>
@@ -61,7 +59,7 @@
    
     <string name="friends_message_p1_one_select">   %2$s  %1$s שלום</string>
     
-     <string name="friends_message_p1_multy_select"> שלום זה %s, </string>
+    <string name="friends_message_p1_multy_select"> שלום זה %s, </string>
     <string name="friends_message_main">תבדוק את האפליקציה הזו</string>
     
     
@@ -110,13 +108,11 @@
    <string name="info_version">גרסה</string>
       <string name="info_app_build_version">גרסת בניית ישום</string>
       <string name="info_server_build_number">גרסת שרת</string>
-      
-        <string name="no_connection">אין חיבור</string>
+       <string name="no_connection">אין חיבור</string>
     <string name="no_connection_msg">אין חיבור לשרת לזוז.נסה שוב יותר מאוחר</string>
     
     <string name="no_net_connection">אין חיבור רשת</string>
     <string name="no_net_connection_msg">נא חבר את המכשיר לרשת.והפעל את הישום מחדש</string>
-      
     <string name="intro_text" formatted="false">שלום ,אני לזוז גרסה %v%.\n
 
 בהרצת ובשיתוף אפליקציה זו הנך לוקח חלק בהקמתה של רשת התחבורה השיתופית הראשונה בעולם.
@@ -141,7 +137,7 @@
     <string name="welcome_back">ברוך שובך!</string>
     <string name="do_not_show_this_msg_again">אל תראה הודעה זו שוב</string>
     <string name="scanning">סורק</string>
-     <string name="shake_text">פגישה עם חברי לזוז עוזרת לאבטחת הרשת אך יותר מכך זה כיף:).בשלב זה עליך לשקשק את הטלפון עם משתמש נוסף.בעבור כל שקשוק שתצליח לעשות בזמן,תוכל לזכות בזוז פוטנציאלי </string>
+    <string name="shake_text">פגישה עם חברי לזוז עוזרת לאבטחת הרשת אך יותר מכך זה כיף:).בשלב זה עליך לשקשק את הטלפון עם משתמש נוסף.בעבור כל שקשוק שתצליח לעשות בזמן,תוכל לזכות בזוז פוטנציאלי </string>
     <string name="find_lazooz_users">מצא חברי לזוז</string>
     <string name="next">הבא</string>
     <string name="whats_next">מה הלאה</string>
@@ -191,7 +187,7 @@
       <string name="days">ימים</string>
       <string name="miners">כורים</string>
       <string name="my_mined_km_history">היסטוריית כריית הקילומטרים שלי</string>
-       <string name="total_community_mined_km_history">סך כל המרחק שנכרה על ידי הקהילה</string>
+      <string name="total_community_mined_km_history">סך כל המרחק שנכרה על ידי הקהילה</string>
       
       
       <string name="gotit">המשך</string>
@@ -203,9 +199,10 @@
        <string name ="export">יצא</string>
        <string name ="show">הצג</string>
        <string name ="hide">הסתר</string>
-       
-         <string name ="scan_a_new_key">סרוק מפתח חדש</string>
+            
+        <string name ="scan_a_new_key">סרוק מפתח חדש</string>
        <string name ="scan_a_new_key_msg">האם המפתח הקודם שלך מגובה? סריקת מפתח חדש תמחוק את המפתח הקודם .השתמש בכפתור "\יצא"\ לגיבוי.</string>
+       
 
        <string name ="my_zooz_address">כתובת הזוזים שלי</string>
        <string name ="export_zooz_address">יצא את כתובת הזוזים</string>
@@ -220,7 +217,7 @@
         <string name ="import_zooz_address">יבא כתובת זוז</string>
 		     	 
 		     	<string name ="new_zooz_address_scan_msg_1">כתובת זוזים חדשה נסרקה\n</string>
-		     	<string name ="new_zooz_address_scan_msg_2">/nהאם מעוניין//ת להחליפה בנוכחית?</string>
+		     	<string name ="new_zooz_address_scan_msg_2">האם להחליפה בנוכחית?</string>
        
        
        <string name ="share_def_text">הי,מוזמן לזוז.ניתן להוריד מ:</string>

@@ -217,7 +217,7 @@
         <string name ="import_zooz_address">יבא כתובת זוז</string>
 		     	 
 		     	<string name ="new_zooz_address_scan_msg_1">כתובת זוזים חדשה נסרקה\n</string>
-		     	<string name ="new_zooz_address_scan_msg_2">/nהאם מעוניין//ת להחליפה בנוכחית?</string>
+		     	<string name ="new_zooz_address_scan_msg_2">האם להחליפה בנוכחית?</string>
        
        
        <string name ="share_def_text">הי,מוזמן לזוז.ניתן להוריד מ:</string>
