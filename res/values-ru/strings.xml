@@ -13,13 +13,13 @@
     <string name="gps_activate_gps_body">Пожалуйста, включите GPS для определения вашего местоположения</string>
     <string name="gps_activate_gps_setting">Откройте настройки GPS</string>
 	
-	<string name="activation_code_template_eng">Ключ регистрации в La\'Zooz</string>
-	<string name="recommendation_code_template_eng">La\'Zooz с подарком за рекомендацию друга</string>
-	<string name="recommendation_pre_code_template_eng">ключ:</string>
+	<string name="activation_code_template_eng">La\'Zooz app registration token: </string>
+	<string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
+	<string name="recommendation_pre_code_template_eng">token:</string>
 	
 	<string name="recommendation_input_msg_title">Рекомендация</string>
 	<string name="recommendation_input_msg_body">Пожалуйста, напишите рекомендацию</string>
-	<string name="recommendation_default">Это ссылка на установку социального приложения. Приложение создает Совместную Транспортную Сеть, которая будет принадлежать всему сообществу. После установки приложения оно начнёт собирать для вас потенциальные маркеры ZOOZ во время вождения. Когда сеть будет создана, эти маркеры будут использоваться для перемещений. Попробуйте.</string>
+	<string name="recommendation_default">Это ссылка на установку социального приложения. Приложение создает Совместную Транспортную Сеть, которая будет принадлежать всему сообществу. После установки приложения оно начнёт собирать для вас Потенциальные ZOOZ-фишки во время вождения. Когда сеть будет создана, эти фишки будут использоваться для перемещений. Попробуйте.</string>
 	<string name="recommendation_default_start">Привет</string>
 	<string name="invitation_sent">Приглашение отправлено</string>
 	
@@ -39,14 +39,7 @@
 	<string name="forground_notif_text">Текст сообщения</string>
 	
 	
-	<string-array name="drawer_array">
-        <item>@string/drawer_entry_me</item>
-        <item>@string/drawer_entry_info</item>
-        <item>@string/drawer_entry_share</item>
-        <item>@string/drawer_entry_website</item>
-        <item>@string/drawer_entry_wallet</item>
-        <item>@string/drawer_entry_legal</item>
-    </string-array>
+
 	
 	<string name="drawer_open1"></string>
     <string name="drawer_close1"></string>
@@ -66,8 +59,8 @@
     <string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
     <string name="gps_notif_open_gps_body">Пожалуйста, включите GPS</string>
     
-    <string name="gps_message_no_gps_yes_net">Ваш GPS выключен, пожалуйста, обратите внимание, что вы не будете в состоянии собирать zooz-маркеры</string>
-    <string name="gps_message_no_gps_no_net">Ваш GPS и место в сети выключены, пожалуйста, обратите внимание, что вы не сможете собирать zooz-маркеры</string>
+    <string name="gps_message_no_gps_yes_net">Ваш GPS выключен, пожалуйста, обратите внимание, что вы не будете в состоянии собирать Zooz-фишки</string>
+    <string name="gps_message_no_gps_no_net">Ваш GPS и место в сети выключены, пожалуйста, обратите внимание, что вы не сможете собирать Zooz-фишки</string>
     <string name="gps_message_no_gps_no_net_feature">Ваш GPS и место в сети выключены. Вам необходимо их включить</string>
     <string name="gps_message_yes_gps_no_net">Местоположение в сети выключено. Рекомендуется включить его для повышения эффективности использования батареи</string>
     
@@ -79,10 +72,10 @@
     <string name="settings_category_mining">Получение</string>
     <string name="settings_mining_charger_connectivity_title_on">Зарядное устройство подключено</string>
     <string name="settings_mining_charger_connectivity_title_off">Зарядное устройство отключено</string>
-    <string name="settings_mining_charger_connectivity_summary_on">Получение маркеров, только когда зарядное устройство подключено</string>
-    <string name="settings_mining_charger_connectivity_summary_off">Получение маркеров независимо от подключения зарядного устройства</string>
+    <string name="settings_mining_charger_connectivity_summary_on">Получение фишек, только когда зарядное устройство подключено</string>
+    <string name="settings_mining_charger_connectivity_summary_off">Получение фишек независимо от подключения зарядного устройства</string>
     
-    <string name="settings_mining_enable_disable_mining_title">Получение (маркеров)</string>
+    <string name="settings_mining_enable_disable_mining_title">Получение (фишек)</string>
     <string name="settings_mining_enable_disable_mining_summary_enable">Получение возможно</string>
     <string name="settings_mining_enable_disable_mining_summary_disable">Получение невозможно</string>
     
@@ -676,17 +669,17 @@
         <item>Зимбабве</item>
         <item>Аландские острова</item>
     </string-array>
-    <string name="intro_text" formatted="false">Привет, я La\'Zooz %v%.\r\n\r\nРаботая и делясь этим приложением с другими, вы принимаете участие в создании первой\n Совместной Транспортной Сети.\n\rВаше участие будет вознаграждено получением потенциальных Zooz-маркеров, которые будут выдаваться за передвижения, когда сеть начнёт работать.</string>
+    <string name="intro_text" formatted="false">Привет, я La\'Zooz %v%.\r\n\r\nРаботая и делясь этим приложением с другими, вы принимаете участие в создании первой\n Совместной Транспортной Сети.\n\rВаше участие будет вознаграждено получением потенциальных Zooz-фишек, которые будут выдаваться за передвижения, когда сеть начнёт работать.</string>
     <string name="disclaimer_title">La\'Zooz ПРЕДУПРЕЖДЕНИЕ</string>
     <string name="disclaimer_text">* Вам необходимо прокрутить текст, прежде чем вы сможете \'Принять условия\'.
 
-Это бета-версия мобильного приложения La\'Zooz. Любая информация в приложении может быть не точна. Эта версия приложения позволяет собирать Неверифицированные Потенциальные Zooz-маркеры. Верификация данных маркеров может быть невозможна, а следовательно, баланс Неверифицированных Потенциальных Zooz-маркеров может изменяться или быть сброшен в любое время. Злоупотребление системой может привести к потере вашего баланса Zooz-маркеров. Потенциальные Zooz-маркеры могут не быть приняты к использованию. Совместная Транспортная Сеть может никогда не быть запущена в работу.</string>
-    <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Potential Zooz for this contribution. Ваши действия - это фундамент работы данной сети, Вы будете вознаграждены Потенциальными Zooz за это.
+Это бета-версия мобильного приложения La\'Zooz. Любая информация в приложении может быть не точна. Эта версия приложения позволяет собирать Неверифицированные Потенциальные Zooz-фишки. Верификация данных фишек может быть невозможна, а следовательно, баланс Неверифицированных Потенциальных Zooz-фишек может изменяться или быть сброшен в любое время. Злоупотребление системой может привести к потере вашего баланса Zooz-фишек. Потенциальные Zooz-фишки могут не быть приняты к использованию. Совместная Транспортная Сеть может никогда не быть запущена в работу.</string>
+    <string name="second_step_screen_text">Ваши действия - это фундамент работы данной сети, Вы будете вознаграждены Потенциальными Zooz за это.
 
-Каждая поездка с приложением La\'Zooz и включенным GPS позволит Вам собирать маркеры Zooz.
-Подключение к сети любого знакомого также позволит получить Вам определённое количество Zooz-маркеров.</string>
-    <string name="tool_tip_reg1">На данном этапе вы собираете потенциальные Zooz-маркеры. Когда транспортная сеть заработает в вашем геограифеском районе и будет выполнена аутентификация Ваших данных Вы сможете обменивать маркеры на перемещения. Определённое количество Ваших Потенциальных Zooz-маркеров будут конвертированы в Zooz-маркеры в качестве вознаграждения за использование транспортной сети. Эта процедура производится для мотивации в использовании системы по назначению и одновременно для уменьшения злоупотреблений при работе с ней.</string>
-    <string name="invitation_code_option">Необязательно, если вы получили код приглашения, пожалуйста, укажите его.\nУказывая пригласительный код Ваш друг получити 10 Потенциальных Zooz-маркеров.</string>
+Каждая поездка с приложением La\'Zooz и включенным GPS позволит Вам собирать фишки Zooz.
+Подключение к сети любого знакомого также позволит получить Вам определённое количество Zooz-фишек.</string>
+    <string name="tool_tip_reg1">На данном этапе вы собираете Потенциальные Zooz-фишки. Когда транспортная сеть заработает в вашем географическом районе и будет выполнена аутентификация Ваших данных Вы сможете обменивать фишки на перемещения. Определённое количество Ваших Потенциальных Zooz-фишек будут конвертированы в Zooz-фишки в качестве вознаграждения за использование транспортной сети. Эта процедура производится для мотивации в использовании системы по назначению и одновременно для уменьшения злоупотреблений при работе с ней.</string>
+    <string name="invitation_code_option">Необязательно, если вы получили код приглашения, пожалуйста, укажите его.\nУказывая пригласительный код Ваш друг получити 10 Потенциальных Zooz-фишек.</string>
     <string name="Phone_number_verification">Проверка номера телефона</string>
     <string name="register_with">Зарегистрироваться с: </string>
     <string name="approve">Подтвердить</string>
@@ -706,13 +699,13 @@
 Но это также и весело :)
 
 На этом шаге Вас попросят проконтактировать с другими пользователями, встретившись с ними и вместе потреся телефонами.
-За каждое такое действие Вы получите определённое количество Zooz-маркеров.</string>
+За каждое такое действие Вы получите определённое количество Zooz-фишек.</string>
     
     <string name="find_lazooz_users">Найти La\'Zooz пользователей</string>
      <string name="next">Дальше</string>
      <string name="whats_next">Что дальше?</string>
-     <string name="registration_1">Вы можете начать получать Потенциальные Zooz-маркеры за Ваши действия</string>
-     <string name="registration_2">Потенциальные Zooz - это хранимые у нас на серверах цифровые маркеры. 
+     <string name="registration_1">Вы можете начать получать Потенциальные Zooz-фишки за Ваши действия</string>
+     <string name="registration_2">Потенциальные Zooz - это хранимые у нас на серверах цифровые вознаграждения. 
 После стадии тестирования они будут храниться в охраняемом публичном реестре.</string>
      <string name="registration_3">Укажите номер телефона для создания кошелька, код проверки будет отправлен Вам по СМС.</string>
      <string name="registration_4">Регистрация</string>
