@@ -67,7 +67,7 @@
     <string name="gps_notif_open_gps_body">נא הדלק את ה גי.פי.אס</string>
     
     
-     <string name="gps_message_no_gps_yes_net">הגי.פי.אס כבוי,קריית זוזים לא תתאפשר במצב זה</string>
+     <string name="gps_message_no_gps_yes_net">הגי.פי.אס כבוי,כריית זוזים לא תתאפשר במצב זה</string>
     <string name="gps_message_no_gps_no_net">הגי.פי.אס וגם מיקום רשת כבויים.לא תוכל לכרות זוזים במצב זה</string>
     <string name="gps_message_no_gps_no_net_feature">הגי.פי.אס וגם מיקום רשת כבויים.עליך לאפשרם בכדי להמשיך במסך זה</string>
     <string name="gps_message_yes_gps_no_net">מיקום לפי הרשת כבוי.מומלץ לאפשרו לצורך שימוש יעיל בסוללה </string>
