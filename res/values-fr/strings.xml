@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">La\'Zooz</string>
+<string name="hello_world">Hello world!</string>
+<string name="action_settings">Paramètres</string>
+<string name="title_activity_splash">SplashActivity</string>
+<string name="reg_input_num_title">Inscription</string>
+<string name="reg_input_num_body">Merci d\'entrer votre numéro de téléphone sur lequel nous vous adressons le code de validation</string>
+<string name="reg_input_conf_title">Inscription</string>
+<string name="reg_input_conf_body">Saisissez votre code de validation</string>
+<string name="gps_activate_gps_title">Activez votre GPS</string>
+<string name="gps_activate_gps_body">Merci d\'activer votre GPS afin de valider votre position</string>
+<string name="gps_activate_gps_setting">Paramètres Open GPS</string>
+
+<string name="activation_code_template_eng">La\'Zooz app registration token: </string>
+<string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
+<string name="recommendation_pre_code_template_eng">token:</string>
+
+<string name="recommendation_input_msg_title">Recommandation</string>
+<string name="recommendation_input_msg_body">Merci de saisir une recommandation personnelle.</string>
+<string name="recommendation_default">Voici un lien vers une social app qui construit un réseau de "ride sharing", appartenant à la communauté. Après installation, cette appli commencera à générer des Zooz pendant que vous conduisez. Une fois le réseau établi ces Zooz pourront être utilisés pour vous déplacer. Voir plus.</string>
+<string name="recommendation_default_start">Bonjour, </string>
+<string name="invitation_sent">Invitation envoyée</string>
+<string name="drawer_entry_me">Moi</string>
+<string name="drawer_entry_info">Info</string>
+<string name="drawer_entry_share">Partager</string>
+<string name="drawer_entry_website">Site Web</string>
+<string name="drawer_entry_wallet">Porte-Monnaie</string>
+<string name="drawer_entry_legal">Conditions d\'Utilisation et Confidentialité</string>
+<string name="drawer_entry_report_bug">Reporter problème/bug</string>
+<string name="drawer_entry_intro">Introduction</string>
+<string name="drawer_entry_settings">Paramètres</string>
+<string name="forground_notif_ticker_text">notif ticker</string>
+<string name="forground_notif_title">notif titre</string>
+<string name="forground_notif_text">notif texte</string>
+<string-array name="drawer_array">
+<item>@string/drawer_entry_me</item>
+<item>@string/drawer_entry_info</item>
+<item>@string/drawer_entry_share</item>
+<item>@string/drawer_entry_website</item>
+<item>@string/drawer_entry_wallet</item>
+<item>@string/drawer_entry_legal</item>
+</string-array>
+<string name="drawer_open1"></string>
+<string name="drawer_close1"></string>
+<string name="menu_search">Recherche</string>
+<string name="search_hint">Rechercher des contacts</string>
+<string name="friends_message_p1_one_select">Bonjour %1$s c\'est %2$s,</string>
+<string name="friends_message_p1_multy_select">Bonjour c\'est %s,</string>
+<string name="friends_message_main">Regarde cette appli</string>
+<string name="share_via">Partager via</string>
+<string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
+<string name="gps_notif_open_gps_body">Merci d\'activer votre GPS</string>
+<string name="gps_message_no_gps_yes_net">Votre GPS est désactivé, attention vous ne pouvez pas générer de Zooz</string>
+<string name="gps_message_no_gps_no_net">Votre GPS et localisation réseau sont désactivés, attention vous ne pouvez pas collecter de Zooz</string>
+<string name="gps_message_no_gps_no_net_feature">Votre GPS et localisation réseau sont désactivés. Vous devez les activer pour cette fonctionnalité</string>
+<string name="gps_message_yes_gps_no_net">Votre localisation réseau est désactivée. Il vous est recommandé de l\'activer pour une utilisation efficace de votre batterie</string>
+<string name="splash_version_check_title">Nouvelle Version</string>
+<string name="splash_version_check_les_current">Voici la nouvelle version de  La\'Zooz, à mettre à jour sur Google Play.</string>
+<string name="splash_version_check_les_min">Votre version actuelle de La\'Zooz n\'est pas la dernière. Pour continuer, effectuez la mise à jour sur Google Play.</string>
+<string name="settings_category_mining">Minage</string>
+<string name="settings_mining_charger_connectivity_title_on">Connectivité du Chargeur - On</string>
+<string name="settings_mining_charger_connectivity_title_off">Connectivité du Chargeur  - Off</string>
+<string name="settings_mining_charger_connectivity_summary_on">Minage uniquement en charge</string>
+<string name="settings_mining_charger_connectivity_summary_off">Minage indépendamment de la charge</string>
+<string name="settings_mining_enable_disable_mining_title">Minag</string>
+<string name="settings_mining_enable_disable_mining_summary_enable">Minage activé</string>
+<string name="settings_mining_enable_disable_mining_summary_disable">Minage désactivé</string>
+<string name="settings_sound_enable_disable_title">Son</string>
+<string name="settings_sound_enable_disable_summary_enable">Activer le son</string>
+<string name="settings_sound_enable_disable_summary_disable">Désactiver le son</string>
+<string name="settings_category_privacy">Confidentialité</string>
+<string name="settings_privacy_show_my_location_title">Visibilité par les autres</string>
+<string name="settings_privacy_show_my_location_summary_enable">Ma position est visible par les autres (sans identification) </string>
+<string name="settings_privacy_show_my_location_summary_disable">Ma position est masquée</string>
+<string name="save_for_later">enregistrer pour plus tard</string>
+<string name="successfuly_located">Localisation effectuée, merci de continuer vers l\'écran suivant.</string>
+<string name="improve_your_location">Merci de sortir à l\'air libre afin d\'améliorer la précision de votre position</string>
+<string name="identifying_your_location">Identification de la position....</string>
+<string name="no_connection">Pas de connexion</string>
+<string name="no_connection_msg">Echec de la connexion au serveur La\'Zooz server, merci de réessayer ultérieurement.</string>
+<string name="no_net_connection">Pas de connexion réseau</string>
+<string name="no_net_connection_msg">Merci de connecter votre appareil au réseau et de redémarrer l\'application</string>
+<string-array name="sched_gps">
+<item>a day</item>
+<item>a week</item>
+<item>Lun</item>
+<item>Mar</item>
+<item>Mer</item>
+<item>Jeu</item>
+<item>Ven</item>
+<item>Sam</item>
+</string-array>
+<string-array name="days_array">
+<item>NULL</item>
+<item>Dim</item>
+<item>Lun</item>
+<item>Mar</item>
+<item>Mer</item>
+<item>Jeu</item>
+<item>Ven</item>
+<item>Sam</item>
+</string-array>
+<string-array name="months_array">
+<item>NULL</item>
+<item>Jan</item>
+<item>Fev</item>
+<item>Mar</item>
+<item>Avr</item>
+<item>Mai</item> 
+<item>Jun</item>
+<item>Aou</item>
+<item>Sep</item>
+<item>Oct</item>
+<item>Nov</item>
+<item>Déc</item>
+</string-array>
+<string-array name="country_list_entry_values">
+<item>AF</item>
+<item>AL</item>
+<item>DZ</item>
+<item>AS</item>
+<item>AD</item>
+<item>AO</item>
+<item>AI</item>
+<item>AQ</item>
+<item>AG</item>
+<item>AR</item>
+<item>AM</item>
+<item>AW</item>
+<item>AU</item>
+<item>AT</item>
+<item>AZ</item>
+<item>BS</item>
+<item>BH</item>
+<item>BD</item>
+<item>BB</item>
+<item>BY</item>
+<item>BE</item>
+<item>BZ</item>
+<item>BJ</item>
+<item>BM</item>
+<item>BT</item>
+<item>BO</item>
+<item>BA</item>
+<item>BW</item>
+<item>BV</item>
+<item>BR</item>
+<item>BQ</item>
+<item>IO</item>
+<item>VG</item>
+<item>BN</item>
+<item>BG</item>
+<item>BF</item>
+<item>BI</item>
+<item>KH</item>
+<item>CM</item>
+<item>CA</item>
+<item>CT</item>
+<item>CV</item>
+<item>KY</item>
+<item>CF</item>
+<item>TD</item>
+<item>CL</item>
+<item>CN</item>
+<item>CX</item>
+<item>CC</item>
+<item>CO</item>
+<item>KM</item>
+<item>CG</item>
+<item>CD</item>
+<item>CK</item>
+<item>CR</item>
+<item>HR</item>
+<item>CU</item>
+<item>CY</item>
+<item>CZ</item>
+<item>CI</item>
+<item>DK</item>
+<item>DJ</item>
+<item>DM</item>
+<item>DO</item>
+<item>NQ</item>
+<item>DD</item>
+<item>EC</item>
+<item>EG</item>
+<item>SV</item>
+<item>GQ</item>
+<item>ER</item>
+<item>EE</item>
+<item>ET</item>
+<item>FK</item>
+<item>FO</item>
+<item>FJ</item>
+<item>FI</item>
+<item>FR</item>
+<item>GF</item>
+<item>PF</item>
+<item>TF</item>
+<item>FQ</item>
+<item>GA</item>
+<item>GM</item>
+<item>GE</item>
+<item>DE</item>
+<item>GH</item>
+<item>GI</item>
+<item>GR</item>
+<item>GL</item>
+<item>GD</item>
+<item>GP</item>
+<item>GU</item>
+<item>GT</item>
+<item>GG</item>
+<item>GN</item>
+<item>GW</item>
+<item>GY</item>
+<item>HT</item>
+<item>HM</item>
+<item>HN</item>
+<item>HK</item>
+<item>HU</item>
+<item>IS</item>
+<item>IN</item>
+<item>ID</item>
+<item>IR</item>
+<item>IQ</item>
+<item>IE</item>
+<item>IM</item>
+<item>IL</item>
+<item>IT</item>
+<item>JM</item>
+<item>JP</item>
+<item>JE</item>
+<item>JT</item>
+<item>JO</item>
+<item>KZ</item>
+<item>KE</item>
+<item>KI</item>
+<item>KW</item>
+<item>KG</item>
+<item>LA</item>
+<item>LV</item>
+<item>LB</item>
+<item>LS</item>
+<item>LR</item>
+<item>LY</item>
+<item>LI</item>
+<item>LT</item>
+<item>LU</item>
+<item>MO</item>
+<item>MK</item>
+<item>MG</item>
+<item>MW</item>
+<item>MY</item>
+<item>MV</item>
+<item>ML</item>
+<item>MT</item>
+<item>MH</item>
+<item>MQ</item>
+<item>MR</item>
+<item>MU</item>
+<item>YT</item>
+<item>FX</item>
+<item>MX</item>
+<item>FM</item>
+<item>MI</item>
+<item>MD</item>
+<item>MC</item>
+<item>MN</item>
+<item>ME</item>
+<item>MS</item>
+<item>MA</item>
+<item>MZ</item>
+<item>MM</item>
+<item>NA</item>
+<item>NR</item>
+<item>NP</item>
+<item>NL</item>
+<item>AN</item>
+<item>NT</item>
+<item>NC</item>
+<item>NZ</item>
+<item>NI</item>
+<item>NE</item>
+<item>NG</item>
+<item>NU</item>
+<item>NF</item>
+<item>KP</item>
+<item>VD</item>
+<item>MP</item>
+<item>NO</item>
+<item>OM</item>
+<item>PC</item>
+<item>PK</item>
+<item>PW</item>
+<item>PS</item>
+<item>PA</item>
+<item>PZ</item>
+<item>PG</item>
+<item>PY</item>
+<item>YD</item>
+<item>PE</item>
+<item>PH</item>
+<item>PN</item>
+<item>PL</item>
+<item>PT</item>
+<item>PR</item>
+<item>QA</item>
+<item>RO</item>
+<item>RU</item>
+<item>RW</item>
+<item>RE</item>
+<item>BL</item>
+<item>SH</item>
+<item>KN</item>
+<item>LC</item>
+<item>MF</item>
+<item>PM</item>
+<item>VC</item>
+<item>WS</item>
+<item>SM</item>
+<item>SA</item>
+<item>SN</item>
+<item>RS</item>
+<item>CS</item>
+<item>SC</item>
+<item>SL</item>
+<item>SG</item>
+<item>SK</item>
+<item>SI</item>
+<item>SB</item>
+<item>SO</item>
+<item>ZA</item>
+<item>GS</item>
+<item>KR</item>
+<item>ES</item>
+<item>LK</item>
+<item>SD</item>
+<item>SR</item>
+<item>SJ</item>
+<item>SZ</item>
+<item>SE</item>
+<item>CH</item>
+<item>SY</item>
+<item>ST</item>
+<item>TW</item>
+<item>TJ</item>
+<item>TZ</item>
+<item>TH</item>
+<item>TL</item>
+<item>TG</item>
+<item>TK</item>
+<item>TO</item>
+<item>TT</item>
+<item>TN</item>
+<item>TR</item>
+<item>TM</item>
+<item>TC</item>
+<item>TV</item>
+<item>UM</item>
+<item>PU</item>
+<item>VI</item>
+<item>UG</item>
+<item>UA</item>
+<item>SU</item>
+<item>AE</item>
+<item>GB</item>
+<item>US</item>
+<item>ZZ</item>
+<item>UY</item>
+<item>UZ</item>
+<item>VU</item>
+<item>VA</item>
+<item>VE</item>
+<item>VN</item>
+<item>WK</item>
+<item>WF</item>
+<item>EH</item>
+<item>YE</item>
+<item>ZM</item>
+<item>ZW</item>
+<item>AX</item>
+</string-array>
+
+<string-array name="country_list_entries">
+<item>Afghanistan</item>
+
+ 
+<item>Albanie</item>
+<item>Algerie</item>
+<item>Samoa Américaines</item>
+<item>Andorre</item>
+<item>Angola</item>
+<item>Anguilla</item>
+<item>Antarctique</item>
+<item>Antigua et Barbuda</item>
+<item>Argentine</item>
+<item>Arménie</item>
+<item>Aruba</item>
+<item>Australie</item>
+<item>Autriche</item>
+<item>Azerbaidjan</item>
+<item>Bahamas</item>
+<item>Bahrain</item>
+<item>Bangladesh</item>
+<item>Barbades</item>
+<item>Biélorissie</item>
+<item>Belgique</item>
+<item>Bélize</item>
+<item>Bénin</item>
+<item>Bermudes</item>
+<item>Bhoutan</item>
+<item>Bolivie</item>
+<item>Bosnie Herzégovine</item>
+<item>Botswana</item>
+<item>Ile Bouvet</item>
+<item>Brésil</item>
+<item>Territoire antarctique britannique</item>
+<item>Territoire britannique de l\'océan Indien</item>
+<item>Îles Vierges britanniques</item>
+<item>Brunei</item>
+<item>Bulgarie</item>
+<item>Burkina Faso</item>
+<item>Burundi</item>
+<item>Cambodge</item>
+<item>Cameroun</item>
+<item>Canada</item>
+<item>Îles Canton et Enderbury</item>
+<item>Cap Vert</item>
+<item>Îles Caïman</item>
+<item>République Centrafricaine</item>
+
+<item>Tchad</item>
+<item>Chili</item>
+<item>Chine</item>
+<item>Île Christmas</item>
+<item>Îles Cocos</item>
+<item>Colombie</item>
+<item>Comores</item>
+<item>Congo - Brazzaville</item>
+<item>Congo - Kinshasa</item>
+<item>Îles Cook</item>
+<item>Costa Rica</item>
+<item>Croatie</item>
+<item>Cuba</item>
+<item>Chypre</item>
+<item>République Tchèque</item>
+<item>Côte d’Ivoire</item>
+<item>Danemark</item>
+<item>Djibouti</item>
+<item>Dominique</item>
+<item>République Dominicaine</item>
+<item>Terre de la Reine-Maud</item>
+<item>Allemagne de l\'Est</item>
+<item>Équateur</item>
+<item>Égypte</item>
+<item>Salvador</item>
+<item>Guinée Équatoriale</item>
+<item>Érythrée</item>
+<item>Estonie</item>
+<item>Éthiopie</item>
+<item>Îles Falkland </item>
+<item>Îles Féroé</item>
+<item>Fidji</item>
+<item>Finlande</item>
+<item>France</item>
+<item>Guyane Française</item>
+<item>Polynésie Française</item>
+<item>Terres australes françaises</item>
+<item>Terres australes et antarctiques françaises</item>
+<item>Gabon</item>
+<item>Gambie</item>
+<item>Georgie</item>
+<item>Allemagne</item>
+<item>Ghana</item>
+<item>Gibraltar</item>
+<item>Grèce</item>
+<item>Groenland</item>
+<item>Grenade</item>
+<item>Guadeloupe</item>
+<item>Guam</item>
+<item>Guatemala</item>
+<item>Guernesey</item>
+<item>Guinée</item>
+<item>Guiné-Bissau</item>
+<item>Guyane</item>
+<item>Haïti</item>
+<item>Îles Heard-et-MacDonald</item>
+<item>Honduras</item>
+<item>Hong Kong</item>
+<item>Hongrie</item>
+<item>Islande</item>
+<item>Inde</item>
+<item>Indonésie</item>
+<item>Iran</item>
+<item>Irak</item>
+<item>Irlande</item>
+<item>Île de Man</item>
+<item>Israël</item>
+<item>Italie</item>
+<item>Jamaïque</item>
+<item>Japon</item>
+<item>Jersey</item>
+<item>Atoll Johnston</item>
+<item>Jordanie</item>
+<item>Kazakhstan</item>
+<item>Kenya</item>
+<item>Kiribati</item>
+<item>Koweit</item>
+<item>Kirghizistan</item>
+<item>Laos</item>
+<item>Lettonie</item>
+<item>Liban</item>
+<item>Lesotho</item>
+<item>Libéria</item>
+<item>Libye</item>
+<item>Liechtenstein</item>
+<item>Lituanie</item>
+<item>Luxembourg</item>
+<item>Macao</item>
+<item>Macédoine</item>
+<item>Madagascar</item>
+<item>Malawi</item>
+
+<item>Malaisie</item>
+<item>Maldives</item>
+<item>Mali</item>
+<item>Malte</item>
+<item>Îles Marshall</item>
+<item>Martinique</item>
+<item>Mauritanie</item>
+<item>Maurice</item>
+<item>Mayotte</item>
+<item>France Métropolitaine</item>
+<item>Mexique</item>
+<item>Micronésie</item>
+<item>Îles Midway</item>
+<item>Moldavie</item>
+<item>Monaco</item>
+<item>Mongolie</item>
+<item>Monténégro</item>
+<item>Montserrat</item>
+<item>Maroc</item>
+<item>Mozambique</item>
+<item>Myanmar</item>
+<item>Namibie</item>
+<item>Nauru</item>
+<item>Népal</item>
+<item>Pays-Bas</item>
+<item>Antilles Néerlandaises</item>
+<item>Zone Neutre</item>
+<item>Nouvelle Calédonie</item>
+<item>Nouvelle Zélande</item>
+<item>Nicaragua</item>
+<item>Niger</item>
+<item>Nigeria</item>
+<item>Niue</item>
+<item>Île Norfolk</item>
+<item>Corée du Nord</item>
+<item>RD Vietnam</item>
+
+<item>Îles Mariannes du Nord</item>
+<item>Norvège</item>
+<item>Oman</item>
+<item>Territoire sous tutelle des îles du Pacifique</item>
+<item>Pakistan</item>
+<item>Palau</item>
+<item>Territoires Palestiniens</item>
+<item>Panama</item>
+<item>Zone du canal de Panama</item>
+<item>Papouasie Nouvelle-Guinée</item>
+<item>Paraguay</item>
+
+<item>République démocratique populaire du Yémen</item>
+<item>Pérou</item>
+<item>Philippines</item>
+<item>Îles Pitcairn</item>
+<item>Pologne</item>
+<item>Portugal</item>
+<item>Porto Rico</item>
+<item>Qatar</item>
+<item>Roumanie</item>
+<item>Russie</item>
+<item>Rwanda</item>
+<item>Réunion</item>
+<item>Saint Barthélemy</item>
+<item>Saint Hélène</item>
+<item>Saint Kitts et Nevis</item>
+<item>Saint Lucia</item>
+<item>Saint Martin</item>
+
+<item>Saint Pierre et Miquelon</item>
+<item>Saint-Vincent-et-les-Grenadines</item>
+<item>Samoa</item>
+
+<item>San Marin</item>
+<item>Arabie Saoudite</item>
+<item>Sénégal</item>
+<item>Serbie</item>
+<item>Serbie et Monténégro</item>
+<item>Seychelles</item>
+<item>Sierra Leone</item>
+<item>Singapour</item>
+<item>Slovaquie</item>
+<item>Slovénie</item>
+<item>Salomon</item>
+<item>Somalie</item>
+<item>Afrique du Sud</item>
+<item>Géorgie du Sud-et-les Îles Sandwich du Sud</item>
+<item>Corée du Sud</item>
+<item>Espagne</item>
+<item>Sri Lanka</item>
+<item>Soudan</item>
+<item>Surinam</item>
+<item>Svalbard et Jan Mayen</item>
+<item>Swaziland</item>
+<item>Suède</item>
+<item>Suisse</item>
+<item>Syrie</item>
+<item>São Tomé et Príncipe</item>
+<item>Taiwan</item>
+<item>Tadjikistan</item>
+<item>Tanzanie</item>
+<item>Thailande</item>
+<item>Timor oriental</item>
+<item>Togo</item>
+<item>Tokelau</item>
+<item>Tonga</item>
+<item>Trinidad et Tobago</item>
+<item>Tunisie</item>
+<item>Turquie</item>
+<item>Turkménistan</item>
+<item>Îles Turques-et-Caïques</item>
+<item>Tuvalu</item>
+<item>Îles mineures éloignées des États-Unis</item>
+<item>Îles Pacifiques des États-Unis</item>
+<item>Îles vierges</item>
+<item>Ouanda</item>
+<item>Ukraine</item>
+<item>URSS</item>
+<item>Émirats Arabes Unis</item>
+<item>Royaume Uni</item>
+<item>États-Unis d\'Amérique</item>
+<item>Région inconnue</item>
+<item>Uruguay</item>
+<item>Ouzbékistan</item>
+<item>Vanuatu</item>
+<item>Vatican</item>
+<item>Vénézuela</item>
+<item>Vietnam</item>
+<item>Île Wake</item>
+<item>Wallis and Futuna</item>
+<item>Sahara Occidental</item>
+<item>Yémen</item>
+<item>Zambie</item>
+<item>Zimbabwe</item>
+<item>Îles Åland</item>
+</string-array>
+ 
+<string name="intro_text" formatted="false">Bonjour, je suis l\'appli La\'Zooz %v%.\r\n\r\nEn utilisant cette appli et en la partageant, vous prenez part à la constitution du premier\n Réseau de Transports Collaboratif.\n\rVotre contribution sera rémunérée par des coupons Zooz qui pourront être utilisés pour des déplacements lorsque le réseau sera en place.</string>
+<string name="disclaimer_title">La\'Zooz CONDITIONS</string>
+<string name="disclaimer_text">* Merci de dérouler le texte avant de confirmer \'J\'accepte les conditions d\'utilisation\'.
+Ceci est une version Beta de l\'appli mobile La\'Zooz. Les informations contenues dans cette application peuvent être inexactes. Cette application génère des Zooz potentiels et non vérifiés. La vérification de ces Zooz potentiels peut s\'avérer impossible et par conséquents votre crédit de Zooz potentiels peut être altéré voire remis à zéro à tout moment. Une utilisation abusive du system peut entraîner l\'annulation de votre crédit de Zooz potentiels. Le Réseau de Transports Collaboratif peut ne jamais être mis en place.</string>
+<string name="second_step_screen_text">Vos déplacements sont autant de briques pour ce réseau, et vous serez rémunérés en Zooz potentiels pour cette contribution.
+Tout déplacement avec l\'appli La\'Zooz et le GPS activés généreront des coupons Zooz potentiels.
+Ajouter vos amis au réseau généreront des coupons Zooz potentiels.</string>
+<string name="tool_tip_reg1">A ce premier stade, vous générez des coupons Zooz potentiels. Une fois que le réseau de transports sera mis en place autour de votre zone géographique et que l\'authentification de vos données sera effectuée, vous pourrez échanger ces Zooz contre des déplacements. Certains de vos Zooz potenties seront convertis en Zooz pour inciter à utiliser le système de transports, ce afin de limiter les abus dans l\'utilisation.</string>
+<string name="invitation_code_option">Optionnel: si vous avez reçu un code d\'invitation, merci de le saisir.\nEn saisissant votre conde d\'invitation, votre ami sera crédité de 10 Zooz potentiels.</string>
+<string name="Phone_number_verification">Vérification du numéro de téléphone</string>
+<string name="register_with">Enregistrer avec: </string>
+<string name="approve">Approuver</string>
+<string name="cancel">Annuler</string>
+<string name="send_validation_code_thanks">Merci. Nous vous envoyons le code de validation.</string>
+<string name="send_validation_code_fail">Le numéro n\'est pas valide, merci d\'entrer un numéro de mobile valide.</string>
+<string name="code_validation_fail">Echec de la validation, merci de vérifier le code</string>
+<string name="code_validation_success">Validation effectuée</string>
+<string name="congratulation_for_registration">Félicitations, vous avez créé votre porte-monnaie digital!</string>
+<string name="ok_button">OK</string>
+<string name="welcome_back">Bienvenue!</string>
+<string name="do_not_show_this_msg_again">Ne pas réafficher ce message</string>
+<string name="scanning">Recherche...</string>
+<string name="shake_text">Rencontrer les autres utilisateurs permet de sécuriser le réseau.
+Et c\'est égalmeent sympathique :)
+For each shake with a new user you will mine a number of Potential Zooz tokens.</string> 
+<string name="find_lazooz_users">Find La\'Zooz users</string>
+
+<string name="next">Suivant</string>
+<string name="whats_next">Quelle est la suite?</string>
+<string name="registration_1">Vous pouvez à présent recevoir des Zooz potentiels pour votre contribution</string>
+<string name="registration_2">Les Zooz potentiels sont des coupons numériques stockés sur nos serveurs. 
+Après la phase de test, ils seront stockés sur un registre public et sécurisé.</string>
+<string name="registration_3">Entrez votre numéro de mobile pour créer votre porte-monnaie. Un code de validation vous sera envoyé par SMS.</string>
+<string name="registration_4">Inscription</string>
+<string name="registration_5">Entrer le code de validation</string>
+<string name="country">Pays: </string>
+<string name="remained_me">Me rappeler dans :</string>
+<string name="a_day">un jour</string>
+<string name="a_week">une semaine</string>
+<string name="never">jamais</string>
+<string name="validation_code">Code de Validation:</string>
+<string name="invitation_code">Code d\'invitation</string>
+<string name="send_invitation">Envoyer l\'invitation</string>
+<string name="i_accept_the_terms">J\'accepte les conditions d\'utilisation</string>
+<string name="friends_accepted_your_invitation">amis ont accepté \nvotre invitation</string>
+<string name="friends_pending_your_invitation">invitations d\'amis \nen cours</string>
+<string name="mined_km">KILOMETERS Minés</string>
+<string name="km">Km</string>
+<string name="invited_freinds">AMIS INVITES</string>
+<string name="potential_zooz">ZOOZ POTENTIELS</string>
+<string name="shakes">shakes</string>
+<string name="critical_mass">MASSE CRITIQUE</string>
+<string name="times_shaken">NOMBRE DE SHAKES</string>
+<string name="friends">amis</string>
+<string name="pz">pz</string>
+<string name="me_shakes">Shakes</string>
+<string name="me_invited_freinds">Amis invités</string>
+<string name="me_mined_km">Km Minés</string>
+<string name="me_my_impact">Mon Impact</string>
+<string name="me_wallet_num">Porte-Monnaie#: </string>
+<string name="me_id">ID: </string>
+<string name="info_version">Version: </string>
+<string name="info_app_build_version">Numérp d\'application : </string>
+<string name="info_server_build_number">Numéro du serveur: </string>
+<string name="total">Total</string>
+<string name="miners_paveing_the_web">Mineurs sur le Web</string>
+<string name="days">Jours</string>
+<string name="miners">Mineurs</string>
+<string name="my_mined_km_history">Historique de km minés</string>
+<string name="total_community_mined_km_history">Total km minés par la communauté</string>
+<string name="tap_here_to_invite_a_friend">Touchez ici pour inviter un ami</string>
+<string name="gotit">J\'ai compris!</string>
+<string name ="potential_zooz_balance">Crédit de Zooz Zooz Potentiels</string>
+<string name ="zooz_balance">Crédit de Zooz</string>
+<string name ="zooz_address">Addresse des Zooz </string>
+<string name ="private_key">Clé privée</string>
+<string name ="scan">Scanner</string>
+<string name ="export">Exporter</string>
+<string name ="show">Afficher</string>
+<string name ="hide">Masquer</string>
+<string name ="scan_a_new_key">Scanner une nouvelle clé</string>
+<string name ="scan_a_new_key_msg">Avez-vous sauvegardé votre ancienne clé ?\nMerci de noter que scanner une nouvelle clé effacera l\'ancienne et vous ne pourrez plus récupérer de l\'argent avec.\nUtilisez le bouton Exporter pour une sauvegarde.</string>
+<string name ="my_zooz_address">Mon adresse Zooz </string>
+<string name ="export_zooz_address">Exporter l\'adresse Zooz</string>
+<string name ="export_private_key">Exporter la clé privée</string>
+<string name ="my_private_key">Ma clé privée</string>
+<string name ="export_private_key_msg">vous allez exporter votre clé privée.\nMerci de noter qu\'il s\'agit de votre porte-monnaie, vous devez l\'envoyer à vous même à des fins de sauvegarde uniquement</string>
+<string name ="the_key_updated">La clé est mise à jour</string>
+<string name ="key_update_fail">Echec de la mise à jour de la clé, merci de rééssayer ultérieurement.</string>
+<string name ="scan_qr_msg">Le QR code n\'est pas une adresse valide</string>
+<string name ="import_zooz_address">Importer l\'adresse zooz</string>
+<string name ="new_zooz_address_scan_msg_1">Nouvelle adresse Zooz scannée:\n</string>
+<string name ="new_zooz_address_scan_msg_2">\nVoulez vous remplacer l\'actuel ?</string>
+<string name ="share_def_text">Bonjour,\nPour rejoindre La\`Zooz .\nTélécharger ici:\n</string>
+</resources>
