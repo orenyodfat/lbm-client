@@ -191,28 +191,43 @@ public class MainZoozActivity extends ActionBarActivity {
 	
 	private void sharePublicImage(){
 		String pathofBmp = Images.Media.insertImage(getContentResolver(), mPublicBmp,"", null);
-		Uri bmpUri = Uri.parse(pathofBmp);
-		final Intent intent = new Intent(     android.content.Intent.ACTION_SEND);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-		intent.setType("image/png");
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_zooz_address));
-		intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_zooz_address)+" :\n\n" + MySharedPreferences.getInstance().getPublicKey(this));
-		startActivity(Intent.createChooser(intent, getString(R.string.export_zooz_address)));
-		startActivity(intent); 
+        if (pathofBmp != null)
+        {
+		 Uri bmpUri = Uri.parse(pathofBmp);
+		 final Intent intent = new Intent(     android.content.Intent.ACTION_SEND);
+		 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		 intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+		 intent.setType("image/png");
+		 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_zooz_address));
+		 intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_zooz_address)+" :\n\n" + MySharedPreferences.getInstance().getPublicKey(this));
+		 startActivity(Intent.createChooser(intent, getString(R.string.export_zooz_address)));
+		 startActivity(intent);
+        }
+        else
+        {
+        	Toast.makeText(MainZoozActivity.this, "Share Public Key Fail", Toast.LENGTH_LONG).show();
+        }
+        
 	}
 	
 	private void sharePrivateImageApproved(){
 		String pathofBmp = Images.Media.insertImage(getContentResolver(), mPrivateBmp,"", null);
-		Uri bmpUri = Uri.parse(pathofBmp);
-		final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-		intent.setType("image/png");
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_private_key));
-		intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_private_key)+" :\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
-		MainZoozActivity.this.startActivity(Intent.createChooser(intent, getString(R.string.export_private_key)));
-		MainZoozActivity.this.startActivity(intent);
+		if (pathofBmp != null)
+        {
+		 Uri bmpUri = Uri.parse(pathofBmp);
+		 final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+		 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		 intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+	     intent.setType("image/png");
+		 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_private_key));
+		 intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.my_private_key)+" :\n\n" + MySharedPreferences.getInstance().getPrivateKey(MainZoozActivity.this));
+		 MainZoozActivity.this.startActivity(Intent.createChooser(intent, getString(R.string.export_private_key)));
+		 MainZoozActivity.this.startActivity(intent);
+        }
+		else
+        {
+        	Toast.makeText(MainZoozActivity.this, "Share Private Key Fail", Toast.LENGTH_LONG).show();
+        }
 	}
 	
 	private void sharePrivateImage(){
