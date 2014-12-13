@@ -738,4 +738,30 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name ="new_zooz_address_scan_msg_1">Nouvelle adresse Zooz scannée:\n</string>
 <string name ="new_zooz_address_scan_msg_2">\nVoulez vous remplacer l\'actuel ?</string>
 <string name ="share_def_text">Bonjour,\nPour rejoindre La\`Zooz .\nTélécharger ici:\n</string>
+       <string name ="legal_and_privacy">Terms and Conditions for the La’Zooz Mining Application
+
+The following Terms and Conditions (“Terms”) govern the Mining of Potential Zooz (“PZ”), by users (“Users” or “Miners” collectively, and “User” or “Miner” individually) of the La’Zooz mining application, (“La’Zooz”). La’Zooz is being developed primarily by a volunteer contributor team, and will continue to be developed on a volunteer basis by some developers as well as under a more formalized contracting or employment relationship for other developers. The group of developers and other personnel that is now, or will be, employed by, or contracted with La’Zooz is termed the “La’Zooz Team”.
+
+This document is not a solicitation for investment and does not pertain in any way to an offering of securities in any jurisdiction.
+
+Individuals, businesses, and other organizations should carefully weigh the risks, costs, and benefits of mining PZ early in this Beta stage of the La’Zooz mining application versus waiting to the full production stage of the application to be published.
+IMPORTANT
+Ownership of PZ carries no rights express or implied. Users or Miners should have no expectation of influence over governance of La’Zooz. By Mining PZ, you expressly acknowledge and represent that you have carefully reviewed the Terms, and fully understand the risks, costs, and benefits of Mining PZ and agree to be bound by these Terms. As set forth further below, you further represent and warrant that, to the extent permitted by law, you are authorized to mine PZ in your relevant jurisdiction, are of a legal age to be bound by these Terms, and will not hold La’Zooz, its parent and affiliates, and the officers, directors, agents, joint ventures, employees and suppliers of La’Zooz or our parent or affiliates, now or in the future and any other member of the La’Zooz Team (collectively the “La’Zooz Parties”) liable for any losses or any special, incidental, or consequential damages arising out of, or in any way connected to the La’Zooz mining application ot to the mining of PZ .
+USERS SHOULD NOTICE THAT SOME OR ALL OF THE POTENTIAL ZOOZ THEY WILL COLLECT AT THIS STAGE MAY NOT BE VALIDATED!
+
+Privacy
+As we all know personal data is sensible and everyone want to take care of it. La’Zooz mining application is in its BETA stage and therefore data is being stored on La’Zooz servers in order to develop Proof of Movement algorithms. We are doing our best to keep our servers safe and secured but users should take into account that security vulnerabilities are being discovered from time to time and our servers are subjected to these vulnerabilities like any other servers.
+
+Currently La’Zooz Team is working on the development of Proof of Movement algorithms. This mining application base its PZ authenticity upon those algorithms. La’Zooz is making all efforts to respect every PZ mined. Nevertheless Users should take into consideration that La’Zooz in this BETA stage version is NOT spoof proof or ever will be. Still, we want to start building the community right now, the same community that will later on be part of the creation of diverse transportation solutions. Therefor La’Zooz will use algorithms and human perception together to validate that the system is not being manipulated. At this beta stage all PZ are being stored off chain on La’Zooz servers.
+As we are in an early beta stage we feel obliged to inform Users, that false positive erase of PZ is a resulting outcome of this early stage of development.
+
+Digital currencies are working their way through the dungeons of global and local regulations these days. It is under the sole responsibility of the user of La’Zooz to make all efforts to make sure that the use of this app is not against any local or federal law or regulation in his/hers jurisdiction.
+User understands, that while the La’Zooz Team will make reasonable efforts to complete the
+La’Zooz mining app, it is possible that an official completed version of the La’Zooz Decentralized Collaborative Transportation Web or any other implementation of La’Zooz may not be released and there may never be an operational La’Zooz application.
+
+La’Zooz makes no representations concerning the tax implications of the mining of PZ or the possession or use of PZ. The User bears the sole responsibility to determine if the mining of PZ or the potential appreciation or depreciation in the value of PZ over time has tax implications for the User in the User’s home jurisdiction.
+Mining PZ, and to the extent permitted by law, the User agrees not hold any of the
+La’Zooz Parties liable for any tax liability associated with or arising from the Mining or using of PZ.
+
+Altogether we must stress the fact that the effort of making this happen is a joint effort to change the state of transportation in the world and the creation of this network will reward each and every one of us with a transportation web that is more efficient, more fair, and most important – will be owned by the community for the service of the community. Thank you for making your effort at this early stage. Lets change the face of transportation.</string>
 </resources>
