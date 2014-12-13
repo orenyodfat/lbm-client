@@ -11,11 +11,9 @@
 <string name="gps_activate_gps_title">Activez votre GPS</string>
 <string name="gps_activate_gps_body">Merci d\'activer votre GPS afin de valider votre position</string>
 <string name="gps_activate_gps_setting">Paramètres Open GPS</string>
-
 <string name="activation_code_template_eng">La\'Zooz app registration token: </string>
 <string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
 <string name="recommendation_pre_code_template_eng">token:</string>
-
 <string name="recommendation_input_msg_title">Recommandation</string>
 <string name="recommendation_input_msg_body">Merci de saisir une recommandation personnelle.</string>
 <string name="recommendation_default">Voici un lien vers une social app qui construit un réseau de "ride sharing", appartenant à la communauté. Après installation, cette appli commencera à générer des Zooz pendant que vous conduisez. Une fois le réseau établi ces Zooz pourront être utilisés pour vous déplacer. Voir plus.</string>
@@ -25,7 +23,7 @@
 <string name="drawer_entry_info">Info</string>
 <string name="drawer_entry_share">Partager</string>
 <string name="drawer_entry_website">Site Web</string>
-<string name="drawer_entry_wallet">Porte-Monnaie</string>
+<string name="drawer_entry_wallet">Portefeuille</string>
 <string name="drawer_entry_legal">Conditions d\'Utilisation et Confidentialité</string>
 <string name="drawer_entry_report_bug">Reporter problème/bug</string>
 <string name="drawer_entry_intro">Introduction</string>
@@ -56,11 +54,11 @@
 <string name="gps_message_no_gps_no_net_feature">Votre GPS et localisation réseau sont désactivés. Vous devez les activer pour cette fonctionnalité</string>
 <string name="gps_message_yes_gps_no_net">Votre localisation réseau est désactivée. Il vous est recommandé de l\'activer pour une utilisation efficace de votre batterie</string>
 <string name="splash_version_check_title">Nouvelle Version</string>
-<string name="splash_version_check_les_current">Voici la nouvelle version de  La\'Zooz, à mettre à jour sur Google Play.</string>
+<string name="splash_version_check_les_current">Voici la nouvelle version de La\'Zooz, à mettre à jour sur Google Play.</string>
 <string name="splash_version_check_les_min">Votre version actuelle de La\'Zooz n\'est pas la dernière. Pour continuer, effectuez la mise à jour sur Google Play.</string>
 <string name="settings_category_mining">Minage</string>
 <string name="settings_mining_charger_connectivity_title_on">Connectivité du Chargeur - On</string>
-<string name="settings_mining_charger_connectivity_title_off">Connectivité du Chargeur  - Off</string>
+<string name="settings_mining_charger_connectivity_title_off">Connectivité du Chargeur - Off</string>
 <string name="settings_mining_charger_connectivity_summary_on">Minage uniquement en charge</string>
 <string name="settings_mining_charger_connectivity_summary_off">Minage indépendamment de la charge</string>
 <string name="settings_mining_enable_disable_mining_title">Minag</string>
@@ -107,7 +105,7 @@
 <item>Fev</item>
 <item>Mar</item>
 <item>Avr</item>
-<item>Mai</item> 
+<item>Mai</item>
 <item>Jun</item>
 <item>Aou</item>
 <item>Sep</item>
@@ -381,11 +379,8 @@
 <item>ZW</item>
 <item>AX</item>
 </string-array>
-
 <string-array name="country_list_entries">
 <item>Afghanistan</item>
-
- 
 <item>Albanie</item>
 <item>Algerie</item>
 <item>Samoa Américaines</item>
@@ -429,7 +424,6 @@
 <item>Cap Vert</item>
 <item>Îles Caïman</item>
 <item>République Centrafricaine</item>
-
 <item>Tchad</item>
 <item>Chili</item>
 <item>Chine</item>
@@ -521,7 +515,6 @@
 <item>Macédoine</item>
 <item>Madagascar</item>
 <item>Malawi</item>
-
 <item>Malaisie</item>
 <item>Maldives</item>
 <item>Mali</item>
@@ -558,7 +551,6 @@
 <item>Île Norfolk</item>
 <item>Corée du Nord</item>
 <item>RD Vietnam</item>
-
 <item>Îles Mariannes du Nord</item>
 <item>Norvège</item>
 <item>Oman</item>
@@ -570,7 +562,6 @@
 <item>Zone du canal de Panama</item>
 <item>Papouasie Nouvelle-Guinée</item>
 <item>Paraguay</item>
-
 <item>République démocratique populaire du Yémen</item>
 <item>Pérou</item>
 <item>Philippines</item>
@@ -588,11 +579,9 @@
 <item>Saint Kitts et Nevis</item>
 <item>Saint Lucia</item>
 <item>Saint Martin</item>
-
 <item>Saint Pierre et Miquelon</item>
 <item>Saint-Vincent-et-les-Grenadines</item>
 <item>Samoa</item>
-
 <item>San Marin</item>
 <item>Arabie Saoudite</item>
 <item>Sénégal</item>
@@ -656,7 +645,6 @@
 <item>Zimbabwe</item>
 <item>Îles Åland</item>
 </string-array>
- 
 <string name="intro_text" formatted="false">Bonjour, je suis l\'appli La\'Zooz %v%.\r\n\r\nEn utilisant cette appli et en la partageant, vous prenez part à la constitution du premier\n Réseau de Transports Collaboratif.\n\rVotre contribution sera rémunérée par des coupons Zooz qui pourront être utilisés pour des déplacements lorsque le réseau sera en place.</string>
 <string name="disclaimer_title">La\'Zooz CONDITIONS</string>
 <string name="disclaimer_text">* Merci de dérouler le texte avant de confirmer \'J\'accepte les conditions d\'utilisation\'.
@@ -674,22 +662,21 @@ Ajouter vos amis au réseau généreront des coupons Zooz potentiels.</string>
 <string name="send_validation_code_fail">Le numéro n\'est pas valide, merci d\'entrer un numéro de mobile valide.</string>
 <string name="code_validation_fail">Echec de la validation, merci de vérifier le code</string>
 <string name="code_validation_success">Validation effectuée</string>
-<string name="congratulation_for_registration">Félicitations, vous avez créé votre porte-monnaie digital!</string>
+<string name="congratulation_for_registration">Félicitations, vous avez créé votre portefeuille digital!</string>
 <string name="ok_button">OK</string>
 <string name="welcome_back">Bienvenue!</string>
 <string name="do_not_show_this_msg_again">Ne pas réafficher ce message</string>
 <string name="scanning">Recherche...</string>
-<string name="shake_text">Rencontrer les autres utilisateurs permet de sécuriser le réseau.
-Et c\'est égalmeent sympathique :)
-For each shake with a new user you will mine a number of Potential Zooz tokens.</string> 
-<string name="find_lazooz_users">Find La\'Zooz users</string>
-
+<string name="shake_text">Rencontrer les autres utilisateurs (shakes) permet de sécuriser le réseau.
+Et c\'est également sympathique :)
+Pour chaque shake avec un autre utilisateurs, des Zooz potentiels seront générés.</string>
+<string name="find_lazooz_users">Trouver des utilisateurs La\'Zooz</string>
 <string name="next">Suivant</string>
 <string name="whats_next">Quelle est la suite?</string>
 <string name="registration_1">Vous pouvez à présent recevoir des Zooz potentiels pour votre contribution</string>
-<string name="registration_2">Les Zooz potentiels sont des coupons numériques stockés sur nos serveurs. 
+<string name="registration_2">Les Zooz potentiels sont des coupons numériques stockés sur nos serveurs.
 Après la phase de test, ils seront stockés sur un registre public et sécurisé.</string>
-<string name="registration_3">Entrez votre numéro de mobile pour créer votre porte-monnaie. Un code de validation vous sera envoyé par SMS.</string>
+<string name="registration_3">Entrez votre numéro de mobile pour créer votre portefeuille. Un code de validation vous sera envoyé par SMS.</string>
 <string name="registration_4">Inscription</string>
 <string name="registration_5">Entrer le code de validation</string>
 <string name="country">Pays: </string>
@@ -703,7 +690,7 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name="i_accept_the_terms">J\'accepte les conditions d\'utilisation</string>
 <string name="friends_accepted_your_invitation">amis ont accepté \nvotre invitation</string>
 <string name="friends_pending_your_invitation">invitations d\'amis \nen cours</string>
-<string name="mined_km">KILOMETERS Minés</string>
+<string name="mined_km">KILOMETRES Minés</string>
 <string name="km">Km</string>
 <string name="invited_freinds">AMIS INVITES</string>
 <string name="potential_zooz">ZOOZ POTENTIELS</string>
@@ -711,16 +698,16 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name="critical_mass">MASSE CRITIQUE</string>
 <string name="times_shaken">NOMBRE DE SHAKES</string>
 <string name="friends">amis</string>
-<string name="pz">pz</string>
+<string name="pz">ZP</string>
 <string name="me_shakes">Shakes</string>
 <string name="me_invited_freinds">Amis invités</string>
 <string name="me_mined_km">Km Minés</string>
-<string name="me_my_impact">Mon Impact</string>
-<string name="me_wallet_num">Porte-Monnaie#: </string>
+<string name="me_my_impact">Mon impact</string>
+<string name="me_wallet_num">Portefeuille n°: </string>
 <string name="me_id">ID: </string>
 <string name="info_version">Version: </string>
-<string name="info_app_build_version">Numérp d\'application : </string>
-<string name="info_server_build_number">Numéro du serveur: </string>
+<string name="info_app_build_version">Numéro de référence de l\'application : </string>
+<string name="info_server_build_number">Numéro de référence du serveur: </string>
 <string name="total">Total</string>
 <string name="miners_paveing_the_web">Mineurs sur le Web</string>
 <string name="days">Jours</string>
@@ -729,7 +716,7 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name="total_community_mined_km_history">Total km minés par la communauté</string>
 <string name="tap_here_to_invite_a_friend">Touchez ici pour inviter un ami</string>
 <string name="gotit">J\'ai compris!</string>
-<string name ="potential_zooz_balance">Crédit de Zooz Zooz Potentiels</string>
+<string name ="potential_zooz_balance">Crédit de Zooz Potentiels</string>
 <string name ="zooz_balance">Crédit de Zooz</string>
 <string name ="zooz_address">Addresse des Zooz </string>
 <string name ="private_key">Clé privée</string>
@@ -743,7 +730,7 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name ="export_zooz_address">Exporter l\'adresse Zooz</string>
 <string name ="export_private_key">Exporter la clé privée</string>
 <string name ="my_private_key">Ma clé privée</string>
-<string name ="export_private_key_msg">vous allez exporter votre clé privée.\nMerci de noter qu\'il s\'agit de votre porte-monnaie, vous devez l\'envoyer à vous même à des fins de sauvegarde uniquement</string>
+<string name ="export_private_key_msg">vous allez exporter votre clé privée.\nMerci de noter qu\'il s\'agit de votre portefeuille, vous devez l\'envoyer à vous même à des fins de sauvegarde uniquement</string>
 <string name ="the_key_updated">La clé est mise à jour</string>
 <string name ="key_update_fail">Echec de la mise à jour de la clé, merci de rééssayer ultérieurement.</string>
 <string name ="scan_qr_msg">Le QR code n\'est pas une adresse valide</string>
