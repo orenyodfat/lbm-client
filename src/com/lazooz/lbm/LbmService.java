@@ -137,7 +137,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		mIsRequestLocationUpdateFirstTime = true;
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
+		if(mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER) && mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+		{
+		  mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
+		}
 		mTelephonyDataTracker = new TelephonyDataTracker(this);
 		
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -825,6 +828,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
   	   mIsRequestLocationUpdateFirstTime = true;
   	   mIsListenToGPSProvider = false;
   	    mIsRequestLocationUpdateFirstTime = true;
+  	  if(mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER) && mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
   	    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mNetworkLocationListener);
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		if (!isNetworkEnabled)

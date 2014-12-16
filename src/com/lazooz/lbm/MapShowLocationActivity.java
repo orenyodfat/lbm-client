@@ -77,7 +77,11 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		
 		mWasInMission = getIntent().getBooleanExtra("MISSION_GPS_ON", false);
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		
+		if(mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER) && mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		}
+		
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		
 		//mMapAccuracyTV = (TextView)findViewById(R.id.map_accuracy_tv);
@@ -328,8 +332,11 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	
 	@Override
 	protected void onResume() {
-		Log.i("ZOOZ", "MAP_SW onResume, start listen to location");
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		//Log.i("ZOOZ", "MAP_SW onResume, start listen to location");
+		if(mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER) && mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		}
+		//mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		super.onResume();
 	}
