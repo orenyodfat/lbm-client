@@ -430,6 +430,7 @@ public class Utils {
 		  audioManager.setSpeakerphoneOn(true);
 		MediaPlayer mpTada = null ;
 		mpTada = MediaPlayer.create(cntxt, rawVal);
+		if (mpTada != null) {
 		mpTada.setVolume(1.0f, 1.0f);
 	
 		
@@ -446,6 +447,7 @@ public class Utils {
 				}
 			});
 		mpTada.start();
+		}
 		 
 	}
 	

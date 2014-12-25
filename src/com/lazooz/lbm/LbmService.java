@@ -14,7 +14,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.internal.mf;
+import com.google.android.gms.location.ActivityRecognitionClient;
+import com.google.android.gms.location.ActivityRecognitionResult;
+import com.google.android.gms.location.DetectedActivity;
+import com.lazooz.lbm.businessClasses.ActivityRecognitionService;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
@@ -31,6 +39,7 @@ import com.lazooz.lbm.utils.OfflineActivities;
 import com.lazooz.lbm.utils.Utils;
 
 import android.app.AlarmManager;
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -55,7 +64,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
-public class LbmService extends Service implements OnTelephonyDataListener{
+public class LbmService extends IntentService implements OnTelephonyDataListener ,ConnectionCallbacks, OnConnectionFailedListener{
 
 	public static final int GPS_MIN_TIME_LOCATION_UPDATE_HIGHT = 10*1000; // 10 sec
 	//public static final int GPS_MIN_TIME_LOCATION_UPDATE_LOW = 5*60*1000; // 5 min
@@ -90,8 +99,24 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	private Handler handler; 
 	
+	/* Activity recognition */
+	// Store the current activity recognition client
+    private ActivityRecognitionClient mActivityRecognitionClient;
+    private static PendingIntent pIntent;
+    public static final int MILLISECONDS_PER_SECOND = 1000;
+    public static final int DETECTION_INTERVAL_SECONDS = 1;
+    public static final int DETECTION_INTERVAL_MILLISECONDS = 
+            MILLISECONDS_PER_SECOND * DETECTION_INTERVAL_SECONDS;
+    
+    private static int previousActivityCode = DetectedActivity.UNKNOWN;
+    private int activityCode = -1000;
+    private int activityConfidence = -1000;
+    
+    private int PrevActivity = DetectedActivity.STILL;
+	
 	
 	public LbmService() {
+		super("Lbm Service");
 	}
 
 	@Override
@@ -130,6 +155,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		mNetworkLocationListener = new NetworkLocationListener();
 		mGPSLocationListener = new GPSLocationListener();
 		
+		
 		//Utils.playSound1(LbmService.this, R.raw.status_avail);
 		mIsListenToGPSProvider = false;
 		
@@ -145,7 +171,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			mTelephonyDataTracker.requestCellUpdates(this);
 		
 		
-
+	
+		
+		
+		StartActivityRecognition();
 		
 		/*
 		ShortPeriodTimer = new Timer();
@@ -188,19 +217,25 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		listenToContactsChanges();
 		
-		
-		
-		
-		 
-		    
-		
-		
 		//myStartForeground();
 		
 		return Service.START_STICKY;
 	}
 	
+    private void StartActivityRecognition() {
 		
+    	int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+        if (result != ConnectionResult.SUCCESS) {
+        	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+            Log.d("o3nWatcherLog", "Google Play service is not available (status=" + result + ")");
+        }
+        else{
+        	Utils.playSound1(LbmService.this, R.raw.shake);
+        	mActivityRecognitionClient = new ActivityRecognitionClient(getApplicationContext(), this, this);
+        	mActivityRecognitionClient.connect();
+        }
+		
+	}	
 	private void listenToContactsChanges() {
 		
 		getContentResolver().registerContentObserver(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, false, new ContactsContentObserver());
@@ -835,25 +870,25 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		 mSoundStart =false;
 		}
 	}
-
+	
 	@Override
 	public void onCellChanged(int newCellID) {
-		Log.i(FILE_TAG, "onCellChanged");
-		//Utils.playSound(this, R.raw.cell_change);
-		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
-		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(this);
-		if (!mIsListenToGPSProvider){
-			if (MiningEnabledMode && ((!ChargerConnectivityMode) || (ChargerConnectivityMode && Utils.isPowerCableConnected(this)))){
-				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
-				start1MinNoSpeedTimer();
-				mIsListenToGPSProvider = true;
-				mIsListenToGPSProviderFromCellChange =true;
-				mTelephonyDataTracker.removeUpdates();
-				MySharedPreferences.getInstance().promoteRoute(this);
-//				Utils.playSound1(this, R.raw.potential_zooz_mining_stared);
-				
-			}
-		}		
+//		Log.i(FILE_TAG, "onCellChanged");
+//		//Utils.playSound(this, R.raw.cell_change);
+//		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(this);
+//		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(this);
+//		if (!mIsListenToGPSProvider){
+//			if (MiningEnabledMode && ((!ChargerConnectivityMode) || (ChargerConnectivityMode && Utils.isPowerCableConnected(this)))){
+//				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+//				start1MinNoSpeedTimer();
+//				mIsListenToGPSProvider = true;
+//				mIsListenToGPSProviderFromCellChange =true;
+//				mTelephonyDataTracker.removeUpdates();
+//				MySharedPreferences.getInstance().promoteRoute(this);
+////				Utils.playSound1(this, R.raw.potential_zooz_mining_stared);
+//				
+//			}
+//		}		
 	}
 
 	
@@ -906,19 +941,19 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean ChargerConnectivityMode = MySharedPreferences.getInstance().getChargerConnectivityMode(LbmService.this);
 		boolean MiningEnabledMode = MySharedPreferences.getInstance().getMiningEnabledMode(LbmService.this);
 		
-		if (!mIsListenToGPSProvider){
-			if (MiningEnabledMode && (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(LbmService.this)))){
-				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
-				mIsListenToGPSProvider = true;
-				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
-				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
-				start1MinNoSpeedTimer();
-				mLocationManager.removeUpdates(mNetworkLocationListener);
-				
-				mIsListenToGPSProviderFromNetChange = true;
-				//Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
-			}
-		}
+//		if (!mIsListenToGPSProvider){
+//			if (MiningEnabledMode && (!ChargerConnectivityMode || (ChargerConnectivityMode && Utils.isPowerCableConnected(LbmService.this)))){
+//				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+//				mIsListenToGPSProvider = true;
+//				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
+//				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
+//				start1MinNoSpeedTimer();
+//				mLocationManager.removeUpdates(mNetworkLocationListener);
+//				
+//				mIsListenToGPSProviderFromNetChange = true;
+//				//Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+//			}
+//		}
 
 		/*
 		if (!isGPSEnabled && isNetworkEnabled){ // if location from network and gps is off - check to display notif dialog
@@ -1152,6 +1187,84 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			
 		}
    }
+
+
+@Override
+public void onConnectionFailed(ConnectionResult arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void onConnected(Bundle arg0) {
+	Log.d("o3nWatcherLog", "LBMServer onConnected method called...");
+	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+    Intent intent = new Intent(this, LbmService.class);
+    Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+    pIntent = PendingIntent.getService(getApplicationContext(), 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+    mActivityRecognitionClient.requestActivityUpdates(DETECTION_INTERVAL_MILLISECONDS, pIntent);
+}
+
+@Override
+public void onDisconnected() {
+	// TODO Auto-generated method stub
+	
+}
+
+
+
+@Override
+protected void onHandleIntent(Intent intent) {
+    if(ActivityRecognitionResult.hasResult(intent)){
+        ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
+      //  Log.i(TAG, getType(result.getMostProbableActivity().getType()) +"t" + result.getMostProbableActivity().getConfidence());
+
+       
+        Log.d("o3nWatcherLog", "ActivityRecognitionService onHandleIntent called...");
+
+        activityConfidence = result.getMostProbableActivity().getConfidence();
+        activityCode = result.getMostProbableActivity().getType();
+
+        Log.d("o3nWatcherLog", " ACTIVITY CODE : " + activityCode + " ACTIVITY CONFIDENCE : " + activityConfidence);
+        
+        if (PrevActivity != activityCode)
+        {
+        if (( activityCode == DetectedActivity.IN_VEHICLE ) && (activityConfidence ==100))
+         Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+        
+        if (( activityCode == DetectedActivity.ON_FOOT ) && (activityConfidence ==100))
+          Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+ 
+        if (( activityCode == DetectedActivity.STILL ) && (activityConfidence ==100))
+            Utils.playSound1(LbmService.this, R.raw.shake);
+        }
+        else
+        	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
+        
+        PrevActivity = activityCode;
+          
+        
+        
+        
+        
+        
+        // Evaluate the avtivity recognition result
+       // onActivityRecognitionChanged(activityCode);
+        //evaluateActivityResult();
+
+//        // Get current location
+//        // check Google Play service APK is available and up to date.
+//        final int googlePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+//        if (googlePlayServiceAvailable != ConnectionResult.SUCCESS) {
+//            Log.d("o3nWatcherLog", "Google Play service is not available (status=" + result + ")");
+//        }
+//        else {
+//            locationClient = new LocationClient(context, this, this);
+//            locationClient.connect();
+//        }
+    }
+}
+
 		   
   
 }
