@@ -938,6 +938,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		if ((!isGPSEnabled)&&(!isNetworkEnabled)){
 			if (!noGPSNotifSent){
 				noGPSNotifSent = true;
+				/*
 				Utils.sendNotifications(LbmService.this, 
 									R.drawable.ic_launcher, 
 									"La'Zooz Notification", 
@@ -945,6 +946,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 									"Location could not be establish.", 
 									new Intent(LbmService.this, MainActivity.class),
 									true);
+									*/
 			}
 		}
 		
@@ -1115,6 +1117,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			if ((!isGPSEnabled)&&(!isNetworkEnabled)){
 				if (!noGPSNotifSent){
 					noGPSNotifSent = true;
+					/*
 					Utils.sendNotifications(LbmService.this, 
 										R.drawable.ic_launcher, 
 										"La'Zooz Notification", 
@@ -1122,6 +1125,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 										"Location could not be establish.", 
 										new Intent(LbmService.this, MainActivity.class),
 										true);
+										*/
 				}
 			}
 			
