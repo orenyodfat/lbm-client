@@ -1,0 +1,33 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/intro"
+    tools:context="com.lazooz.lbm.CongratulationsRegActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <TextView
+        android:id="@+id/congrats_reg_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/second_step_screen_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/congratulation_reg_next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/gen_btn"
+        android:text="@string/gotit"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</FrameLayout>
+

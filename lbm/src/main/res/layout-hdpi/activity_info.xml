@@ -1,0 +1,95 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lazooz.lbm.IntroActivity"
+    tools:ignore="MergeRootFrame" >
+ <!-- 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="info"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
+ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_version"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+            <TextView
+                android:id="@+id/build_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_app_build_version"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+            <TextView
+                android:id="@+id/build_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_server_build_number"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+            <TextView
+                android:id="@+id/server_build_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lazooz_wallet_titles" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
+

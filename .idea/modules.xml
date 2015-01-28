@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lbm/lbm.iml" filepath="$PROJECT_DIR$/lbm/lbm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lbm-client.iml" filepath="$PROJECT_DIR$/lbm-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mapUtilsLibrary/mapUtilsLibrary.iml" filepath="$PROJECT_DIR$/mapUtilsLibrary/mapUtilsLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/supertooltipslib/supertooltipslib.iml" filepath="$PROJECT_DIR$/supertooltipslib/supertooltipslib.iml" />
+    </modules>
+  </component>
+</project>
+

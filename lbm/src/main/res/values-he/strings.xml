@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">לזוז</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">הגדרות</string>
+    <string name="title_activity_splash">SplashActivity</string>
+	<string name="reg_input_num_title">הרשמה</string>
+	<string name="reg_input_num_body">נא הכנס את מספר הטלפון שלך לשליחת קוד אימות</string>
+	<string name="reg_input_conf_title">הרשמה</string>
+	<string name="reg_input_conf_body">נא הכנס קוד אימות</string>
+	<string name="gps_activate_gps_title">הפעלת גי.פי.אס</string>
+    <string name="gps_activate_gps_body">נא הפעל את הגי.פי.אס כדי שנוכל לאמת את מיקומך</string>
+    <string name="gps_activate_gps_setting">פתח הגדרות גי.פי.אס</string>
+	
+	<string name="activation_code_template_eng">La\'Zooz app registration token: </string>
+	<string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
+	<string name="recommendation_pre_code_template_eng">token:</string>
+	
+	<string name="recommendation_input_msg_title">המלצה</string>
+	<string name="recommendation_input_msg_body">נא הכנס המלצה אישית </string>
+	<string name="recommendation_default">   .הנה לינק לאפליקציה חברתית שהתקנתי.האפליקציה בונה רשת של "שיתוף נסיעות" השייכת לקהילה.האפליקציה כורה עבורך זוזים פוטנציליים בזמן שאתה נוסע.כשהרשת תוקם זוזים אלו ישמשו לתנועה</string>
+	<string name="recommendation_default_start">שלום, </string>
+	<string name="invitation_sent">הזמנה נשלחה</string>
+	
+			
+	<string name="drawer_entry_me">אני</string>
+	<string name="drawer_entry_info">מידע</string>
+	<string name="drawer_entry_share">שתף</string>
+	<string name="drawer_entry_website">אתר</string>
+	<string name="drawer_entry_wallet">ארנק</string>
+	<string name="drawer_entry_legal">חוק ופרטיות</string>
+	<string name="drawer_entry_report_bug">דווח תקלות</string>
+	<string name="drawer_entry_intro">הסבר</string>
+	<string name="drawer_entry_settings">הגדרות</string>
+	<string name="share_via">שתף באמצעות</string>
+		
+	<string name="forground_notif_ticker_text">notif ticker</string>
+	<string name="forground_notif_title">notif title</string>
+	<string name="forground_notif_text">notif text</string>
+	 
+	
+	<string-array name="drawer_array">
+        <item>@string/drawer_entry_me</item>
+        <item>@string/drawer_entry_info</item>
+        <item>@string/drawer_entry_share</item>
+        <item>@string/drawer_entry_website</item>
+        <item>@string/drawer_entry_wallet</item>
+        <item>@string/drawer_entry_legal</item>
+    </string-array>
+	
+	<string name="drawer_open1"></string>
+    <string name="drawer_close1"></string>
+	
+    
+     <string name="menu_search">חיפוש</string>
+    <string name="search_hint">מצא איש קשר</string>
+    
+   
+    <string name="friends_message_p1_one_select">   %2$s  %1$s שלום</string>
+    
+    <string name="friends_message_p1_multy_select"> שלום זה %s, </string>
+    <string name="friends_message_main">תבדוק את האפליקציה הזו</string>
+    
+    
+    <string name="gps_notif_open_gps_title">לזוז גי.פי.אס</string>
+    <string name="gps_notif_open_gps_body">נא הדלק את ה גי.פי.אס</string>
+    
+    
+     <string name="gps_message_no_gps_yes_net">הגי.פי.אס כבוי,כריית זוזים לא תתאפשר במצב זה</string>
+    <string name="gps_message_no_gps_no_net">הגי.פי.אס וגם מיקום רשת כבויים.לא תוכל לכרות זוזים במצב זה</string>
+    <string name="gps_message_no_gps_no_net_feature">הגי.פי.אס וגם מיקום רשת כבויים.עליך לאפשרם בכדי להמשיך במסך זה</string>
+    <string name="gps_message_yes_gps_no_net">מיקום לפי הרשת כבוי.מומלץ לאפשרו לצורך שימוש יעיל בסוללה </string>
+    
+    <string name="splash_version_check_title">גרסה חדשה</string>
+    <string name="splash_version_check_les_current">גרסה חדשה זמינה ,נא עדכן מחנות גוגל</string>
+    <string name="splash_version_check_les_min">הגרסה הנוכחית אינה מעודכנת.בכדי להמשיך ,נא עדכן מחנות גוגל</string>
+    
+    
+    <string name="settings_category_mining">כרייה</string>
+    <string name="settings_mining_charger_connectivity_title_on">חיבור מטען -פעיל</string>
+    <string name="settings_mining_charger_connectivity_title_off">חיבור מטען -אינו פעיל</string>
+    <string name="settings_mining_charger_connectivity_summary_on">כרייה רק כאשר כבל הטעינה מחובר</string>
+    <string name="settings_mining_charger_connectivity_summary_off">כרייה ללא תלות בכבל הטעינה </string>
+    
+    <string name="settings_mining_enable_disable_mining_title">כרייה</string>
+    <string name="settings_mining_enable_disable_mining_summary_enable">כרייה מאופשרת</string>
+    <string name="settings_mining_enable_disable_mining_summary_disable">כרייה לא מאופשרת</string>
+    
+ 
+    
+    <string name="settings_sound_enable_disable_title">מחוות קול</string>
+    <string name="settings_sound_enable_disable_summary_enable">מחוות קול מאופשרות</string>
+    <string name="settings_sound_enable_disable_summary_disable">מחוות קול לא מאופשרות</string>
+
+    
+    <string name="settings_category_privacy">פרטיות</string>
+    <string name="settings_privacy_show_my_location_title">נראות לאחרים</string>
+    <string name="settings_privacy_show_my_location_summary_enable">מיקומי נראה לאחרים -ללא זהות</string>
+    <string name="settings_privacy_show_my_location_summary_disable">מיקומי חבויי</string>
+    
+    <string name="save_for_later">שמור לאחר כך</string>
+    
+    <string name="successfuly_located">מיקומך אותר בהצלחה.המשך למסך הבא</string>
+    <string name="improve_your_location">נא צא לאויר הפתוח בכדי לשפר את איתור מיקומך</string>
+    <string name="identifying_your_location">מאתר את מיקומך</string>
+    
+   <string name="info_version">גרסה</string>
+      <string name="info_app_build_version">גרסת בניית ישום</string>
+      <string name="info_server_build_number">גרסת שרת</string>
+       <string name="no_connection">אין חיבור</string>
+    <string name="no_connection_msg">אין חיבור לשרת לזוז.נסה שוב יותר מאוחר</string>
+    
+    <string name="no_net_connection">אין חיבור רשת</string>
+    <string name="no_net_connection_msg">נא חבר את המכשיר לרשת.והפעל את הישום מחדש</string>
+    <string name="intro_text" formatted="false">שלום ,אני לזוז גרסה %v%.\n
+
+בהרצת ובשיתוף אפליקציה זו הנך לוקח חלק בהקמתה של רשת התחבורה השיתופית הראשונה בעולם.
+תרומתך תתוגמל בזוזים פוטנציאלים שיוכלו לשמש לתנועה ברשת זו כאשר הרשת תוקם.</string>
+<string name="disclaimer_title">תנאים משפטיים</string>
+    <string name="disclaimer_text">זוהי גרסת בטא של לזוז.כל המידע המוצג בישום עשוי להיות לא מדוייק או שגוי.גרסה זו כורה זוזים פוטנציאלים לא מאומתים ,אימות זוזים פוטנציאלים אלו עשוי להתגלות כבלתי אפשרי ולכן יתרת הזוזים הפוטנציאלים עלולה להשתנות או להמחק בכל עת.ניצול לרעה של המערכת יכול גם הוא לגרום למחיקת צבירת הזוזים.ישנו סיכוי שהזוזים הפוטנציאלים ורשת התחבורה השיתופית לא יהיו שמישים לעולם</string>
+    <string name="second_step_screen_text">תנועתך הינה אבן היסוד של הרשת ותרומתך מוערכת ומתוגמלת \nכל נסיעה עם אפליקצית לזוז במצב כריה תזכה אותך בזוזים פוטנציאלים \nצירוף חבר לרשת יזכה אותך גם כן בזוזים פוטנציאלים</string>
+    
+     <string name="tool_tip_reg1">כעת אתה כורה זוזים פוטנציאלים, כאשר רשת התחבורה באיזורך תהיה פעילה ווידוא אמיתות המידע שנשלח אלינו. תוכל להמיר זוזים פוטנציאלים אלו לתנועה. חלק מהזוזים הפוטנציאלים יומרו לזוזים כפרס על השימוש ברשת התחבורה השיתופית. תהליך זה נוצר כדי לעודד את יצירת רשת התחבורה השיתופית תוך כדי מניעת שימוש לרעה במערכת</string>
+
+     <string name="invitation_code_option">אם קבלת קוד הזמנה,נא הכנס אותו.\nעל ידי הכנסת קוד ההזמנה,חברך יזוכה ב 10 זוזים פוטנציאליים.</string>
+      <string name="Phone_number_verification">אימות מספר הטלפון</string>
+    <string name="register_with"></string>
+    <string name="approve">אישור</string>
+    <string name="cancel">ביטול</string>
+    <string name="send_validation_code_thanks">תודה.קוד האימות נשלח אליך עכשיו.</string>
+    <string name="send_validation_code_fail">המספר אינו תקין.נסה שוב.</string>
+    <string name="code_validation_fail">אימות הקוד נכשל.נסה שוב</string>
+    <string name="code_validation_success">אימות הצליח</string>
+    <string name="congratulation_for_registration">ברכות,יש לך ארנק דיגיטלי חדש!</string>
+    <string name="ok_button">המשך</string>
+    <string name="welcome_back">ברוך שובך!</string>
+    <string name="do_not_show_this_msg_again">אל תראה הודעה זו שוב</string>
+    <string name="scanning">סורק</string>
+    <string name="shake_text">פגישה עם חברי לזוז עוזרת לאבטחת הרשת אך יותר מכך זה כיף:).בשלב זה עליך לשקשק את הטלפון עם משתמש נוסף.בעבור כל שקשוק שתצליח לעשות בזמן,תוכל לזכות בזוז פוטנציאלי </string>
+    <string name="find_lazooz_users">מצא חברי לזוז</string>
+    <string name="next">הבא</string>
+    <string name="whats_next">מה הלאה</string>
+    <string name="registration_1">כעת אתה יכול להתחיל לכרות זוזים פוטנציאלים עבור תרומתך</string>
+    <string name="registration_2">זוזים פוטנציאלים הם מטבעות דיגיטליים המאוחסנים כרגע על השרתים שלנו</string>
+    <string name="registration_3">הכנס את מספר הטלפון שלך כדי ליצור ארנק.קוד אימות ישלח אליך באמצעות הודעת טקסט.האפליקציה תקרא ותאמת אותו</string>
+    <string name="registration_4">הרשם</string>
+    <string name="registration_5">הכנס קוד אימות</string>
+    <string name="country">מדינה</string>
+     
+    <string name="remained_me">הזכר לי</string>
+    <string name="a_day">בעוד יום</string>
+    <string name="a_week">בעוד שבוע</string>
+    <string name="never">לעולם</string>
+     
+    <string name="validation_code">קוד אימות</string>
+    <string name="invitation_code">קוד הזמנה</string>
+     
+    <string name="send_invitation">שלח הזמנה</string>
+     
+      <string name="i_accept_the_terms">אשר את התנאים</string>
+     
+     <string name="friends_accepted_your_invitation">הזמנות מאושרות</string>
+     
+     <string name="friends_pending_your_invitation">הזמנות ממתינות\nלאישור</string>
+     
+     <string name="mined_km">מרחק שנכרה</string>
+     <string name="km">קילומטר</string>
+     
+     <string name="invited_freinds">חברים שהוזמנו</string>
+     <string name="potential_zooz">זוזים פוטנציאלים</string>
+     <string name="shakes">שקשוקים</string>
+     <string name="critical_mass">מסה קריטית</string>
+      <string name="times_shaken">מספר שקשוקים</string>
+      <string name="friends">חברים</string>
+      <string name="pz">זוזים פוטנציאלים</string>
+      
+      <string name="me_shakes">שקשוקים</string>
+      <string name="me_invited_freinds">חברים שהוזמנו</string>
+      <string name="me_mined_km">מרחק שנכרה</string>
+      <string name="me_my_impact">השפעה שלי</string>
+      <string name="me_wallet_num">ארנק</string>
+      <string name="me_id">מספר סידורי</string>
+   
+      <string name="total">סך הכל</string>
+      <string name="miners_paveing_the_web">כורים היוצרים את הרשת</string>
+      <string name="days">ימים</string>
+      <string name="miners">כורים</string>
+      <string name="my_mined_km_history">היסטוריית כריית הקילומטרים שלי</string>
+      <string name="total_community_mined_km_history">סך כל המרחק שנכרה על ידי הקהילה</string>
+      
+      
+      <string name="gotit">המשך</string>
+      <string name ="potential_zooz_balance">זוזים פוטנציאלים</string>
+      <string name ="zooz_balance">זוזים</string>
+      <string name ="zooz_address">כתובת</string>
+      <string name ="private_key">מפתח פרטי</string>
+      <string name ="scan">סרוק</string>
+       <string name ="export">יצא</string>
+       <string name ="show">הצג</string>
+       <string name ="hide">הסתר</string>
+            
+        <string name ="scan_a_new_key">סרוק מפתח חדש</string>
+       <string name ="scan_a_new_key_msg">האם המפתח הקודם שלך מגובה? סריקת מפתח חדש תמחוק את המפתח הקודם .השתמש בכפתור "\יצא"\ לגיבוי.</string>
+       
+
+       <string name ="my_zooz_address">כתובת הזוזים שלי</string>
+       <string name ="export_zooz_address">יצא את כתובת הזוזים</string>
+       <string name ="export_private_key">יצא את המפתח הפרטי</string>
+       <string name ="my_private_key">המפתח הפרטי שלי</string>
+       
+       <string name ="export_private_key_msg">אתה עומד ליצא את המפתח הפרטי שלך.תזכור שזהו הארנק שלך ואתה אמור לשלוח את זה לעצמך בלבד</string>
+       <string name ="the_key_updated">המפתח עודכן</string>
+       <string name ="key_update_fail">עדכון המפתח נכשל</string>
+       
+       <string name ="scan_qr_msg">הקיו אר קוד אינו כתובת חוקית</string>
+        <string name ="import_zooz_address">יבא כתובת זוז</string>
+		     	 
+		     	<string name ="new_zooz_address_scan_msg_1">כתובת זוזים חדשה נסרקה\n</string>
+		     	<string name ="new_zooz_address_scan_msg_2">האם להחליפה בנוכחית?</string>
+       
+       
+       <string name ="share_def_text">הי,מוזמן לזוז.ניתן להוריד מ:</string>
+       
+       <string name="tap_here_to_invite_a_friend">גע כאן בכדי להזמין חבר\\ה</string>
+      
+     
+ 
+     
+     
+     
+    
+     <string-array name="sched_gps">
+        <item>a day</item>
+        <item>a week</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+    
+     
+    <string-array name="days_array">
+        <item>NULL</item>
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+    
+    <string-array name="months_array">
+        <item>NULL</item>
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+     </string-array>
+    
+        <string-array name="country_list_entry_values">
+        <item>AF</item>
+        <item>AL</item>
+        <item>DZ</item>
+        <item>AS</item>
+        <item>AD</item>
+        <item>AO</item>
+        <item>AI</item>
+        <item>AQ</item>
+        <item>AG</item>
+        <item>AR</item>
+        <item>AM</item>
+        <item>AW</item>
+        <item>AU</item>
+        <item>AT</item>
+        <item>AZ</item>
+        <item>BS</item>
+        <item>BH</item>
+        <item>BD</item>
+        <item>BB</item>
+        <item>BY</item>
+        <item>BE</item>
+        <item>BZ</item>
+        <item>BJ</item>
+        <item>BM</item>
+        <item>BT</item>
+        <item>BO</item>
+        <item>BA</item>
+        <item>BW</item>
+        <item>BV</item>
+        <item>BR</item>
+        <item>BQ</item>
+        <item>IO</item>
+        <item>VG</item>
+        <item>BN</item>
+        <item>BG</item>
+        <item>BF</item>
+        <item>BI</item>
+        <item>KH</item>
+        <item>CM</item>
+        <item>CA</item>
+        <item>CT</item>
+        <item>CV</item>
+        <item>KY</item>
+        <item>CF</item>
+        <item>TD</item>
+        <item>CL</item>
+        <item>CN</item>
+        <item>CX</item>
+        <item>CC</item>
+        <item>CO</item>
+        <item>KM</item>
+        <item>CG</item>
+        <item>CD</item>
+        <item>CK</item>
+        <item>CR</item>
+        <item>HR</item>
+        <item>CU</item>
+        <item>CY</item>
+        <item>CZ</item>
+        <item>CI</item>
+        <item>DK</item>
+        <item>DJ</item>
+        <item>DM</item>
+        <item>DO</item>
+        <item>NQ</item>
+        <item>DD</item>
+        <item>EC</item>
+        <item>EG</item>
+        <item>SV</item>
+        <item>GQ</item>
+        <item>ER</item>
+        <item>EE</item>
+        <item>ET</item>
+        <item>FK</item>
+        <item>FO</item>
+        <item>FJ</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>GF</item>
+        <item>PF</item>
+        <item>TF</item>
+        <item>FQ</item>
+        <item>GA</item>
+        <item>GM</item>
+        <item>GE</item>
+        <item>DE</item>
+        <item>GH</item>
+        <item>GI</item>
+        <item>GR</item>
+        <item>GL</item>
+        <item>GD</item>
+        <item>GP</item>
+        <item>GU</item>
+        <item>GT</item>
+        <item>GG</item>
+        <item>GN</item>
+        <item>GW</item>
+        <item>GY</item>
+        <item>HT</item>
+        <item>HM</item>
+        <item>HN</item>
+        <item>HK</item>
+        <item>HU</item>
+        <item>IS</item>
+        <item>IN</item>
+        <item>ID</item>
+        <item>IR</item>
+        <item>IQ</item>
+        <item>IE</item>
+        <item>IM</item>
+        <item>IL</item>
+        <item>IT</item>
+        <item>JM</item>
+        <item>JP</item>
+        <item>JE</item>
+        <item>JT</item>
+        <item>JO</item>
+        <item>KZ</item>
+        <item>KE</item>
+        <item>KI</item>
+        <item>KW</item>
+        <item>KG</item>
+        <item>LA</item>
+        <item>LV</item>
+        <item>LB</item>
+        <item>LS</item>
+        <item>LR</item>
+        <item>LY</item>
+        <item>LI</item>
+        <item>LT</item>
+        <item>LU</item>
+        <item>MO</item>
+        <item>MK</item>
+        <item>MG</item>
+        <item>MW</item>
+        <item>MY</item>
+        <item>MV</item>
+        <item>ML</item>
+        <item>MT</item>
+        <item>MH</item>
+        <item>MQ</item>
+        <item>MR</item>
+        <item>MU</item>
+        <item>YT</item>
+        <item>FX</item>
+        <item>MX</item>
+        <item>FM</item>
+        <item>MI</item>
+        <item>MD</item>
+        <item>MC</item>
+        <item>MN</item>
+        <item>ME</item>
+        <item>MS</item>
+        <item>MA</item>
+        <item>MZ</item>
+        <item>MM</item>
+        <item>NA</item>
+        <item>NR</item>
+        <item>NP</item>
+        <item>NL</item>
+        <item>AN</item>
+        <item>NT</item>
+        <item>NC</item>
+        <item>NZ</item>
+        <item>NI</item>
+        <item>NE</item>
+        <item>NG</item>
+        <item>NU</item>
+        <item>NF</item>
+        <item>KP</item>
+        <item>VD</item>
+        <item>MP</item>
+        <item>NO</item>
+        <item>OM</item>
+        <item>PC</item>
+        <item>PK</item>
+        <item>PW</item>
+        <item>PS</item>
+        <item>PA</item>
+        <item>PZ</item>
+        <item>PG</item>
+        <item>PY</item>
+        <item>YD</item>
+        <item>PE</item>
+        <item>PH</item>
+        <item>PN</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>PR</item>
+        <item>QA</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>RW</item>
+        <item>RE</item>
+        <item>BL</item>
+        <item>SH</item>
+        <item>KN</item>
+        <item>LC</item>
+        <item>MF</item>
+        <item>PM</item>
+        <item>VC</item>
+        <item>WS</item>
+        <item>SM</item>
+        <item>SA</item>
+        <item>SN</item>
+        <item>RS</item>
+        <item>CS</item>
+        <item>SC</item>
+        <item>SL</item>
+        <item>SG</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>SB</item>
+        <item>SO</item>
+        <item>ZA</item>
+        <item>GS</item>
+        <item>KR</item>
+        <item>ES</item>
+        <item>LK</item>
+        <item>SD</item>
+        <item>SR</item>
+        <item>SJ</item>
+        <item>SZ</item>
+        <item>SE</item>
+        <item>CH</item>
+        <item>SY</item>
+        <item>ST</item>
+        <item>TW</item>
+        <item>TJ</item>
+        <item>TZ</item>
+        <item>TH</item>
+        <item>TL</item>
+        <item>TG</item>
+        <item>TK</item>
+        <item>TO</item>
+        <item>TT</item>
+        <item>TN</item>
+        <item>TR</item>
+        <item>TM</item>
+        <item>TC</item>
+        <item>TV</item>
+        <item>UM</item>
+        <item>PU</item>
+        <item>VI</item>
+        <item>UG</item>
+        <item>UA</item>
+        <item>SU</item>
+        <item>AE</item>
+        <item>GB</item>
+        <item>US</item>
+        <item>ZZ</item>
+        <item>UY</item>
+        <item>UZ</item>
+        <item>VU</item>
+        <item>VA</item>
+        <item>VE</item>
+        <item>VN</item>
+        <item>WK</item>
+        <item>WF</item>
+        <item>EH</item>
+        <item>YE</item>
+        <item>ZM</item>
+        <item>ZW</item>
+        <item>AX</item>
+    </string-array>
+    <string-array name="country_list_entries">
+        <item>Afghanistan</item>
+        <item>Albania</item>
+        <item>Algeria</item>
+        <item>American Samoa</item>
+        <item>Andorra</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Antarctica</item>
+        <item>Antigua and Barbuda</item>
+        <item>Argentina</item>
+        <item>Armenia</item>
+        <item>Aruba</item>
+        <item>Australia</item>
+        <item>Austria</item>
+        <item>Azerbaijan</item>
+        <item>Bahamas</item>
+        <item>Bahrain</item>
+        <item>Bangladesh</item>
+        <item>Barbados</item>
+        <item>Belarus</item>
+        <item>Belgium</item>
+        <item>Belize</item>
+        <item>Benin</item>
+        <item>Bermuda</item>
+        <item>Bhutan</item>
+        <item>Bolivia</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Botswana</item>
+        <item>Bouvet Island</item>
+        <item>Brazil</item>
+        <item>British Antarctic Territory</item>
+        <item>British Indian Ocean Territory</item>
+        <item>British Virgin Islands</item>
+        <item>Brunei</item>
+        <item>Bulgaria</item>
+        <item>Burkina Faso</item>
+        <item>Burundi</item>
+        <item>Cambodia</item>
+        <item>Cameroon</item>
+        <item>Canada</item>
+        <item>Canton and Enderbury Islands</item>
+        <item>Cape Verde</item>
+        <item>Cayman Islands</item>
+        <item>Central African Republic</item>
+        <item>Chad</item>
+        <item>Chile</item>
+        <item>China</item>
+        <item>Christmas Island</item>
+        <item>Cocos [Keeling] Islands</item>
+        <item>Colombia</item>
+        <item>Comoros</item>
+        <item>Congo - Brazzaville</item>
+        <item>Congo - Kinshasa</item>
+        <item>Cook Islands</item>
+        <item>Costa Rica</item>
+        <item>Croatia</item>
+        <item>Cuba</item>
+        <item>Cyprus</item>
+        <item>Czech Republic</item>
+        <item>Côte d’Ivoire</item>
+        <item>Denmark</item>
+        <item>Djibouti</item>
+        <item>Dominica</item>
+        <item>Dominican Republic</item>
+        <item>Dronning Maud Land</item>
+        <item>East Germany</item>
+        <item>Ecuador</item>
+        <item>Egypt</item>
+        <item>El Salvador</item>
+        <item>Equatorial Guinea</item>
+        <item>Eritrea</item>
+        <item>Estonia</item>
+        <item>Ethiopia</item>
+        <item>Falkland Islands</item>
+        <item>Faroe Islands</item>
+        <item>Fiji</item>
+        <item>Finland</item>
+        <item>France</item>
+        <item>French Guiana</item>
+        <item>French Polynesia</item>
+        <item>French Southern Territories</item>
+        <item>French Southern and Antarctic Territories</item>
+        <item>Gabon</item>
+        <item>Gambia</item>
+        <item>Georgia</item>
+        <item>Germany</item>
+        <item>Ghana</item>
+        <item>Gibraltar</item>
+        <item>Greece</item>
+        <item>Greenland</item>
+        <item>Grenada</item>
+        <item>Guadeloupe</item>
+        <item>Guam</item>
+        <item>Guatemala</item>
+        <item>Guernsey</item>
+        <item>Guinea</item>
+        <item>Guinea-Bissau</item>
+        <item>Guyana</item>
+        <item>Haiti</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduras</item>
+        <item>Hong Kong SAR China</item>
+        <item>Hungary</item>
+        <item>Iceland</item>
+        <item>India</item>
+        <item>Indonesia</item>
+        <item>Iran</item>
+        <item>Iraq</item>
+        <item>Ireland</item>
+        <item>Isle of Man</item>
+        <item>Israel</item>
+        <item>Italy</item>
+        <item>Jamaica</item>
+        <item>Japan</item>
+        <item>Jersey</item>
+        <item>Johnston Island</item>
+        <item>Jordan</item>
+        <item>Kazakhstan</item>
+        <item>Kenya</item>
+        <item>Kiribati</item>
+        <item>Kuwait</item>
+        <item>Kyrgyzstan</item>
+        <item>Laos</item>
+        <item>Latvia</item>
+        <item>Lebanon</item>
+        <item>Lesotho</item>
+        <item>Liberia</item>
+        <item>Libya</item>
+        <item>Liechtenstein</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Macau SAR China</item>
+        <item>Macedonia</item>
+        <item>Madagascar</item>
+        <item>Malawi</item>
+        <item>Malaysia</item>
+        <item>Maldives</item>
+        <item>Mali</item>
+        <item>Malta</item>
+        <item>Marshall Islands</item>
+        <item>Martinique</item>
+        <item>Mauritania</item>
+        <item>Mauritius</item>
+        <item>Mayotte</item>
+        <item>Metropolitan France</item>
+        <item>Mexico</item>
+        <item>Micronesia</item>
+        <item>Midway Islands</item>
+        <item>Moldova</item>
+        <item>Monaco</item>
+        <item>Mongolia</item>
+        <item>Montenegro</item>
+        <item>Montserrat</item>
+        <item>Morocco</item>
+        <item>Mozambique</item>
+        <item>Myanmar [Burma]</item>
+        <item>Namibia</item>
+        <item>Nauru</item>
+        <item>Nepal</item>
+        <item>Netherlands</item>
+        <item>Netherlands Antilles</item>
+        <item>Neutral Zone</item>
+        <item>New Caledonia</item>
+        <item>New Zealand</item>
+        <item>Nicaragua</item>
+        <item>Niger</item>
+        <item>Nigeria</item>
+        <item>Niue</item>
+        <item>Norfolk Island</item>
+        <item>North Korea</item>
+        <item>North Vietnam</item>
+        <item>Northern Mariana Islands</item>
+        <item>Norway</item>
+        <item>Oman</item>
+        <item>Pacific Islands Trust Territory</item>
+        <item>Pakistan</item>
+        <item>Palau</item>
+        <item>Palestinian Territories</item>
+        <item>Panama</item>
+        <item>Panama Canal Zone</item>
+        <item>Papua New Guinea</item>
+        <item>Paraguay</item>
+        <item>Peoples Democratic Republic of Yemen</item>
+        <item>Peru</item>
+        <item>Philippines</item>
+        <item>Pitcairn Islands</item>
+        <item>Poland</item>
+        <item>Portugal</item>
+        <item>Puerto Rico</item>
+        <item>Qatar</item>
+        <item>Romania</item>
+        <item>Russia</item>
+        <item>Rwanda</item>
+        <item>Réunion</item>
+        <item>Saint Barthélemy</item>
+        <item>Saint Helena</item>
+        <item>Saint Kitts and Nevis</item>
+        <item>Saint Lucia</item>
+        <item>Saint Martin</item>
+        <item>Saint Pierre and Miquelon</item>
+        <item>Saint Vincent and the Grenadines</item>
+        <item>Samoa</item>
+        <item>San Marino</item>
+        <item>Saudi Arabia</item>
+        <item>Senegal</item>
+        <item>Serbia</item>
+        <item>Serbia and Montenegro</item>
+        <item>Seychelles</item>
+        <item>Sierra Leone</item>
+        <item>Singapore</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Solomon Islands</item>
+        <item>Somalia</item>
+        <item>South Africa</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>South Korea</item>
+        <item>Spain</item>
+        <item>Sri Lanka</item>
+        <item>Sudan</item>
+        <item>Suriname</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Swaziland</item>
+        <item>Sweden</item>
+        <item>Switzerland</item>
+        <item>Syria</item>
+        <item>São Tomé and Príncipe</item>
+        <item>Taiwan</item>
+        <item>Tajikistan</item>
+        <item>Tanzania</item>
+        <item>Thailand</item>
+        <item>Timor-Leste</item>
+        <item>Togo</item>
+        <item>Tokelau</item>
+        <item>Tonga</item>
+        <item>Trinidad and Tobago</item>
+        <item>Tunisia</item>
+        <item>Turkey</item>
+        <item>Turkmenistan</item>
+        <item>Turks and Caicos Islands</item>
+        <item>Tuvalu</item>
+        <item>U.S. Minor Outlying Islands</item>
+        <item>U.S. Miscellaneous Pacific Islands</item>
+        <item>U.S. Virgin Islands</item>
+        <item>Uganda</item>
+        <item>Ukraine</item>
+        <item>Union of Soviet Socialist Republics</item>
+        <item>United Arab Emirates</item>
+        <item>United Kingdom</item>
+        <item>United States</item>
+        <item>Unknown or Invalid Region</item>
+        <item>Uruguay</item>
+        <item>Uzbekistan</item>
+        <item>Vanuatu</item>
+        <item>Vatican City</item>
+        <item>Venezuela</item>
+        <item>Vietnam</item>
+        <item>Wake Island</item>
+        <item>Wallis and Futuna</item>
+        <item>Western Sahara</item>
+        <item>Yemen</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+        <item>Åland Islands</item>
+    </string-array>
+           <string name ="legal_and_privacy">Terms and Conditions for the La’Zooz Mining Application
+
+The following Terms and Conditions (“Terms”) govern the Mining of Potential Zooz (“PZ”), by users (“Users” or “Miners” collectively, and “User” or “Miner” individually) of the La’Zooz mining application, (“La’Zooz”). La’Zooz is being developed primarily by a volunteer contributor team, and will continue to be developed on a volunteer basis by some developers as well as under a more formalized contracting or employment relationship for other developers. The group of developers and other personnel that is now, or will be, employed by, or contracted with La’Zooz is termed the “La’Zooz Team”.
+
+This document is not a solicitation for investment and does not pertain in any way to an offering of securities in any jurisdiction.
+
+Individuals, businesses, and other organizations should carefully weigh the risks, costs, and benefits of mining PZ early in this Beta stage of the La’Zooz mining application versus waiting to the full production stage of the application to be published.
+IMPORTANT
+Ownership of PZ carries no rights express or implied. Users or Miners should have no expectation of influence over governance of La’Zooz. By Mining PZ, you expressly acknowledge and represent that you have carefully reviewed the Terms, and fully understand the risks, costs, and benefits of Mining PZ and agree to be bound by these Terms. As set forth further below, you further represent and warrant that, to the extent permitted by law, you are authorized to mine PZ in your relevant jurisdiction, are of a legal age to be bound by these Terms, and will not hold La’Zooz, its parent and affiliates, and the officers, directors, agents, joint ventures, employees and suppliers of La’Zooz or our parent or affiliates, now or in the future and any other member of the La’Zooz Team (collectively the “La’Zooz Parties”) liable for any losses or any special, incidental, or consequential damages arising out of, or in any way connected to the La’Zooz mining application ot to the mining of PZ .
+USERS SHOULD NOTICE THAT SOME OR ALL OF THE POTENTIAL ZOOZ THEY WILL COLLECT AT THIS STAGE MAY NOT BE VALIDATED!
+
+Privacy
+As we all know personal data is sensible and everyone want to take care of it. La’Zooz mining application is in its BETA stage and therefore data is being stored on La’Zooz servers in order to develop Proof of Movement algorithms. We are doing our best to keep our servers safe and secured but users should take into account that security vulnerabilities are being discovered from time to time and our servers are subjected to these vulnerabilities like any other servers.
+
+Currently La’Zooz Team is working on the development of Proof of Movement algorithms. This mining application base its PZ authenticity upon those algorithms. La’Zooz is making all efforts to respect every PZ mined. Nevertheless Users should take into consideration that La’Zooz in this BETA stage version is NOT spoof proof or ever will be. Still, we want to start building the community right now, the same community that will later on be part of the creation of diverse transportation solutions. Therefor La’Zooz will use algorithms and human perception together to validate that the system is not being manipulated. At this beta stage all PZ are being stored off chain on La’Zooz servers.
+As we are in an early beta stage we feel obliged to inform Users, that false positive erase of PZ is a resulting outcome of this early stage of development.
+
+Digital currencies are working their way through the dungeons of global and local regulations these days. It is under the sole responsibility of the user of La’Zooz to make all efforts to make sure that the use of this app is not against any local or federal law or regulation in his/hers jurisdiction.
+User understands, that while the La’Zooz Team will make reasonable efforts to complete the
+La’Zooz mining app, it is possible that an official completed version of the La’Zooz Decentralized Collaborative Transportation Web or any other implementation of La’Zooz may not be released and there may never be an operational La’Zooz application.
+
+La’Zooz makes no representations concerning the tax implications of the mining of PZ or the possession or use of PZ. The User bears the sole responsibility to determine if the mining of PZ or the potential appreciation or depreciation in the value of PZ over time has tax implications for the User in the User’s home jurisdiction.
+Mining PZ, and to the extent permitted by law, the User agrees not hold any of the
+La’Zooz Parties liable for any tax liability associated with or arising from the Mining or using of PZ.
+
+Altogether we must stress the fact that the effort of making this happen is a joint effort to change the state of transportation in the world and the creation of this network will reward each and every one of us with a transportation web that is more efficient, more fair, and most important – will be owned by the community for the service of the community. Thank you for making your effort at this early stage. Lets change the face of transportation.</string>
+</resources>

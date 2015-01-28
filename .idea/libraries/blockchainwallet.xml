@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="blockchainwallet">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lbm/libs/blockchainwallet.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

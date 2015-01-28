@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lazooz.lbm"
+    android:versionCode="39"
+    android:versionName="1.21" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
+    
+    <permission
+        android:name="com.lazooz.lbm.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    
+<!--     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+ -->   
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
+	<uses-permission android:name="com.lazooz.lbm.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC"/>
+    <!-- 
+	<uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    -->
+    <!--
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    -->
+    
+	<uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+	
+	
+    
+    
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:name=".Analytics">
+        
+        <uses-library android:name="com.google.android.maps" />
+        
+        <meta-data
+			android:name="com.google.android.maps.v2.API_KEY"
+        	android:value="AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M" />
+        
+<!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->        
+<!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
+<!-- AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M   production -->                       
+        
+         <meta-data
+			android:name="com.google.android.gms.version"
+			android:value="@integer/google_play_services_version" />
+         
+        <activity
+            android:name="com.lazooz.lbm.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.RegistrationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.IntroActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.DesclmtrActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="com.lazooz.lbm.MyActionBarActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsGPSActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.MapShowLocationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+       
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsRegActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.GPSNotifDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogTheme"
+            
+            android:label="" >
+        </activity>
+        <!-- android:theme="@style/MyDialogTheme" android:theme="@android:style/Theme.Holo.Light.Dialog" -->
+        
+        
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsDrive100Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.MissionGetFriendsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.lazooz.lbm.CongratulationsGetFriendsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+         <activity
+            android:name="com.lazooz.lbm.InfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+			android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+         </activity>
+         <activity
+            android:name="com.lazooz.lbm.MeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+         </activity>
+         
+         <activity
+            android:name="com.lazooz.lbm.WebViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+         </activity>
+         <activity
+            android:name="com.lazooz.lbm.ShakeSecondActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainShakeActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainShakeActivity" />
+
+        </activity>
+         
+         <activity
+            android:name="com.lazooz.lbm.MainAddFriendsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+    	</activity>
+    	<!-- 
+         <activity android:name="com.lazooz.lbm.CameraQRActivity"
+             android:screenOrientation="portrait"
+             android:label="@string/app_name" >
+         </activity>
+          -->
+
+         <activity android:name="com.lazooz.lbm.preference.SettingsActivity"
+             android:screenOrientation="portrait"
+             android:parentActivityName="com.lazooz.lbm.MainActivity"
+             android:label="@string/app_name" >
+	         <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+             
+         </activity>
+         
+         <activity
+            android:name="com.lazooz.lbm.MainDistanceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+    	</activity>
+         <activity
+            android:name="com.lazooz.lbm.MainShakeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+    	</activity>
+         <activity
+            android:name="com.lazooz.lbm.MainZoozActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainActivity" >
+	        <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainActivity" />
+    	</activity>
+         
+         
+         
+         
+         
+         <activity
+            android:name="com.lazooz.lbm.ContactListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.lazooz.lbm.MainAddFriendsActivity" >
+            <!-- Add intent-filter for search intent action and specify searchable configuration
+                 via meta-data tag. This allows this activity to receive search intents via the
+                 system hooks. In this sample this is only used on older OS versions (pre-Honeycomb)
+                 via the activity search dialog. See the Search API guide for more information:
+                 http://developer.android.com/guide/topics/search/search-dialog.html -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable_contacts" />
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.lazooz.lbm.MainAddFriendsActivity" />
+        </activity>
+         
+        
+        <activity
+            android:name="com.lazooz.lbm.SplashActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+              <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+		<service
+            android:name="com.lazooz.lbm.LbmService"
+            android:enabled="true">
+        </service>
+        
+        <receiver android:name="com.lazooz.lbm.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            
+        </receiver>
+		        <receiver android:name="com.lazooz.lbm.AlarmOneDaySchedReciever">
+        </receiver>
+        
+		<receiver android:name="com.lazooz.lbm.SMSReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <!-- Used for Google Play Store Campaign Measurement-->;
+         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+         <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+          android:exported="true">
+         <intent-filter>
+         <action android:name="com.android.vending.INSTALL_REFERRER" />
+  </intent-filter>
+</receiver>
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+          <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
+                     android:resource="@xml/global_tracker" />
+    </application>
+
+</manifest>
