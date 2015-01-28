@@ -1,5 +1,6 @@
 package com.lazooz.lbm;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -118,6 +119,20 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	                addPurpleToolTipView(getString(R.string.identifying_your_location));
 	            }
 	        }, 1000);
+
+        new CountDownTimer(15000, 1000) {
+
+
+            public void onTick(long millisUntilFinished) {
+               // mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                //mTextField.setText("done!");
+                nextBtn.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
 		
 		
 	}
