@@ -113,12 +113,12 @@
 
     </LinearLayout>
     
-    <com.haarman.supertooltips.ToolTipRelativeLayout
+    <com.nhaarman.supertooltips.ToolTipRelativeLayout
         android:id="@+id/tooltipframelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-	</com.haarman.supertooltips.ToolTipRelativeLayout>
+	</com.nhaarman.supertooltips.ToolTipRelativeLayout>
 	
 
 

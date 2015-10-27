@@ -3,34 +3,6 @@ package com.lazooz.lbm;
 
 
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.ECKey;
-import com.google.bitcoin.core.NetworkParameters;
-/*
-import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.ECKey;
-import com.google.bitcoin.core.NetworkParameters;*/
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
-import com.haarman.supertooltips.ToolTip;
-import com.haarman.supertooltips.ToolTipRelativeLayout;
-import com.haarman.supertooltips.ToolTipView;
-import com.lazooz.lbm.communications.ServerCom;
-import com.lazooz.lbm.preference.MySharedPreferences;
-import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
-import com.lazooz.lbm.utils.Utils;
-
-import android.support.v7.app.ActionBarActivity;
-import android.telephony.TelephonyManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -39,20 +11,38 @@ import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.Utils;
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipRelativeLayout;
+import com.nhaarman.supertooltips.ToolTipView;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.KeyPairGenerator;
+import java.util.Arrays;
+
+/*
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.NetworkParameters;*/
 
 
 

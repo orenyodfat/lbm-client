@@ -1,14 +1,5 @@
 package com.lazooz.lbm;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.google.android.gms.internal.ac;
-import com.lazooz.lbm.businessClasses.Contact;
-import com.lazooz.lbm.businessClasses.ContactFriend;
-import com.lazooz.lbm.businessClasses.ContactFriendList;
-import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -17,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.lazooz.lbm.businessClasses.ContactFriend;
+import com.lazooz.lbm.businessClasses.ContactFriendList;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+
+import java.util.List;
 
 
 public class FriendsAdapter extends ArrayAdapter<ContactFriend>  {
