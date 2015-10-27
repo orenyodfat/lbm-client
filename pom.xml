@@ -1,0 +1,179 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lazooz.lbm</groupId>
+    <artifactId>lbm-client</artifactId>
+    <version>1.0.0.BUILD-SNAPSHOT</version>
+    <packaging>apk</packaging>
+    <name>zooz</name>
+    <organization>
+        <name>La`zooz</name>
+        <url>http://lazooz.org</url>
+    </organization>
+
+    <properties>
+        <android-platform>23</android-platform>
+        <android-emulator>8</android-emulator>
+    </properties>
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.simpligility.maven.plugins</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <extensions>true</extensions>
+
+                <executions>
+                    <execution>
+                        <id>merge-manifest</id>
+                        <goals>
+                            <goal>manifest-merger</goal>
+                        </goals>
+                        <configuration>
+                            <manifestMerger>
+                                <versionName>2.0.13</versionName>
+                                <versionCode>12</versionCode>
+                                <versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
+                                <mergeLibraries>true</mergeLibraries>
+                                <mergeReportFile>${project.build.directory}/ManifestMergeReport.txt</mergeReportFile>
+                                <usesSdk>
+                                    <minSdkVersion>9</minSdkVersion>
+                                    <targetSdkVersion>23</targetSdkVersion>
+                                </usesSdk>
+                            </manifestMerger>
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
+                    <assetsDirectory>${project.basedir}/assets</assetsDirectory>
+                    <resourceDirectory>${project.basedir}/res</resourceDirectory>
+                    <nativeLibrariesDirectory>libs</nativeLibrariesDirectory>
+                    <sdk>
+                        <platform>${android-platform}</platform>
+                        <path>/home/stanimir/android-sdk-linux</path>
+                    </sdk>
+                    <emulator>
+                        <avd>${android-emulator}</avd>
+                    </emulator>
+                    <!--<deleteConflictingFiles>true</deleteConflictingFiles>-->
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    <extractDuplicates>true</extractDuplicates>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android</artifactId>
+            <version>5.1.1_r2</version>
+            <!--<version>6.0_r1</version>-->
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.android.support</groupId>
+            <artifactId>appcompat-v7</artifactId>
+            <version>23.1.0</version>
+            <type>aar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google</groupId>
+            <artifactId>bitcoinj</artifactId>
+            <version>0.11.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nhaarman.supertooltips</groupId>
+            <artifactId>library</artifactId>
+            <version>3.0.0</version>
+            <type>aar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.achartengine</groupId>
+            <artifactId>achartengine</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.maps.android</groupId>
+            <artifactId>android-maps-utils</artifactId>
+            <version>0.4</version>
+            <type>aar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>play-services-maps</artifactId>
+            <version>8.1.0</version>
+            <type>aar</type>
+        </dependency>
+
+       <!-- <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>play-services-gcm</artifactId>
+            <version>8.1.0</version>
+            <type>aar</type>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>play-services-analytics</artifactId>
+            <version>8.1.0</version>
+            <type>aar</type>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>achartengine</id>
+            <name>Public AChartEngine repository</name>
+            <url>https://repository-achartengine.forge.cloudbees.com/snapshot/</url>
+        </repository>
+    </repositories>
+
+</project> 

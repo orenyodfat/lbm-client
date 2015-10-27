@@ -3,33 +3,6 @@ package com.lazooz.lbm;
 
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import com.google.android.gms.internal.mf;
-import com.lazooz.lbm.businessClasses.BluetoothData;
-import com.lazooz.lbm.businessClasses.LocationData;
-import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
-import com.lazooz.lbm.businessClasses.TelephonyData;
-import com.lazooz.lbm.businessClasses.TelephonyDataTracker;
-import com.lazooz.lbm.businessClasses.TelephonyDataTracker.OnTelephonyDataListener;
-import com.lazooz.lbm.businessClasses.UserNotification;
-import com.lazooz.lbm.businessClasses.UserNotificationList;
-import com.lazooz.lbm.businessClasses.WifiData;
-import com.lazooz.lbm.communications.ServerCom;
-import com.lazooz.lbm.preference.MySharedPreferences;
-import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
-import com.lazooz.lbm.utils.OfflineActivities;
-import com.lazooz.lbm.utils.Utils;
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -37,23 +10,29 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.IBinder;
+import android.os.*;
 import android.provider.ContactsContract;
 import android.util.Log;
-import android.widget.Toast;
+import com.lazooz.lbm.businessClasses.*;
+import com.lazooz.lbm.businessClasses.TelephonyDataTracker.OnTelephonyDataListener;
+import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
+import com.lazooz.lbm.utils.Utils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
+import java.util.Timer;
+
+//import com.google.android.gms.internal.mf;
 
 public class LbmService extends Service implements OnTelephonyDataListener{
 
